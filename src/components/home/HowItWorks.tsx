@@ -71,7 +71,7 @@ export default function HowItWorks() {
   const currentSteps = activeTab === "student" ? studentSteps : tutorSteps;
 
   return (
-    <section className="relative py-24 bg-[#110204] overflow-hidden border-t border-[#E11D48]/20">
+    <section id="how-it-works" className="relative py-24 bg-[#110204] overflow-hidden border-t border-[#E11D48]/20">
       {/* Background Lighting */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[500px] bg-[radial-gradient(ellipse_at_center,_rgba(225,29,72,0.18)_0%,_transparent_70%)] blur-3xl pointer-events-none" />
 

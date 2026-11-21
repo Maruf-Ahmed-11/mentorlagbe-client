@@ -163,7 +163,7 @@ export default function FeaturedTuitions() {
   };
 
   return (
-    <section className="relative py-20 bg-[#0E0203] overflow-hidden border-t border-[#E11D48]/20">
+    <section id="tuitions" className="relative py-20 bg-[#0E0203] overflow-hidden border-t border-[#E11D48]/20">
       {/* Ambient Crimson Flare */}
       <div className="absolute top-1/3 -left-48 w-[500px] h-[500px] bg-[#E11D48]/10 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute bottom-10 -right-48 w-[500px] h-[500px] bg-[#880816]/15 rounded-full blur-[150px] pointer-events-none" />

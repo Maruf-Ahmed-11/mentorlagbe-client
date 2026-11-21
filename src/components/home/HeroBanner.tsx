@@ -20,7 +20,7 @@ export default function HeroBanner() {
   };
 
   return (
-    <section className="relative overflow-hidden pt-12 pb-20 md:pt-20 md:pb-28">
+    <section id="home" className="relative overflow-hidden pt-12 pb-20 md:pt-20 md:pb-28">
       {/* Background Cinematic Crimson Radial Spotlights */}
       <div className="absolute top-[-10%] left-1/2 -translate-x-1/2 w-[1000px] h-[550px] bg-[radial-gradient(ellipse_at_center,_rgba(225,29,72,0.38)_0%,_rgba(136,8,22,0.22)_45%,_transparent_75%)] blur-3xl pointer-events-none" />
       <div className="absolute top-[20%] right-[-10%] w-[500px] h-[500px] bg-[#E11D48]/10 rounded-full blur-[140px] pointer-events-none" />

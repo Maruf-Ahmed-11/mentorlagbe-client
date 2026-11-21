@@ -122,7 +122,7 @@ const TESTIMONIALS = [
 
 export default function TopSubjectsAndStats() {
   return (
-    <section className="relative py-24 bg-[#0E0203] overflow-hidden border-t border-[#E11D48]/20">
+    <section id="about" className="relative py-24 bg-[#0E0203] overflow-hidden border-t border-[#E11D48]/20">
       {/* Background Ambience */}
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[800px] h-[450px] bg-[radial-gradient(ellipse_at_center,_rgba(225,29,72,0.18)_0%,_transparent_75%)] blur-3xl pointer-events-none" />
 
