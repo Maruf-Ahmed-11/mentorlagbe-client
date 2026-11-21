@@ -1,6 +1,7 @@
 import HeroBanner from "@/components/home/HeroBanner";
 import FeaturedTuitions from "@/components/home/FeaturedTuitions";
 import HowItWorks from "@/components/home/HowItWorks";
+import TopSubjectsAndStats from "@/components/home/TopSubjectsAndStats";
 import TopMentors from "@/components/home/TopMentors";
 import PricingSection from "@/components/home/PricingSection";
 import FAQSection from "@/components/home/FAQSection";
@@ -32,28 +33,31 @@ export default function Home() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_transparent_50%,_rgba(10,2,3,0.85)_100%)] pointer-events-none" />
 
       {/* ========================================================================= */}
-      {/* MODULAR LANDING PAGE SECTIONS                                             */}
+      {/* 5 CORE HOME PAGE SECTIONS (STRICT COMPLIANCE)                              */}
       {/* ========================================================================= */}
       
-      {/* 1. Hero Banner with Live Search & Interactive Mentor Preview */}
+      {/* 1. Hero / Banner Section with Engaging Headline, Search Form & Live Preview */}
       <HeroBanner />
 
-      {/* 2. Featured & Dynamic Tuition Posts (Strict Schema Compliant) */}
+      {/* 2. Dynamic Featured Tuitions Section (6 Latest Approved & Active Listings) */}
       <FeaturedTuitions />
 
-      {/* 3. 4-Step Logical Workflow (Student vs. Tutor Tabs) */}
+      {/* 3. Extra Section 1 — How MentorLagbe Works (4-Step Workflow for Students & Tutors) */}
       <HowItWorks />
 
-      {/* 4. Top Verified Mentors (BUET, DU, Medical, IBA) */}
+      {/* 4. Extra Section 2 — Top Subjects, Platform Statistics & Real Testimonials */}
+      <TopSubjectsAndStats />
+
+      {/* Verified Mentor Showcase */}
       <TopMentors />
 
-      {/* 5. Transparent Pricing & Pro Plans (Quota & Stripe Integration) */}
+      {/* 5. Pricing / Subscription Section (Free vs. Pro with 'Subscribe with Stripe' CTA) */}
       <PricingSection />
 
-      {/* 6. FAQ Accordion */}
+      {/* Community FAQ Accordion */}
       <FAQSection />
 
-      {/* 7. Final Conversion Call-to-Action Banner */}
+      {/* Final Conversion Call-to-Action Banner */}
       <CallToAction />
 
     </div>
