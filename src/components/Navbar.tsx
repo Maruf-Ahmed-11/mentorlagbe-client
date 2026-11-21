@@ -37,16 +37,16 @@ export default function Navbar() {
   };
 
   const isActive = (path: string) => {
-    if (path === "/") return pathname === "/";
-    return pathname === path || pathname.startsWith(`${path}/`);
+    if (path === "/" || path === "/#home") return pathname === "/";
+    return pathname === path;
   };
 
   const navLinks = [
-    { name: "Home", href: "/" },
-    { name: "Browse Tuitions", href: "/tuitions" },
-    { name: "Pricing", href: "/pricing" },
-    { name: "How It Works", href: "/how-it-works" },
-    { name: "About", href: "/about" },
+    { name: "Home", href: "/#home" },
+    { name: "Browse Tuitions", href: "/#tuitions" },
+    { name: "How It Works", href: "/#how-it-works" },
+    { name: "About", href: "/#about" },
+    { name: "Pricing", href: "/#pricing" },
     ...(session
       ? [
           { name: "Post Tuition", href: "/post-tuition" },
