@@ -213,8 +213,8 @@ export default function FeaturedTuitions() {
           ))}
         </div>
 
-        {/* Tuitions Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        {/* Tuitions Cards Grid with Equal Height and Width */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 auto-rows-fr">
           {filteredTuitions.map((tuition) => {
             const tuitionId = tuition._id || "";
             const isBookmarked = bookmarkedIds.includes(tuitionId);
@@ -222,7 +222,7 @@ export default function FeaturedTuitions() {
             return (
               <div
                 key={tuitionId}
-                className="group relative rounded-2xl bg-[#180306]/90 border border-[#E11D48]/35 overflow-hidden shadow-[0_15px_35px_rgba(0,0,0,0.7),_inset_0_1px_0_rgba(255,255,255,0.1)] hover:border-[#FF1E40] hover:shadow-[0_0_35px_rgba(225,29,72,0.45)] hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between"
+                className="group relative rounded-2xl bg-[#180306]/90 border border-[#E11D48]/35 overflow-hidden shadow-[0_15px_35px_rgba(0,0,0,0.7),_inset_0_1px_0_rgba(255,255,255,0.1)] hover:border-[#FF1E40] hover:shadow-[0_0_35px_rgba(225,29,72,0.45)] hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between h-full w-full"
               >
                 {/* Top Image Banner & Badges */}
                 <div className="relative h-48 w-full overflow-hidden bg-[#2D060C]">
@@ -331,7 +331,7 @@ export default function FeaturedTuitions() {
                     href={`/tuitions/${tuition._id}`}
                     className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#E11D48] hover:bg-[#FF1E40] text-white text-xs font-bold tracking-wide shadow-[0_0_15px_rgba(225,29,72,0.4)] hover:shadow-[0_0_25px_rgba(255,30,64,0.7)] transition-all cursor-pointer active:scale-95"
                   >
-                    <span>Details</span>
+                    <span>View Details</span>
                     <ArrowRight className="h-3.5 w-3.5" />
                   </Link>
                 </div>
