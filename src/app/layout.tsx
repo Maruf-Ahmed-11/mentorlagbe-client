@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "MentorLagbe | Find Your Ideal Mentor & Tuition in Bangladesh",
+  title: "MentorLagbe | The Premier Tuition & Mentorship Platform in Bangladesh",
   description: "Find your perfect tutor or share your expertise with students across Bangladesh.",
 };
 
@@ -30,7 +30,7 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} dark h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-[#07080B] text-slate-100 selection:bg-[#7C8CE4] selection:text-[#07080B]">
+      <body className="min-h-full flex flex-col bg-[#110204] text-white selection:bg-[#E11D48] selection:text-white">
         <Navbar />
         <main className="flex-grow">{children}</main>
         <Footer />
@@ -38,20 +38,20 @@ export default function RootLayout({
           position="top-center"
           toastOptions={{
             style: {
-              background: "#0E1018",
-              color: "#F8FAFC",
-              border: "1px solid #1E2335",
-              boxShadow: "0 10px 30px rgba(0, 0, 0, 0.8)",
+              background: "#1C0307",
+              color: "#FFFFFF",
+              border: "1px solid rgba(225, 29, 72, 0.4)",
+              boxShadow: "0 10px 30px rgba(225, 29, 72, 0.3)",
             },
             success: {
               iconTheme: {
-                primary: "#7C8CE4",
-                secondary: "#07080B",
+                primary: "#FF1E40",
+                secondary: "#FFFFFF",
               },
             },
             error: {
               iconTheme: {
-                primary: "#BE123C",
+                primary: "#880816",
                 secondary: "#FFFFFF",
               },
             },

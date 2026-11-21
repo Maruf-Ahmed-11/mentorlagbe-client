@@ -82,7 +82,7 @@ export default function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-[#07080B]/90 backdrop-blur-md border-b border-[#1E2335] transition-colors duration-200">
+    <header className="sticky top-0 z-50 bg-[#130204]/90 backdrop-blur-xl border-b border-[#E11D48]/25 transition-colors duration-200">
       <div className="container mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         
         {/* Brand Logo */}
@@ -99,13 +99,13 @@ export default function Navbar() {
                 prefetch={false}
                 className={`relative py-1 transition-colors duration-150 ${
                   active
-                    ? "text-[#7C8CE4] font-semibold"
-                    : "text-slate-300 hover:text-white"
+                    ? "text-[#FF1E40] font-semibold drop-shadow-[0_0_10px_rgba(255,30,64,0.7)]"
+                    : "text-[#F4E2E5] hover:text-white"
                 }`}
               >
                 {link.name}
                 {active && (
-                  <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-[#7C8CE4] to-[#38BDF8] rounded-full shadow-[0_0_10px_rgba(124,140,228,0.8)]" />
+                  <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-[#E11D48] via-[#FF1E40] to-[#FF4D6D] rounded-full shadow-[0_0_12px_rgba(255,30,64,0.9)]" />
                 )}
               </Link>
             );
@@ -119,25 +119,25 @@ export default function Navbar() {
           <button
             onClick={toggleTheme}
             aria-label="Toggle theme"
-            className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#0E1018] border border-[#1E2335] text-[#7C8CE4] hover:text-[#38BDF8] hover:border-[#7C8CE4]/50 hover:bg-[#141724] transition-all cursor-pointer shadow-sm"
+            className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#1C0307] border border-[#E11D48]/35 text-[#FF1E40] hover:text-white hover:border-[#FF1E40] hover:bg-[#2A060C] hover:shadow-[0_0_15px_rgba(255,30,64,0.3)] transition-all cursor-pointer shadow-sm"
           >
             {isDark ? (
-              <Sun className="h-4 w-4 transition-transform hover:rotate-45" />
+              <Sun className="h-4 w-4 text-[#FF1E40] transition-transform hover:rotate-45" />
             ) : (
-              <Moon className="h-4 w-4 transition-transform hover:-rotate-12" />
+              <Moon className="h-4 w-4 text-[#FF4D6D] transition-transform hover:-rotate-12" />
             )}
           </button>
 
           {/* User State */}
           {isPending ? (
-            <div className="h-9 w-9 animate-pulse rounded-full bg-[#141724] border border-[#1E2335]" />
+            <div className="h-9 w-9 animate-pulse rounded-full bg-[#2A060C] border border-[#E11D48]/30" />
           ) : session?.user ? (
             /* User Dropdown */
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setIsDropdownOpen((prev) => !prev)}
                 aria-label="Toggle user menu"
-                className="flex items-center gap-2 rounded-full p-0.5 border-2 border-[#1E2335] hover:border-[#7C8CE4] transition-all focus:outline-none focus:ring-2 focus:ring-[#7C8CE4] cursor-pointer"
+                className="flex items-center gap-2 rounded-full p-0.5 border-2 border-[#E11D48]/40 hover:border-[#FF1E40] transition-all focus:outline-none focus:ring-2 focus:ring-[#FF1E40] cursor-pointer"
               >
                 {session.user.image ? (
                   <Image
@@ -149,7 +149,7 @@ export default function Navbar() {
                     className="h-8 w-8 rounded-full object-cover"
                   />
                 ) : (
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#191E30] text-xs font-bold text-[#7C8CE4]">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#3A0912] text-xs font-bold text-[#FF1E40]">
                     {session.user.name?.[0] || "U"}
                   </div>
                 )}
@@ -157,15 +157,15 @@ export default function Navbar() {
 
               {/* Profile Dropdown Menu */}
               {isDropdownOpen && (
-                <div className="absolute right-0 mt-3 w-64 rounded-2xl bg-[#0E1018] border border-[#1E2335] p-2 shadow-[0_15px_50px_rgba(0,0,0,0.9)] z-50 animate-in fade-in zoom-in-95 duration-150">
-                  <div className="px-3 py-2.5 border-b border-[#1E2335]">
-                    <p className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#7C8CE4] mb-1">
-                      ACTIVE ACCOUNT
+                <div className="absolute right-0 mt-3 w-64 rounded-2xl bg-[#1C0307] border border-[#E11D48]/35 p-2 shadow-[0_15px_50px_rgba(0,0,0,0.95)] z-50 animate-in fade-in zoom-in-95 duration-150">
+                  <div className="px-3 py-2.5 border-b border-[#E11D48]/25">
+                    <p className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#FF1E40] mb-1">
+                      ACTIVE ACCOUNT // VERIFIED
                     </p>
                     <p className="text-sm font-semibold text-white truncate">
                       {session.user.name}
                     </p>
-                    <p className="text-xs text-slate-400 font-mono truncate mt-0.5">
+                    <p className="text-xs text-[#BFA5AA] font-mono truncate mt-0.5">
                       {session.user.email}
                     </p>
                   </div>
@@ -174,17 +174,17 @@ export default function Navbar() {
                     <Link
                       href="/profile"
                       onClick={() => setIsDropdownOpen(false)}
-                      className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-slate-300 hover:text-white hover:bg-[#141724] transition-colors"
+                      className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-slate-300 hover:text-white hover:bg-[#2A060C] transition-colors"
                     >
-                      <User className="w-4 h-4 text-[#7C8CE4]" />
+                      <User className="w-4 h-4 text-[#FF1E40]" />
                       My Profile
                     </Link>
                   </div>
 
-                  <div className="pt-2 border-t border-[#1E2335]">
+                  <div className="pt-2 border-t border-[#E11D48]/25">
                     <button
                       onClick={handleLogout}
-                      className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-red-400 hover:text-white hover:bg-[#BE123C] transition-all cursor-pointer"
+                      className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-red-400 hover:text-white hover:bg-[#E11D48] transition-all cursor-pointer"
                     >
                       <LogOut className="w-4 h-4" />
                       Logout
@@ -198,13 +198,13 @@ export default function Navbar() {
             <div className="flex items-center gap-2 sm:gap-3">
               <Link
                 href="/login"
-                className="px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium text-slate-300 hover:text-white hover:text-[#7C8CE4] transition-colors"
+                className="px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium text-[#F4E2E5] hover:text-[#FF1E40] transition-colors"
               >
                 Sign In
               </Link>
               <Link
                 href="/register"
-                className="rounded-xl bg-[#7C8CE4] px-4 sm:px-5 py-2 text-xs sm:text-sm font-bold text-[#07080B] shadow-[0_0_18px_rgba(124,140,228,0.35)] hover:bg-[#94A3F2] hover:shadow-[0_0_24px_rgba(56,189,248,0.55)] transition-all cursor-pointer active:scale-95"
+                className="rounded-xl bg-[#E11D48] hover:bg-[#FF1E40] px-4 sm:px-5 py-2 text-xs sm:text-sm font-bold text-white shadow-[0_0_20px_rgba(225,29,72,0.5)] hover:shadow-[0_0_30px_rgba(255,30,64,0.8)] transition-all cursor-pointer active:scale-95"
               >
                 Sign Up
               </Link>
@@ -215,7 +215,7 @@ export default function Navbar() {
           <button
             onClick={() => setIsMobileMenuOpen((prev) => !prev)}
             aria-label="Toggle navigation menu"
-            className="md:hidden flex h-9 w-9 items-center justify-center rounded-xl border border-[#1E2335] bg-[#0E1018] text-slate-300 hover:text-white hover:border-[#7C8CE4] transition-all cursor-pointer"
+            className="md:hidden flex h-9 w-9 items-center justify-center rounded-xl border border-[#E11D48]/35 bg-[#1C0307] text-[#F4E2E5] hover:text-white hover:border-[#FF1E40] transition-all cursor-pointer"
           >
             {isMobileMenuOpen ? (
               <X className="h-5 w-5" />
@@ -228,7 +228,7 @@ export default function Navbar() {
 
       {/* Mobile Drawer Menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden border-t border-[#1E2335] bg-[#0A0C12] px-4 py-4 space-y-2 animate-in slide-in-from-top-2 duration-150 shadow-2xl">
+        <div className="md:hidden border-t border-[#E11D48]/25 bg-[#140205] px-4 py-4 space-y-2 animate-in slide-in-from-top-2 duration-150 shadow-2xl">
           {navLinks.map((link) => {
             const active = isActive(link.href);
             return (
@@ -239,31 +239,31 @@ export default function Navbar() {
                 onClick={() => setIsMobileMenuOpen(false)}
                 className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm transition-colors ${
                   active
-                    ? "bg-[#191E30] text-[#7C8CE4] border border-[#7C8CE4]/40 font-semibold"
-                    : "text-slate-400 hover:text-white hover:bg-[#141724]"
+                    ? "bg-[#3A0912] text-[#FF1E40] border border-[#FF1E40]/40 font-semibold"
+                    : "text-[#F4E2E5] hover:text-white hover:bg-[#2A060C]"
                 }`}
               >
                 <span>{link.name}</span>
                 {active && (
-                  <span className="h-1.5 w-1.5 rounded-full bg-[#7C8CE4] shadow-[0_0_8px_#7C8CE4]" />
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#FF1E40] shadow-[0_0_8px_#FF1E40]" />
                 )}
               </Link>
             );
           })}
 
           {!session?.user && (
-            <div className="pt-3 border-t border-[#1E2335] flex flex-col gap-2">
+            <div className="pt-3 border-t border-[#E11D48]/25 flex flex-col gap-2">
               <Link
                 href="/login"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="w-full text-center py-2.5 text-sm font-medium text-slate-300 hover:text-white rounded-xl bg-[#141724]"
+                className="w-full text-center py-2.5 text-sm font-medium text-[#F4E2E5] hover:text-white rounded-xl bg-[#2A060C]"
               >
                 Sign In
               </Link>
               <Link
                 href="/register"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="w-full text-center py-2.5 text-sm font-bold text-[#07080B] bg-[#7C8CE4] hover:bg-[#94A3F2] rounded-xl shadow-[0_0_15px_rgba(124,140,228,0.3)]"
+                className="w-full text-center py-2.5 text-sm font-bold text-white bg-[#E11D48] hover:bg-[#FF1E40] rounded-xl shadow-[0_0_18px_rgba(225,29,72,0.4)]"
               >
                 Sign Up
               </Link>

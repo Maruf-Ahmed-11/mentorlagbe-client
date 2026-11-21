@@ -11,16 +11,22 @@
   --font-mono: var(--font-geist-mono);
   --font-heading: var(--font-sans);
 
-  /* The Honored One (Gojo Satoru Volume 09) Signature Palette */
-  --color-honored-blue: #7C8CE4;
-  --color-honored-blue-light: #94A3F2;
-  --color-honored-blue-dark: #5B6BC8;
-  --color-honored-cyan: #38BDF8;
-  --color-honored-red: #BE123C;
-  --color-honored-ink: #07080B;
-  --color-honored-surface: #0E1018;
-  --color-honored-surface-border: #1E2335;
-  --color-honored-silver: #E2E8F0;
+  /* Chainsaw Man: Reze Arc Cinematic Crimson Palette */
+  --color-csm-red: #E11D48;
+  --color-csm-scarlet: #FF1E40;
+  --color-csm-crimson-light: #FF4D6D;
+  --color-csm-darkred: #880816;
+  --color-csm-blood: #59040C;
+  --color-csm-noir: #0E0203;
+  --color-csm-abyss: #150205;
+  --color-csm-surface: #1C0307;
+  --color-csm-surface-light: #2A060C;
+  --color-csm-border: rgba(225, 29, 72, 0.32);
+  --color-csm-border-active: #FF1E40;
+  --color-csm-white: #FFFFFF;
+  --color-csm-mist: #F4E2E5;
+  --color-csm-muted: #BFA5AA;
+  --color-csm-gold: #F59E0B;
 
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
@@ -61,74 +67,74 @@
 }
 
 :root {
-  /* Light Mode (Stark Manga Paper with Ink & Periwinkle Blue) */
-  --background: #FFFFFF;
-  --foreground: #07080B;
+  /* Light Mode */
+  --background: #FFF1F3;
+  --foreground: #0E0203;
   --card: #FFFFFF;
-  --card-foreground: #07080B;
+  --card-foreground: #0E0203;
   --popover: #FFFFFF;
-  --popover-foreground: #07080B;
-  --primary: #6366F1;
+  --popover-foreground: #0E0203;
+  --primary: #E11D48;
   --primary-foreground: #FFFFFF;
-  --secondary: #F1F4FD;
-  --secondary-foreground: #07080B;
-  --muted: #F1F5F9;
-  --muted-foreground: #64748B;
-  --accent: #EEF2FF;
-  --accent-foreground: #4338CA;
+  --secondary: #FFE4E8;
+  --secondary-foreground: #0E0203;
+  --muted: #FEE2E2;
+  --muted-foreground: #7F1D1D;
+  --accent: #FFE4E8;
+  --accent-foreground: #9F1239;
   --destructive: #BE123C;
-  --border: #E2E8F0;
-  --input: #E2E8F0;
-  --ring: #7C8CE4;
-  --chart-1: #7C8CE4;
-  --chart-2: #38BDF8;
-  --chart-3: #BE123C;
-  --chart-4: #64748B;
-  --chart-5: #07080B;
+  --border: #FECDD3;
+  --input: #FECDD3;
+  --ring: #E11D48;
+  --chart-1: #E11D48;
+  --chart-2: #FF1E40;
+  --chart-3: #880816;
+  --chart-4: #7F1D1D;
+  --chart-5: #0E0203;
   --radius: 0.625rem;
-  --sidebar: #F8FAFC;
-  --sidebar-foreground: #07080B;
-  --sidebar-primary: #6366F1;
+  --sidebar: #FFFFFF;
+  --sidebar-foreground: #0E0203;
+  --sidebar-primary: #E11D48;
   --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #EEF2FF;
-  --sidebar-accent-foreground: #4338CA;
-  --sidebar-border: #E2E8F0;
-  --sidebar-ring: #7C8CE4;
+  --sidebar-accent: #FFE4E8;
+  --sidebar-accent-foreground: #9F1239;
+  --sidebar-border: #FECDD3;
+  --sidebar-ring: #E11D48;
 }
 
 .dark {
-  /* Dark Mode (Deepest Manga Ink, Void Surface, Limitless Cyan & Periwinkle) */
-  --background: #07080B;
-  --foreground: #F8FAFC;
-  --card: #0E1018;
-  --card-foreground: #F8FAFC;
-  --popover: #0E1018;
-  --popover-foreground: #F8FAFC;
-  --primary: #7C8CE4;
-  --primary-foreground: #07080B;
-  --secondary: #141724;
-  --secondary-foreground: #F8FAFC;
-  --muted: #141724;
-  --muted-foreground: #94A3B8;
-  --accent: #191E30;
-  --accent-foreground: #7C8CE4;
-  --destructive: #BE123C;
-  --border: #1E2335;
-  --input: #1E2335;
-  --ring: #7C8CE4;
-  --chart-1: #7C8CE4;
-  --chart-2: #38BDF8;
-  --chart-3: #BE123C;
-  --chart-4: #94A3B8;
-  --chart-5: #F8FAFC;
-  --sidebar: #0E1018;
-  --sidebar-foreground: #F8FAFC;
-  --sidebar-primary: #7C8CE4;
-  --sidebar-primary-foreground: #07080B;
-  --sidebar-accent: #191E30;
-  --sidebar-accent-foreground: #7C8CE4;
-  --sidebar-border: #1E2335;
-  --sidebar-ring: #7C8CE4;
+  /* Dark Mode: Dramatic Crimson Vignette Atmosphere */
+  --background: #110204;
+  --foreground: #FFFFFF;
+  --card: #1C0307;
+  --card-foreground: #FFFFFF;
+  --popover: #1C0307;
+  --popover-foreground: #FFFFFF;
+  --primary: #E11D48;
+  --primary-foreground: #FFFFFF;
+  --secondary: #2A060C;
+  --secondary-foreground: #FFFFFF;
+  --muted: #2A060C;
+  --muted-foreground: #BFA5AA;
+  --accent: #3A0912;
+  --accent-foreground: #FF1E40;
+  --destructive: #E11D48;
+  --border: rgba(225, 29, 72, 0.35);
+  --input: rgba(225, 29, 72, 0.35);
+  --ring: #FF1E40;
+  --chart-1: #E11D48;
+  --chart-2: #FF1E40;
+  --chart-3: #F59E0B;
+  --chart-4: #BFA5AA;
+  --chart-5: #FFFFFF;
+  --sidebar: #1C0307;
+  --sidebar-foreground: #FFFFFF;
+  --sidebar-primary: #E11D48;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #3A0912;
+  --sidebar-accent-foreground: #FF1E40;
+  --sidebar-border: rgba(225, 29, 72, 0.35);
+  --sidebar-ring: #FF1E40;
 }
 
 @layer base {
@@ -141,4 +147,17 @@
   html {
     @apply font-sans;
   }
+}
+
+/* Visually Stunning Crimson Atmospheric Glows */
+.glow-white {
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 255, 0.4);
+}
+
+.glow-scarlet {
+  text-shadow: 0 0 15px rgba(255, 30, 64, 0.85), 0 0 35px rgba(225, 29, 72, 0.6);
+}
+
+.glow-box-crimson {
+  box-shadow: 0 0 30px rgba(225, 29, 72, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
