@@ -33,27 +33,27 @@ export default function Footer() {
             </h3>
             <ul className="space-y-2.5 text-sm text-[#F4E2E5]/85">
               <li>
-                <Link href="/" className="hover:text-[#FF1E40] hover:translate-x-1 inline-block transition-all">
+                <Link href="/#home" className="hover:text-[#FF1E40] hover:translate-x-1 inline-block transition-all">
                   Home
                 </Link>
               </li>
               <li>
-                <Link href="/tuitions" className="hover:text-[#FF1E40] hover:translate-x-1 inline-block transition-all">
+                <Link href="/#tuitions" className="hover:text-[#FF1E40] hover:translate-x-1 inline-block transition-all">
                   Browse Tuitions
                 </Link>
               </li>
               <li>
-                <Link href="/pricing" className="hover:text-[#FF1E40] hover:translate-x-1 inline-block transition-all">
+                <Link href="/#pricing" className="hover:text-[#FF1E40] hover:translate-x-1 inline-block transition-all">
                   Pricing / Pro Plans
                 </Link>
               </li>
               <li>
-                <Link href="/how-it-works" className="hover:text-[#FF1E40] hover:translate-x-1 inline-block transition-all">
+                <Link href="/#how-it-works" className="hover:text-[#FF1E40] hover:translate-x-1 inline-block transition-all">
                   How It Works
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="hover:text-[#FF1E40] hover:translate-x-1 inline-block transition-all">
+                <Link href="/#about" className="hover:text-[#FF1E40] hover:translate-x-1 inline-block transition-all">
                   About Us
                 </Link>
               </li>
@@ -206,16 +206,16 @@ export default function Footer() {
         <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#BFA5AA]">
           <p>© 2026 MentorLagbe. All rights reserved.</p>
           <div className="flex items-center gap-6">
-            <Link href="/about" className="hover:text-white transition-colors">
+            <Link href="/#about" className="hover:text-white transition-colors">
               About
             </Link>
-            <Link href="/pricing" className="hover:text-white transition-colors">
+            <Link href="/#pricing" className="hover:text-white transition-colors">
               Pricing
             </Link>
-            <Link href="/how-it-works" className="hover:text-white transition-colors">
+            <Link href="/#how-it-works" className="hover:text-white transition-colors">
               How It Works
             </Link>
-            <Link href="/tuitions" className="hover:text-white transition-colors">
+            <Link href="/#tuitions" className="hover:text-white transition-colors">
               Browse Tuitions
             </Link>
           </div>
