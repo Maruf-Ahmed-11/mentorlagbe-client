@@ -53,19 +53,19 @@ export default function HeroBanner() {
 
             {/* Main Headline */}
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight uppercase leading-[1.08] text-white">
-              Connect With{" "}
+              Find Your Ideal{" "}
               <span className="block text-transparent bg-clip-text bg-gradient-to-r from-white via-[#FFE4E6] to-[#FF2E50] drop-shadow-[0_0_35px_rgba(255,30,64,0.75)]">
-                Top-Tier Tutors
+                Tutor or Mentorship
               </span>
-              Across Bangladesh
+              Batch Today
             </h1>
 
             {/* Sub-description */}
             <p className="mt-5 text-base sm:text-lg text-[#F4E2E5]/85 leading-relaxed max-w-2xl font-sans drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
-              Personalized 1-on-1 and batch learning in Mathematics, Physics, Chemistry, Programming, IELTS &amp; Academic Curricula. Verified mentors from BUET, DU, DMC &amp; top universities.
+              Connect with verified tutors for personalized learning in Mathematics, Physics, Programming, IELTS &amp; Academic Curricula across Bangladesh. Verified mentors from BUET, DU, Medical &amp; top institutions.
             </p>
 
-            {/* Interactive Search Bar Form */}
+            {/* Interactive Search Bar Form & CTA */}
             <form
               onSubmit={handleSearch}
               className="mt-8 w-full max-w-xl flex flex-col sm:flex-row items-center gap-2.5 p-2 rounded-2xl bg-[#1C0307]/90 border-2 border-[#E11D48]/50 shadow-[0_15px_40px_rgba(0,0,0,0.8),_inset_0_1px_0_rgba(255,255,255,0.15)] focus-within:border-[#FF1E40] focus-within:shadow-[0_0_30px_rgba(255,30,64,0.45)] transition-all"
@@ -76,7 +76,7 @@ export default function HeroBanner() {
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Subject, class level, or location (e.g. HSC Physics Dhaka)..."
+                  placeholder="Search by subject, class level, or keyword..."
                   className="w-full bg-transparent text-sm text-white placeholder-[#BFA5AA] focus:outline-none"
                 />
               </div>
@@ -84,10 +84,19 @@ export default function HeroBanner() {
                 type="submit"
                 className="w-full sm:w-auto shrink-0 inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-[#E11D48] hover:bg-[#FF1E40] text-white font-bold text-sm tracking-wide shadow-[0_0_20px_rgba(225,29,72,0.6)] hover:shadow-[0_0_30px_rgba(255,30,64,0.85)] transition-all cursor-pointer active:scale-95"
               >
-                <span>Find Tutors</span>
+                <span>Search Tuitions</span>
                 <ArrowRight className="h-4 w-4" />
               </button>
             </form>
+
+            {/* Direct Browse Link */}
+            <div className="mt-4 flex items-center gap-4 text-xs font-mono text-[#F4E2E5]/80">
+              <span>Popular:</span>
+              <Link href="/tuitions?q=Math" className="text-[#FF1E40] hover:underline font-bold">#Math</Link>
+              <Link href="/tuitions?q=Physics" className="text-[#FF1E40] hover:underline font-bold">#Physics</Link>
+              <Link href="/tuitions?q=IELTS" className="text-[#FF1E40] hover:underline font-bold">#IELTS</Link>
+              <Link href="/tuitions?q=Programming" className="text-[#FF1E40] hover:underline font-bold">#Programming</Link>
+            </div>
 
             {/* Trust Metrics Row */}
             <div className="mt-10 grid grid-cols-3 gap-6 pt-6 border-t border-[#E11D48]/25 w-full max-w-xl">
