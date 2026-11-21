@@ -256,7 +256,7 @@ export default function PricingSection() {
                 href="/pricing"
                 className="w-full inline-flex items-center justify-center gap-2 py-3.5 rounded-xl bg-[#E11D48] hover:bg-[#FF1E40] text-white text-xs sm:text-sm font-bold tracking-wide shadow-[0_0_25px_rgba(255,30,64,0.7)] hover:shadow-[0_0_35px_rgba(255,30,64,0.95)] transition-all cursor-pointer active:scale-95"
               >
-                <span>Upgrade via Stripe Checkout</span>
+                <span>Subscribe with Stripe</span>
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
