@@ -45,6 +45,7 @@ export default function Navbar() {
     { name: "Home", href: "/" },
     { name: "Browse Tuitions", href: "/tuitions" },
     { name: "Pricing", href: "/pricing" },
+    { name: "How It Works", href: "/how-it-works" },
     { name: "About", href: "/about" },
     ...(session
       ? [

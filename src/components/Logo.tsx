@@ -8,40 +8,42 @@ interface LogoProps {
 export default function Logo({ className = "", showText = true }: LogoProps) {
   return (
     <Link href="/" className={`flex items-center gap-3 group select-none ${className}`}>
-      {/* Icon Badge: Bold Chainsaw Man Cinematic Crimson Badge */}
-      <div className="relative flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-tr from-[#880816] via-[#E11D48] to-[#FF2E50] text-white shadow-[0_0_20px_rgba(225,29,72,0.55)] transition-all duration-300 group-hover:scale-105 group-hover:shadow-[0_0_30px_rgba(255,30,64,0.85)]">
-        {/* Mentor Cap SVG */}
+      {/* Icon Badge: High-Contrast Glowing Obsidian & Scarlet Frame */}
+      <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-[#1A0306] border-2 border-[#FF1E40] text-white shadow-[0_0_22px_rgba(255,30,64,0.65),_inset_0_1px_0_rgba(255,255,255,0.25)] transition-all duration-300 group-hover:scale-105 group-hover:border-white group-hover:shadow-[0_0_30px_rgba(255,255,255,0.8)]">
+        {/* Luminous White Mentor Cap */}
         <svg
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
-          strokeWidth="2.3"
+          strokeWidth="2.4"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className="h-5 w-5 text-white transition-transform duration-300 group-hover:-rotate-6"
+          className="h-5 w-5 text-white transition-transform duration-300 group-hover:-rotate-6 drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]"
         >
           <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
           <path d="M6 12v5c3 3 9 3 12 0v-5" />
           <path d="M22 10v6" />
         </svg>
 
-        {/* Luminous Core Beacon */}
+        {/* Electric Pulsing Beacon */}
         <span className="absolute -top-1 -right-1 flex h-2.5 w-2.5">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF1E40] opacity-80"></span>
-          <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#FF1E40] shadow-[0_0_10px_#FF1E40]"></span>
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-90"></span>
+          <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#FF1E40] shadow-[0_0_10px_#FFFFFF]"></span>
         </span>
       </div>
 
-      {/* Brand Name Typography */}
+      {/* Brand Name Typography with Razor-Sharp Distinction */}
       {showText && (
         <div className="flex items-baseline tracking-tight font-sans">
-          <span className="text-xl font-black text-white tracking-tighter uppercase transition-colors drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)]">
+          {/* MENTOR in Pure Crisp White */}
+          <span className="text-xl sm:text-2xl font-black text-white tracking-tighter uppercase drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)]">
             Mentor
           </span>
-          <span className="text-xl font-black text-[#FF1E40] group-hover:text-[#FF4D6D] tracking-tighter uppercase ml-0.5 transition-all duration-300 drop-shadow-[0_0_15px_rgba(255,30,64,0.7)]">
+          {/* LAGBE in Glowing High-Luminance White-Scarlet Gradient */}
+          <span className="text-xl sm:text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-[#FFE4E6] to-[#FF4D6D] tracking-tighter uppercase ml-1 transition-all duration-300 drop-shadow-[0_0_18px_rgba(255,30,64,0.95)] group-hover:drop-shadow-[0_0_24px_rgba(255,255,255,0.9)]">
             Lagbe
           </span>
-          <span className="h-1.5 w-1.5 rounded-full bg-[#FF1E40] ml-1 shadow-[0_0_8px_#FF1E40]" />
+          <span className="h-2 w-2 rounded-full bg-[#FF1E40] ml-1.5 shadow-[0_0_10px_#FF1E40] animate-pulse" />
         </div>
       )}
     </Link>
