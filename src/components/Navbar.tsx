@@ -31,10 +31,17 @@ export default function Navbar() {
   const userPlan = "PRO";
   const initials = getInitials(userName);
 
-  // Initialize theme from document or localStorage
+  // Initialize theme from document or localStorage with MutationObserver
   useEffect(() => {
     const isDarkMode = document.documentElement.classList.contains("dark");
     setIsDark(isDarkMode);
+
+    const observer = new MutationObserver(() => {
+      setIsDark(document.documentElement.classList.contains("dark"));
+    });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+
+    return () => observer.disconnect();
   }, []);
 
   const toggleTheme = () => {
@@ -42,11 +49,14 @@ export default function Navbar() {
     setIsDark(newTheme);
     if (newTheme) {
       document.documentElement.classList.add("dark");
+      document.documentElement.classList.remove("light");
       localStorage.setItem("theme", "dark");
     } else {
       document.documentElement.classList.remove("dark");
+      document.documentElement.classList.add("light");
       localStorage.setItem("theme", "light");
     }
+    window.dispatchEvent(new Event("theme-change"));
   };
 
   const isActive = (path: string) => {
