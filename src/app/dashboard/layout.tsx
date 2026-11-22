@@ -65,20 +65,21 @@ export default function DashboardLayout({
   ];
 
   return (
-    <div className="flex min-h-[calc(100vh-4rem)] w-full bg-[#0A0203] text-white font-sans relative">
+    <div className="flex min-h-[calc(100vh-4rem)] w-full bg-[#FCF9F8] text-[#180C0E] dark:bg-[#0A0203] dark:text-white font-sans relative transition-colors duration-300">
 
       {/* ========================================================================= */}
       {/* SIDEBAR NAVIGATION (MentorLagbe Signature Crimson Aesthetic)              */}
       {/* ========================================================================= */}
       <aside
-        className={`sticky top-16 h-[calc(100vh-4rem)] flex flex-col justify-between border-r border-[#E11D48]/25 bg-[#130204]/95 backdrop-blur-xl transition-all duration-300 z-30 shrink-0 ${isCollapsed ? "w-20" : "w-64"
-          }`}
+        className={`sticky top-16 h-[calc(100vh-4rem)] flex flex-col justify-between border-r border-[#EADCDD] dark:border-[#E11D48]/25 bg-white/95 dark:bg-[#130204]/95 backdrop-blur-xl transition-all duration-300 z-30 shrink-0 ${
+          isCollapsed ? "w-20" : "w-64"
+        }`}
       >
         {/* Top: User Profile & Nav Links */}
         <div className="overflow-y-auto py-4">
 
           {/* User Profile Card */}
-          <div className={`px-4 pb-5 border-b border-[#E11D48]/20 ${isCollapsed ? "flex justify-center px-2" : ""}`}>
+          <div className={`px-4 pb-5 border-b border-[#EADCDD] dark:border-[#E11D48]/20 ${isCollapsed ? "flex justify-center px-2" : ""}`}>
             <div className="flex items-center gap-3">
               {/* Avatar with gold crown badge */}
               <div className="relative shrink-0">
@@ -88,10 +89,10 @@ export default function DashboardLayout({
                     alt={userName}
                     width={42}
                     height={42}
-                    className="h-10 w-10 rounded-full object-cover border-2 border-[#E11D48]/50 shadow-[0_0_15px_rgba(225,29,72,0.3)]"
+                    className="h-10 w-10 rounded-full object-cover border-2 border-[#F2B8C4] dark:border-[#E11D48]/50 shadow-sm dark:shadow-[0_0_15px_rgba(225,29,72,0.3)]"
                   />
                 ) : (
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-[#E11D48] via-[#FF1E40] to-[#FF4D6D] text-white font-black text-sm shadow-[0_0_15px_rgba(255,30,64,0.4)]">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-[#E11D48] via-[#FF1E40] to-[#FF4D6D] text-white font-black text-sm shadow-[0_2px_10px_rgba(217,30,72,0.3)] dark:shadow-[0_0_15px_rgba(255,30,64,0.4)]">
                     {initials}
                   </div>
                 )}
@@ -105,10 +106,10 @@ export default function DashboardLayout({
               {!isCollapsed && (
                 <div className="overflow-hidden">
                   <div className="flex items-center gap-1.5">
-                    <span className="text-sm font-bold text-white truncate max-w-[95px]">
+                    <span className="text-sm font-bold text-[#180C0E] dark:text-white truncate max-w-[95px]">
                       {userName}
                     </span>
-                    <span className="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold uppercase bg-[#FFB800]/20 text-[#FFB800] border border-[#FFB800]/40">
+                    <span className="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold uppercase bg-[#FEF3C7] dark:bg-[#FFB800]/20 text-[#B45309] dark:text-[#FFB800] border border-[#FDE68A] dark:border-[#FFB800]/40">
                       {userPlan}
                     </span>
                   </div>
@@ -116,17 +117,17 @@ export default function DashboardLayout({
                   {/* Dynamic Role Capsule (Admin / Tutor / Student) */}
                   <div className="mt-1 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase">
                     {userRole === "admin" ? (
-                      <span className="inline-flex items-center gap-1 text-[#FF1E40] bg-[#2E070F] border border-[#FF1E40]/40 px-2 py-0.5 rounded-full">
+                      <span className="inline-flex items-center gap-1 text-[#D91E48] dark:text-[#FF1E40] bg-[#FDECEF] dark:bg-[#2E070F] border border-[#F2B8C4] dark:border-[#FF1E40]/40 px-2 py-0.5 rounded-full">
                         <ShieldCheck className="h-3 w-3" />
                         <span>Admin</span>
                       </span>
                     ) : userRole === "tutor" ? (
-                      <span className="inline-flex items-center gap-1 text-[#FFB800] bg-[#281804] border border-[#FFB800]/40 px-2 py-0.5 rounded-full">
+                      <span className="inline-flex items-center gap-1 text-[#B45309] dark:text-[#FFB800] bg-[#FEF3C7] dark:bg-[#281804] border border-[#FDE68A] dark:border-[#FFB800]/40 px-2 py-0.5 rounded-full">
                         <GraduationCap className="h-3 w-3" />
                         <span>Tutor</span>
                       </span>
                     ) : (
-                      <span className="inline-flex items-center gap-1 text-[#FF4D6D] bg-[#2A0612] border border-[#FF4D6D]/40 px-2 py-0.5 rounded-full">
+                      <span className="inline-flex items-center gap-1 text-[#D91E48] dark:text-[#FF4D6D] bg-[#FDECEF] dark:bg-[#2A0612] border border-[#F2B8C4] dark:border-[#FF4D6D]/40 px-2 py-0.5 rounded-full">
                         <UserCheck className="h-3 w-3" />
                         <span>Student</span>
                       </span>
@@ -142,8 +143,8 @@ export default function DashboardLayout({
             {/* MAIN MENU */}
             <div>
               {!isCollapsed && (
-                <p className="px-3 text-[10px] font-mono font-bold uppercase tracking-wider text-[#BFA5AA] mb-2 flex items-center gap-1.5">
-                  <span className="h-1.5 w-1.5 rounded-full bg-[#FF1E40] shadow-[0_0_6px_#FF1E40]" />
+                <p className="px-3 text-[10px] font-mono font-bold uppercase tracking-wider text-[#8C7679] dark:text-[#BFA5AA] mb-2 flex items-center gap-1.5">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#D91E48] dark:bg-[#FF1E40] shadow-[0_0_6px_rgba(217,30,72,0.6)] dark:shadow-[0_0_6px_#FF1E40]" />
                   <span>MAIN MENU</span>
                 </p>
               )}
@@ -156,12 +157,13 @@ export default function DashboardLayout({
                       key={item.name}
                       href={item.href}
                       title={isCollapsed ? item.name : undefined}
-                      className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all ${active
-                          ? "bg-[#2E070F] text-white border border-[#FF1E40]/60 shadow-[0_0_20px_rgba(255,30,64,0.3)] font-semibold"
-                          : "text-[#F4E2E5]/80 hover:text-white hover:bg-[#1C0307] hover:border hover:border-[#E11D48]/30"
-                        } ${isCollapsed ? "justify-center px-0" : ""}`}
+                      className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all ${
+                        active
+                          ? "bg-[#FDECEF] dark:bg-[#2E070F] text-[#D91E48] dark:text-white border border-[#F2B8C4] dark:border-[#FF1E40]/60 shadow-[0_4px_12px_rgba(217,30,72,0.12)] dark:shadow-[0_0_20px_rgba(255,30,64,0.3)] font-semibold"
+                          : "text-[#5C494C] dark:text-[#F4E2E5]/80 hover:text-[#180C0E] dark:hover:text-white hover:bg-[#F5ECEC] dark:hover:bg-[#1C0307] hover:border hover:border-[#EADCDD] dark:hover:border-[#E11D48]/30"
+                      } ${isCollapsed ? "justify-center px-0" : ""}`}
                     >
-                      <Icon className={`h-4.5 w-4.5 shrink-0 ${active ? "text-[#FF1E40]" : "text-[#BFA5AA]"}`} />
+                      <Icon className={`h-4.5 w-4.5 shrink-0 ${active ? "text-[#D91E48] dark:text-[#FF1E40]" : "text-[#8C7679] dark:text-[#BFA5AA]"}`} />
                       {!isCollapsed && <span>{item.name}</span>}
                     </Link>
                   );
@@ -172,20 +174,21 @@ export default function DashboardLayout({
             {/* PREFERENCES */}
             <div>
               {!isCollapsed && (
-                <p className="px-3 text-[10px] font-mono font-bold uppercase tracking-wider text-[#BFA5AA] mb-2 flex items-center gap-1.5">
-                  <span className="h-1.5 w-1.5 rounded-full bg-[#FF4D6D] shadow-[0_0_6px_#FF4D6D]" />
+                <p className="px-3 text-[10px] font-mono font-bold uppercase tracking-wider text-[#8C7679] dark:text-[#BFA5AA] mb-2 flex items-center gap-1.5">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#D91E48] dark:bg-[#FF4D6D] shadow-[0_0_6px_rgba(217,30,72,0.6)] dark:shadow-[0_0_6px_#FF4D6D]" />
                   <span>PREFERENCES</span>
                 </p>
               )}
               <Link
                 href="/dashboard/profile"
                 title={isCollapsed ? "Update Profile" : undefined}
-                className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all ${pathname === "/dashboard/profile"
-                    ? "bg-[#2E070F] text-white border border-[#FF1E40]/60 shadow-[0_0_20px_rgba(255,30,64,0.3)] font-semibold"
-                    : "text-[#F4E2E5]/80 hover:text-white hover:bg-[#1C0307] hover:border hover:border-[#E11D48]/30"
-                  } ${isCollapsed ? "justify-center px-0" : ""}`}
+                className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all ${
+                  pathname === "/dashboard/profile"
+                    ? "bg-[#FDECEF] dark:bg-[#2E070F] text-[#D91E48] dark:text-white border border-[#F2B8C4] dark:border-[#FF1E40]/60 shadow-[0_4px_12px_rgba(217,30,72,0.12)] dark:shadow-[0_0_20px_rgba(255,30,64,0.3)] font-semibold"
+                    : "text-[#5C494C] dark:text-[#F4E2E5]/80 hover:text-[#180C0E] dark:hover:text-white hover:bg-[#F5ECEC] dark:hover:bg-[#1C0307] hover:border hover:border-[#EADCDD] dark:hover:border-[#E11D48]/30"
+                } ${isCollapsed ? "justify-center px-0" : ""}`}
               >
-                <Settings className={`h-4.5 w-4.5 shrink-0 ${pathname === "/dashboard/profile" ? "text-[#FF1E40]" : "text-[#BFA5AA]"}`} />
+                <Settings className={`h-4.5 w-4.5 shrink-0 ${pathname === "/dashboard/profile" ? "text-[#D91E48] dark:text-[#FF1E40]" : "text-[#8C7679] dark:text-[#BFA5AA]"}`} />
                 {!isCollapsed && <span>Update Profile</span>}
               </Link>
             </div>
@@ -193,29 +196,30 @@ export default function DashboardLayout({
         </div>
 
         {/* Bottom Section: Sign Out & Collapse Sidebar Toggle */}
-        <div className="p-3 border-t border-[#E11D48]/20 space-y-2 bg-[#100103]">
+        <div className="p-3 border-t border-[#EADCDD] dark:border-[#E11D48]/20 space-y-2 bg-[#FAF5F5] dark:bg-[#100103]">
           {/* Sign Out Button */}
           <button
             onClick={handleSignOut}
             title={isCollapsed ? "Sign Out" : undefined}
-            className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-rose-400 hover:text-white hover:bg-[#E11D48]/30 transition-all cursor-pointer ${isCollapsed ? "justify-center px-0" : ""
-              }`}
+            className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-[#D91E48] dark:text-rose-400 hover:text-[#B31438] dark:hover:text-white hover:bg-[#FDECEF] dark:hover:bg-[#E11D48]/30 transition-all cursor-pointer ${
+              isCollapsed ? "justify-center px-0" : ""
+            }`}
           >
-            <LogOut className="h-4 w-4 shrink-0 text-rose-400" />
+            <LogOut className="h-4 w-4 shrink-0 text-[#D91E48] dark:text-rose-400" />
             {!isCollapsed && <span>Sign Out</span>}
           </button>
 
           {/* Minimize / Expand Toggle Button */}
           <button
             onClick={() => setIsCollapsed(!isCollapsed)}
-            className="w-full flex items-center justify-center p-2 rounded-xl text-[#BFA5AA] hover:text-white hover:bg-[#1C0307] border border-transparent hover:border-[#E11D48]/30 transition-all cursor-pointer"
+            className="w-full flex items-center justify-center p-2 rounded-xl text-[#5C494C] dark:text-[#BFA5AA] hover:text-[#180C0E] dark:hover:text-white hover:bg-[#F5ECEC] dark:hover:bg-[#1C0307] border border-transparent hover:border-[#EADCDD] dark:hover:border-[#E11D48]/30 transition-all cursor-pointer"
             aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
           >
             {isCollapsed ? (
-              <ChevronRight className="h-4 w-4 text-[#FF1E40]" />
+              <ChevronRight className="h-4 w-4 text-[#D91E48] dark:text-[#FF1E40]" />
             ) : (
-              <div className="flex items-center gap-2 text-xs font-mono text-[#BFA5AA]">
-                <ChevronLeft className="h-4 w-4 text-[#FF1E40]" />
+              <div className="flex items-center gap-2 text-xs font-mono text-[#5C494C] dark:text-[#BFA5AA]">
+                <ChevronLeft className="h-4 w-4 text-[#D91E48] dark:text-[#FF1E40]" />
                 <span>Collapse Sidebar</span>
               </div>
             )}
@@ -226,10 +230,10 @@ export default function DashboardLayout({
       {/* ========================================================================= */}
       {/* MAIN WORKSPACE CONTENT AREA                                               */}
       {/* ========================================================================= */}
-      <div className="flex-1 flex flex-col min-w-0 bg-[#0A0203] relative overflow-hidden">
+      <div className="flex-1 flex flex-col min-w-0 bg-[#FCF9F8] dark:bg-[#0A0203] relative overflow-hidden transition-colors duration-300">
 
         {/* Ambient Crimson Aura */}
-        <div className="absolute top-0 right-1/4 w-[750px] h-[400px] bg-[radial-gradient(ellipse_at_top,_rgba(225,29,72,0.14)_0%,_transparent_70%)] blur-3xl pointer-events-none" />
+        <div className="absolute top-0 right-1/4 w-[750px] h-[400px] bg-[radial-gradient(ellipse_at_top,_rgba(247,232,234,0.7)_0%,_transparent_70%)] dark:bg-[radial-gradient(ellipse_at_top,_rgba(225,29,72,0.14)_0%,_transparent_70%)] blur-3xl pointer-events-none" />
 
         {/* Page Content */}
         <main className="flex-1 p-6 md:p-8 lg:p-10 relative z-10">
