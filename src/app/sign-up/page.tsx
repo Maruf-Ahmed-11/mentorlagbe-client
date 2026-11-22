@@ -163,12 +163,12 @@ function SignUpContent() {
         
         {/* Left Side: Moody Cinematic Artwork & Community Quote */}
         <div className="hidden md:flex w-1/2 relative flex-col justify-between p-10 overflow-hidden bg-[#1E0307]">
-          {/* Background Image with Dark Vignette */}
+          {/* Background Image with Dark Vignette (Academic Mentorship & University Study) */}
           <div
             className="absolute inset-0 bg-cover bg-center transition-transform duration-700 hover:scale-105"
             style={{
               backgroundImage:
-                "url('https://images.unsplash.com/photo-1577495508048-b635879837f1?q=80&w=1600&auto=format&fit=crop')",
+                "url('https://images.unsplash.com/photo-1571260899304-425eee4c7efc?q=80&w=1600&auto=format&fit=crop')",
             }}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#140205] via-[#140205]/65 to-[#140205]/40" />
