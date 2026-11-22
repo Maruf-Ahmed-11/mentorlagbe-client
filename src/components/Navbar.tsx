@@ -7,7 +7,7 @@ import { usePathname, useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import Image from "next/image";
 import Logo from "./Logo";
-import { Sun, Moon, Menu, X, User, LogOut } from "lucide-react";
+import { Sun, Moon, Menu, X, User, LogOut, LayoutDashboard, ChevronDown } from "lucide-react";
 
 export default function Navbar() {
   const { data: session, isPending } = authClient.useSession();
@@ -17,6 +17,19 @@ export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isDark, setIsDark] = useState(true);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const getInitials = (name: string) => {
+    const parts = name.trim().split(" ");
+    if (parts.length >= 2) return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
+    return name.slice(0, 2).toUpperCase() || "AS";
+  };
+
+  const userName = session?.user?.name || "asdf";
+  const userEmail = session?.user?.email || "admin@mentorlagbe.com";
+  const rawRole = (session?.user as any)?.role || (userEmail.toLowerCase().includes("admin") ? "admin" : "student");
+  const roleLabel = rawRole === "admin" ? "Admin" : rawRole === "tutor" ? "Tutor" : "Student";
+  const userPlan = "PRO";
+  const initials = getInitials(userName);
 
   // Initialize theme from document or localStorage
   useEffect(() => {
@@ -131,72 +144,93 @@ export default function Navbar() {
 
           {/* User State */}
           {isPending ? (
-            <div className="h-9 w-9 animate-pulse rounded-full bg-[#2A060C] border border-[#E11D48]/30" />
+            <div className="h-9 w-9 animate-pulse rounded-full bg-[#111C35] border border-[#15233E]" />
           ) : session?.user ? (
-            /* User Dropdown */
+            /* User Pill & Dropdown (Matching Image 7) */
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setIsDropdownOpen((prev) => !prev)}
                 aria-label="Toggle user menu"
-                className="flex items-center gap-2 rounded-full p-0.5 border-2 border-[#E11D48]/40 hover:border-[#FF1E40] transition-all focus:outline-none focus:ring-2 focus:ring-[#FF1E40] cursor-pointer"
+                className="flex items-center gap-2 rounded-full pl-1.5 pr-3 py-1 bg-[#0A1124] border border-[#15233E] hover:border-[#00C48C]/50 transition-all cursor-pointer shadow-sm group"
               >
                 {session.user.image ? (
                   <Image
                     src={session.user.image}
-                    alt={session.user.name || "User Avatar"}
-                    width={32}
-                    height={32}
+                    alt={userName}
+                    width={28}
+                    height={28}
                     unoptimized
-                    className="h-8 w-8 rounded-full object-cover"
+                    className="h-7 w-7 rounded-full object-cover border border-[#00C48C]/40"
                   />
                 ) : (
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#3A0912] text-xs font-bold text-[#FF1E40]">
-                    {session.user.name?.[0] || "U"}
+                  <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[#00BFA5] text-[#080D1A] font-bold text-xs">
+                    {initials}
                   </div>
                 )}
+
+                <div className="flex flex-col text-left leading-none">
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-xs font-bold text-white max-w-[80px] truncate">
+                      {userName}
+                    </span>
+                    <span className="px-1 py-0.5 rounded text-[9px] font-mono font-bold bg-[#FFB800]/20 text-[#FFB800] border border-[#FFB800]/40">
+                      {userPlan}
+                    </span>
+                  </div>
+                  <span className="text-[10px] text-[#94A3B8] font-medium mt-0.5">
+                    {roleLabel}
+                  </span>
+                </div>
+
+                <ChevronDown className="w-3.5 h-3.5 text-[#94A3B8] group-hover:text-white transition-transform" />
               </button>
 
-              {/* Profile Dropdown Menu */}
+              {/* Profile Dropdown Menu (Matching Image 7) */}
               {isDropdownOpen && (
-                <div className="absolute right-0 mt-3 w-64 rounded-2xl bg-[#1C0307] border border-[#E11D48]/35 p-2 shadow-[0_15px_50px_rgba(0,0,0,0.95)] z-50 animate-in fade-in zoom-in-95 duration-150">
-                  <div className="px-3 py-2.5 border-b border-[#E11D48]/25">
-                    <p className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#FF1E40] mb-1">
-                      ACTIVE ACCOUNT // VERIFIED
+                <div className="absolute right-0 mt-3 w-64 rounded-2xl bg-[#0A1124] border border-[#15233E] p-3 shadow-[0_20px_50px_rgba(0,0,0,0.85)] z-50 animate-in fade-in zoom-in-95 duration-150">
+                  <div className="px-2 py-2 border-b border-[#15233E] space-y-1">
+                    <p className="text-sm font-bold text-white truncate">
+                      {userName}
                     </p>
-                    <p className="text-sm font-semibold text-white truncate">
-                      {session.user.name}
+                    <p className="text-xs text-[#94A3B8] font-mono truncate">
+                      {userEmail}
                     </p>
-                    <p className="text-xs text-[#BFA5AA] font-mono truncate mt-0.5">
-                      {session.user.email}
-                    </p>
+                    <div className="flex items-center gap-2 pt-1.5">
+                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#0F223D] text-[#38BDF8] border border-[#38BDF8]/30">
+                        {roleLabel}
+                      </span>
+                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#231A0F] text-[#FFB800] border border-[#FFB800]/30">
+                        {userPlan}
+                      </span>
+                    </div>
                   </div>
 
                   <div className="py-2 space-y-1">
                     <Link
                       href="/dashboard"
                       onClick={() => setIsDropdownOpen(false)}
-                      className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-slate-300 hover:text-white hover:bg-[#2A060C] transition-colors"
+                      className="flex items-center gap-2.5 px-2.5 py-2 rounded-xl text-xs font-semibold text-[#94A3B8] hover:text-white hover:bg-[#111C35] transition-colors"
                     >
-                      <User className="w-4 h-4 text-[#FF1E40]" />
-                      Dashboard
+                      <LayoutDashboard className="w-4 h-4 text-[#00C48C]" />
+                      <span>Dashboard</span>
                     </Link>
                     <Link
                       href="/dashboard/profile"
                       onClick={() => setIsDropdownOpen(false)}
-                      className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-slate-300 hover:text-white hover:bg-[#2A060C] transition-colors"
+                      className="flex items-center gap-2.5 px-2.5 py-2 rounded-xl text-xs font-semibold text-[#94A3B8] hover:text-white hover:bg-[#111C35] transition-colors"
                     >
-                      <User className="w-4 h-4 text-[#FF1E40]" />
-                      My Profile
+                      <User className="w-4 h-4 text-[#00C48C]" />
+                      <span>Update Profile</span>
                     </Link>
                   </div>
 
-                  <div className="pt-2 border-t border-[#E11D48]/25">
+                  <div className="pt-2 border-t border-[#15233E]">
                     <button
                       onClick={handleLogout}
-                      className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-red-400 hover:text-white hover:bg-[#E11D48] transition-all cursor-pointer"
+                      className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-xl text-xs font-semibold text-[#F87171] hover:text-white hover:bg-[#E11D48]/20 transition-all cursor-pointer"
                     >
-                      <LogOut className="w-4 h-4" />
-                      Logout
+                      <LogOut className="w-4 h-4 text-[#F87171]" />
+                      <span>Sign Out</span>
                     </button>
                   </div>
                 </div>
