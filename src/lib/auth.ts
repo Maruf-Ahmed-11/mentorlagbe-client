@@ -11,5 +11,40 @@ export const auth = betterAuth({
     }),
     emailAndPassword: {
         enabled: true,
+        minPasswordLength: 6,
+    },
+    user: {
+        additionalFields: {
+            role: {
+                type: "string",
+                required: false,
+                defaultValue: "student",
+                input: true,
+            },
+            plan: {
+                type: "string",
+                required: false,
+                defaultValue: "free",
+                input: true,
+            },
+            phone: {
+                type: "string",
+                required: false,
+                defaultValue: "",
+                input: true,
+            },
+            bio: {
+                type: "string",
+                required: false,
+                defaultValue: "",
+                input: true,
+            },
+        },
+    },
+    socialProviders: {
+        google: {
+            clientId: process.env.GOOGLE_CLIENT_ID as string,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+        },
     },
 });
