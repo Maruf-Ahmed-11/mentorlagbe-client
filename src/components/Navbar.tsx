@@ -115,7 +115,7 @@ export default function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-[#130204]/90 backdrop-blur-xl border-b border-[#E11D48]/25 transition-colors duration-200">
+    <header className="sticky top-0 z-50 bg-white/95 dark:bg-[#130204]/90 backdrop-blur-xl border-b border-[#EADCDD] dark:border-[#E11D48]/25 transition-colors duration-200">
       {isDashboard ? (
         /* ========================================================================= */
         /* DASHBOARD NAVBAR: Only Logo, Workspace Title, Theme Toggle & User Pill    */
@@ -125,9 +125,9 @@ export default function Navbar() {
           {/* Left: Brand Logo & Workspace Title */}
           <div className="flex items-center gap-4 sm:gap-6">
             <Logo />
-            <div className="h-5 w-px bg-[#E11D48]/30 hidden sm:block" />
-            <span className="font-bold text-sm sm:text-base text-white tracking-tight flex items-center gap-2">
-              <span className="h-2 w-2 rounded-full bg-[#FF1E40] animate-pulse shadow-[0_0_8px_#FF1E40]" />
+            <div className="h-5 w-px bg-[#EADCDD] dark:bg-[#E11D48]/30 hidden sm:block" />
+            <span className="font-bold text-sm sm:text-base text-[#180C0E] dark:text-white tracking-tight flex items-center gap-2">
+              <span className="h-2 w-2 rounded-full bg-[#D91E48] dark:bg-[#FF1E40] animate-pulse shadow-[0_0_8px_rgba(217,30,72,0.6)] dark:shadow-[0_0_8px_#FF1E40]" />
               <span>{getDashboardTitle()}</span>
             </span>
           </div>
