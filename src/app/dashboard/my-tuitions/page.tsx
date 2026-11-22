@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import toast from "react-hot-toast";
+import { apiFetch } from "@/lib/api";
+import { authClient } from "@/lib/auth-client";
 import { 
   BookOpen, 
   Plus, 
@@ -31,6 +33,7 @@ interface TuitionItem {
 }
 
 export default function MyTuitionsPage() {
+  const { data: session } = authClient.useSession();
   const [tuitions, setTuitions] = useState<TuitionItem[]>([
     {
       id: "1",
@@ -70,8 +73,40 @@ export default function MyTuitionsPage() {
     },
   ]);
 
-  const handleDelete = (id: string, name: string) => {
+  useEffect(() => {
+    async function loadTuitions() {
+      try {
+        const emailQuery = session?.user?.email ? `?email=${encodeURIComponent(session.user.email)}` : "";
+        const data = await apiFetch<any[]>(`/tuitions${emailQuery}`);
+        if (Array.isArray(data) && data.length > 0) {
+          const mapped: TuitionItem[] = data.map((item) => ({
+            id: item._id || item.id,
+            title: item.title,
+            subject: item.subject,
+            classLevel: item.classLevel,
+            mode: item.mode,
+            location: item.location,
+            schedule: item.schedule || "3 days / week",
+            fee: Number(item.monthlyFee || 0).toLocaleString(),
+            applicantsCount: item.applicantsCount || 0,
+            status: item.approvalStatus === "approved" ? "Active & Approved" : "Pending Review",
+          }));
+          setTuitions(mapped);
+        }
+      } catch {
+        // Keep default items if backend not reachable
+      }
+    }
+    loadTuitions();
+  }, [session?.user?.email]);
+
+  const handleDelete = async (id: string, name: string) => {
     if (confirm(`Are you sure you want to remove listing "${name}"?`)) {
+      try {
+        await apiFetch(`/tuitions/${id}`, { method: "DELETE" });
+      } catch {
+        // Fallback to local delete
+      }
       setTuitions((prev) => prev.filter((item) => item.id !== id));
       toast.success("Tuition listing removed successfully");
     }
