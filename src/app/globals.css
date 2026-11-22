@@ -186,13 +186,34 @@
 .glow-white {
   text-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 255, 0.4);
 }
+html:not(.dark) .glow-white {
+  text-shadow: 0 0 10px rgba(217, 30, 72, 0.2);
+}
 
 .glow-scarlet {
   text-shadow: 0 0 15px rgba(255, 30, 64, 0.85), 0 0 35px rgba(225, 29, 72, 0.6);
 }
+html:not(.dark) .glow-scarlet {
+  text-shadow: 0 0 8px rgba(217, 30, 72, 0.25);
+}
 
 .glow-box-crimson {
   box-shadow: 0 0 30px rgba(225, 29, 72, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+html:not(.dark) .glow-box-crimson {
+  box-shadow: 0 10px 30px -4px rgba(217, 30, 72, 0.18), 0 0 18px rgba(242, 184, 196, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+/* Light Mode Card & Accent Glows */
+.glow-card {
+  box-shadow: 0 0 35px rgba(225, 29, 72, 0.45);
+}
+html:not(.dark) .glow-card {
+  box-shadow: 0 16px 36px -6px rgba(217, 30, 72, 0.2), 0 0 20px rgba(217, 30, 72, 0.12);
+}
+
+.glow-rose-soft {
+  box-shadow: 0 4px 16px rgba(217, 30, 72, 0.15), 0 0 8px rgba(217, 30, 72, 0.08);
 }
 
 /* ========================================================================= */
@@ -330,6 +351,18 @@ html:not(.dark) .bg-\[\#FF1E40\],
 html:not(.dark) .bg-\[\#D91E48\] {
   background-color: #D91E48 !important;
   color: #FFFFFF !important;
+  box-shadow: 0 4px 16px rgba(217, 30, 72, 0.35) !important;
+}
+
+html:not(.dark) button[class*="bg-[#"]:hover,
+html:not(.dark) a[class*="bg-[#"]:hover,
+html:not(.dark) button[class*="bg-gradient"]:hover,
+html:not(.dark) a[class*="bg-gradient"]:hover,
+html:not(.dark) .bg-\[\#E11D48\]:hover,
+html:not(.dark) .bg-\[\#FF1E40\]:hover,
+html:not(.dark) .bg-\[\#D91E48\]:hover {
+  background-color: #B31438 !important;
+  box-shadow: 0 6px 22px rgba(217, 30, 72, 0.5) !important;
 }
 
 html:not(.dark) button[class*="bg-[#"] *,
