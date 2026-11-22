@@ -95,9 +95,77 @@ export default function Navbar() {
     });
   };
 
+  const isDashboard = pathname?.startsWith("/dashboard");
+
+  const getDashboardTitle = () => {
+    if (pathname?.includes("/profile")) return "Account Settings";
+    if (rawRole === "admin") return "Platform Admin";
+    if (rawRole === "tutor") return "Tutor Workspace";
+    return "Student Workspace";
+  };
+
   return (
     <header className="sticky top-0 z-50 bg-[#130204]/90 backdrop-blur-xl border-b border-[#E11D48]/25 transition-colors duration-200">
-      <div className="container mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      {isDashboard ? (
+        /* ========================================================================= */
+        /* DASHBOARD NAVBAR: Only Logo, Workspace Title, Theme Toggle & User Pill    */
+        /* (Clicking Logo redirects to /, Clicking User pill redirects to Profile)  */
+        /* ========================================================================= */
+        <div className="w-full flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
+          {/* Left: Brand Logo & Workspace Title */}
+          <div className="flex items-center gap-4 sm:gap-6">
+            <Logo />
+            <div className="h-5 w-px bg-[#E11D48]/30 hidden sm:block" />
+            <span className="font-bold text-sm sm:text-base text-white tracking-tight flex items-center gap-2">
+              <span className="h-2 w-2 rounded-full bg-[#FF1E40] animate-pulse shadow-[0_0_8px_#FF1E40]" />
+              <span>{getDashboardTitle()}</span>
+            </span>
+          </div>
+
+          {/* Right: Theme Toggle & User Button leading directly to Update Profile */}
+          <div className="flex items-center gap-3 sm:gap-4">
+            <button
+              onClick={toggleTheme}
+              aria-label="Toggle theme"
+              className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#1C0307] border border-[#E11D48]/35 text-[#FF1E40] hover:text-white hover:border-[#FF1E40] hover:bg-[#2A060C] hover:shadow-[0_0_15px_rgba(255,30,64,0.3)] transition-all cursor-pointer shadow-sm"
+            >
+              {isDark ? (
+                <Sun className="h-4 w-4 text-[#FF1E40] transition-transform hover:rotate-45" />
+              ) : (
+                <Moon className="h-4 w-4 text-[#FF4D6D] transition-transform hover:-rotate-12" />
+              )}
+            </button>
+
+            <Link
+              href="/dashboard/profile"
+              title="Update Profile"
+              className="flex items-center gap-2 rounded-full pl-1.5 pr-3.5 py-1.5 bg-[#1C0307] border border-[#E11D48]/35 hover:border-[#FF1E40] hover:shadow-[0_0_18px_rgba(255,30,64,0.35)] transition-all cursor-pointer shadow-sm group active:scale-95"
+            >
+              {session?.user?.image ? (
+                <Image
+                  src={session.user.image}
+                  alt={userName}
+                  width={28}
+                  height={28}
+                  unoptimized
+                  className="h-7 w-7 rounded-full object-cover border border-[#E11D48]/50"
+                />
+              ) : (
+                <div className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br from-[#E11D48] to-[#FF1E40] text-white font-bold text-xs shadow-sm">
+                  {initials}
+                </div>
+              )}
+              <span className="text-xs font-bold text-white group-hover:text-[#FF1E40] transition-colors truncate max-w-[130px]">
+                {userName}
+              </span>
+            </Link>
+          </div>
+        </div>
+      ) : (
+        /* ========================================================================= */
+        /* PUBLIC SITE NAVBAR: Full Nav Links, Theme Toggle & Dropdown Menu         */
+        /* ========================================================================= */
+        <div className="container mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         
         {/* Brand Logo */}
         <Logo />
@@ -268,9 +336,10 @@ export default function Navbar() {
           </button>
         </div>
       </div>
+      )}
 
-      {/* Mobile Drawer Menu */}
-      {isMobileMenuOpen && (
+      {/* Mobile Drawer Menu (Public Site Only) */}
+      {!isDashboard && isMobileMenuOpen && (
         <div className="md:hidden border-t border-[#E11D48]/25 bg-[#140205] px-4 py-4 space-y-2 animate-in slide-in-from-top-2 duration-150 shadow-2xl">
           {navLinks.map((link) => {
             const active = isActive(link.href);
