@@ -49,24 +49,24 @@ export default function FAQSection() {
   };
 
   return (
-    <section className="relative py-20 bg-[#0E0203] overflow-hidden border-t border-[#E11D48]/20">
+    <section className="relative py-20 bg-[#FCF9F8] dark:bg-[#0E0203] overflow-hidden border-t border-[#EADCDD] dark:border-[#E11D48]/20 transition-colors duration-200">
       {/* Background Accent */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[700px] h-[300px] bg-[radial-gradient(ellipse_at_center,_rgba(225,29,72,0.15)_0%,_transparent_70%)] blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[700px] h-[300px] bg-[radial-gradient(ellipse_at_center,_rgba(247,232,234,0.85)_0%,_transparent_70%)] dark:bg-[radial-gradient(ellipse_at_center,_rgba(225,29,72,0.15)_0%,_transparent_70%)] blur-3xl pointer-events-none" />
 
       <div className="container mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Header */}
         <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 rounded-full border border-[#E11D48]/40 bg-[#1C0307]/80 px-3.5 py-1.5 mb-3 shadow-[0_0_15px_rgba(225,29,72,0.25)]">
-            <HelpCircle className="h-3.5 w-3.5 text-[#FF1E40]" />
-            <span className="text-xs font-mono font-bold uppercase tracking-wider text-white">
+          <div className="inline-flex items-center gap-2 rounded-full border border-[#F2B8C4] dark:border-[#E11D48]/40 bg-[#FFFFFF] dark:bg-[#1C0307]/80 px-3.5 py-1.5 mb-3 shadow-[0_4px_16px_rgba(217,30,72,0.12)] dark:shadow-[0_0_15px_rgba(225,29,72,0.25)]">
+            <HelpCircle className="h-3.5 w-3.5 text-[#D91E48] dark:text-[#FF1E40]" />
+            <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#180C0E] dark:text-white">
               FREQUENTLY ASKED QUESTIONS
             </span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-black text-white uppercase tracking-tight">
-            Got <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-[#FF4D6D] to-[#FF1E40] drop-shadow-[0_0_20px_rgba(255,30,64,0.6)]">Questions?</span>
+          <h2 className="text-3xl sm:text-4xl font-black text-[#180C0E] dark:text-white uppercase tracking-tight">
+            Got <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D91E48] via-[#FF1E40] to-[#B31438] dark:from-white dark:via-[#FF4D6D] dark:to-[#FF1E40] drop-shadow-[0_0_16px_rgba(217,30,72,0.25)] dark:drop-shadow-[0_0_20px_rgba(255,30,64,0.6)]">Questions?</span>
           </h2>
-          <p className="mt-2 text-sm text-[#F4E2E5]/80">
+          <p className="mt-2 text-sm text-[#5C494C] dark:text-[#F4E2E5]/80">
             Everything you need to know about Bangladesh&apos;s leading tuition ecosystem.
           </p>
         </div>
@@ -78,24 +78,24 @@ export default function FAQSection() {
             return (
               <div
                 key={idx}
-                className="rounded-2xl bg-[#180306]/85 border border-[#E11D48]/30 overflow-hidden transition-all duration-200"
+                className="rounded-2xl bg-[#FFFFFF] dark:bg-[#180306]/85 border border-[#EADCDD] dark:border-[#E11D48]/30 shadow-[0_8px_24px_-4px_rgba(24,12,14,0.05),_0_0_0_1px_rgba(242,184,196,0.2)] dark:shadow-none hover:border-[#D91E48] dark:hover:border-[#FF1E40] overflow-hidden transition-all duration-200"
               >
                 <button
                   onClick={() => toggle(idx)}
-                  className="w-full flex items-center justify-between p-5 text-left text-sm sm:text-base font-bold text-white hover:text-[#FF1E40] transition-colors cursor-pointer"
+                  className="w-full flex items-center justify-between p-5 text-left text-sm sm:text-base font-bold text-[#180C0E] hover:text-[#D91E48] dark:text-white dark:hover:text-[#FF1E40] transition-colors cursor-pointer"
                 >
                   <span className="pr-4">{faq.question}</span>
                   <div
-                    className={`h-7 w-7 rounded-lg bg-[#2D060C] border border-[#FF1E40]/50 flex items-center justify-center shrink-0 transition-transform duration-300 ${
-                      isOpen ? "rotate-180 bg-[#E11D48]" : ""
+                    className={`h-7 w-7 rounded-lg bg-[#F5ECEC] dark:bg-[#2D060C] border border-[#F2B8C4] dark:border-[#FF1E40]/50 flex items-center justify-center shrink-0 transition-transform duration-300 ${
+                      isOpen ? "rotate-180 bg-[#D91E48] text-white dark:bg-[#E11D48]" : "text-[#180C0E] dark:text-white"
                     }`}
                   >
-                    <ChevronDown className="h-4 w-4 text-white" />
+                    <ChevronDown className={`h-4 w-4 ${isOpen ? "text-white" : "text-[#180C0E] dark:text-white"}`} />
                   </div>
                 </button>
 
                 {isOpen && (
-                  <div className="px-5 pb-5 pt-1 text-xs sm:text-sm text-[#F4E2E5]/80 leading-relaxed border-t border-[#E11D48]/15 animate-fadeIn">
+                  <div className="px-5 pb-5 pt-1 text-xs sm:text-sm text-[#5C494C] dark:text-[#F4E2E5]/80 leading-relaxed border-t border-[#EADCDD] dark:border-[#E11D48]/15 animate-fadeIn">
                     {faq.answer}
                   </div>
                 )}
