@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
@@ -14,12 +14,11 @@ import {
   LogOut, 
   ChevronLeft, 
   ChevronRight, 
-  Sun, 
-  Moon, 
   Crown,
   GraduationCap,
   ShieldCheck,
-  UserCheck
+  UserCheck,
+  Sparkles
 } from "lucide-react";
 
 export default function DashboardLayout({
@@ -29,28 +28,8 @@ export default function DashboardLayout({
 }) {
   const router = useRouter();
   const pathname = usePathname();
-  const { data: session, isPending } = authClient.useSession();
-
+  const { data: session } = authClient.useSession();
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [isDark, setIsDark] = useState(true);
-
-  // Initialize theme
-  useEffect(() => {
-    const isDarkMode = document.documentElement.classList.contains("dark");
-    setIsDark(isDarkMode);
-  }, []);
-
-  const toggleTheme = () => {
-    const newTheme = !isDark;
-    setIsDark(newTheme);
-    if (newTheme) {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-    }
-  };
 
   const handleSignOut = async () => {
     await authClient.signOut({
@@ -69,10 +48,8 @@ export default function DashboardLayout({
   const user = session?.user;
   const userName = user?.name || "asdf";
   const userEmail = user?.email || "admin@mentorlagbe.com";
-  // Role: default to 'admin' if email contains admin or role is admin, else user role or 'student'
   const userRole = (user as any)?.role || (userEmail.toLowerCase().includes("admin") ? "admin" : "student");
-  // Plan: admin is always PRO
-  const userPlan = userRole === "admin" ? "PRO" : ((user as any)?.plan === "pro" ? "PRO" : "PRO");
+  const userPlan = "PRO";
 
   // Initials for avatar placeholder
   const getInitials = (name: string) => {
@@ -82,12 +59,11 @@ export default function DashboardLayout({
   };
   const initials = getInitials(userName);
 
-  // Header Title based on route & role
-  const getHeaderTitle = () => {
-    if (pathname.includes("/profile")) return "Account Settings";
-    if (userRole === "admin") return "Platform Admin";
-    if (userRole === "tutor") return "Tutor Workspace";
-    return "Student Workspace";
+  // Status subtitle based on role
+  const getWorkspaceBadge = () => {
+    if (userRole === "admin") return "PLATFORM ADMIN // SYSTEM CORE";
+    if (userRole === "tutor") return "TUTOR WORKSPACE // VERIFIED";
+    return "STUDENT WORKSPACE // VERIFIED";
   };
 
   const navItems = [
@@ -97,51 +73,38 @@ export default function DashboardLayout({
   ];
 
   return (
-    <div className="flex h-screen w-full bg-[#080D1A] text-white overflow-hidden font-sans">
+    <div className="flex min-h-[calc(100vh-4rem)] w-full bg-[#0A0203] text-white font-sans relative">
       
       {/* ========================================================================= */}
-      {/* SIDEBAR NAVIGATION (Matching Image 1 & 2)                                 */}
+      {/* SIDEBAR NAVIGATION (MentorLagbe Signature Crimson Aesthetic)              */}
       {/* ========================================================================= */}
       <aside
-        className={`relative flex flex-col justify-between border-r border-[#15233E] bg-[#0A1124] transition-all duration-300 z-30 ${
+        className={`sticky top-16 h-[calc(100vh-4rem)] flex flex-col justify-between border-r border-[#E11D48]/25 bg-[#130204]/95 backdrop-blur-xl transition-all duration-300 z-30 shrink-0 ${
           isCollapsed ? "w-20" : "w-64"
         }`}
       >
-        {/* Top: Brand & User Profile */}
-        <div>
-          {/* Logo Header */}
-          <div className="flex h-16 items-center px-4 border-b border-[#15233E]">
-            <Link href="/" className="flex items-center gap-3">
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#00C48C] text-[#0A1124] font-black font-mono text-sm shadow-[0_0_15px_rgba(0,196,140,0.4)]">
-                ML
-              </div>
-              {!isCollapsed && (
-                <span className="font-bold text-lg text-white tracking-tight">
-                  MentorLagbe
-                </span>
-              )}
-            </Link>
-          </div>
-
+        {/* Top: User Profile & Nav Links */}
+        <div className="overflow-y-auto py-4">
+          
           {/* User Profile Card */}
-          <div className={`p-4 border-b border-[#15233E] ${isCollapsed ? "flex justify-center" : ""}`}>
+          <div className={`px-4 pb-5 border-b border-[#E11D48]/20 ${isCollapsed ? "flex justify-center px-2" : ""}`}>
             <div className="flex items-center gap-3">
-              {/* Avatar with little crown badge */}
+              {/* Avatar with gold crown badge */}
               <div className="relative shrink-0">
                 {user?.image ? (
                   <Image
                     src={user.image}
                     alt={userName}
-                    width={40}
-                    height={40}
-                    className="h-10 w-10 rounded-full object-cover border border-[#00C48C]/50"
+                    width={42}
+                    height={42}
+                    className="h-10 w-10 rounded-full object-cover border-2 border-[#E11D48]/50 shadow-[0_0_15px_rgba(225,29,72,0.3)]"
                   />
                 ) : (
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#00BFA5] text-[#080D1A] font-bold text-sm shadow-md">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-[#E11D48] via-[#FF1E40] to-[#FF4D6D] text-white font-black text-sm shadow-[0_0_15px_rgba(255,30,64,0.4)]">
                     {initials}
                   </div>
                 )}
-                {/* Crown / Verified Badge on Avatar */}
+                {/* Crown Badge */}
                 <div className="absolute -bottom-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#FFB800] text-black shadow-sm">
                   <Crown className="h-2.5 w-2.5 fill-black" />
                 </div>
@@ -150,32 +113,32 @@ export default function DashboardLayout({
               {/* User Name & Badges (Visible when expanded) */}
               {!isCollapsed && (
                 <div className="overflow-hidden">
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm font-bold text-white truncate max-w-[90px]">
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-sm font-bold text-white truncate max-w-[95px]">
                       {userName}
                     </span>
-                    <span className="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold uppercase bg-[#FFB800]/20 text-[#FFB800] border border-[#FFB800]/40">
+                    <span className="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold uppercase bg-[#FFB800]/20 text-[#FFB800] border border-[#FFB800]/40">
                       {userPlan}
                     </span>
                   </div>
 
                   {/* Dynamic Role Capsule (Admin / Tutor / Student) */}
-                  <div className="mt-1 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-[#14284B] text-[#38BDF8] border border-[#38BDF8]/30">
+                  <div className="mt-1 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase">
                     {userRole === "admin" ? (
-                      <>
-                        <ShieldCheck className="h-3 w-3 text-[#38BDF8]" />
+                      <span className="inline-flex items-center gap-1 text-[#FF1E40] bg-[#2E070F] border border-[#FF1E40]/40 px-2 py-0.5 rounded-full">
+                        <ShieldCheck className="h-3 w-3" />
                         <span>Admin</span>
-                      </>
+                      </span>
                     ) : userRole === "tutor" ? (
-                      <>
-                        <GraduationCap className="h-3 w-3 text-[#38BDF8]" />
+                      <span className="inline-flex items-center gap-1 text-[#FFB800] bg-[#281804] border border-[#FFB800]/40 px-2 py-0.5 rounded-full">
+                        <GraduationCap className="h-3 w-3" />
                         <span>Tutor</span>
-                      </>
+                      </span>
                     ) : (
-                      <>
-                        <UserCheck className="h-3 w-3 text-[#38BDF8]" />
+                      <span className="inline-flex items-center gap-1 text-[#FF4D6D] bg-[#2A0612] border border-[#FF4D6D]/40 px-2 py-0.5 rounded-full">
+                        <UserCheck className="h-3 w-3" />
                         <span>Student</span>
-                      </>
+                      </span>
                     )}
                   </div>
                 </div>
@@ -188,8 +151,9 @@ export default function DashboardLayout({
             {/* MAIN MENU */}
             <div>
               {!isCollapsed && (
-                <p className="px-3 text-[10px] font-mono font-bold uppercase tracking-wider text-[#64748B] mb-2">
-                  MAIN MENU
+                <p className="px-3 text-[10px] font-mono font-bold uppercase tracking-wider text-[#BFA5AA] mb-2 flex items-center gap-1.5">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#FF1E40] shadow-[0_0_6px_#FF1E40]" />
+                  <span>MAIN MENU</span>
                 </p>
               )}
               <div className="space-y-1">
@@ -201,13 +165,13 @@ export default function DashboardLayout({
                       key={item.name}
                       href={item.href}
                       title={isCollapsed ? item.name : undefined}
-                      className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
+                      className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all ${
                         active
-                          ? "bg-[#0E223D] text-[#00C48C] border border-[#00C48C]/40 shadow-sm font-semibold"
-                          : "text-[#94A3B8] hover:text-white hover:bg-[#111C35]"
+                          ? "bg-[#2E070F] text-white border border-[#FF1E40]/60 shadow-[0_0_20px_rgba(255,30,64,0.3)] font-semibold"
+                          : "text-[#F4E2E5]/80 hover:text-white hover:bg-[#1C0307] hover:border hover:border-[#E11D48]/30"
                       } ${isCollapsed ? "justify-center px-0" : ""}`}
                     >
-                      <Icon className="h-5 w-5 shrink-0" />
+                      <Icon className={`h-4.5 w-4.5 shrink-0 ${active ? "text-[#FF1E40]" : "text-[#BFA5AA]"}`} />
                       {!isCollapsed && <span>{item.name}</span>}
                     </Link>
                   );
@@ -218,94 +182,84 @@ export default function DashboardLayout({
             {/* PREFERENCES */}
             <div>
               {!isCollapsed && (
-                <p className="px-3 text-[10px] font-mono font-bold uppercase tracking-wider text-[#64748B] mb-2">
-                  PREFERENCES
+                <p className="px-3 text-[10px] font-mono font-bold uppercase tracking-wider text-[#BFA5AA] mb-2 flex items-center gap-1.5">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#FF4D6D] shadow-[0_0_6px_#FF4D6D]" />
+                  <span>PREFERENCES</span>
                 </p>
               )}
               <Link
                 href="/dashboard/profile"
                 title={isCollapsed ? "Update Profile" : undefined}
-                className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
+                className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all ${
                   pathname === "/dashboard/profile"
-                    ? "bg-[#0E223D] text-[#00C48C] border border-[#00C48C]/40 shadow-sm font-semibold"
-                    : "text-[#94A3B8] hover:text-white hover:bg-[#111C35]"
+                    ? "bg-[#2E070F] text-white border border-[#FF1E40]/60 shadow-[0_0_20px_rgba(255,30,64,0.3)] font-semibold"
+                    : "text-[#F4E2E5]/80 hover:text-white hover:bg-[#1C0307] hover:border hover:border-[#E11D48]/30"
                 } ${isCollapsed ? "justify-center px-0" : ""}`}
               >
-                <Settings className="h-5 w-5 shrink-0" />
+                <Settings className={`h-4.5 w-4.5 shrink-0 ${pathname === "/dashboard/profile" ? "text-[#FF1E40]" : "text-[#BFA5AA]"}`} />
                 {!isCollapsed && <span>Update Profile</span>}
               </Link>
             </div>
           </div>
         </div>
 
-        {/* Bottom Section: Sign Out & Minimize Sidebar Toggle */}
-        <div className="p-3 border-t border-[#15233E] space-y-2">
+        {/* Bottom Section: Sign Out & Collapse Sidebar Toggle */}
+        <div className="p-3 border-t border-[#E11D48]/20 space-y-2 bg-[#100103]">
           {/* Sign Out Button */}
           <button
             onClick={handleSignOut}
             title={isCollapsed ? "Sign Out" : undefined}
-            className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm font-medium text-[#F87171] hover:text-white hover:bg-[#E11D48]/20 transition-all cursor-pointer ${
+            className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-rose-400 hover:text-white hover:bg-[#E11D48]/30 transition-all cursor-pointer ${
               isCollapsed ? "justify-center px-0" : ""
             }`}
           >
-            <LogOut className="h-4 w-4 shrink-0 text-[#F87171]" />
+            <LogOut className="h-4 w-4 shrink-0 text-rose-400" />
             {!isCollapsed && <span>Sign Out</span>}
           </button>
 
-          {/* Minimize / Expand Toggle Button (Matching Requirement 2) */}
+          {/* Minimize / Expand Toggle Button */}
           <button
             onClick={() => setIsCollapsed(!isCollapsed)}
-            className="w-full flex items-center justify-center p-2 rounded-lg text-[#64748B] hover:text-white hover:bg-[#111C35] transition-colors cursor-pointer"
+            className="w-full flex items-center justify-center p-2 rounded-xl text-[#BFA5AA] hover:text-white hover:bg-[#1C0307] border border-transparent hover:border-[#E11D48]/30 transition-all cursor-pointer"
             aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
           >
             {isCollapsed ? (
-              <ChevronRight className="h-4 w-4" />
+              <ChevronRight className="h-4 w-4 text-[#FF1E40]" />
             ) : (
-              <ChevronLeft className="h-4 w-4" />
+              <div className="flex items-center gap-2 text-xs font-mono text-[#BFA5AA]">
+                <ChevronLeft className="h-4 w-4 text-[#FF1E40]" />
+                <span>Collapse Sidebar</span>
+              </div>
             )}
           </button>
         </div>
       </aside>
 
       {/* ========================================================================= */}
-      {/* MAIN CONTENT AREA WITH HEADER (Matching Image 1 & 4)                      */}
+      {/* MAIN WORKSPACE CONTENT AREA                                               */}
       {/* ========================================================================= */}
-      <div className="flex-1 flex flex-col h-screen overflow-hidden bg-[#070C18]">
+      <div className="flex-1 flex flex-col min-w-0 bg-[#0A0203] relative overflow-hidden">
         
-        {/* Top Navbar in Dashboard */}
-        <header className="h-16 shrink-0 flex items-center justify-between px-6 border-b border-[#15233E] bg-[#0A1124]">
-          {/* Workspace Title */}
-          <h1 className="text-base sm:text-lg font-bold text-white tracking-tight">
-            {getHeaderTitle()}
-          </h1>
+        {/* Ambient Crimson Aura */}
+        <div className="absolute top-0 right-1/4 w-[750px] h-[400px] bg-[radial-gradient(ellipse_at_top,_rgba(225,29,72,0.14)_0%,_transparent_70%)] blur-3xl pointer-events-none" />
 
-          {/* Right Header: Theme & User Avatar */}
-          <div className="flex items-center gap-4">
-            <button
-              onClick={toggleTheme}
-              aria-label="Toggle theme"
-              className="flex h-8 w-8 items-center justify-center rounded-lg text-[#94A3B8] hover:text-white hover:bg-[#111C35] transition-all cursor-pointer"
-            >
-              {isDark ? <Sun className="h-4 w-4 text-[#F59E0B]" /> : <Moon className="h-4 w-4 text-[#38BDF8]" />}
-            </button>
-
-            {/* User Pill Button */}
-            <Link
-              href="/dashboard/profile"
-              className="flex items-center gap-2 px-2.5 py-1.5 rounded-full bg-[#111C35] hover:bg-[#17274B] border border-[#1E3056] transition-all cursor-pointer"
-            >
-              <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[#00BFA5] text-[#080D1A] font-bold text-xs">
-                {initials}
-              </div>
-              <span className="text-xs font-semibold text-white pr-1">
-                {userName}
-              </span>
-            </Link>
+        {/* Top Status Bar (Cyber-Academic Header) */}
+        <div className="h-12 border-b border-[#E11D48]/15 bg-[#120205]/60 backdrop-blur-md px-6 flex items-center justify-between text-xs relative z-10">
+          <div className="flex items-center gap-2">
+            <span className="h-2 w-2 rounded-full bg-[#FF1E40] animate-pulse shadow-[0_0_8px_#FF1E40]" />
+            <span className="font-mono font-bold tracking-wider text-[#FF1E40]">
+              {getWorkspaceBadge()}
+            </span>
           </div>
-        </header>
 
-        {/* Page Children (Scrollable Container) */}
-        <main className="flex-1 overflow-y-auto p-6 md:p-8">
+          <div className="hidden sm:flex items-center gap-2 text-[#BFA5AA] font-mono text-[11px]">
+            <Sparkles className="w-3.5 h-3.5 text-[#FFB800]" />
+            <span>ENCRYPTED // REAL-TIME SESSION</span>
+          </div>
+        </div>
+
+        {/* Page Content */}
+        <main className="flex-1 p-6 md:p-8 lg:p-10 relative z-10">
           {children}
         </main>
       </div>
