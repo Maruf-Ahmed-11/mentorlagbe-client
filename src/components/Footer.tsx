@@ -133,7 +133,7 @@ export default function Footer() {
               Follow our verified channels for study tips, tutor spotlights, and platform announcements.
             </p>
             
-            {/* Social Grid with Prominent, High-Contrast Vectors & Glowing Cards */}
+            {/* Social Grid: Uniform, Organized & Glowing */}
             <div className="grid grid-cols-5 gap-3 pt-2">
               
               {/* 1. Official New X Logo */}
@@ -142,7 +142,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="X (formerly Twitter)"
-                className="group flex items-center justify-center h-11 w-11 rounded-xl bg-[#FFFFFF] dark:bg-[#2D060C] border-2 border-[#F2B8C4] dark:border-[#FF1E40] text-[#180C0E] dark:text-white shadow-[0_4px_12px_rgba(217,30,72,0.12)] dark:shadow-[0_0_15px_rgba(255,30,64,0.4),_inset_0_1px_0_rgba(255,255,255,0.25)] hover:border-[#D91E48] hover:bg-[#D91E48] hover:text-white dark:hover:border-white dark:hover:bg-[#FF1E40] hover:shadow-[0_6px_20px_rgba(217,30,72,0.35)] dark:hover:shadow-[0_0_25px_rgba(255,30,64,0.9)] hover:scale-110 transition-all duration-300 cursor-pointer"
+                className="group flex items-center justify-center h-11 w-11 rounded-xl bg-white dark:bg-[#2D060C] border-2 border-[#F2B8C4] dark:border-[#FF1E40] text-[#180C0E] dark:text-white shadow-[0_4px_12px_rgba(217,30,72,0.12)] dark:shadow-[0_0_15px_rgba(255,30,64,0.4),_inset_0_1px_0_rgba(255,255,255,0.25)] hover:border-[#D91E48] hover:bg-[#D91E48] hover:text-white dark:hover:border-white dark:hover:bg-[#FF1E40] hover:shadow-[0_6px_20px_rgba(217,30,72,0.35)] dark:hover:shadow-[0_0_25px_rgba(255,30,64,0.9)] hover:scale-110 transition-all duration-300 cursor-pointer"
                 title="X (formerly Twitter)"
               >
                 <svg className="h-5 w-5 transition-transform group-hover:scale-110 fill-current" viewBox="0 0 24 24">
@@ -156,7 +156,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn"
-                className="group flex items-center justify-center h-11 w-11 rounded-xl bg-[#FFFFFF] dark:bg-[#2D060C] border-2 border-[#F2B8C4] dark:border-[#FF1E40] text-[#180C0E] dark:text-white shadow-[0_4px_12px_rgba(217,30,72,0.12)] dark:shadow-[0_0_15px_rgba(255,30,64,0.4),_inset_0_1px_0_rgba(255,255,255,0.25)] hover:border-[#0A66C2] hover:bg-[#0A66C2] hover:text-white dark:hover:border-white dark:hover:bg-[#0A66C2] hover:shadow-[0_6px_20px_rgba(10,102,194,0.4)] dark:hover:shadow-[0_0_25px_rgba(10,102,194,0.9)] hover:scale-110 transition-all duration-300 cursor-pointer"
+                className="group flex items-center justify-center h-11 w-11 rounded-xl bg-white dark:bg-[#2D060C] border-2 border-[#F2B8C4] dark:border-[#FF1E40] text-[#180C0E] dark:text-white shadow-[0_4px_12px_rgba(217,30,72,0.12)] dark:shadow-[0_0_15px_rgba(255,30,64,0.4),_inset_0_1px_0_rgba(255,255,255,0.25)] hover:border-[#D91E48] hover:bg-[#D91E48] hover:text-white dark:hover:border-white dark:hover:bg-[#FF1E40] hover:shadow-[0_6px_20px_rgba(217,30,72,0.35)] dark:hover:shadow-[0_0_25px_rgba(255,30,64,0.9)] hover:scale-110 transition-all duration-300 cursor-pointer"
                 title="LinkedIn"
               >
                 <svg className="h-5 w-5 transition-transform group-hover:scale-110 fill-current" viewBox="0 0 24 24">
@@ -170,7 +170,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="GitHub"
-                className="group flex items-center justify-center h-11 w-11 rounded-xl bg-[#FFFFFF] dark:bg-[#2D060C] border-2 border-[#F2B8C4] dark:border-[#FF1E40] text-[#180C0E] dark:text-white shadow-[0_4px_12px_rgba(217,30,72,0.12)] dark:shadow-[0_0_15px_rgba(255,30,64,0.4),_inset_0_1px_0_rgba(255,255,255,0.25)] hover:border-[#24292F] hover:bg-[#24292F] hover:text-white dark:hover:border-white dark:hover:bg-[#24292F] hover:shadow-[0_6px_20px_rgba(36,41,47,0.4)] dark:hover:shadow-[0_0_25px_rgba(255,255,255,0.7)] hover:scale-110 transition-all duration-300 cursor-pointer"
+                className="group flex items-center justify-center h-11 w-11 rounded-xl bg-white dark:bg-[#2D060C] border-2 border-[#F2B8C4] dark:border-[#FF1E40] text-[#180C0E] dark:text-white shadow-[0_4px_12px_rgba(217,30,72,0.12)] dark:shadow-[0_0_15px_rgba(255,30,64,0.4),_inset_0_1px_0_rgba(255,255,255,0.25)] hover:border-[#D91E48] hover:bg-[#D91E48] hover:text-white dark:hover:border-white dark:hover:bg-[#FF1E40] hover:shadow-[0_6px_20px_rgba(217,30,72,0.35)] dark:hover:shadow-[0_0_25px_rgba(255,30,64,0.9)] hover:scale-110 transition-all duration-300 cursor-pointer"
                 title="GitHub"
               >
                 <svg className="h-5 w-5 transition-transform group-hover:scale-110 fill-current" viewBox="0 0 24 24">
@@ -184,7 +184,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Facebook"
-                className="group flex items-center justify-center h-11 w-11 rounded-xl bg-[#FFFFFF] dark:bg-[#2D060C] border-2 border-[#F2B8C4] dark:border-[#FF1E40] text-[#180C0E] dark:text-white shadow-[0_4px_12px_rgba(217,30,72,0.12)] dark:shadow-[0_0_15px_rgba(255,30,64,0.4),_inset_0_1px_0_rgba(255,255,255,0.25)] hover:border-[#1877F2] hover:bg-[#1877F2] hover:text-white dark:hover:border-white dark:hover:bg-[#1877F2] hover:shadow-[0_6px_20px_rgba(24,119,242,0.4)] dark:hover:shadow-[0_0_25px_rgba(24,119,242,0.9)] hover:scale-110 transition-all duration-300 cursor-pointer"
+                className="group flex items-center justify-center h-11 w-11 rounded-xl bg-white dark:bg-[#2D060C] border-2 border-[#F2B8C4] dark:border-[#FF1E40] text-[#180C0E] dark:text-white shadow-[0_4px_12px_rgba(217,30,72,0.12)] dark:shadow-[0_0_15px_rgba(255,30,64,0.4),_inset_0_1px_0_rgba(255,255,255,0.25)] hover:border-[#D91E48] hover:bg-[#D91E48] hover:text-white dark:hover:border-white dark:hover:bg-[#FF1E40] hover:shadow-[0_6px_20px_rgba(217,30,72,0.35)] dark:hover:shadow-[0_0_25px_rgba(255,30,64,0.9)] hover:scale-110 transition-all duration-300 cursor-pointer"
                 title="Facebook"
               >
                 <svg className="h-5 w-5 transition-transform group-hover:scale-110 fill-current" viewBox="0 0 24 24">
@@ -198,7 +198,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"
-                className="group flex items-center justify-center h-11 w-11 rounded-xl bg-[#FFFFFF] dark:bg-[#2D060C] border-2 border-[#F2B8C4] dark:border-[#FF1E40] text-[#180C0E] dark:text-white shadow-[0_4px_12px_rgba(217,30,72,0.12)] dark:shadow-[0_0_15px_rgba(255,30,64,0.4),_inset_0_1px_0_rgba(255,255,255,0.25)] hover:border-white hover:bg-gradient-to-tr hover:from-[#FD1D1D] hover:via-[#E1306C] hover:to-[#C13584] hover:text-white hover:shadow-[0_6px_20px_rgba(225,48,108,0.4)] dark:hover:shadow-[0_0_25px_rgba(225,48,108,0.9)] hover:scale-110 transition-all duration-300 cursor-pointer"
+                className="group flex items-center justify-center h-11 w-11 rounded-xl bg-white dark:bg-[#2D060C] border-2 border-[#F2B8C4] dark:border-[#FF1E40] text-[#180C0E] dark:text-white shadow-[0_4px_12px_rgba(217,30,72,0.12)] dark:shadow-[0_0_15px_rgba(255,30,64,0.4),_inset_0_1px_0_rgba(255,255,255,0.25)] hover:border-[#D91E48] hover:bg-[#D91E48] hover:text-white dark:hover:border-white dark:hover:bg-[#FF1E40] hover:shadow-[0_6px_20px_rgba(217,30,72,0.35)] dark:hover:shadow-[0_0_25px_rgba(255,30,64,0.9)] hover:scale-110 transition-all duration-300 cursor-pointer"
                 title="Instagram"
               >
                 <svg className="h-5 w-5 transition-transform group-hover:scale-110 fill-current" viewBox="0 0 24 24">
