@@ -12,21 +12,21 @@
   --font-mono: var(--font-geist-mono);
   --font-heading: var(--font-sans);
 
-  /* Chainsaw Man: Reze Arc Cinematic Crimson Palette */
-  --color-csm-red: #E11D48;
+  /* MentorLagbe Editorial Palette Tokens */
+  --color-csm-red: #D91E48;
   --color-csm-scarlet: #FF1E40;
   --color-csm-crimson-light: #FF4D6D;
-  --color-csm-darkred: #880816;
-  --color-csm-blood: #59040C;
-  --color-csm-noir: #0E0203;
-  --color-csm-abyss: #150205;
-  --color-csm-surface: #1C0307;
-  --color-csm-surface-light: #2A060C;
-  --color-csm-border: rgba(225, 29, 72, 0.32);
-  --color-csm-border-active: #FF1E40;
+  --color-csm-darkred: #B31438;
+  --color-csm-blood: #880816;
+  --color-csm-noir: #180C0E;
+  --color-csm-abyss: #0E0203;
+  --color-csm-surface: #FFFFFF;
+  --color-csm-surface-light: #F5ECEC;
+  --color-csm-border: #EADCDD;
+  --color-csm-border-active: #F2B8C4;
   --color-csm-white: #FFFFFF;
-  --color-csm-mist: #F4E2E5;
-  --color-csm-muted: #BFA5AA;
+  --color-csm-mist: #FCF9F8;
+  --color-csm-muted: #8C7679;
   --color-csm-gold: #F59E0B;
 
   --color-sidebar-ring: var(--sidebar-ring);
@@ -68,73 +68,103 @@
 }
 
 :root {
-  /* Light Mode */
-  --background: #FFF1F3;
-  --foreground: #0E0203;
+  /* ========================================================================= */
+  /* LIGHT MODE (Warm Alabaster & Espresso Ink Editorial Palette)              */
+  /* ========================================================================= */
+  --bg-primary: #FCF9F8;
+  --bg-hero-glow: radial-gradient(circle at 55% 25%, #F7E8EA 0%, #FCF9F8 65%);
+  --bg-card: #FFFFFF;
+  --bg-subtle: #F5ECEC;
+
+  --text-primary: #180C0E;
+  --text-secondary: #5C494C;
+  --text-muted: #8C7679;
+
+  --brand-primary: #D91E48;
+  --brand-hover: #B31438;
+  --brand-soft: #FDECEF;
+
+  --border-subtle: #EADCDD;
+  --border-accent: #F2B8C4;
+  --shadow-card: 0 12px 32px -8px rgba(24, 12, 14, 0.08), 0 0 0 1px #F2B8C4;
+
+  --background: #FCF9F8;
+  --foreground: #180C0E;
   --card: #FFFFFF;
-  --card-foreground: #0E0203;
+  --card-foreground: #180C0E;
   --popover: #FFFFFF;
-  --popover-foreground: #0E0203;
-  --primary: #E11D48;
+  --popover-foreground: #180C0E;
+  --primary: #D91E48;
   --primary-foreground: #FFFFFF;
-  --secondary: #FFE4E8;
-  --secondary-foreground: #0E0203;
-  --muted: #FEE2E2;
-  --muted-foreground: #7F1D1D;
-  --accent: #FFE4E8;
-  --accent-foreground: #9F1239;
-  --destructive: #BE123C;
-  --border: #FECDD3;
-  --input: #FECDD3;
-  --ring: #E11D48;
-  --chart-1: #E11D48;
-  --chart-2: #FF1E40;
-  --chart-3: #880816;
-  --chart-4: #7F1D1D;
-  --chart-5: #0E0203;
-  --radius: 0.625rem;
+  --secondary: #F5ECEC;
+  --secondary-foreground: #180C0E;
+  --muted: #F5ECEC;
+  --muted-foreground: #5C494C;
+  --accent: #FDECEF;
+  --accent-foreground: #D91E48;
+  --destructive: #B31438;
+  --border: #EADCDD;
+  --input: #EADCDD;
+  --ring: #D91E48;
+  --radius: 0.75rem;
+
   --sidebar: #FFFFFF;
-  --sidebar-foreground: #0E0203;
-  --sidebar-primary: #E11D48;
+  --sidebar-foreground: #180C0E;
+  --sidebar-primary: #D91E48;
   --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #FFE4E8;
-  --sidebar-accent-foreground: #9F1239;
-  --sidebar-border: #FECDD3;
-  --sidebar-ring: #E11D48;
+  --sidebar-accent: #F5ECEC;
+  --sidebar-accent-foreground: #D91E48;
+  --sidebar-border: #EADCDD;
+  --sidebar-ring: #D91E48;
 }
 
 .dark {
-  /* Dark Mode: Dramatic Crimson Vignette Atmosphere */
-  --background: #110204;
+  /* ========================================================================= */
+  /* DARK MODE (Signature Cinematic Obsidian Crimson Aesthetic)               */
+  /* ========================================================================= */
+  --bg-primary: #0A0203;
+  --bg-hero-glow: radial-gradient(ellipse at center, rgba(225, 29, 72, 0.32) 0%, rgba(136, 8, 22, 0.18) 45%, transparent 75%);
+  --bg-card: #160307;
+  --bg-subtle: #2A060C;
+
+  --text-primary: #FFFFFF;
+  --text-secondary: #F4E2E5;
+  --text-muted: #BFA5AA;
+
+  --brand-primary: #FF1E40;
+  --brand-hover: #E11D48;
+  --brand-soft: #2E070F;
+
+  --border-subtle: rgba(225, 29, 72, 0.25);
+  --border-accent: #FF1E40;
+  --shadow-card: 0 15px 35px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+
+  --background: #0A0203;
   --foreground: #FFFFFF;
-  --card: #1C0307;
+  --card: #160307;
   --card-foreground: #FFFFFF;
   --popover: #1C0307;
   --popover-foreground: #FFFFFF;
-  --primary: #E11D48;
+  --primary: #FF1E40;
   --primary-foreground: #FFFFFF;
   --secondary: #2A060C;
   --secondary-foreground: #FFFFFF;
   --muted: #2A060C;
   --muted-foreground: #BFA5AA;
-  --accent: #3A0912;
+  --accent: #2E070F;
   --accent-foreground: #FF1E40;
   --destructive: #E11D48;
-  --border: rgba(225, 29, 72, 0.35);
-  --input: rgba(225, 29, 72, 0.35);
+  --border: rgba(225, 29, 72, 0.3);
+  --input: rgba(225, 29, 72, 0.3);
   --ring: #FF1E40;
-  --chart-1: #E11D48;
-  --chart-2: #FF1E40;
-  --chart-3: #F59E0B;
-  --chart-4: #BFA5AA;
-  --chart-5: #FFFFFF;
-  --sidebar: #1C0307;
+
+  --sidebar: #130204;
   --sidebar-foreground: #FFFFFF;
-  --sidebar-primary: #E11D48;
+  --sidebar-primary: #FF1E40;
   --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #3A0912;
+  --sidebar-accent: #2E070F;
   --sidebar-accent-foreground: #FF1E40;
-  --sidebar-border: rgba(225, 29, 72, 0.35);
+  --sidebar-border: rgba(225, 29, 72, 0.25);
   --sidebar-ring: #FF1E40;
 }
 
@@ -143,7 +173,7 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground transition-colors duration-200;
   }
   html {
     @apply font-sans;
@@ -152,7 +182,7 @@
   }
 }
 
-/* Visually Stunning Crimson Atmospheric Glows */
+/* Atmospheric Glow Helpers */
 .glow-white {
   text-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 255, 0.4);
 }
@@ -166,7 +196,7 @@
 }
 
 /* ========================================================================= */
-/* CAREFULLY CONTROLLED ACADEMIC LIGHT THEME FOR MENTORLAGBE                */
+/* UNIVERSAL COMPREHENSIVE LIGHT THEME RULES (NON-DESTRUCTIVE & PRECISE)    */
 /* ========================================================================= */
 
 html:not(.dark) {
@@ -177,45 +207,57 @@ html.dark {
   color-scheme: dark;
 }
 
-/* Light Theme Root & Body */
+/* Canvas / Body in Light Mode */
 html:not(.dark) body {
-  background-color: #FAF5F6 !important;
-  color: #180205 !important;
+  background-color: #FCF9F8 !important;
+  color: #180C0E !important;
 }
 
-/* Navbar in Light Mode */
+/* Header / Navbar in Light Mode */
 html:not(.dark) header {
   background-color: rgba(255, 255, 255, 0.94) !important;
-  border-color: #FECDD3 !important;
+  border-color: #EADCDD !important;
 }
 
-html:not(.dark) header a {
-  color: #4A151E;
+html:not(.dark) header nav a {
+  color: #5C494C !important;
 }
 
-html:not(.dark) header a:hover {
-  color: #E11D48;
+html:not(.dark) header nav a:hover {
+  color: #D91E48 !important;
 }
 
-/* Sidebar in Light Mode */
+/* Sidebar in Dashboard Light Mode */
 html:not(.dark) aside {
-  background-color: rgba(255, 255, 255, 0.97) !important;
-  border-color: #FECDD3 !important;
-  color: #180205 !important;
+  background-color: #FFFFFF !important;
+  border-color: #EADCDD !important;
+  color: #180C0E !important;
+}
+
+html:not(.dark) aside a {
+  color: #5C494C !important;
+}
+
+html:not(.dark) aside a:hover {
+  color: #D91E48 !important;
+  background-color: #F5ECEC !important;
 }
 
 html:not(.dark) aside .border-b,
 html:not(.dark) aside .border-t {
-  border-color: #FECDD3 !important;
+  border-color: #EADCDD !important;
 }
 
-/* Surface & Card Containers in Light Mode */
+/* All Surface Containers & Cards in Light Mode */
+html:not(.dark) .bg-\[\#180306\]\/90,
+html:not(.dark) .bg-\[\#180306\]\/85,
+html:not(.dark) .bg-\[\#180306\],
 html:not(.dark) .bg-\[\#160307\]\/90,
 html:not(.dark) .bg-\[\#160307\]\/80,
 html:not(.dark) .bg-\[\#160307\],
-html:not(.dark) .bg-\[\#180306\]\/85,
-html:not(.dark) .bg-\[\#180306\],
+html:not(.dark) .bg-\[\#1C0307\]\/90,
 html:not(.dark) .bg-\[\#1C0307\]\/85,
+html:not(.dark) .bg-\[\#1C0307\]\/80,
 html:not(.dark) .bg-\[\#1C0307\],
 html:not(.dark) .bg-\[\#140205\]\/95,
 html:not(.dark) .bg-\[\#140205\],
@@ -223,17 +265,19 @@ html:not(.dark) .bg-\[\#100103\],
 html:not(.dark) .bg-\[\#0A1124\],
 html:not(.dark) .bg-\[\#0F172A\] {
   background-color: #FFFFFF !important;
-  border-color: #FECDD3 !important;
-  box-shadow: 0 4px 20px rgba(225, 29, 72, 0.06) !important;
+  border-color: #EADCDD !important;
+  box-shadow: 0 12px 32px -8px rgba(24, 12, 14, 0.08) !important;
 }
 
-/* Inner card sub-boxes */
+/* Card Footers & Inner Sub-Boxes in Light Mode */
+html:not(.dark) .bg-\[\#140204\],
+html:not(.dark) .bg-\[\#240408\],
 html:not(.dark) .bg-\[\#2A060C\],
 html:not(.dark) .bg-\[\#2E070F\],
 html:not(.dark) .bg-\[\#1E0307\],
-html:not(.dark) .bg-\[\#1C0307\] {
-  background-color: #FFF1F3 !important;
-  border-color: #FECDD3 !important;
+html:not(.dark) .bg-\[\#100103\] {
+  background-color: #F5ECEC !important;
+  border-color: #EADCDD !important;
 }
 
 /* Page Backdrops in Light Mode */
@@ -242,29 +286,65 @@ html:not(.dark) .bg-\[\#0E0203\],
 html:not(.dark) .bg-\[\#110204\],
 html:not(.dark) .bg-\[\#080D1A\],
 html:not(.dark) .bg-\[\#070C18\] {
-  background-color: #FAF5F6 !important;
-  color: #180205 !important;
+  background-color: #FCF9F8 !important;
+  color: #180C0E !important;
 }
 
-/* Primary Text & Headings in Light Mode */
+/* Headings in Light Mode: Espresso Ink */
 html:not(.dark) h1,
 html:not(.dark) h2,
 html:not(.dark) h3,
 html:not(.dark) h4,
 html:not(.dark) h5,
-html:not(.dark) .text-white {
-  color: #180205 !important;
+html:not(.dark) h6 {
+  color: #180C0E !important;
 }
 
-/* Secondary & Muted Text in Light Mode */
+/* Paragraphs & Secondary Text in Light Mode: Warm Slate */
+html:not(.dark) p:not(button *):not([class*="text-[#"]):not([class*="bg-"]):not(a *) {
+  color: #5C494C !important;
+}
+
+/* Muted / Secondary Typography Classes */
+html:not(.dark) .text-\[\#F4E2E5\],
+html:not(.dark) .text-\[\#F4E2E5\]\/85,
+html:not(.dark) .text-\[\#F4E2E5\]\/80,
+html:not(.dark) .text-\[\#F4E2E5\]\/75,
+html:not(.dark) .text-\[\#F4E2E5\]\/70 {
+  color: #5C494C !important;
+}
+
 html:not(.dark) .text-\[\#BFA5AA\],
 html:not(.dark) .text-\[\#94A3B8\],
 html:not(.dark) .text-slate-400 {
-  color: #6B2129 !important;
+  color: #8C7679 !important;
 }
 
-html:not(.dark) .text-\[\#F4E2E5\] {
-  color: #3B070E !important;
+/* Buttons ALWAYS keep crisp white text on primary/action buttons */
+html:not(.dark) button[class*="bg-[#"],
+html:not(.dark) a[class*="bg-[#"],
+html:not(.dark) button[class*="bg-gradient"],
+html:not(.dark) a[class*="bg-gradient"],
+html:not(.dark) .bg-\[\#E11D48\],
+html:not(.dark) .bg-\[\#FF1E40\],
+html:not(.dark) .bg-\[\#D91E48\] {
+  background-color: #D91E48 !important;
+  color: #FFFFFF !important;
+}
+
+html:not(.dark) button[class*="bg-[#"] *,
+html:not(.dark) a[class*="bg-[#"] *,
+html:not(.dark) button[class*="bg-gradient"] *,
+html:not(.dark) a[class*="bg-gradient"] * {
+  color: #FFFFFF !important;
+}
+
+/* Secondary / Pill buttons in Light Mode */
+html:not(.dark) button[class*="bg-transparent"],
+html:not(.dark) a[class*="border-[#E11D48]"]:not([class*="bg-[#E11D48]"]):not([class*="bg-[#D91E48]"]):not([class*="bg-gradient"]) {
+  background-color: #FFFFFF !important;
+  border-color: #EADCDD !important;
+  color: #180C0E !important;
 }
 
 /* Form Inputs in Light Mode */
@@ -272,47 +352,70 @@ html:not(.dark) input,
 html:not(.dark) textarea,
 html:not(.dark) select {
   background-color: #FFFFFF !important;
-  border-color: #FECDD3 !important;
-  color: #180205 !important;
+  border-color: #EADCDD !important;
+  color: #180C0E !important;
+}
+
+html:not(.dark) input::placeholder,
+html:not(.dark) textarea::placeholder {
+  color: #8C7679 !important;
+}
+
+html:not(.dark) input:focus,
+html:not(.dark) textarea:focus {
+  border-color: #D91E48 !important;
+  box-shadow: 0 0 0 2px rgba(217, 30, 72, 0.15) !important;
 }
 
 html:not(.dark) input:disabled,
 html:not(.dark) input[readonly] {
-  background-color: #F8E7E9 !important;
-  color: #7A2A33 !important;
+  background-color: #F5ECEC !important;
+  color: #8C7679 !important;
+  border-color: #EADCDD !important;
 }
 
-/* CTA Buttons & Gradient Accents Retain White Text */
-html:not(.dark) .bg-\[\#E11D48\],
-html:not(.dark) .bg-gradient-to-r,
-html:not(.dark) [class*="from-[#E11D48]"] {
-  color: #FFFFFF !important;
-}
-
-html:not(.dark) [class*="from-[#E11D48]"] * {
-  color: #FFFFFF !important;
-}
-
-/* Borders in Light Mode */
+/* Light Mode Borders */
 html:not(.dark) [class*="border-[#E11D48]"] {
-  border-color: #FECDD3 !important;
+  border-color: #EADCDD !important;
 }
 
-/* Soften Ambient Spotlights in Light Mode */
+/* Hero Headings Gradient in Light Mode */
+html:not(.dark) span[class*="bg-gradient-to-r"][class*="from-white"] {
+  background-image: linear-gradient(to right, #180C0E, #D91E48, #B31438) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  text-shadow: none !important;
+}
+
+/* Ambient Radial Spotlights in Light Mode */
 html:not(.dark) [class*="bg-[radial-gradient"] {
-  opacity: 0.28 !important;
+  opacity: 0.3 !important;
 }
 
 /* Dropdown Menus in Light Mode */
-html:not(.dark) [class*="shadow-\[0_20px_50px"] {
+html:not(.dark) [class*="shadow-\[0_20px_50px"],
+html:not(.dark) [class*="shadow-\[0_15px_50px"] {
   background-color: #FFFFFF !important;
-  border-color: #FECDD3 !important;
-  box-shadow: 0 15px 40px rgba(225, 29, 72, 0.12) !important;
+  border-color: #EADCDD !important;
+  box-shadow: 0 16px 40px -8px rgba(24, 12, 14, 0.12) !important;
 }
 
 /* Footer in Light Mode */
 html:not(.dark) footer {
-  background-color: #FFF1F3 !important;
-  border-color: #FECDD3 !important;
-  color: #4A151E !important;
+  background-color: #F5ECEC !important;
+  border-color: #EADCDD !important;
+  color: #5C494C !important;
+}
+
+html:not(.dark) footer .text-white {
+  color: #180C0E !important;
+}
+
+html:not(.dark) footer a {
+  color: #5C494C !important;
+}
+
+html:not(.dark) footer a:hover {
+  color: #D91E48 !important;
 }
