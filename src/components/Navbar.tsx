@@ -109,6 +109,9 @@ export default function Navbar() {
 
   const getDashboardTitle = () => {
     if (pathname?.includes("/profile")) return "Account Settings";
+    if (pathname?.includes("/post-tuition")) return "Post New Tuition";
+    if (pathname?.includes("/my-tuitions")) return "My Tuitions";
+    if (pathname?.includes("/applicants")) return "Manage Applicants";
     if (rawRole === "admin") return "Platform Admin";
     if (rawRole === "tutor") return "Tutor Workspace";
     return "Student Workspace";

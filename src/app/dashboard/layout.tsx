@@ -17,7 +17,10 @@ import {
   Crown,
   GraduationCap,
   ShieldCheck,
-  UserCheck
+  UserCheck,
+  Plus,
+  BookOpen,
+  Users
 } from "lucide-react";
 
 export default function DashboardLayout({
@@ -45,9 +48,9 @@ export default function DashboardLayout({
 
   // Derive user info
   const user = session?.user;
-  const userName = user?.name || "asdf";
-  const userEmail = user?.email || "admin@mentorlagbe.com";
-  const userRole = (user as any)?.role || (userEmail.toLowerCase().includes("admin") ? "admin" : "student");
+  const userEmail = user?.email || "tutor@mentorlagbe.com";
+  const userRole = (user as any)?.role || (userEmail.toLowerCase().includes("admin") ? "admin" : (userEmail.toLowerCase().includes("tutor") || userEmail.toLowerCase().includes("teacher") ? "tutor" : "student"));
+  const userName = user?.name || (userRole === "tutor" ? "Karim Rahman" : "asdf");
   const userPlan = "PRO";
 
   // Initials for avatar placeholder
@@ -58,17 +61,26 @@ export default function DashboardLayout({
   };
   const initials = getInitials(userName);
 
-  const navItems = [
-    { name: "Overview", href: "/dashboard", icon: LayoutDashboard },
-    { name: "My Applications", href: "/dashboard/applications", icon: FileText },
-    { name: "Saved Tuitions", href: "/dashboard/saved-tuitions", icon: Bookmark },
-  ];
+  const isTutor = userRole === "tutor";
+
+  const navItems = isTutor
+    ? [
+        { name: "Overview", href: "/dashboard", icon: LayoutDashboard },
+        { name: "+ Post Tuition", href: "/dashboard/post-tuition", icon: Plus },
+        { name: "My Tuitions", href: "/dashboard/my-tuitions", icon: BookOpen },
+        { name: "Applicants", href: "/dashboard/applicants", icon: Users },
+      ]
+    : [
+        { name: "Overview", href: "/dashboard", icon: LayoutDashboard },
+        { name: "My Applications", href: "/dashboard/applications", icon: FileText },
+        { name: "Saved Tuitions", href: "/dashboard/saved-tuitions", icon: Bookmark },
+      ];
 
   return (
     <div className="flex min-h-[calc(100vh-4rem)] w-full bg-[#FCF9F8] text-[#180C0E] dark:bg-[#0A0203] dark:text-white font-sans relative transition-colors duration-300">
 
       {/* ========================================================================= */}
-      {/* SIDEBAR NAVIGATION (MentorLagbe Signature Crimson Aesthetic)              */}
+      {/* SIDEBAR NAVIGATION (MentorLagbe Signature Aesthetic)                      */}
       {/* ========================================================================= */}
       <aside
         className={`sticky top-16 h-[calc(100vh-4rem)] flex flex-col justify-between border-r border-[#EADCDD] dark:border-[#E11D48]/25 bg-white/95 dark:bg-[#130204]/95 backdrop-blur-xl transition-all duration-300 z-30 shrink-0 ${
@@ -92,7 +104,11 @@ export default function DashboardLayout({
                     className="h-10 w-10 rounded-full object-cover border-2 border-[#F2B8C4] dark:border-[#E11D48]/50 shadow-sm dark:shadow-[0_0_15px_rgba(225,29,72,0.3)]"
                   />
                 ) : (
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-[#E11D48] via-[#FF1E40] to-[#FF4D6D] text-white font-black text-sm shadow-[0_2px_10px_rgba(217,30,72,0.3)] dark:shadow-[0_0_15px_rgba(255,30,64,0.4)]">
+                  <div className={`flex h-10 w-10 items-center justify-center rounded-full text-white font-black text-sm shadow-sm ${
+                    isTutor 
+                      ? "bg-gradient-to-br from-[#0D9488] to-[#10B981]" 
+                      : "bg-gradient-to-br from-[#E11D48] via-[#FF1E40] to-[#FF4D6D]"
+                  }`}>
                     {initials}
                   </div>
                 )}
@@ -122,7 +138,7 @@ export default function DashboardLayout({
                         <span>Admin</span>
                       </span>
                     ) : userRole === "tutor" ? (
-                      <span className="inline-flex items-center gap-1 text-[#B45309] dark:text-[#FFB800] bg-[#FEF3C7] dark:bg-[#281804] border border-[#FDE68A] dark:border-[#FFB800]/40 px-2 py-0.5 rounded-full">
+                      <span className="inline-flex items-center gap-1 text-[#0D9488] dark:text-emerald-400 bg-[#ECFDF5] dark:bg-[#0A2618] border border-[#A7F3D0] dark:border-[#10B981]/40 px-2 py-0.5 rounded-full">
                         <GraduationCap className="h-3 w-3" />
                         <span>Tutor</span>
                       </span>
@@ -144,7 +160,7 @@ export default function DashboardLayout({
             <div>
               {!isCollapsed && (
                 <p className="px-3 text-[10px] font-mono font-bold uppercase tracking-wider text-[#8C7679] dark:text-[#BFA5AA] mb-2 flex items-center gap-1.5">
-                  <span className="h-1.5 w-1.5 rounded-full bg-[#D91E48] dark:bg-[#FF1E40] shadow-[0_0_6px_rgba(217,30,72,0.6)] dark:shadow-[0_0_6px_#FF1E40]" />
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#0D9488] dark:bg-emerald-400 shadow-[0_0_6px_rgba(13,148,136,0.6)]" />
                   <span>MAIN MENU</span>
                 </p>
               )}
@@ -159,11 +175,13 @@ export default function DashboardLayout({
                       title={isCollapsed ? item.name : undefined}
                       className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all ${
                         active
-                          ? "bg-[#FDECEF] dark:bg-[#2E070F] text-[#D91E48] dark:text-white border border-[#F2B8C4] dark:border-[#FF1E40]/60 shadow-[0_4px_12px_rgba(217,30,72,0.12)] dark:shadow-[0_0_20px_rgba(255,30,64,0.3)] font-semibold"
+                          ? isTutor
+                            ? "bg-[#CCFBF1] dark:bg-[#064E3B]/50 text-[#0F766E] dark:text-emerald-300 border border-[#99F6E4] dark:border-emerald-500/60 shadow-sm font-semibold"
+                            : "bg-[#FDECEF] dark:bg-[#2E070F] text-[#D91E48] dark:text-white border border-[#F2B8C4] dark:border-[#FF1E40]/60 shadow-sm font-semibold"
                           : "text-[#5C494C] dark:text-[#F4E2E5]/80 hover:text-[#180C0E] dark:hover:text-white hover:bg-[#F5ECEC] dark:hover:bg-[#1C0307] hover:border hover:border-[#EADCDD] dark:hover:border-[#E11D48]/30"
                       } ${isCollapsed ? "justify-center px-0" : ""}`}
                     >
-                      <Icon className={`h-4.5 w-4.5 shrink-0 ${active ? "text-[#D91E48] dark:text-[#FF1E40]" : "text-[#8C7679] dark:text-[#BFA5AA]"}`} />
+                      <Icon className={`h-4.5 w-4.5 shrink-0 ${active ? (isTutor ? "text-[#0D9488] dark:text-emerald-400" : "text-[#D91E48] dark:text-[#FF1E40]") : "text-[#8C7679] dark:text-[#BFA5AA]"}`} />
                       {!isCollapsed && <span>{item.name}</span>}
                     </Link>
                   );
@@ -175,7 +193,7 @@ export default function DashboardLayout({
             <div>
               {!isCollapsed && (
                 <p className="px-3 text-[10px] font-mono font-bold uppercase tracking-wider text-[#8C7679] dark:text-[#BFA5AA] mb-2 flex items-center gap-1.5">
-                  <span className="h-1.5 w-1.5 rounded-full bg-[#D91E48] dark:bg-[#FF4D6D] shadow-[0_0_6px_rgba(217,30,72,0.6)] dark:shadow-[0_0_6px_#FF4D6D]" />
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#D91E48] dark:bg-[#FF4D6D] shadow-[0_0_6px_rgba(217,30,72,0.6)]" />
                   <span>PREFERENCES</span>
                 </p>
               )}
@@ -216,10 +234,10 @@ export default function DashboardLayout({
             aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
           >
             {isCollapsed ? (
-              <ChevronRight className="h-4 w-4 text-[#D91E48] dark:text-[#FF1E40]" />
+              <ChevronRight className="h-4 w-4 text-[#0D9488] dark:text-[#FF1E40]" />
             ) : (
               <div className="flex items-center gap-2 text-xs font-mono text-[#5C494C] dark:text-[#BFA5AA]">
-                <ChevronLeft className="h-4 w-4 text-[#D91E48] dark:text-[#FF1E40]" />
+                <ChevronLeft className="h-4 w-4 text-[#0D9488] dark:text-[#FF1E40]" />
                 <span>Collapse Sidebar</span>
               </div>
             )}
@@ -232,7 +250,7 @@ export default function DashboardLayout({
       {/* ========================================================================= */}
       <div className="flex-1 flex flex-col min-w-0 bg-[#FCF9F8] dark:bg-[#0A0203] relative overflow-hidden transition-colors duration-300">
 
-        {/* Ambient Crimson Aura */}
+        {/* Ambient Aura */}
         <div className="absolute top-0 right-1/4 w-[750px] h-[400px] bg-[radial-gradient(ellipse_at_top,_rgba(247,232,234,0.7)_0%,_transparent_70%)] dark:bg-[radial-gradient(ellipse_at_top,_rgba(225,29,72,0.14)_0%,_transparent_70%)] blur-3xl pointer-events-none" />
 
         {/* Page Content */}
