@@ -1,8 +1,17 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import Logo from "./Logo";
 import { Mail, Phone, MapPin } from "lucide-react";
 
 export default function Footer() {
+  const pathname = usePathname();
+
+  // Do not render global footer inside dashboard workspace
+  if (pathname?.startsWith("/dashboard")) {
+    return null;
+  }
   return (
     <footer className="relative bg-[#0A0203] border-t border-[#E11D48]/30 text-[#F4E2E5] pt-16 pb-8 overflow-hidden">
       {/* Ambient Crimson Spotlight Glow at Base */}
