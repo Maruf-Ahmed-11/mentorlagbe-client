@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { authClient } from "@/lib/auth-client";
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
 import toast from "react-hot-toast";
 import Image from "next/image";
 import { 
@@ -48,7 +49,10 @@ export default function ProfilePage() {
       const fetchDetails = async () => {
         setIsLoading(true);
         try {
-          const res = await fetch(`/api/user/profile?email=${encodeURIComponent(sessionUser.email)}`);
+          const token = await getTokenFromClient();
+          const res = await fetch(`/api/user/profile?email=${encodeURIComponent(sessionUser.email)}`, {
+            headers: token ? { authorization: `Bearer ${token}` } : {},
+          });
           if (res.ok) {
             const data = await res.json();
             if (data.name) setName(data.name);
@@ -98,9 +102,13 @@ export default function ProfilePage() {
 
     setIsSaving(true);
     try {
+      const token = await getTokenFromClient();
       const res = await fetch("/api/user/profile", {
         method: "PATCH",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { authorization: `Bearer ${token}` } : {}),
+        },
         body: JSON.stringify({
           email,
           name,

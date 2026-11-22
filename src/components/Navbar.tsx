@@ -7,6 +7,7 @@ import { usePathname, useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import Image from "next/image";
 import Logo from "./Logo";
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
 import { Sun, Moon, Menu, X, User, LogOut, LayoutDashboard, ChevronDown, Bookmark } from "lucide-react";
 
 export default function Navbar() {
@@ -43,6 +44,13 @@ export default function Navbar() {
 
     return () => observer.disconnect();
   }, []);
+
+  // Automatically sync JWT token to localStorage for authenticated sessions
+  useEffect(() => {
+    if (session?.user) {
+      getTokenFromClient();
+    }
+  }, [session]);
 
   const toggleTheme = () => {
     const newTheme = !isDark;

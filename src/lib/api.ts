@@ -1,3 +1,5 @@
+import { getTokenFromClient } from "./getTokenFromClient";
+
 export const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_URI || "http://localhost:8000";
 
@@ -5,16 +7,21 @@ export async function apiFetch<T>(
   endpoint: string,
   options: RequestInit = {}
 ): Promise<T> {
-  const token =
+  let token =
     typeof window !== "undefined" ? localStorage.getItem("access-token") : null;
+  if (!token && typeof window !== "undefined") {
+    token = await getTokenFromClient();
+  }
+
   const headers = new Headers(options.headers || {});
 
   if (!headers.has("Content-Type") && !(options.body instanceof FormData)) {
     headers.set("Content-Type", "application/json");
   }
 
-  if (token && !headers.has("authorization")) {
+  if (token) {
     headers.set("authorization", `Bearer ${token}`);
+    headers.set("Authorization", `Bearer ${token}`);
   }
 
   const url = endpoint.startsWith("http")

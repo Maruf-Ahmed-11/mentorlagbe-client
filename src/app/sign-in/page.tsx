@@ -2,6 +2,7 @@
 
 import { useState, useEffect, Suspense } from "react";
 import { authClient } from "@/lib/auth-client";
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
 import { useRouter, useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
 import Link from "next/link";
@@ -59,13 +60,10 @@ function SignInContent() {
       await authClient.signIn.email(
         { email, password },
         {
-          onSuccess: () => {
+          onSuccess: async () => {
+            await getTokenFromClient();
             toast.success(`Welcome back! Signed in as ${selectedRole.toUpperCase()}`);
-            if (selectedRole === "admin" || email.toLowerCase().includes("admin")) {
-              router.push("/dashboard");
-            } else {
-              router.push("/dashboard");
-            }
+            router.push("/dashboard");
             router.refresh();
           },
           onError: (ctx) => {

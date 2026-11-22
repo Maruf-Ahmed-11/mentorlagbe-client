@@ -2,6 +2,7 @@
 
 import { useState, useEffect, Suspense } from "react";
 import { authClient } from "@/lib/auth-client";
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
 import { useRouter, useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
 import Link from "next/link";
@@ -107,7 +108,8 @@ function SignUpContent() {
           plan: "free",
         },
         {
-          onSuccess: () => {
+          onSuccess: async () => {
+            await getTokenFromClient();
             toast.success(
               role === "admin"
                 ? "Administrator account created successfully!"
