@@ -137,19 +137,19 @@ export default function Navbar() {
             <button
               onClick={toggleTheme}
               aria-label="Toggle theme"
-              className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#1C0307] border border-[#E11D48]/35 text-[#FF1E40] hover:text-white hover:border-[#FF1E40] hover:bg-[#2A060C] hover:shadow-[0_0_15px_rgba(255,30,64,0.3)] transition-all cursor-pointer shadow-sm"
+              className="flex h-9 w-9 items-center justify-center rounded-xl bg-white dark:bg-[#1C0307] border border-[#F2B8C4] dark:border-[#E11D48]/35 text-[#D91E48] dark:text-[#FF1E40] hover:text-[#180C0E] dark:hover:text-white hover:border-[#D91E48] dark:hover:border-[#FF1E40] hover:bg-[#F5ECEC] dark:hover:bg-[#2A060C] shadow-sm transition-all cursor-pointer"
             >
               {isDark ? (
                 <Sun className="h-4 w-4 text-[#FF1E40] transition-transform hover:rotate-45" />
               ) : (
-                <Moon className="h-4 w-4 text-[#FF4D6D] transition-transform hover:-rotate-12" />
+                <Moon className="h-4 w-4 text-[#D91E48] transition-transform hover:-rotate-12" />
               )}
             </button>
 
             <Link
               href="/dashboard/profile"
               title="Update Profile"
-              className="flex items-center gap-2 rounded-full pl-1.5 pr-3.5 py-1.5 bg-[#1C0307] border border-[#E11D48]/35 hover:border-[#FF1E40] hover:shadow-[0_0_18px_rgba(255,30,64,0.35)] transition-all cursor-pointer shadow-sm group active:scale-95"
+              className="flex items-center gap-2 rounded-full pl-1.5 pr-3.5 py-1.5 bg-white dark:bg-[#1C0307] border border-[#F2B8C4] dark:border-[#E11D48]/35 hover:border-[#D91E48] dark:hover:border-[#FF1E40] hover:shadow-[0_4px_16px_rgba(217,30,72,0.15)] dark:hover:shadow-[0_0_18px_rgba(255,30,64,0.35)] transition-all cursor-pointer shadow-sm group active:scale-95"
             >
               {session?.user?.image ? (
                 <Image
@@ -165,7 +165,7 @@ export default function Navbar() {
                   {initials}
                 </div>
               )}
-              <span className="text-xs font-bold text-white group-hover:text-[#FF1E40] transition-colors truncate max-w-[130px]">
+              <span className="text-xs font-bold text-[#180C0E] dark:text-white group-hover:text-[#D91E48] dark:group-hover:text-[#FF1E40] transition-colors truncate max-w-[130px]">
                 {userName}
               </span>
             </Link>
@@ -211,25 +211,25 @@ export default function Navbar() {
           <button
             onClick={toggleTheme}
             aria-label="Toggle theme"
-            className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#1C0307] border border-[#E11D48]/35 text-[#FF1E40] hover:text-white hover:border-[#FF1E40] hover:bg-[#2A060C] hover:shadow-[0_0_15px_rgba(255,30,64,0.3)] transition-all cursor-pointer shadow-sm"
+            className="flex h-9 w-9 items-center justify-center rounded-xl bg-white dark:bg-[#1C0307] border border-[#F2B8C4] dark:border-[#E11D48]/35 text-[#D91E48] dark:text-[#FF1E40] hover:text-[#180C0E] dark:hover:text-white hover:border-[#D91E48] dark:hover:border-[#FF1E40] hover:bg-[#F5ECEC] dark:hover:bg-[#2A060C] shadow-sm transition-all cursor-pointer"
           >
             {isDark ? (
               <Sun className="h-4 w-4 text-[#FF1E40] transition-transform hover:rotate-45" />
             ) : (
-              <Moon className="h-4 w-4 text-[#FF4D6D] transition-transform hover:-rotate-12" />
+              <Moon className="h-4 w-4 text-[#D91E48] transition-transform hover:-rotate-12" />
             )}
           </button>
 
           {/* User State */}
           {isPending ? (
-            <div className="h-9 w-9 animate-pulse rounded-full bg-[#2A060C] border border-[#E11D48]/30" />
+            <div className="h-9 w-9 animate-pulse rounded-full bg-[#F5ECEC] dark:bg-[#2A060C] border border-[#F2B8C4] dark:border-[#E11D48]/30" />
           ) : session?.user ? (
             /* User Pill & Dropdown (MentorLagbe Signature Crimson Aesthetic) */
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setIsDropdownOpen((prev) => !prev)}
                 aria-label="Toggle user menu"
-                className="flex items-center gap-2 rounded-full pl-1.5 pr-3 py-1 bg-[#1C0307] border border-[#E11D48]/35 hover:border-[#FF1E40] hover:shadow-[0_0_15px_rgba(255,30,64,0.3)] transition-all cursor-pointer shadow-sm group"
+                className="flex items-center gap-2 rounded-full pl-1.5 pr-3 py-1 bg-white dark:bg-[#1C0307] border border-[#F2B8C4] dark:border-[#E11D48]/35 hover:border-[#D91E48] dark:hover:border-[#FF1E40] hover:shadow-[0_4px_14px_rgba(217,30,72,0.15)] dark:hover:shadow-[0_0_15px_rgba(255,30,64,0.3)] transition-all cursor-pointer shadow-sm group"
               >
                 {session.user.image ? (
                   <Image
@@ -248,36 +248,36 @@ export default function Navbar() {
 
                 <div className="flex flex-col text-left leading-none">
                   <div className="flex items-center gap-1.5">
-                    <span className="text-xs font-bold text-white max-w-[85px] truncate">
+                    <span className="text-xs font-bold text-[#180C0E] dark:text-white max-w-[85px] truncate">
                       {userName}
                     </span>
-                    <span className="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold uppercase bg-[#FFB800]/20 text-[#FFB800] border border-[#FFB800]/40">
+                    <span className="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold uppercase bg-[#FEF3C7] dark:bg-[#FFB800]/20 text-[#D97706] dark:text-[#FFB800] border border-[#FCD34D] dark:border-[#FFB800]/40">
                       {userPlan}
                     </span>
                   </div>
-                  <span className="text-[10px] text-[#FF4D6D] font-mono font-medium mt-0.5">
+                  <span className="text-[10px] text-[#D91E48] dark:text-[#FF4D6D] font-mono font-medium mt-0.5">
                     {roleLabel}
                   </span>
                 </div>
 
-                <ChevronDown className="w-3.5 h-3.5 text-[#BFA5AA] group-hover:text-white transition-transform" />
+                <ChevronDown className="w-3.5 h-3.5 text-[#8C7679] dark:text-[#BFA5AA] group-hover:text-[#180C0E] dark:group-hover:text-white transition-transform" />
               </button>
 
               {/* Profile Dropdown Menu */}
               {isDropdownOpen && (
-                <div className="absolute right-0 mt-3 w-64 rounded-2xl bg-[#1C0307]/95 backdrop-blur-xl border border-[#E11D48]/35 p-3 shadow-[0_20px_50px_rgba(0,0,0,0.95)] z-50 animate-in fade-in zoom-in-95 duration-150">
-                  <div className="px-2 py-2 border-b border-[#E11D48]/25 space-y-1">
-                    <p className="text-sm font-bold text-white truncate">
+                <div className="absolute right-0 mt-3 w-64 rounded-2xl bg-white dark:bg-[#1C0307]/95 backdrop-blur-xl border border-[#EADCDD] dark:border-[#E11D48]/35 p-3 shadow-[0_16px_40px_-8px_rgba(24,12,14,0.15)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.95)] z-50 animate-in fade-in zoom-in-95 duration-150">
+                  <div className="px-2 py-2 border-b border-[#EADCDD] dark:border-[#E11D48]/25 space-y-1">
+                    <p className="text-sm font-bold text-[#180C0E] dark:text-white truncate">
                       {userName}
                     </p>
-                    <p className="text-xs text-[#BFA5AA] font-mono truncate">
+                    <p className="text-xs text-[#8C7679] dark:text-[#BFA5AA] font-mono truncate">
                       {userEmail}
                     </p>
                     <div className="flex items-center gap-2 pt-1.5">
-                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase bg-[#2E070F] text-[#FF1E40] border border-[#FF1E40]/40">
+                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase bg-[#F5ECEC] dark:bg-[#2E070F] text-[#D91E48] dark:text-[#FF1E40] border border-[#F2B8C4] dark:border-[#FF1E40]/40">
                         {roleLabel}
                       </span>
-                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase bg-[#241704] text-[#FFB800] border border-[#FFB800]/40">
+                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase bg-[#FEF3C7] dark:bg-[#241704] text-[#D97706] dark:text-[#FFB800] border border-[#FCD34D] dark:border-[#FFB800]/40">
                         {userPlan}
                       </span>
                     </div>
@@ -287,25 +287,33 @@ export default function Navbar() {
                     <Link
                       href="/dashboard"
                       onClick={() => setIsDropdownOpen(false)}
-                      className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-[#F4E2E5] hover:text-white hover:bg-[#2A060C] transition-colors"
+                      className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-[#5C494C] dark:text-[#F4E2E5] hover:text-[#180C0E] dark:hover:text-white hover:bg-[#F5ECEC] dark:hover:bg-[#2A060C] transition-colors"
                     >
-                      <LayoutDashboard className="w-4 h-4 text-[#FF1E40]" />
+                      <LayoutDashboard className="w-4 h-4 text-[#D91E48] dark:text-[#FF1E40]" />
                       <span>Dashboard</span>
                     </Link>
                     <Link
                       href="/dashboard/profile"
                       onClick={() => setIsDropdownOpen(false)}
-                      className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-[#F4E2E5] hover:text-white hover:bg-[#2A060C] transition-colors"
+                      className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-[#5C494C] dark:text-[#F4E2E5] hover:text-[#180C0E] dark:hover:text-white hover:bg-[#F5ECEC] dark:hover:bg-[#2A060C] transition-colors"
                     >
-                      <User className="w-4 h-4 text-[#FF1E40]" />
+                      <User className="w-4 h-4 text-[#D91E48] dark:text-[#FF1E40]" />
                       <span>Update Profile</span>
+                    </Link>
+                    <Link
+                      href="/dashboard/saved-tuitions"
+                      onClick={() => setIsDropdownOpen(false)}
+                      className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-[#5C494C] dark:text-[#F4E2E5] hover:text-[#180C0E] dark:hover:text-white hover:bg-[#F5ECEC] dark:hover:bg-[#2A060C] transition-colors"
+                    >
+                      <Bookmark className="w-4 h-4 text-[#D91E48] dark:text-[#FF1E40]" />
+                      <span>Saved Tuitions</span>
                     </Link>
                   </div>
 
-                  <div className="pt-2 border-t border-[#E11D48]/25">
+                  <div className="pt-2 border-t border-[#EADCDD] dark:border-[#E11D48]/25">
                     <button
                       onClick={handleLogout}
-                      className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-red-400 hover:text-white hover:bg-[#E11D48] transition-all cursor-pointer"
+                      className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-rose-600 dark:text-red-400 hover:text-white hover:bg-[#D91E48] dark:hover:bg-[#E11D48] transition-all cursor-pointer"
                     >
                       <LogOut className="w-4 h-4" />
                       <span>Sign Out</span>
