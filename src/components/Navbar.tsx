@@ -144,14 +144,14 @@ export default function Navbar() {
 
           {/* User State */}
           {isPending ? (
-            <div className="h-9 w-9 animate-pulse rounded-full bg-[#111C35] border border-[#15233E]" />
+            <div className="h-9 w-9 animate-pulse rounded-full bg-[#2A060C] border border-[#E11D48]/30" />
           ) : session?.user ? (
-            /* User Pill & Dropdown (Matching Image 7) */
+            /* User Pill & Dropdown (MentorLagbe Signature Crimson Aesthetic) */
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setIsDropdownOpen((prev) => !prev)}
                 aria-label="Toggle user menu"
-                className="flex items-center gap-2 rounded-full pl-1.5 pr-3 py-1 bg-[#0A1124] border border-[#15233E] hover:border-[#00C48C]/50 transition-all cursor-pointer shadow-sm group"
+                className="flex items-center gap-2 rounded-full pl-1.5 pr-3 py-1 bg-[#1C0307] border border-[#E11D48]/35 hover:border-[#FF1E40] hover:shadow-[0_0_15px_rgba(255,30,64,0.3)] transition-all cursor-pointer shadow-sm group"
               >
                 {session.user.image ? (
                   <Image
@@ -160,46 +160,46 @@ export default function Navbar() {
                     width={28}
                     height={28}
                     unoptimized
-                    className="h-7 w-7 rounded-full object-cover border border-[#00C48C]/40"
+                    className="h-7 w-7 rounded-full object-cover border border-[#E11D48]/50"
                   />
                 ) : (
-                  <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[#00BFA5] text-[#080D1A] font-bold text-xs">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br from-[#E11D48] to-[#FF1E40] text-white font-bold text-xs shadow-sm">
                     {initials}
                   </div>
                 )}
 
                 <div className="flex flex-col text-left leading-none">
                   <div className="flex items-center gap-1.5">
-                    <span className="text-xs font-bold text-white max-w-[80px] truncate">
+                    <span className="text-xs font-bold text-white max-w-[85px] truncate">
                       {userName}
                     </span>
-                    <span className="px-1 py-0.5 rounded text-[9px] font-mono font-bold bg-[#FFB800]/20 text-[#FFB800] border border-[#FFB800]/40">
+                    <span className="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold uppercase bg-[#FFB800]/20 text-[#FFB800] border border-[#FFB800]/40">
                       {userPlan}
                     </span>
                   </div>
-                  <span className="text-[10px] text-[#94A3B8] font-medium mt-0.5">
+                  <span className="text-[10px] text-[#FF4D6D] font-mono font-medium mt-0.5">
                     {roleLabel}
                   </span>
                 </div>
 
-                <ChevronDown className="w-3.5 h-3.5 text-[#94A3B8] group-hover:text-white transition-transform" />
+                <ChevronDown className="w-3.5 h-3.5 text-[#BFA5AA] group-hover:text-white transition-transform" />
               </button>
 
-              {/* Profile Dropdown Menu (Matching Image 7) */}
+              {/* Profile Dropdown Menu */}
               {isDropdownOpen && (
-                <div className="absolute right-0 mt-3 w-64 rounded-2xl bg-[#0A1124] border border-[#15233E] p-3 shadow-[0_20px_50px_rgba(0,0,0,0.85)] z-50 animate-in fade-in zoom-in-95 duration-150">
-                  <div className="px-2 py-2 border-b border-[#15233E] space-y-1">
+                <div className="absolute right-0 mt-3 w-64 rounded-2xl bg-[#1C0307]/95 backdrop-blur-xl border border-[#E11D48]/35 p-3 shadow-[0_20px_50px_rgba(0,0,0,0.95)] z-50 animate-in fade-in zoom-in-95 duration-150">
+                  <div className="px-2 py-2 border-b border-[#E11D48]/25 space-y-1">
                     <p className="text-sm font-bold text-white truncate">
                       {userName}
                     </p>
-                    <p className="text-xs text-[#94A3B8] font-mono truncate">
+                    <p className="text-xs text-[#BFA5AA] font-mono truncate">
                       {userEmail}
                     </p>
                     <div className="flex items-center gap-2 pt-1.5">
-                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#0F223D] text-[#38BDF8] border border-[#38BDF8]/30">
+                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase bg-[#2E070F] text-[#FF1E40] border border-[#FF1E40]/40">
                         {roleLabel}
                       </span>
-                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#231A0F] text-[#FFB800] border border-[#FFB800]/30">
+                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase bg-[#241704] text-[#FFB800] border border-[#FFB800]/40">
                         {userPlan}
                       </span>
                     </div>
@@ -209,27 +209,27 @@ export default function Navbar() {
                     <Link
                       href="/dashboard"
                       onClick={() => setIsDropdownOpen(false)}
-                      className="flex items-center gap-2.5 px-2.5 py-2 rounded-xl text-xs font-semibold text-[#94A3B8] hover:text-white hover:bg-[#111C35] transition-colors"
+                      className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-[#F4E2E5] hover:text-white hover:bg-[#2A060C] transition-colors"
                     >
-                      <LayoutDashboard className="w-4 h-4 text-[#00C48C]" />
+                      <LayoutDashboard className="w-4 h-4 text-[#FF1E40]" />
                       <span>Dashboard</span>
                     </Link>
                     <Link
                       href="/dashboard/profile"
                       onClick={() => setIsDropdownOpen(false)}
-                      className="flex items-center gap-2.5 px-2.5 py-2 rounded-xl text-xs font-semibold text-[#94A3B8] hover:text-white hover:bg-[#111C35] transition-colors"
+                      className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-[#F4E2E5] hover:text-white hover:bg-[#2A060C] transition-colors"
                     >
-                      <User className="w-4 h-4 text-[#00C48C]" />
+                      <User className="w-4 h-4 text-[#FF1E40]" />
                       <span>Update Profile</span>
                     </Link>
                   </div>
 
-                  <div className="pt-2 border-t border-[#15233E]">
+                  <div className="pt-2 border-t border-[#E11D48]/25">
                     <button
                       onClick={handleLogout}
-                      className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-xl text-xs font-semibold text-[#F87171] hover:text-white hover:bg-[#E11D48]/20 transition-all cursor-pointer"
+                      className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-red-400 hover:text-white hover:bg-[#E11D48] transition-all cursor-pointer"
                     >
-                      <LogOut className="w-4 h-4 text-[#F87171]" />
+                      <LogOut className="w-4 h-4" />
                       <span>Sign Out</span>
                     </button>
                   </div>
