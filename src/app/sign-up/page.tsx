@@ -113,15 +113,7 @@ function SignUpContent() {
                 ? "Administrator account created successfully!"
                 : `Account created successfully as ${role.toUpperCase()}!`
             );
-            
-            // Redirect based on role
-            if (role === "admin") {
-              router.push("/dashboard/admin");
-            } else if (role === "tutor") {
-              router.push("/dashboard/tutor");
-            } else {
-              router.push("/dashboard/student");
-            }
+            router.push("/");
             router.refresh();
           },
           onError: (ctx) => {
