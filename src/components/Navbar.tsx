@@ -75,7 +75,7 @@ export default function Navbar() {
         onSuccess: () => {
           localStorage.removeItem("access-token");
           toast.success("Logged out successfully");
-          router.push("/login");
+          router.push("/sign-in");
           router.refresh();
         },
       },
@@ -173,7 +173,15 @@ export default function Navbar() {
 
                   <div className="py-2 space-y-1">
                     <Link
-                      href="/profile"
+                      href="/dashboard"
+                      onClick={() => setIsDropdownOpen(false)}
+                      className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-slate-300 hover:text-white hover:bg-[#2A060C] transition-colors"
+                    >
+                      <User className="w-4 h-4 text-[#FF1E40]" />
+                      Dashboard
+                    </Link>
+                    <Link
+                      href="/dashboard/profile"
                       onClick={() => setIsDropdownOpen(false)}
                       className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-slate-300 hover:text-white hover:bg-[#2A060C] transition-colors"
                     >
@@ -198,13 +206,13 @@ export default function Navbar() {
             /* Guest Buttons */
             <div className="flex items-center gap-2 sm:gap-3">
               <Link
-                href="/login"
+                href="/sign-in"
                 className="px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium text-[#F4E2E5] hover:text-[#FF1E40] transition-colors"
               >
                 Sign In
               </Link>
               <Link
-                href="/register"
+                href="/sign-up"
                 className="rounded-xl bg-[#E11D48] hover:bg-[#FF1E40] px-4 sm:px-5 py-2 text-xs sm:text-sm font-bold text-white shadow-[0_0_20px_rgba(225,29,72,0.5)] hover:shadow-[0_0_30px_rgba(255,30,64,0.8)] transition-all cursor-pointer active:scale-95"
               >
                 Sign Up
@@ -255,14 +263,14 @@ export default function Navbar() {
           {!session?.user && (
             <div className="pt-3 border-t border-[#E11D48]/25 flex flex-col gap-2">
               <Link
-                href="/login"
+                href="/sign-in"
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="w-full text-center py-2.5 text-sm font-medium text-[#F4E2E5] hover:text-white rounded-xl bg-[#2A060C]"
               >
                 Sign In
               </Link>
               <Link
-                href="/register"
+                href="/sign-up"
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="w-full text-center py-2.5 text-sm font-bold text-white bg-[#E11D48] hover:bg-[#FF1E40] rounded-xl shadow-[0_0_18px_rgba(225,29,72,0.4)]"
               >
