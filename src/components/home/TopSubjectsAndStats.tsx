@@ -154,7 +154,7 @@ export default function TopSubjectsAndStats() {
               <Link
                 key={idx}
                 href={`/tuitions?q=${encodeURIComponent(sub.query)}`}
-                className="group relative rounded-2xl bg-[#FFFFFF] dark:bg-[#180306]/90 border border-[#EADCDD] dark:border-[#E11D48]/30 p-6 backdrop-blur-xl shadow-[0_12px_32px_-8px_rgba(24,12,14,0.06),_0_0_0_1px_rgba(242,184,196,0.25)] dark:shadow-[0_15px_35px_rgba(0,0,0,0.7),_inset_0_1px_0_rgba(255,255,255,0.08)] hover:border-[#D91E48] dark:hover:border-[#FF1E40] hover:shadow-[0_16px_36px_-6px_rgba(217,30,72,0.2),_0_0_20px_rgba(217,30,72,0.12)] dark:hover:shadow-[0_0_30px_rgba(225,29,72,0.4)] hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between"
+                className="group relative rounded-2xl bg-white dark:bg-[#180306]/90 border border-[#EADCDD] dark:border-[#E11D48]/30 p-6 backdrop-blur-xl shadow-[0_12px_32px_-8px_rgba(24,12,14,0.06),_0_0_0_1px_rgba(242,184,196,0.25)] dark:shadow-[0_15px_35px_rgba(0,0,0,0.7),_inset_0_1px_0_rgba(255,255,255,0.08)] hover:border-[#D91E48] dark:hover:border-[#FF1E40] hover:shadow-[0_16px_36px_-6px_rgba(217,30,72,0.2),_0_0_20px_rgba(217,30,72,0.12)] dark:hover:shadow-[0_0_30px_rgba(225,29,72,0.4)] hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between"
               >
                 <div>
                   <div className="flex items-center justify-between pb-4 border-b border-[#EADCDD] dark:border-[#E11D48]/20">
