@@ -9,9 +9,7 @@ import {
   MapPin, 
   Calendar, 
   DollarSign, 
-  FileText, 
   Sparkles, 
-  Plus, 
   ArrowLeft,
   CheckCircle2,
   Loader2,
@@ -39,7 +37,6 @@ export default function PostTuitionPage() {
     }
 
     setIsSubmitting(true);
-    // Simulate short network delay
     await new Promise((resolve) => setTimeout(resolve, 800));
 
     toast.success("Tuition post created successfully and is now active!", {
@@ -62,7 +59,7 @@ export default function PostTuitionPage() {
             <span>Back to Dashboard</span>
           </Link>
           <div className="flex items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-[#1C0307] border border-[#F2B8C4] dark:border-[#E11D48]/35 text-[11px] font-mono font-bold tracking-wider text-[#0D9488] dark:text-emerald-400 uppercase shadow-sm">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-[#1C0307] border border-[#F2B8C4] dark:border-[#E11D48]/35 text-[11px] font-mono font-bold tracking-wider text-[#D91E48] dark:text-[#FF1E40] uppercase shadow-sm">
               <Sparkles className="w-3.5 h-3.5" />
               <span>TUTOR PORTAL // CREATE LISTING</span>
             </span>
@@ -79,7 +76,7 @@ export default function PostTuitionPage() {
           href="/dashboard/my-tuitions"
           className="inline-flex items-center gap-2 self-start sm:self-auto px-4 py-2.5 rounded-xl bg-[#F5ECEC] dark:bg-[#1E0307] border border-[#EADCDD] dark:border-[#E11D48]/30 text-xs font-bold text-[#180C0E] dark:text-white hover:border-[#D91E48] dark:hover:border-[#FF1E40] transition-all cursor-pointer shadow-sm"
         >
-          <BookOpen className="w-3.5 h-3.5 text-[#0D9488] dark:text-emerald-400" />
+          <BookOpen className="w-3.5 h-3.5 text-[#D91E48] dark:text-[#FF1E40]" />
           <span>View My Tuitions</span>
         </Link>
       </div>
@@ -102,7 +99,7 @@ export default function PostTuitionPage() {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="e.g. HSC Higher Math & Engineering Admission Prep"
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#FCF9F8] dark:bg-[#0D0204] border border-[#EADCDD] dark:border-[#E11D48]/30 text-sm text-[#180C0E] dark:text-white placeholder-[#8C7679] dark:placeholder-[#BFA5AA]/50 focus:border-[#0D9488] dark:focus:border-[#10B981] focus:outline-none focus:ring-1 focus:ring-[#0D9488] dark:focus:ring-[#10B981] transition-colors"
+                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#FCF9F8] dark:bg-[#0D0204] border border-[#EADCDD] dark:border-[#E11D48]/30 text-sm text-[#180C0E] dark:text-white placeholder-[#8C7679] dark:placeholder-[#BFA5AA]/50 focus:border-[#D91E48] dark:focus:border-[#FF1E40] focus:outline-none focus:ring-1 focus:ring-[#D91E48] dark:focus:ring-[#FF1E40] transition-colors"
               />
             </div>
           </div>
@@ -117,7 +114,7 @@ export default function PostTuitionPage() {
               <select
                 value={subject}
                 onChange={(e) => setSubject(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-[#FCF9F8] dark:bg-[#0D0204] border border-[#EADCDD] dark:border-[#E11D48]/30 text-sm text-[#180C0E] dark:text-white focus:border-[#0D9488] dark:focus:border-[#10B981] focus:outline-none transition-colors"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-[#FCF9F8] dark:bg-[#0D0204] border border-[#EADCDD] dark:border-[#E11D48]/30 text-sm text-[#180C0E] dark:text-white focus:border-[#D91E48] dark:focus:border-[#FF1E40] focus:outline-none transition-colors"
               >
                 <option value="Higher Mathematics">Higher Mathematics</option>
                 <option value="Physics">Physics</option>
@@ -136,7 +133,7 @@ export default function PostTuitionPage() {
               <select
                 value={classLevel}
                 onChange={(e) => setClassLevel(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-[#FCF9F8] dark:bg-[#0D0204] border border-[#EADCDD] dark:border-[#E11D48]/30 text-sm text-[#180C0E] dark:text-white focus:border-[#0D9488] dark:focus:border-[#10B981] focus:outline-none transition-colors"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-[#FCF9F8] dark:bg-[#0D0204] border border-[#EADCDD] dark:border-[#E11D48]/30 text-sm text-[#180C0E] dark:text-white focus:border-[#D91E48] dark:focus:border-[#FF1E40] focus:outline-none transition-colors"
               >
                 <option value="Class 11-12 & Admission">Class 11-12 & Admission</option>
                 <option value="Class 9-10 (SSC)">Class 9-10 (SSC)</option>
@@ -160,8 +157,8 @@ export default function PostTuitionPage() {
                   onClick={() => setMode(item)}
                   className={`py-2.5 px-3 rounded-xl text-xs font-bold transition-all border cursor-pointer ${
                     mode === item
-                      ? "bg-[#0D9488] text-white border-[#0D9488] shadow-sm"
-                      : "bg-[#FCF9F8] dark:bg-[#0D0204] text-[#5C494C] dark:text-[#BFA5AA] border-[#EADCDD] dark:border-[#E11D48]/25 hover:border-[#0D9488]"
+                      ? "bg-[#D91E48] text-white border-[#D91E48] shadow-sm"
+                      : "bg-[#FCF9F8] dark:bg-[#0D0204] text-[#5C494C] dark:text-[#BFA5AA] border-[#EADCDD] dark:border-[#E11D48]/25 hover:border-[#D91E48]"
                   }`}
                 >
                   {item}
@@ -184,7 +181,7 @@ export default function PostTuitionPage() {
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
                   placeholder="e.g. Dhanmondi, Dhaka"
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#FCF9F8] dark:bg-[#0D0204] border border-[#EADCDD] dark:border-[#E11D48]/30 text-sm text-[#180C0E] dark:text-white placeholder-[#8C7679] dark:placeholder-[#BFA5AA]/50 focus:border-[#0D9488] dark:focus:border-[#10B981] focus:outline-none transition-colors"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#FCF9F8] dark:bg-[#0D0204] border border-[#EADCDD] dark:border-[#E11D48]/30 text-sm text-[#180C0E] dark:text-white placeholder-[#8C7679] dark:placeholder-[#BFA5AA]/50 focus:border-[#D91E48] dark:focus:border-[#FF1E40] focus:outline-none transition-colors"
                 />
               </div>
             </div>
@@ -201,7 +198,7 @@ export default function PostTuitionPage() {
                   value={schedule}
                   onChange={(e) => setSchedule(e.target.value)}
                   placeholder="e.g. 3 days / week"
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#FCF9F8] dark:bg-[#0D0204] border border-[#EADCDD] dark:border-[#E11D48]/30 text-sm text-[#180C0E] dark:text-white placeholder-[#8C7679] dark:placeholder-[#BFA5AA]/50 focus:border-[#0D9488] dark:focus:border-[#10B981] focus:outline-none transition-colors"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#FCF9F8] dark:bg-[#0D0204] border border-[#EADCDD] dark:border-[#E11D48]/30 text-sm text-[#180C0E] dark:text-white placeholder-[#8C7679] dark:placeholder-[#BFA5AA]/50 focus:border-[#D91E48] dark:focus:border-[#FF1E40] focus:outline-none transition-colors"
                 />
               </div>
             </div>
@@ -220,7 +217,7 @@ export default function PostTuitionPage() {
                   value={monthlyFee}
                   onChange={(e) => setMonthlyFee(e.target.value)}
                   placeholder="6000"
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#FCF9F8] dark:bg-[#0D0204] border border-[#EADCDD] dark:border-[#E11D48]/30 text-sm text-[#180C0E] dark:text-white placeholder-[#8C7679] dark:placeholder-[#BFA5AA]/50 focus:border-[#0D9488] dark:focus:border-[#10B981] focus:outline-none transition-colors"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#FCF9F8] dark:bg-[#0D0204] border border-[#EADCDD] dark:border-[#E11D48]/30 text-sm text-[#180C0E] dark:text-white placeholder-[#8C7679] dark:placeholder-[#BFA5AA]/50 focus:border-[#D91E48] dark:focus:border-[#FF1E40] focus:outline-none transition-colors"
                 />
               </div>
             </div>
@@ -236,7 +233,7 @@ export default function PostTuitionPage() {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Detail your course coverage, weekly model tests, personal feedback, and prerequisites..."
-              className="w-full px-4 py-3 rounded-xl bg-[#FCF9F8] dark:bg-[#0D0204] border border-[#EADCDD] dark:border-[#E11D48]/30 text-sm text-[#180C0E] dark:text-white placeholder-[#8C7679] dark:placeholder-[#BFA5AA]/50 focus:border-[#0D9488] dark:focus:border-[#10B981] focus:outline-none transition-colors resize-none leading-relaxed"
+              className="w-full px-4 py-3 rounded-xl bg-[#FCF9F8] dark:bg-[#0D0204] border border-[#EADCDD] dark:border-[#E11D48]/30 text-sm text-[#180C0E] dark:text-white placeholder-[#8C7679] dark:placeholder-[#BFA5AA]/50 focus:border-[#D91E48] dark:focus:border-[#FF1E40] focus:outline-none transition-colors resize-none leading-relaxed"
             />
           </div>
 
@@ -251,7 +248,7 @@ export default function PostTuitionPage() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[#0D9488] hover:bg-[#0F766E] text-white font-bold text-xs shadow-md hover:shadow-lg transition-all active:scale-95 cursor-pointer disabled:opacity-50"
+              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[#D91E48] hover:bg-[#B31438] dark:bg-gradient-to-r dark:from-[#E11D48] dark:via-[#FF1E40] dark:to-[#FF4D6D] text-white font-bold text-xs shadow-[0_4px_16px_rgba(217,30,72,0.25)] hover:shadow-lg transition-all active:scale-95 cursor-pointer disabled:opacity-50"
             >
               {isSubmitting ? (
                 <>

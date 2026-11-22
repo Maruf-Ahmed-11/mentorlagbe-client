@@ -8,7 +8,6 @@ import {
   Plus, 
   MapPin, 
   Calendar, 
-  DollarSign, 
   Users, 
   CheckCircle2, 
   Clock, 
@@ -108,7 +107,7 @@ export default function MyTuitionsPage() {
             <span>Back to Dashboard</span>
           </Link>
           <div className="flex items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-[#1C0307] border border-[#F2B8C4] dark:border-[#E11D48]/35 text-[11px] font-mono font-bold tracking-wider text-[#0D9488] dark:text-emerald-400 uppercase shadow-sm">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-[#1C0307] border border-[#F2B8C4] dark:border-[#E11D48]/35 text-[11px] font-mono font-bold tracking-wider text-[#D91E48] dark:text-[#FF1E40] uppercase shadow-sm">
               <Sparkles className="w-3.5 h-3.5" />
               <span>COURSE MANAGEMENT</span>
             </span>
@@ -123,9 +122,9 @@ export default function MyTuitionsPage() {
 
         <Link
           href="/dashboard/post-tuition"
-          className="inline-flex items-center gap-2 self-start sm:self-auto px-4 py-2.5 rounded-xl bg-[#0D9488] hover:bg-[#0F766E] text-white font-bold text-xs shadow-md transition-all active:scale-95 cursor-pointer"
+          className="inline-flex items-center gap-2 self-start sm:self-auto px-5 py-2.5 rounded-xl bg-[#D91E48] hover:bg-[#B31438] dark:bg-gradient-to-r dark:from-[#E11D48] dark:via-[#FF1E40] dark:to-[#FF4D6D] text-white font-bold text-xs shadow-[0_4px_16px_rgba(217,30,72,0.25)] transition-all active:scale-95 cursor-pointer"
         >
-          <Plus className="w-3.5 h-3.5" />
+          <Plus className="w-4 h-4" />
           <span>Post New Tuition</span>
         </Link>
       </div>
@@ -142,7 +141,7 @@ export default function MyTuitionsPage() {
           </p>
           <Link
             href="/dashboard/post-tuition"
-            className="mt-4 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#0D9488] text-white font-bold text-xs shadow-sm hover:bg-[#0F766E] transition-all"
+            className="mt-4 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#D91E48] text-white font-bold text-xs shadow-sm hover:bg-[#B31438] transition-all"
           >
             <Plus className="w-4 h-4" />
             <span>Create First Post</span>
@@ -153,12 +152,12 @@ export default function MyTuitionsPage() {
           {tuitions.map((item) => (
             <div
               key={item.id}
-              className="rounded-2xl border border-[#EADCDD] dark:border-[#E11D48]/25 bg-white dark:bg-[#160307]/90 p-5 shadow-[0_12px_32px_-8px_rgba(24,12,14,0.06)] dark:shadow-[0_10px_30px_rgba(0,0,0,0.7)] flex flex-col justify-between hover:border-[#0D9488] dark:hover:border-emerald-500 transition-all"
+              className="rounded-2xl border border-[#EADCDD] dark:border-[#E11D48]/25 bg-white dark:bg-[#160307]/90 p-5 shadow-[0_12px_32px_-8px_rgba(24,12,14,0.06)] dark:shadow-[0_10px_30px_rgba(0,0,0,0.7)] flex flex-col justify-between hover:border-[#D91E48] dark:hover:border-[#FF1E40] transition-all"
             >
               <div>
                 {/* Header row: mode & status */}
                 <div className="flex items-center justify-between gap-2 mb-3">
-                  <span className="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold uppercase bg-[#F5ECEC] dark:bg-[#2A060C] text-[#180C0E] dark:text-white border border-[#EADCDD] dark:border-[#E11D48]/30">
+                  <span className="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold uppercase bg-[#FDECEF] dark:bg-[#2A060C] text-[#D91E48] dark:text-[#FF1E40] border border-[#F2B8C4] dark:border-[#E11D48]/30">
                     {item.mode}
                   </span>
                   <button
@@ -183,7 +182,7 @@ export default function MyTuitionsPage() {
                 <h3 className="text-sm font-bold text-[#180C0E] dark:text-white line-clamp-2 leading-snug">
                   {item.title}
                 </h3>
-                <p className="text-xs text-[#0D9488] dark:text-emerald-400 font-semibold mt-1">
+                <p className="text-xs text-[#D91E48] dark:text-[#FF1E40] font-semibold mt-1">
                   {item.classLevel}
                 </p>
 
@@ -198,7 +197,7 @@ export default function MyTuitionsPage() {
                     <span>{item.schedule}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Users className="w-3.5 h-3.5 text-[#0D9488] shrink-0" />
+                    <Users className="w-3.5 h-3.5 text-[#D91E48] shrink-0" />
                     <span className="font-semibold text-[#180C0E] dark:text-white">
                       {item.applicantsCount} Applicants
                     </span>
@@ -220,7 +219,7 @@ export default function MyTuitionsPage() {
                 <div className="flex items-center gap-1.5">
                   <Link
                     href="/dashboard/applicants"
-                    className="p-2 rounded-lg bg-[#F5ECEC] dark:bg-[#2A060C] text-[#180C0E] dark:text-white hover:text-[#0D9488] dark:hover:text-emerald-400 hover:bg-[#EADCDD] transition-colors"
+                    className="p-2 rounded-lg bg-[#F5ECEC] dark:bg-[#2A060C] text-[#180C0E] dark:text-white hover:text-[#D91E48] dark:hover:text-[#FF1E40] hover:bg-[#EADCDD] transition-colors"
                     title="View Applicants"
                   >
                     <ExternalLink className="w-3.5 h-3.5" />

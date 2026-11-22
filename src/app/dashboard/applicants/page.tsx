@@ -80,7 +80,7 @@ export default function ApplicantsPage() {
             <span>Back to Dashboard</span>
           </Link>
           <div className="flex items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-[#1C0307] border border-[#F2B8C4] dark:border-[#E11D48]/35 text-[11px] font-mono font-bold tracking-wider text-[#0D9488] dark:text-emerald-400 uppercase shadow-sm">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-[#1C0307] border border-[#F2B8C4] dark:border-[#E11D48]/35 text-[11px] font-mono font-bold tracking-wider text-[#D91E48] dark:text-[#FF1E40] uppercase shadow-sm">
               <Sparkles className="w-3.5 h-3.5" />
               <span>STUDENT ENROLLMENT QUEUE</span>
             </span>
@@ -97,7 +97,7 @@ export default function ApplicantsPage() {
           href="/dashboard/my-tuitions"
           className="inline-flex items-center gap-2 self-start sm:self-auto px-4 py-2.5 rounded-xl bg-[#F5ECEC] dark:bg-[#1E0307] border border-[#EADCDD] dark:border-[#E11D48]/30 text-xs font-bold text-[#180C0E] dark:text-white hover:border-[#D91E48] dark:hover:border-[#FF1E40] transition-all cursor-pointer shadow-sm"
         >
-          <GraduationCap className="w-3.5 h-3.5 text-[#0D9488] dark:text-emerald-400" />
+          <GraduationCap className="w-3.5 h-3.5 text-[#D91E48] dark:text-[#FF1E40]" />
           <span>My Tuitions</span>
         </Link>
       </div>
@@ -107,19 +107,19 @@ export default function ApplicantsPage() {
         {applicants.map((app) => (
           <div
             key={app.id}
-            className="rounded-2xl border border-[#EADCDD] dark:border-[#E11D48]/25 bg-white dark:bg-[#160307]/90 p-5 sm:p-6 shadow-[0_12px_32px_-8px_rgba(24,12,14,0.06)] dark:shadow-[0_10px_30px_rgba(0,0,0,0.7)] flex flex-col md:flex-row md:items-center justify-between gap-5 hover:border-[#0D9488] transition-all"
+            className="rounded-2xl border border-[#EADCDD] dark:border-[#E11D48]/25 bg-white dark:bg-[#160307]/90 p-5 sm:p-6 shadow-[0_12px_32px_-8px_rgba(24,12,14,0.06)] dark:shadow-[0_10px_30px_rgba(0,0,0,0.7)] flex flex-col md:flex-row md:items-center justify-between gap-5 hover:border-[#D91E48] dark:hover:border-[#FF1E40] transition-all"
           >
             {/* Student Info */}
             <div className="space-y-2 flex-1">
               <div className="flex flex-wrap items-center gap-2.5">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#0D9488]/15 text-[#0D9488] dark:text-emerald-400 font-bold text-sm">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#FDECEF] dark:bg-[#2A060C] text-[#D91E48] dark:text-[#FF1E40] font-bold text-sm border border-[#F2B8C4] dark:border-[#E11D48]/30 shadow-sm">
                   {app.name.slice(0, 2).toUpperCase()}
                 </div>
                 <div>
                   <h3 className="text-sm font-bold text-[#180C0E] dark:text-white">
                     {app.name}
                   </h3>
-                  <span className="text-xs text-[#0D9488] dark:text-emerald-400 font-semibold">
+                  <span className="text-xs text-[#D91E48] dark:text-[#FF1E40] font-semibold">
                     {app.tuitionTitle}
                   </span>
                 </div>
@@ -153,11 +153,11 @@ export default function ApplicantsPage() {
               {/* Contact meta */}
               <div className="flex flex-wrap items-center gap-4 text-xs text-[#8C7679] dark:text-[#BFA5AA]/80 pt-1">
                 <span className="flex items-center gap-1.5">
-                  <Mail className="w-3.5 h-3.5 text-[#0D9488]" />
+                  <Mail className="w-3.5 h-3.5 text-[#D91E48] dark:text-[#FF1E40]" />
                   <span>{app.email}</span>
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <Phone className="w-3.5 h-3.5 text-[#0D9488]" />
+                  <Phone className="w-3.5 h-3.5 text-[#D91E48] dark:text-[#FF1E40]" />
                   <span>{app.phone}</span>
                 </span>
                 <span className="text-[11px] font-mono ml-auto">
@@ -171,7 +171,7 @@ export default function ApplicantsPage() {
               {app.status !== "Accepted" && (
                 <button
                   onClick={() => handleUpdateStatus(app.id, "Accepted")}
-                  className="w-full flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-[#0D9488] hover:bg-[#0F766E] text-white font-bold text-xs shadow-sm transition-all cursor-pointer"
+                  className="w-full flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-[#D91E48] hover:bg-[#B31438] text-white font-bold text-xs shadow-sm transition-all cursor-pointer"
                 >
                   <CheckCircle2 className="w-3.5 h-3.5" />
                   <span>Accept</span>
@@ -190,7 +190,7 @@ export default function ApplicantsPage() {
                 href={`tel:${app.phone}`}
                 className="w-full flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-[#F5ECEC] hover:bg-[#EADCDD] dark:bg-[#2A060C] dark:hover:bg-[#3D0A13] text-[#180C0E] dark:text-white font-bold text-xs transition-all border border-[#EADCDD]"
               >
-                <Phone className="w-3.5 h-3.5" />
+                <Phone className="w-3.5 h-3.5 text-[#D91E48]" />
                 <span>Call Student</span>
               </a>
             </div>
