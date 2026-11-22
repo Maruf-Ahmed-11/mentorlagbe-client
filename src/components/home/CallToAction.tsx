@@ -50,7 +50,7 @@ export default function CallToAction() {
           </Link>
 
           <Link
-            href="/register"
+            href="/sign-up?role=tutor"
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl border border-[#FF1E40]/60 bg-[#1C0307]/90 hover:bg-[#2D060C] hover:border-white text-white text-sm font-bold uppercase tracking-wider shadow-[0_0_20px_rgba(225,29,72,0.25)] transition-all cursor-pointer"
           >
             <span>Become a Tutor</span>

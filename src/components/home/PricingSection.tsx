@@ -138,7 +138,7 @@ export default function PricingSection() {
 
             <div className="mt-10">
               <Link
-                href="/register"
+                href="/sign-up"
                 className="w-full inline-flex items-center justify-center gap-2 py-3 rounded-xl border border-[#E11D48]/40 bg-[#240408] hover:bg-[#35070E] hover:border-white text-white text-xs sm:text-sm font-bold tracking-wide transition-all"
               >
                 <span>Get Started Free</span>
