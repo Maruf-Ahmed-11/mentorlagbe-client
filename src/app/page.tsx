@@ -9,20 +9,20 @@ import CallToAction from "@/components/home/CallToAction";
 
 export default function Home() {
   return (
-    <div className="relative min-h-screen bg-[#FAF5F6] text-[#180205] dark:bg-[#0E0203] dark:text-white overflow-hidden transition-colors duration-200">
+    <div className="relative min-h-screen bg-[#FCF9F8] text-[#180C0E] dark:bg-[#0E0203] dark:text-white overflow-hidden transition-colors duration-200">
       
       {/* ========================================================================= */}
-      {/* CINEMATIC ATMOSPHERIC BACKDROP ARCHITECTURE (Chainsaw Man Noir/Crimson)    */}
+      {/* CINEMATIC ATMOSPHERIC BACKDROP ARCHITECTURE                                */}
       {/* ========================================================================= */}
       
       {/* Ambient Radial Spotlight Blooms across Page */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1100px] h-[650px] bg-[radial-gradient(ellipse_at_center,_rgba(225,29,72,0.32)_0%,_rgba(136,8,22,0.18)_45%,_transparent_75%)] blur-3xl pointer-events-none dark:opacity-100 opacity-30" />
-      <div className="absolute top-[35%] -left-48 w-[600px] h-[600px] bg-[#E11D48]/10 rounded-full blur-[160px] pointer-events-none dark:opacity-100 opacity-20" />
-      <div className="absolute top-[65%] -right-48 w-[600px] h-[600px] bg-[#880816]/18 rounded-full blur-[160px] pointer-events-none dark:opacity-100 opacity-20" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1100px] h-[650px] bg-[radial-gradient(ellipse_at_center,_rgba(247,232,234,0.75)_0%,_transparent_70%)] dark:bg-[radial-gradient(ellipse_at_center,_rgba(225,29,72,0.32)_0%,_rgba(136,8,22,0.18)_45%,_transparent_75%)] blur-3xl pointer-events-none" />
+      <div className="absolute top-[35%] -left-48 w-[600px] h-[600px] bg-[#D91E48]/5 dark:bg-[#E11D48]/10 rounded-full blur-[160px] pointer-events-none" />
+      <div className="absolute top-[65%] -right-48 w-[600px] h-[600px] bg-[#B31438]/5 dark:bg-[#880816]/18 rounded-full blur-[160px] pointer-events-none" />
 
       {/* Subtle Texture Grid for High-Tech / Cinematic Feel */}
       <div
-        className="absolute inset-0 opacity-[0.035] pointer-events-none"
+        className="absolute inset-0 opacity-[0.025] dark:opacity-[0.035] pointer-events-none"
         style={{
           backgroundImage: `linear-gradient(#FF1E40 1px, transparent 1px), linear-gradient(90deg, #FF1E40 1px, transparent 1px)`,
           backgroundSize: "48px 48px",
