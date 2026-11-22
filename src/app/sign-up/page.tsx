@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, Suspense } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { authClient } from "@/lib/auth-client";
 import { useRouter, useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
@@ -30,6 +30,7 @@ function SignUpContent() {
   const [role, setRole] = useState<"student" | "tutor" | "admin">(
     initialRoleParam === "tutor" ? "tutor" : initialRoleParam === "admin" ? "admin" : "student"
   );
+  const [hasAdmin, setHasAdmin] = useState<boolean | null>(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -37,6 +38,26 @@ function SignUpContent() {
   const [adminSecretKey, setAdminSecretKey] = useState("");
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
+
+  // Check if an Admin account already exists in MongoDB
+  useEffect(() => {
+    async function checkAdminExists() {
+      try {
+        const res = await fetch("/api/auth/admin-exists");
+        const data = await res.json();
+        if (data.hasAdmin) {
+          setHasAdmin(true);
+          // If an admin already exists, force role to student if admin was selected
+          setRole((prev) => (prev === "admin" ? "student" : prev));
+        } else {
+          setHasAdmin(false);
+        }
+      } catch {
+        setHasAdmin(false);
+      }
+    }
+    checkAdminExists();
+  }, []);
 
   // Password validation checks (Matching BookNook standard)
   const hasMinLength = password.length >= 6;
@@ -62,6 +83,11 @@ function SignUpContent() {
 
     // Admin security key verification
     if (role === "admin") {
+      if (hasAdmin) {
+        toast.error("An administrator account already exists. Only one admin is allowed.");
+        setRole("student");
+        return;
+      }
       const validAdminKey = "MENTOR_ADMIN_2026";
       if (adminSecretKey.trim() !== validAdminKey) {
         toast.error("Invalid Admin Secret Key. Use 'MENTOR_ADMIN_2026' for first-time setup.");
@@ -338,53 +364,55 @@ function SignUpContent() {
                 </button>
               </div>
 
-              {/* First-time Admin Signup Accordion / Toggle */}
-              <div className="mt-3">
-                <button
-                  type="button"
-                  onClick={() => setRole(role === "admin" ? "student" : "admin")}
-                  className={`w-full flex items-center justify-between p-2.5 rounded-xl border text-xs font-mono transition-all cursor-pointer ${
-                    role === "admin"
-                      ? "bg-[#35070E] border-[#FF1E40] text-white shadow-[0_0_15px_rgba(255,30,64,0.4)]"
-                      : "bg-[#180306] border-[#E11D48]/25 text-[#BFA5AA] hover:text-white hover:border-[#FF1E40]/50"
-                  }`}
-                >
-                  <span className="flex items-center gap-2">
-                    <ShieldCheck className="h-4 w-4 text-[#FF1E40]" />
-                    <span>First-Time Setup: Sign Up as Administrator</span>
-                  </span>
-                  <span className="text-[10px] font-bold text-[#FF1E40]">
-                    {role === "admin" ? "ACTIVE" : "SELECT"}
-                  </span>
-                </button>
+              {/* First-time Admin Signup Accordion / Toggle (ONLY VISIBLE BEFORE FIRST ADMIN REGISTERS) */}
+              {hasAdmin === false && (
+                <div className="mt-3">
+                  <button
+                    type="button"
+                    onClick={() => setRole(role === "admin" ? "student" : "admin")}
+                    className={`w-full flex items-center justify-between p-2.5 rounded-xl border text-xs font-mono transition-all cursor-pointer ${
+                      role === "admin"
+                        ? "bg-[#35070E] border-[#FF1E40] text-white shadow-[0_0_15px_rgba(255,30,64,0.4)]"
+                        : "bg-[#180306] border-[#E11D48]/25 text-[#BFA5AA] hover:text-white hover:border-[#FF1E40]/50"
+                    }`}
+                  >
+                    <span className="flex items-center gap-2">
+                      <ShieldCheck className="h-4 w-4 text-[#FF1E40]" />
+                      <span>First-Time Setup: Sign Up as Administrator</span>
+                    </span>
+                    <span className="text-[10px] font-bold text-[#FF1E40]">
+                      {role === "admin" ? "ACTIVE" : "SELECT"}
+                    </span>
+                  </button>
 
-                {/* Admin Secret Key Input Field */}
-                {role === "admin" && (
-                  <div className="mt-2.5 p-3 rounded-xl bg-[#200408] border border-[#FF1E40]/50 space-y-2 animate-fadeIn">
-                    <div className="flex items-center justify-between">
-                      <label className="text-[11px] font-mono text-[#F4E2E5] font-bold">
-                        Admin Secret Security Key:
-                      </label>
-                      <span className="text-[10px] font-mono text-[#FF1E40]">
-                        Default: MENTOR_ADMIN_2026
-                      </span>
+                  {/* Admin Secret Key Input Field */}
+                  {role === "admin" && (
+                    <div className="mt-2.5 p-3 rounded-xl bg-[#200408] border border-[#FF1E40]/50 space-y-2 animate-fadeIn">
+                      <div className="flex items-center justify-between">
+                        <label className="text-[11px] font-mono text-[#F4E2E5] font-bold">
+                          Admin Secret Security Key:
+                        </label>
+                        <span className="text-[10px] font-mono text-[#FF1E40]">
+                          Default: MENTOR_ADMIN_2026
+                        </span>
+                      </div>
+                      <div className="relative">
+                        <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-[#FF1E40]" />
+                        <input
+                          type="password"
+                          placeholder="Enter MENTOR_ADMIN_2026"
+                          value={adminSecretKey}
+                          onChange={(e) => setAdminSecretKey(e.target.value)}
+                          className="w-full rounded-lg bg-[#140205] border border-[#E11D48]/40 pl-9 pr-3 py-2 text-xs text-white placeholder-[#BFA5AA]/60 outline-none focus:border-[#FF1E40]"
+                        />
+                      </div>
+                      <p className="text-[10px] text-[#BFA5AA] leading-normal font-sans">
+                        Grants full control over the website (approving tuitions, user management, and revenue analytics).
+                      </p>
                     </div>
-                    <div className="relative">
-                      <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-[#FF1E40]" />
-                      <input
-                        type="password"
-                        placeholder="Enter MENTOR_ADMIN_2026"
-                        value={adminSecretKey}
-                        onChange={(e) => setAdminSecretKey(e.target.value)}
-                        className="w-full rounded-lg bg-[#140205] border border-[#E11D48]/40 pl-9 pr-3 py-2 text-xs text-white placeholder-[#BFA5AA]/60 outline-none focus:border-[#FF1E40]"
-                      />
-                    </div>
-                    <p className="text-[10px] text-[#BFA5AA] leading-normal font-sans">
-                      Grants full control over the website (approving tuitions, user management, and revenue analytics).
-                    </p>
-                  </div>
-                )}
-              </div>
+                  )}
+                </div>
+              )}
             </div>
 
             {/* Create Account Submit Button */}

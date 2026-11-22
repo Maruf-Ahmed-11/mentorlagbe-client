@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, Suspense } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { authClient } from "@/lib/auth-client";
 import { useRouter, useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
@@ -26,11 +26,25 @@ function SignInContent() {
   const [selectedRole, setSelectedRole] = useState<"student" | "tutor" | "admin">(
     initialRole === "tutor" ? "tutor" : initialRole === "admin" ? "admin" : "student"
   );
+  const [hasAdmin, setHasAdmin] = useState<boolean | null>(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
+
+  useEffect(() => {
+    async function checkAdminExists() {
+      try {
+        const res = await fetch("/api/auth/admin-exists");
+        const data = await res.json();
+        setHasAdmin(Boolean(data.hasAdmin));
+      } catch {
+        setHasAdmin(false);
+      }
+    }
+    checkAdminExists();
+  }, []);
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -332,16 +346,18 @@ function SignInContent() {
             </Link>
           </div>
 
-          {/* Admin Setup Helper Link */}
-          <div className="mt-3 text-center text-[11px] text-[#BFA5AA]">
-            First-time Administrator?{" "}
-            <Link
-              href="/sign-up?role=admin"
-              className="text-white hover:text-[#FF1E40] underline font-mono"
-            >
-              Sign Up as Admin
-            </Link>
-          </div>
+          {/* Admin Setup Helper Link (Only visible before first admin registers) */}
+          {hasAdmin === false && (
+            <div className="mt-3 text-center text-[11px] text-[#BFA5AA]">
+              First-time Administrator?{" "}
+              <Link
+                href="/sign-up?role=admin"
+                className="text-white hover:text-[#FF1E40] underline font-mono"
+              >
+                Sign Up as Admin
+              </Link>
+            </div>
+          )}
 
         </div>
 
