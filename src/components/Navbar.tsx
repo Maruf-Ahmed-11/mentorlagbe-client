@@ -7,7 +7,7 @@ import { usePathname, useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import Image from "next/image";
 import Logo from "./Logo";
-import { Sun, Moon, Menu, X, User, LogOut, LayoutDashboard, ChevronDown } from "lucide-react";
+import { Sun, Moon, Menu, X, User, LogOut, LayoutDashboard, ChevronDown, Bookmark } from "lucide-react";
 
 export default function Navbar() {
   const { data: session, isPending } = authClient.useSession();
