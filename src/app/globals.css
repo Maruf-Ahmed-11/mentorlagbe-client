@@ -2,7 +2,8 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
-@custom-variant dark (&:is(.dark *));
+@custom-variant dark (&:where(.dark, .dark *));
+@custom-variant light (&:where(.light, .light *));
 
 @theme inline {
   --color-background: var(--background);
@@ -162,4 +163,156 @@
 
 .glow-box-crimson {
   box-shadow: 0 0 30px rgba(225, 29, 72, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+/* ========================================================================= */
+/* CAREFULLY CONTROLLED ACADEMIC LIGHT THEME FOR MENTORLAGBE                */
+/* ========================================================================= */
+
+html:not(.dark) {
+  color-scheme: light;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
+/* Light Theme Root & Body */
+html:not(.dark) body {
+  background-color: #FAF5F6 !important;
+  color: #180205 !important;
+}
+
+/* Navbar in Light Mode */
+html:not(.dark) header {
+  background-color: rgba(255, 255, 255, 0.94) !important;
+  border-color: #FECDD3 !important;
+}
+
+html:not(.dark) header a {
+  color: #4A151E;
+}
+
+html:not(.dark) header a:hover {
+  color: #E11D48;
+}
+
+/* Sidebar in Light Mode */
+html:not(.dark) aside {
+  background-color: rgba(255, 255, 255, 0.97) !important;
+  border-color: #FECDD3 !important;
+  color: #180205 !important;
+}
+
+html:not(.dark) aside .border-b,
+html:not(.dark) aside .border-t {
+  border-color: #FECDD3 !important;
+}
+
+/* Surface & Card Containers in Light Mode */
+html:not(.dark) .bg-\[\#160307\]\/90,
+html:not(.dark) .bg-\[\#160307\]\/80,
+html:not(.dark) .bg-\[\#160307\],
+html:not(.dark) .bg-\[\#180306\]\/85,
+html:not(.dark) .bg-\[\#180306\],
+html:not(.dark) .bg-\[\#1C0307\]\/85,
+html:not(.dark) .bg-\[\#1C0307\],
+html:not(.dark) .bg-\[\#140205\]\/95,
+html:not(.dark) .bg-\[\#140205\],
+html:not(.dark) .bg-\[\#100103\],
+html:not(.dark) .bg-\[\#0A1124\],
+html:not(.dark) .bg-\[\#0F172A\] {
+  background-color: #FFFFFF !important;
+  border-color: #FECDD3 !important;
+  box-shadow: 0 4px 20px rgba(225, 29, 72, 0.06) !important;
+}
+
+/* Inner card sub-boxes */
+html:not(.dark) .bg-\[\#2A060C\],
+html:not(.dark) .bg-\[\#2E070F\],
+html:not(.dark) .bg-\[\#1E0307\],
+html:not(.dark) .bg-\[\#1C0307\] {
+  background-color: #FFF1F3 !important;
+  border-color: #FECDD3 !important;
+}
+
+/* Page Backdrops in Light Mode */
+html:not(.dark) .bg-\[\#0A0203\],
+html:not(.dark) .bg-\[\#0E0203\],
+html:not(.dark) .bg-\[\#110204\],
+html:not(.dark) .bg-\[\#080D1A\],
+html:not(.dark) .bg-\[\#070C18\] {
+  background-color: #FAF5F6 !important;
+  color: #180205 !important;
+}
+
+/* Primary Text & Headings in Light Mode */
+html:not(.dark) h1,
+html:not(.dark) h2,
+html:not(.dark) h3,
+html:not(.dark) h4,
+html:not(.dark) h5,
+html:not(.dark) .text-white {
+  color: #180205 !important;
+}
+
+/* Secondary & Muted Text in Light Mode */
+html:not(.dark) .text-\[\#BFA5AA\],
+html:not(.dark) .text-\[\#94A3B8\],
+html:not(.dark) .text-slate-400 {
+  color: #6B2129 !important;
+}
+
+html:not(.dark) .text-\[\#F4E2E5\] {
+  color: #3B070E !important;
+}
+
+/* Form Inputs in Light Mode */
+html:not(.dark) input,
+html:not(.dark) textarea,
+html:not(.dark) select {
+  background-color: #FFFFFF !important;
+  border-color: #FECDD3 !important;
+  color: #180205 !important;
+}
+
+html:not(.dark) input:disabled,
+html:not(.dark) input[readonly] {
+  background-color: #F8E7E9 !important;
+  color: #7A2A33 !important;
+}
+
+/* CTA Buttons & Gradient Accents Retain White Text */
+html:not(.dark) .bg-\[\#E11D48\],
+html:not(.dark) .bg-gradient-to-r,
+html:not(.dark) [class*="from-[#E11D48]"] {
+  color: #FFFFFF !important;
+}
+
+html:not(.dark) [class*="from-[#E11D48]"] * {
+  color: #FFFFFF !important;
+}
+
+/* Borders in Light Mode */
+html:not(.dark) [class*="border-[#E11D48]"] {
+  border-color: #FECDD3 !important;
+}
+
+/* Soften Ambient Spotlights in Light Mode */
+html:not(.dark) [class*="bg-[radial-gradient"] {
+  opacity: 0.28 !important;
+}
+
+/* Dropdown Menus in Light Mode */
+html:not(.dark) [class*="shadow-\[0_20px_50px"] {
+  background-color: #FFFFFF !important;
+  border-color: #FECDD3 !important;
+  box-shadow: 0 15px 40px rgba(225, 29, 72, 0.12) !important;
+}
+
+/* Footer in Light Mode */
+html:not(.dark) footer {
+  background-color: #FFF1F3 !important;
+  border-color: #FECDD3 !important;
+  color: #4A151E !important;
 }
