@@ -41,12 +41,12 @@ export default function HeroBanner() {
           <div className="lg:col-span-7 flex flex-col items-start text-left">
             
             {/* Live Indicator Pill */}
-            <div className="inline-flex items-center gap-2.5 rounded-full border border-[#E11D48]/50 bg-[#1C0307]/85 backdrop-blur-xl px-4 py-2 mb-6 shadow-[0_0_20px_rgba(225,29,72,0.3)]">
+            <div className="inline-flex items-center gap-2.5 rounded-full border border-[#F2B8C4] dark:border-[#E11D48]/50 bg-[#FFFFFF] dark:bg-[#1C0307]/85 backdrop-blur-xl px-4 py-2 mb-6 shadow-[0_4px_16px_rgba(217,30,72,0.12)] dark:shadow-[0_0_20px_rgba(225,29,72,0.3)]">
               <span className="flex h-2.5 w-2.5 relative">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF1E40] opacity-80" />
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#FF1E40] shadow-[0_0_8px_#FF1E40]" />
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#D91E48] dark:bg-[#FF1E40] opacity-80" />
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#D91E48] dark:bg-[#FF1E40] shadow-[0_0_8px_#D91E48] dark:shadow-[0_0_8px_#FF1E40]" />
               </span>
-              <span className="text-xs font-mono font-bold tracking-wider uppercase text-white">
+              <span className="text-xs font-mono font-bold tracking-wider uppercase text-[#180C0E] dark:text-white">
                 BANGLADESH&apos;S #1 TUITION &amp; MENTORSHIP MARKETPLACE
               </span>
             </div>
@@ -132,10 +132,10 @@ export default function HeroBanner() {
           <div className="lg:col-span-5 relative flex justify-center">
             
             {/* Ambient Background Glow behind Card */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-[#E11D48]/35 to-transparent rounded-3xl blur-2xl pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-tr from-[#F2B8C4]/40 to-transparent dark:from-[#E11D48]/35 dark:to-transparent rounded-3xl blur-2xl pointer-events-none" />
 
             {/* Main Interactive Tutor Preview Card */}
-            <div className="relative w-full max-w-md rounded-3xl border-2 border-[#EADCDD] dark:border-[#E11D48]/50 bg-white dark:bg-[#1C0307]/90 backdrop-blur-2xl p-6 shadow-[0_12px_32px_-8px_rgba(24,12,14,0.08)] dark:shadow-[0_25px_60px_rgba(0,0,0,0.95)] transition-transform hover:-translate-y-1.5 duration-300">
+            <div className="relative w-full max-w-md rounded-3xl border-2 border-[#F2B8C4] dark:border-[#E11D48]/50 bg-white dark:bg-[#1C0307]/90 backdrop-blur-2xl p-6 shadow-[0_16px_40px_-8px_rgba(217,30,72,0.14),_0_0_20px_rgba(217,30,72,0.1)] dark:shadow-[0_25px_60px_rgba(0,0,0,0.95)] transition-transform hover:-translate-y-1.5 duration-300">
               
               {/* Card Image Banner */}
               <div className="relative h-56 w-full rounded-2xl overflow-hidden border border-[#EADCDD] dark:border-[#E11D48]/30">
