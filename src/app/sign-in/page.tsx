@@ -61,15 +61,7 @@ function SignInContent() {
         {
           onSuccess: () => {
             toast.success(`Welcome back! Signed in as ${selectedRole.toUpperCase()}`);
-            
-            // Redirect based on role or to dashboard
-            if (selectedRole === "admin") {
-              router.push("/dashboard/admin");
-            } else if (selectedRole === "tutor") {
-              router.push("/dashboard/tutor");
-            } else {
-              router.push("/dashboard/student");
-            }
+            router.push("/");
             router.refresh();
           },
           onError: (ctx) => {
