@@ -61,7 +61,11 @@ function SignInContent() {
         {
           onSuccess: () => {
             toast.success(`Welcome back! Signed in as ${selectedRole.toUpperCase()}`);
-            router.push("/");
+            if (selectedRole === "admin" || email.toLowerCase().includes("admin")) {
+              router.push("/dashboard");
+            } else {
+              router.push("/dashboard");
+            }
             router.refresh();
           },
           onError: (ctx) => {

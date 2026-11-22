@@ -113,7 +113,7 @@ function SignUpContent() {
                 ? "Administrator account created successfully!"
                 : `Account created successfully as ${role.toUpperCase()}!`
             );
-            router.push("/");
+            router.push("/dashboard");
             router.refresh();
           },
           onError: (ctx) => {
