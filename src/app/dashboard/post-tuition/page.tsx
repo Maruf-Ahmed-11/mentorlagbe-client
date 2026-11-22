@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import Link from "next/link";
+import { authClient } from "@/lib/auth-client";
+import { apiFetch } from "@/lib/api";
 import { 
   BookOpen, 
   MapPin, 
@@ -18,6 +20,7 @@ import {
 
 export default function PostTuitionPage() {
   const router = useRouter();
+  const { data: session } = authClient.useSession();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [title, setTitle] = useState("");
@@ -37,13 +40,36 @@ export default function PostTuitionPage() {
     }
 
     setIsSubmitting(true);
-    await new Promise((resolve) => setTimeout(resolve, 800));
+    try {
+      await apiFetch("/tuitions", {
+        method: "POST",
+        body: JSON.stringify({
+          title,
+          subject,
+          classLevel,
+          mode,
+          location,
+          schedule,
+          monthlyFee: Number(monthlyFee) || 0,
+          description,
+          tutorEmail: session?.user?.email || "tutor@mentorlagbe.com",
+          tutorName: session?.user?.name || "Tutor",
+          approvalStatus: "approved",
+          isActive: true,
+          createdAt: new Date(),
+        }),
+      });
 
-    toast.success("Tuition post created successfully and is now active!", {
-      icon: "🎉",
-    });
-    setIsSubmitting(false);
-    router.push("/dashboard/my-tuitions");
+      toast.success("Tuition post created successfully and is now active!", {
+        icon: "🎉",
+      });
+      router.push("/dashboard/my-tuitions");
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Failed to create tuition";
+      toast.error(msg);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
