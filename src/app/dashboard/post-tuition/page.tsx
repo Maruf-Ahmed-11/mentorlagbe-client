@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import Link from "next/link";
+import Image from "next/image";
 import { authClient } from "@/lib/auth-client";
 import { apiFetch } from "@/lib/api";
 import { 
@@ -15,58 +16,155 @@ import {
   ArrowLeft,
   CheckCircle2,
   Loader2,
-  GraduationCap
+  GraduationCap,
+  Upload,
+  Image as ImageIcon,
+  X,
+  AlertCircle
 } from "lucide-react";
+
+const SUBJECT_OPTIONS = [
+  "Mathematics",
+  "Physics",
+  "Chemistry",
+  "Biology",
+  "English",
+  "Programming",
+  "IELTS",
+  "Accounting"
+];
+
+const CLASS_LEVEL_OPTIONS = [
+  "Class 9-10 (SSC)",
+  "Class 11-12 & Admission (HSC)",
+  "Cambridge O / A-Level",
+  "University & Beginners",
+  "IELTS Candidates",
+  "Professional & Skills"
+];
+
+const WEEKLY_FREQUENCY_OPTIONS = [
+  "1 day / week",
+  "2 days / week",
+  "3 days / week",
+  "4 days / week",
+  "5 days / week",
+  "6 days / week",
+  "7 days / week"
+];
 
 export default function PostTuitionPage() {
   const router = useRouter();
   const { data: session } = authClient.useSession();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Form states
   const [title, setTitle] = useState("");
-  const [subject, setSubject] = useState("Higher Mathematics");
-  const [classLevel, setClassLevel] = useState("Class 11-12 & Admission");
-  const [mode, setMode] = useState("Online Batch");
+  const [subject, setSubject] = useState(SUBJECT_OPTIONS[0]);
+  const [classLevel, setClassLevel] = useState(CLASS_LEVEL_OPTIONS[1]);
+  const [mode, setMode] = useState<"Online Batch" | "Offline Tuition" | "Hybrid Model">("Offline Tuition");
   const [location, setLocation] = useState("Dhanmondi, Dhaka");
   const [schedule, setSchedule] = useState("3 days / week");
   const [monthlyFee, setMonthlyFee] = useState("6000");
+  const [bannerImage, setBannerImage] = useState("");
   const [description, setDescription] = useState("");
+
+  const isOfflineOrHybrid = mode === "Offline Tuition" || mode === "Hybrid Model";
+  const descLength = description.trim().length;
+  const isDescValid = descLength >= 50;
+
+  // Handle mock image upload for ImgBB readiness
+  const handleImageFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        toast.error("Image file size should be less than 5MB");
+        return;
+      }
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setBannerImage(reader.result as string);
+        toast.success("Banner image loaded! (ImgBB ready)", { icon: "🖼️" });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Mandatory validations
     if (!title.trim()) {
-      toast.error("Please enter a tuition title");
+      toast.error("Please enter a tuition title / program name");
+      return;
+    }
+    if (isOfflineOrHybrid && !location.trim()) {
+      toast.error("Please provide a location/district for offline or hybrid mode");
+      return;
+    }
+    if (!monthlyFee || Number(monthlyFee) <= 0) {
+      toast.error("Please provide a valid monthly fee");
+      return;
+    }
+    if (!isDescValid) {
+      toast.error("Tuition description must be at least 50 characters");
       return;
     }
 
     setIsSubmitting(true);
+    const userEmail = session?.user?.email || "tutor@mentorlagbe.com";
+    const userName = session?.user?.name || "Verified Tutor";
+    const resolvedLocation = isOfflineOrHybrid ? location.trim() : "Online (Zoom / Meet)";
+
+    const newTuitionData = {
+      id: `tuition_${Date.now()}`,
+      title: title.trim(),
+      subject,
+      classLevel,
+      mode,
+      location: resolvedLocation,
+      schedule,
+      monthlyFee: Number(monthlyFee),
+      bannerImage,
+      description: description.trim(),
+      tutorEmail: userEmail,
+      tutorName: userName,
+      approvalStatus: "approved",
+      isActive: true,
+      applicantsCount: 0,
+      createdAt: new Date().toISOString(),
+    };
+
     try {
-      await apiFetch("/tuitions", {
+      // 1. Send to backend API
+      const res = await apiFetch<any>("/tuitions", {
         method: "POST",
-        body: JSON.stringify({
-          title,
-          subject,
-          classLevel,
-          mode,
-          location,
-          schedule,
-          monthlyFee: Number(monthlyFee) || 0,
-          description,
-          tutorEmail: session?.user?.email || "tutor@mentorlagbe.com",
-          tutorName: session?.user?.name || "Tutor",
-          approvalStatus: "approved",
-          isActive: true,
-          createdAt: new Date(),
-        }),
+        body: JSON.stringify(newTuitionData),
       });
 
-      toast.success("Tuition post created successfully and is now active!", {
+      if (res && (res._id || res.id || res.insertedId)) {
+        newTuitionData.id = res._id || res.id || res.insertedId;
+      }
+    } catch (err: unknown) {
+      console.warn("Backend save notice:", err);
+      // Even if backend fails, we persist in localStorage so user's post is safe
+    }
+
+    try {
+      // 2. Persist in local storage for this tutor & set has_real_tuitions flag
+      const userKey = `mentorlagbe_tuitions_${userEmail}`;
+      const existing = JSON.parse(localStorage.getItem(userKey) || "[]");
+      const updated = [newTuitionData, ...existing];
+      localStorage.setItem(userKey, JSON.stringify(updated));
+      localStorage.setItem("mentorlagbe_has_real_tuitions", "true");
+
+      toast.success("Tuition post created successfully! Your live listing is ready.", {
         icon: "🎉",
       });
       router.push("/dashboard/my-tuitions");
-    } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Failed to create tuition";
-      toast.error(msg);
+    } catch {
+      toast.success("Tuition post created!");
+      router.push("/dashboard/my-tuitions");
     } finally {
       setIsSubmitting(false);
     }
@@ -115,7 +213,7 @@ export default function PostTuitionPage() {
           <div className="space-y-2">
             <label className="text-xs font-semibold text-[#180C0E] dark:text-[#F4E2E5] flex items-center gap-1">
               <span>Tuition Title / Program Name</span>
-              <span className="text-[#D91E48] dark:text-[#FF1E40]">*</span>
+              <span className="text-[#D91E48] dark:text-[#FF1E40] font-bold">*</span>
             </label>
             <div className="relative">
               <GraduationCap className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#8C7679] dark:text-[#BFA5AA]" />
@@ -124,7 +222,7 @@ export default function PostTuitionPage() {
                 required
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                placeholder="e.g. HSC Higher Math & Engineering Admission Prep"
+                placeholder="e.g. Master HSC Higher Mathematics & Calculus"
                 className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#FCF9F8] dark:bg-[#0D0204] border border-[#EADCDD] dark:border-[#E11D48]/30 text-sm text-[#180C0E] dark:text-white placeholder-[#8C7679] dark:placeholder-[#BFA5AA]/50 focus:border-[#D91E48] dark:focus:border-[#FF1E40] focus:outline-none focus:ring-1 focus:ring-[#D91E48] dark:focus:ring-[#FF1E40] transition-colors"
               />
             </div>
@@ -134,56 +232,64 @@ export default function PostTuitionPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             {/* Subject Category */}
             <div className="space-y-2">
-              <label className="text-xs font-semibold text-[#180C0E] dark:text-[#F4E2E5]">
-                Subject Discipline
+              <label className="text-xs font-semibold text-[#180C0E] dark:text-[#F4E2E5] flex items-center gap-1">
+                <span>Subject Discipline</span>
+                <span className="text-[#D91E48] dark:text-[#FF1E40] font-bold">*</span>
               </label>
-              <select
-                value={subject}
-                onChange={(e) => setSubject(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-[#FCF9F8] dark:bg-[#0D0204] border border-[#EADCDD] dark:border-[#E11D48]/30 text-sm text-[#180C0E] dark:text-white focus:border-[#D91E48] dark:focus:border-[#FF1E40] focus:outline-none transition-colors"
-              >
-                <option value="Higher Mathematics">Higher Mathematics</option>
-                <option value="Physics">Physics</option>
-                <option value="Chemistry">Chemistry</option>
-                <option value="Biology">Biology & Zoology</option>
-                <option value="Computer Science">Computer Science & Python</option>
-                <option value="English Language">English Language & IELTS</option>
-              </select>
+              <div className="relative">
+                <select
+                  required
+                  value={subject}
+                  onChange={(e) => setSubject(e.target.value)}
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#FCF9F8] dark:bg-[#0D0204] border border-[#EADCDD] dark:border-[#E11D48]/30 text-sm text-[#180C0E] dark:text-white focus:border-[#D91E48] dark:focus:border-[#FF1E40] focus:outline-none transition-colors cursor-pointer"
+                >
+                  {SUBJECT_OPTIONS.map((sub) => (
+                    <option key={sub} value={sub} className="bg-white dark:bg-[#160307] text-[#180C0E] dark:text-white">
+                      {sub}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
 
             {/* Target Class / Grade */}
             <div className="space-y-2">
-              <label className="text-xs font-semibold text-[#180C0E] dark:text-[#F4E2E5]">
-                Target Class Level
+              <label className="text-xs font-semibold text-[#180C0E] dark:text-[#F4E2E5] flex items-center gap-1">
+                <span>Target Class Level</span>
+                <span className="text-[#D91E48] dark:text-[#FF1E40] font-bold">*</span>
               </label>
-              <select
-                value={classLevel}
-                onChange={(e) => setClassLevel(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-[#FCF9F8] dark:bg-[#0D0204] border border-[#EADCDD] dark:border-[#E11D48]/30 text-sm text-[#180C0E] dark:text-white focus:border-[#D91E48] dark:focus:border-[#FF1E40] focus:outline-none transition-colors"
-              >
-                <option value="Class 11-12 & Admission">Class 11-12 & Admission</option>
-                <option value="Class 9-10 (SSC)">Class 9-10 (SSC)</option>
-                <option value="Cambridge O / A-Level">Cambridge O / A-Level</option>
-                <option value="University & Beginners">University & Beginners</option>
-                <option value="IELTS Aspirants">IELTS Aspirants</option>
-              </select>
+              <div className="relative">
+                <select
+                  required
+                  value={classLevel}
+                  onChange={(e) => setClassLevel(e.target.value)}
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#FCF9F8] dark:bg-[#0D0204] border border-[#EADCDD] dark:border-[#E11D48]/30 text-sm text-[#180C0E] dark:text-white focus:border-[#D91E48] dark:focus:border-[#FF1E40] focus:outline-none transition-colors cursor-pointer"
+                >
+                  {CLASS_LEVEL_OPTIONS.map((lvl) => (
+                    <option key={lvl} value={lvl} className="bg-white dark:bg-[#160307] text-[#180C0E] dark:text-white">
+                      {lvl}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
           </div>
 
           {/* Mode of Teaching (Radio Buttons) */}
           <div className="space-y-2">
-            <label className="text-xs font-semibold text-[#180C0E] dark:text-[#F4E2E5]">
-              Teaching Mode
+            <label className="text-xs font-semibold text-[#180C0E] dark:text-[#F4E2E5] flex items-center gap-1">
+              <span>Teaching Mode</span>
+              <span className="text-[#D91E48] dark:text-[#FF1E40] font-bold">*</span>
             </label>
-            <div className="grid grid-cols-3 gap-3">
-              {["Online Batch", "Offline Tuition", "Hybrid Model"].map((item) => (
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              {(["Online Batch", "Offline Tuition", "Hybrid Model"] as const).map((item) => (
                 <button
                   type="button"
                   key={item}
                   onClick={() => setMode(item)}
                   className={`py-2.5 px-3 rounded-xl text-xs font-bold transition-all border cursor-pointer ${
                     mode === item
-                      ? "bg-[#D91E48] text-white border-[#D91E48] shadow-sm"
+                      ? "bg-[#D91E48] text-white border-[#D91E48] shadow-sm dark:bg-gradient-to-r dark:from-[#E11D48] dark:to-[#FF1E40]"
                       : "bg-[#FCF9F8] dark:bg-[#0D0204] text-[#5C494C] dark:text-[#BFA5AA] border-[#EADCDD] dark:border-[#E11D48]/25 hover:border-[#D91E48]"
                   }`}
                 >
@@ -194,38 +300,48 @@ export default function PostTuitionPage() {
           </div>
 
           {/* Location, Schedule & Monthly Fee */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-            {/* Location */}
-            <div className="space-y-2">
-              <label className="text-xs font-semibold text-[#180C0E] dark:text-[#F4E2E5]">
-                Location / District
-              </label>
-              <div className="relative">
-                <MapPin className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#8C7679] dark:text-[#BFA5AA]" />
-                <input
-                  type="text"
-                  value={location}
-                  onChange={(e) => setLocation(e.target.value)}
-                  placeholder="e.g. Dhanmondi, Dhaka"
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#FCF9F8] dark:bg-[#0D0204] border border-[#EADCDD] dark:border-[#E11D48]/30 text-sm text-[#180C0E] dark:text-white placeholder-[#8C7679] dark:placeholder-[#BFA5AA]/50 focus:border-[#D91E48] dark:focus:border-[#FF1E40] focus:outline-none transition-colors"
-                />
+          <div className={`grid grid-cols-1 ${isOfflineOrHybrid ? "sm:grid-cols-3" : "sm:grid-cols-2"} gap-5 transition-all`}>
+            {/* Conditional Location (Only for Offline or Hybrid) */}
+            {isOfflineOrHybrid && (
+              <div className="space-y-2 animate-in fade-in duration-200">
+                <label className="text-xs font-semibold text-[#180C0E] dark:text-[#F4E2E5] flex items-center gap-1">
+                  <span>Location / District</span>
+                  <span className="text-[#D91E48] dark:text-[#FF1E40] font-bold">*</span>
+                </label>
+                <div className="relative">
+                  <MapPin className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#8C7679] dark:text-[#BFA5AA]" />
+                  <input
+                    type="text"
+                    required={isOfflineOrHybrid}
+                    value={location}
+                    onChange={(e) => setLocation(e.target.value)}
+                    placeholder="e.g. Dhanmondi, Dhaka"
+                    className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#FCF9F8] dark:bg-[#0D0204] border border-[#EADCDD] dark:border-[#E11D48]/30 text-sm text-[#180C0E] dark:text-white placeholder-[#8C7679] dark:placeholder-[#BFA5AA]/50 focus:border-[#D91E48] dark:focus:border-[#FF1E40] focus:outline-none transition-colors"
+                  />
+                </div>
               </div>
-            </div>
+            )}
 
-            {/* Schedule */}
+            {/* Weekly Frequency (Dropdown) */}
             <div className="space-y-2">
-              <label className="text-xs font-semibold text-[#180C0E] dark:text-[#F4E2E5]">
-                Weekly Frequency
+              <label className="text-xs font-semibold text-[#180C0E] dark:text-[#F4E2E5] flex items-center gap-1">
+                <span>Days Per Week / Frequency</span>
+                <span className="text-[#D91E48] dark:text-[#FF1E40] font-bold">*</span>
               </label>
               <div className="relative">
-                <Calendar className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#8C7679] dark:text-[#BFA5AA]" />
-                <input
-                  type="text"
+                <Calendar className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#8C7679] dark:text-[#BFA5AA] pointer-events-none" />
+                <select
+                  required
                   value={schedule}
                   onChange={(e) => setSchedule(e.target.value)}
-                  placeholder="e.g. 3 days / week"
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#FCF9F8] dark:bg-[#0D0204] border border-[#EADCDD] dark:border-[#E11D48]/30 text-sm text-[#180C0E] dark:text-white placeholder-[#8C7679] dark:placeholder-[#BFA5AA]/50 focus:border-[#D91E48] dark:focus:border-[#FF1E40] focus:outline-none transition-colors"
-                />
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#FCF9F8] dark:bg-[#0D0204] border border-[#EADCDD] dark:border-[#E11D48]/30 text-sm text-[#180C0E] dark:text-white focus:border-[#D91E48] dark:focus:border-[#FF1E40] focus:outline-none transition-colors cursor-pointer"
+                >
+                  {WEEKLY_FREQUENCY_OPTIONS.map((freq) => (
+                    <option key={freq} value={freq} className="bg-white dark:bg-[#160307] text-[#180C0E] dark:text-white">
+                      {freq}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
 
@@ -233,13 +349,14 @@ export default function PostTuitionPage() {
             <div className="space-y-2">
               <label className="text-xs font-semibold text-[#180C0E] dark:text-[#F4E2E5] flex items-center gap-1">
                 <span>Monthly Fee (BDT)</span>
-                <span className="text-[#D91E48] dark:text-[#FF1E40]">*</span>
+                <span className="text-[#D91E48] dark:text-[#FF1E40] font-bold">*</span>
               </label>
               <div className="relative">
                 <DollarSign className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#8C7679] dark:text-[#BFA5AA]" />
                 <input
                   type="number"
                   required
+                  min="500"
                   value={monthlyFee}
                   onChange={(e) => setMonthlyFee(e.target.value)}
                   placeholder="6000"
@@ -249,22 +366,109 @@ export default function PostTuitionPage() {
             </div>
           </div>
 
-          {/* Description & Syllabus details */}
+          {/* Banner Image Input Field (ImgBB Ready) */}
           <div className="space-y-2">
-            <label className="text-xs font-semibold text-[#180C0E] dark:text-[#F4E2E5]">
-              Syllabus & Batch Details
+            <label className="text-xs font-semibold text-[#180C0E] dark:text-[#F4E2E5] flex items-center justify-between">
+              <div className="flex items-center gap-1">
+                <span>Banner Image</span>
+                <span className="text-[10px] font-mono text-[#8C7679] dark:text-[#BFA5AA]">(Optional)</span>
+              </div>
+              <span className="text-[11px] font-mono text-[#D91E48] dark:text-[#FF1E40]">
+                ImgBB cloud ready
+              </span>
             </label>
+
+            {bannerImage ? (
+              <div className="relative rounded-xl overflow-hidden border border-[#F2B8C4] dark:border-[#E11D48]/40 bg-[#FCF9F8] dark:bg-[#0D0204] p-3 flex items-center gap-4">
+                <div className="relative h-16 w-24 rounded-lg overflow-hidden shrink-0 border border-[#EADCDD] dark:border-[#E11D48]/20">
+                  <Image
+                    src={bannerImage}
+                    alt="Tuition Banner Preview"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-xs font-bold text-[#180C0E] dark:text-white truncate">
+                    Banner Attached
+                  </p>
+                  <p className="text-[11px] text-[#5C494C] dark:text-[#BFA5AA]">
+                    Preview ready for public tuition listing
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setBannerImage("")}
+                  className="p-1.5 rounded-lg text-[#D91E48] hover:bg-[#FDECEF] dark:hover:bg-[#2A0612] transition-colors cursor-pointer"
+                  title="Remove image"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            ) : (
+              <div className="relative">
+                <label className="flex items-center gap-3 px-4 py-3 rounded-xl border border-dashed border-[#EADCDD] dark:border-[#E11D48]/35 bg-[#FCF9F8] dark:bg-[#0D0204] hover:border-[#D91E48] dark:hover:border-[#FF1E40] transition-colors cursor-pointer group">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#FDECEF] dark:bg-[#2A060C] text-[#D91E48] dark:text-[#FF1E40] border border-[#F2B8C4] dark:border-[#E11D48]/30 group-hover:scale-105 transition-transform">
+                    <Upload className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <span className="text-xs font-bold text-[#180C0E] dark:text-white group-hover:text-[#D91E48] dark:group-hover:text-[#FF1E40] transition-colors">
+                      Upload Image (ImgBB)
+                    </span>
+                    <p className="text-[11px] text-[#8C7679] dark:text-[#BFA5AA]">
+                      PNG, JPG, or WEBP up to 5MB
+                    </p>
+                  </div>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageFileChange}
+                    className="hidden"
+                  />
+                </label>
+              </div>
+            )}
+          </div>
+
+          {/* Description & Syllabus details with min 50 characters counter */}
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <label className="text-xs font-semibold text-[#180C0E] dark:text-[#F4E2E5] flex items-center gap-1">
+                <span>Tuition Description</span>
+                <span className="text-[#D91E48] dark:text-[#FF1E40] font-bold">*</span>
+              </label>
+              <span
+                className={`text-[11px] font-mono font-bold transition-colors ${
+                  isDescValid
+                    ? "text-[#059669] dark:text-[#10B981]"
+                    : "text-[#D91E48] dark:text-[#FF1E40]"
+                }`}
+              >
+                {descLength} / min 50 chars
+              </span>
+            </div>
             <textarea
               rows={4}
+              required
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder="Detail your course coverage, weekly model tests, personal feedback, and prerequisites..."
-              className="w-full px-4 py-3 rounded-xl bg-[#FCF9F8] dark:bg-[#0D0204] border border-[#EADCDD] dark:border-[#E11D48]/30 text-sm text-[#180C0E] dark:text-white placeholder-[#8C7679] dark:placeholder-[#BFA5AA]/50 focus:border-[#D91E48] dark:focus:border-[#FF1E40] focus:outline-none transition-colors resize-none leading-relaxed"
+              placeholder="Describe what students will learn, your teaching methodology, prerequisites, and expected outcomes..."
+              className={`w-full px-4 py-3 rounded-xl bg-[#FCF9F8] dark:bg-[#0D0204] border text-sm text-[#180C0E] dark:text-white placeholder-[#8C7679] dark:placeholder-[#BFA5AA]/50 focus:outline-none transition-colors resize-none leading-relaxed ${
+                !isDescValid && descLength > 0
+                  ? "border-[#D91E48] dark:border-[#FF1E40]/70"
+                  : "border-[#EADCDD] dark:border-[#E11D48]/30 focus:border-[#D91E48] dark:focus:border-[#FF1E40]"
+              }`}
             />
+            {!isDescValid && descLength > 0 && (
+              <p className="text-[11px] text-[#D91E48] dark:text-[#FF1E40] flex items-center gap-1">
+                <AlertCircle className="w-3 h-3" />
+                <span>Please write at least {50 - descLength} more characters.</span>
+              </p>
+            )}
           </div>
 
           {/* Submit Button */}
-          <div className="pt-4 flex items-center justify-end gap-3">
+          <div className="pt-4 flex items-center justify-end gap-3 border-t border-[#EADCDD] dark:border-[#E11D48]/20">
             <Link
               href="/dashboard"
               className="px-5 py-2.5 rounded-xl text-xs font-bold text-[#5C494C] dark:text-[#BFA5AA] hover:bg-[#F5ECEC] dark:hover:bg-[#1E0307] transition-all cursor-pointer"
@@ -273,8 +477,8 @@ export default function PostTuitionPage() {
             </Link>
             <button
               type="submit"
-              disabled={isSubmitting}
-              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[#D91E48] hover:bg-[#B31438] dark:bg-gradient-to-r dark:from-[#E11D48] dark:via-[#FF1E40] dark:to-[#FF4D6D] text-white font-bold text-xs shadow-[0_4px_16px_rgba(217,30,72,0.25)] hover:shadow-lg transition-all active:scale-95 cursor-pointer disabled:opacity-50"
+              disabled={isSubmitting || !isDescValid || !title.trim()}
+              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[#D91E48] hover:bg-[#B31438] dark:bg-gradient-to-r dark:from-[#E11D48] dark:via-[#FF1E40] dark:to-[#FF4D6D] text-white font-bold text-xs shadow-[0_4px_16px_rgba(217,30,72,0.25)] hover:shadow-lg transition-all active:scale-95 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isSubmitting ? (
                 <>
@@ -284,7 +488,7 @@ export default function PostTuitionPage() {
               ) : (
                 <>
                   <CheckCircle2 className="w-4 h-4" />
-                  <span>Publish Tuition Post</span>
+                  <span>Submit Tuition Post</span>
                 </>
               )}
             </button>

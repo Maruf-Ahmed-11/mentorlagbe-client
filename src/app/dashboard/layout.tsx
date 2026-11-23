@@ -61,9 +61,16 @@ export default function DashboardLayout({
   };
   const initials = getInitials(userName);
 
+  const isAdmin = userRole === "admin";
   const isTutor = userRole === "tutor";
 
-  const navItems = isTutor
+  const navItems = isAdmin
+    ? [
+        { name: "Overview", href: "/dashboard", icon: LayoutDashboard },
+        { name: "Manage Tuitions", href: "/dashboard/my-tuitions", icon: BookOpen },
+        { name: "User Directory", href: "/dashboard/applicants", icon: Users },
+      ]
+    : isTutor
     ? [
         { name: "Overview", href: "/dashboard", icon: LayoutDashboard },
         { name: "+ Post Tuition", href: "/dashboard/post-tuition", icon: Plus },
