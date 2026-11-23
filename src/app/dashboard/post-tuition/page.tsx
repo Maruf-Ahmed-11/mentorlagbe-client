@@ -206,7 +206,7 @@ export default function PostTuitionPage() {
       description: description.trim(),
       tutorEmail: userEmail,
       tutorName: userName,
-      approvalStatus: "approved",
+      approvalStatus: "pending",
       isActive: true,
       applicantsCount: 0,
       createdAt: new Date().toISOString(),
