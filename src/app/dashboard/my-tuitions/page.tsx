@@ -28,7 +28,10 @@ import {
   Upload,
   CheckCircle2,
   Loader2,
-  DollarSign
+  DollarSign,
+  ShieldCheck,
+  Check,
+  RotateCcw
 } from "lucide-react";
 
 export type ApprovalStatus = "pending" | "approved" | "rejected";
@@ -49,6 +52,7 @@ export interface TuitionItem {
   approvalStatus: ApprovalStatus;
   isActive: boolean;
   createdAt?: string;
+  adminVerifiedAt?: string;
   isDemo?: boolean;
 }
 
@@ -82,104 +86,19 @@ const WEEKLY_FREQUENCY_OPTIONS = [
   "7 days / week"
 ];
 
-// Seed sample data matching the requested context (with Pending, Approved, and Rejected statuses)
-const SAMPLE_TUTOR_TUITIONS: TuitionItem[] = [
-  {
-    id: "sample-1",
-    title: "Intensive HSC Physics & BUET/CKRUET Question Bank Solving",
-    subject: "Physics",
-    classLevel: "Class 11-12 & Admission",
-    mode: "Online Batch",
-    location: "Online / Pan Bangladesh",
-    schedule: "3 days / week",
-    monthlyFee: 5500,
-    bannerImage: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&w=400&q=80",
-    description: "Rigorous problem solving covering classical mechanics, electromagnetism, and shortcut approaches for BUET/CKRUET engineering tests.",
-    approvalStatus: "pending",
-    isActive: true,
-    isDemo: true,
-  },
-  {
-    id: "sample-2",
-    title: "Full-Stack JavaScript & MERN Stack Intensive Mentorship",
-    subject: "Programming",
-    classLevel: "Professional & Skills",
-    mode: "Online Batch",
-    location: "Online / Remote",
-    schedule: "4 days / week",
-    monthlyFee: 7500,
-    bannerImage: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=400&q=80",
-    description: "Hands-on projects with Next.js, Node.js, MongoDB, and Python basics. Mentorship includes GitHub reviews and portfolio building.",
-    approvalStatus: "rejected",
-    isActive: false,
-    isDemo: true,
-  },
-  {
-    id: "sample-3",
-    title: "Organic Chemistry: Mechanism Drills & Synthesis Mastery",
-    subject: "Chemistry",
-    classLevel: "Class 11-12 & Admission",
-    mode: "Offline Tuition",
-    location: "Dhanmondi, Dhaka",
-    schedule: "3 days / week",
-    monthlyFee: 3800,
-    bannerImage: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=400&q=80",
-    description: "Detailed reaction pathways, isomerism, and daily practice sheets for HSC board exam preparation and university admission tests.",
-    approvalStatus: "approved",
-    isActive: true,
-    isDemo: true,
-  },
-  {
-    id: "sample-4",
-    title: "University Advanced Calculus & Differential Equations",
-    subject: "Mathematics",
-    classLevel: "University & Beginners",
-    mode: "Online Batch",
-    location: "Online / Remote",
-    schedule: "2 days / week",
-    monthlyFee: 5500,
-    bannerImage: "https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&w=400&q=80",
-    description: "Multivariable calculus, Laplace transforms, and partial differential equations tailored for university engineering undergraduates.",
-    approvalStatus: "rejected",
-    isActive: false,
-    isDemo: true,
-  },
-  {
-    id: "sample-5",
-    title: "O-Level English Literature & Essay Composition Drills",
-    subject: "English",
-    classLevel: "Cambridge O / A-Level",
-    mode: "Online Batch",
-    location: "Online / Remote",
-    schedule: "2 days / week",
-    monthlyFee: 2800,
-    bannerImage: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=400&q=80",
-    description: "Structured textual analysis, theme exploration, and comprehensive writing feedback adhering strictly to Cambridge O-Level criteria.",
-    approvalStatus: "approved",
-    isActive: true,
-    isDemo: true,
-  },
-  {
-    id: "sample-6",
-    title: "High School Biology & Medical Admission Foundation Batch",
-    subject: "Biology",
-    classLevel: "Class 11-12 & Admission",
-    mode: "Offline Tuition",
-    location: "Uttara, Dhaka",
-    schedule: "3 days / week",
-    monthlyFee: 3200,
-    bannerImage: "https://images.unsplash.com/photo-1530497610245-94d3c16cda28?auto=format&fit=crop&w=400&q=80",
-    description: "Zoology, Botany concepts, memorization mnemonics, and weekly 50-mark MCQ practice tests for public medical admission exams.",
-    approvalStatus: "rejected",
-    isActive: true,
-    isDemo: true,
-  }
-];
-
 export default function MyTuitionsPage() {
   const { data: session } = authClient.useSession();
   const [tuitions, setTuitions] = useState<TuitionItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  // User role checking
+  const user = session?.user;
+  const userEmail = user?.email || "tutor@mentorlagbe.com";
+  const userRole = (user as any)?.role || (userEmail.toLowerCase().includes("admin") ? "admin" : (userEmail.toLowerCase().includes("tutor") || userEmail.toLowerCase().includes("teacher") ? "tutor" : "student"));
+  const isAdmin = userRole === "admin";
+
+  // Admin moderation test toggle (accessible to admin or for quick interactive testing)
+  const [showAdminControls, setShowAdminControls] = useState(isAdmin);
 
   // Edit Modal State
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -200,16 +119,28 @@ export default function MyTuitionsPage() {
   const [deletingTuition, setDeletingTuition] = useState<TuitionItem | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
 
-  const userEmail = session?.user?.email || "tutor@mentorlagbe.com";
-
-  // Load Tuitions on Mount
+  // Load Tuitions on Mount & Sanitize Legacy "approved" Statuses to "pending"
   useEffect(() => {
     async function loadTuitions() {
       setIsLoading(true);
       try {
         const userKey = `mentorlagbe_tuitions_${userEmail}`;
-        const storedLocally: any[] = JSON.parse(localStorage.getItem(userKey) || "[]");
+        let storedLocally: any[] = JSON.parse(localStorage.getItem(userKey) || "[]");
         const hasRealFlag = localStorage.getItem("mentorlagbe_has_real_tuitions") === "true";
+
+        // CRITICAL FIX: If posts were stored with legacy hardcoded "approved" status before admin review,
+        // sanitize them to "pending" as requested!
+        let storageUpdated = false;
+        storedLocally = storedLocally.map((item) => {
+          if (item.approvalStatus === "approved" && !item.adminVerifiedAt) {
+            storageUpdated = true;
+            return { ...item, approvalStatus: "pending" };
+          }
+          return item;
+        });
+        if (storageUpdated) {
+          localStorage.setItem(userKey, JSON.stringify(storedLocally));
+        }
 
         let backendTuitions: any[] = [];
         try {
@@ -227,6 +158,13 @@ export default function MyTuitionsPage() {
         // Add backend items
         backendTuitions.forEach((item) => {
           const id = item._id || item.id || `b-${Date.now()}`;
+          // Ensure posts not explicitly verified by admin resolve to "pending"
+          const resolvedStatus: ApprovalStatus = item.adminVerifiedAt
+            ? (item.approvalStatus as ApprovalStatus)
+            : item.approvalStatus === "rejected"
+            ? "rejected"
+            : "pending";
+
           combinedMap.set(id, {
             id,
             _id: item._id,
@@ -239,7 +177,8 @@ export default function MyTuitionsPage() {
             monthlyFee: Number(item.monthlyFee || 0),
             bannerImage: item.bannerImage || "",
             description: item.description || "",
-            approvalStatus: (item.approvalStatus as ApprovalStatus) || "pending",
+            approvalStatus: resolvedStatus,
+            adminVerifiedAt: item.adminVerifiedAt,
             isActive: item.isActive !== undefined ? Boolean(item.isActive) : true,
             isDemo: false,
           });
@@ -248,6 +187,12 @@ export default function MyTuitionsPage() {
         // Add local items
         storedLocally.forEach((item) => {
           const id = item.id || item._id || `loc-${Date.now()}`;
+          const resolvedStatus: ApprovalStatus = item.adminVerifiedAt
+            ? (item.approvalStatus as ApprovalStatus)
+            : item.approvalStatus === "rejected"
+            ? "rejected"
+            : "pending";
+
           if (!combinedMap.has(id)) {
             combinedMap.set(id, {
               id,
@@ -261,7 +206,8 @@ export default function MyTuitionsPage() {
               monthlyFee: Number(item.monthlyFee || 0),
               bannerImage: item.bannerImage || "",
               description: item.description || "",
-              approvalStatus: (item.approvalStatus as ApprovalStatus) || "pending",
+              approvalStatus: resolvedStatus,
+              adminVerifiedAt: item.adminVerifiedAt,
               isActive: item.isActive !== undefined ? Boolean(item.isActive) : true,
               isDemo: false,
             });
@@ -269,16 +215,9 @@ export default function MyTuitionsPage() {
         });
 
         const realTuitions = Array.from(combinedMap.values());
-
-        // If tutor has posted real tuitions, clear demo items!
-        if (realTuitions.length > 0 || hasRealFlag) {
-          setTuitions(realTuitions);
-        } else {
-          // Display context sample tuitions until the tutor posts their first tuition
-          setTuitions(SAMPLE_TUTOR_TUITIONS);
-        }
+        setTuitions(realTuitions);
       } catch {
-        setTuitions(SAMPLE_TUTOR_TUITIONS);
+        setTuitions([]);
       } finally {
         setIsLoading(false);
       }
@@ -291,6 +230,13 @@ export default function MyTuitionsPage() {
   const handleToggleActive = async (id: string) => {
     const target = tuitions.find((t) => t.id === id);
     if (!target) return;
+
+    if (target.approvalStatus === "rejected") {
+      toast.error("Cannot activate a rejected tuition. Please edit details and request re-review.", {
+        icon: "🚫",
+      });
+      return;
+    }
 
     const nextActiveState = !target.isActive;
 
@@ -327,7 +273,59 @@ export default function MyTuitionsPage() {
     );
   };
 
-  // 2. Open Edit Modal
+  // 2. Admin Approval & Rejection Handler
+  const handleUpdateApproval = async (id: string, newStatus: ApprovalStatus) => {
+    const target = tuitions.find((t) => t.id === id);
+    if (!target) return;
+
+    const verifiedTimestamp = new Date().toISOString();
+
+    // Optimistic UI update
+    setTuitions((prev) =>
+      prev.map((t) =>
+        t.id === id ? { ...t, approvalStatus: newStatus, adminVerifiedAt: verifiedTimestamp } : t
+      )
+    );
+
+    // Update localStorage
+    const userKey = `mentorlagbe_tuitions_${userEmail}`;
+    const storedLocally: any[] = JSON.parse(localStorage.getItem(userKey) || "[]");
+    const updatedLocally = storedLocally.map((item) =>
+      item.id === id || item._id === id
+        ? { ...item, approvalStatus: newStatus, adminVerifiedAt: verifiedTimestamp }
+        : item
+    );
+    localStorage.setItem(userKey, JSON.stringify(updatedLocally));
+
+    // Update backend API
+    try {
+      await apiFetch(`/tuitions/${target._id || id}`, {
+        method: "PATCH",
+        body: JSON.stringify({
+          approvalStatus: newStatus,
+          adminVerifiedAt: verifiedTimestamp,
+        }),
+      });
+    } catch (err) {
+      console.warn("Backend approval update notice:", err);
+    }
+
+    if (newStatus === "approved") {
+      toast.success(`Tuition approved! Status is now Approved (Green).`, {
+        icon: "✅",
+      });
+    } else if (newStatus === "rejected") {
+      toast.error(`Tuition rejected! Status is now Rejected (Red).`, {
+        icon: "🚫",
+      });
+    } else {
+      toast.success("Tuition status reset to Pending (Amber).", {
+        icon: "⏳",
+      });
+    }
+  };
+
+  // 3. Open Edit Modal
   const handleOpenEditModal = (tuition: TuitionItem) => {
     setEditingTuition(tuition);
     setEditTitle(tuition.title);
@@ -368,6 +366,8 @@ export default function MyTuitionsPage() {
       schedule: editSchedule,
       bannerImage: editBannerImage,
       description: editDescription.trim(),
+      // Editing resets a rejected post back to pending for re-review
+      approvalStatus: editingTuition.approvalStatus === "rejected" ? "pending" : editingTuition.approvalStatus,
     };
 
     // Update UI state
@@ -401,7 +401,7 @@ export default function MyTuitionsPage() {
     toast.success("Tuition listing updated successfully!", { icon: "✨" });
   };
 
-  // 3. Open Delete Confirmation Modal
+  // 4. Open Delete Confirmation Modal
   const handleOpenDeleteModal = (tuition: TuitionItem) => {
     setDeletingTuition(tuition);
     setIsDeleteModalOpen(true);
@@ -464,14 +464,49 @@ export default function MyTuitionsPage() {
           </p>
         </div>
 
-        <Link
-          href="/dashboard/post-tuition"
-          className="inline-flex items-center gap-2 self-start sm:self-auto px-5 py-2.5 rounded-xl bg-[#D91E48] hover:bg-[#B31438] dark:bg-gradient-to-r dark:from-[#E11D48] dark:via-[#FF1E40] dark:to-[#FF4D6D] text-white font-bold text-xs shadow-[0_4px_16px_rgba(217,30,72,0.25)] dark:shadow-[0_0_20px_rgba(225,29,72,0.5)] transition-all active:scale-95 cursor-pointer"
-        >
-          <Plus className="w-4 h-4" />
-          <span>Post New Tuition</span>
-        </Link>
+        <div className="flex items-center gap-2.5 self-start sm:self-auto">
+          {/* Admin Moderation Mode Toggle */}
+          <button
+            type="button"
+            onClick={() => setShowAdminControls(!showAdminControls)}
+            className={`inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs font-mono font-bold transition-all border cursor-pointer shadow-xs ${
+              showAdminControls
+                ? "bg-[#D91E48] text-white border-[#D91E48] shadow-sm"
+                : "bg-white dark:bg-[#160307] text-[#8C7679] dark:text-[#BFA5AA] border-[#EADCDD] dark:border-[#E11D48]/30 hover:border-[#D91E48]"
+            }`}
+            title="Toggle Admin Moderation Controls"
+          >
+            <ShieldCheck className="w-4 h-4" />
+            <span>{showAdminControls ? "Admin Controls: On" : "Admin Moderation Tools"}</span>
+          </button>
+
+          <Link
+            href="/dashboard/post-tuition"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#D91E48] hover:bg-[#B31438] dark:bg-gradient-to-r dark:from-[#E11D48] dark:via-[#FF1E40] dark:to-[#FF4D6D] text-white font-bold text-xs shadow-[0_4px_16px_rgba(217,30,72,0.25)] dark:shadow-[0_0_20px_rgba(225,29,72,0.5)] transition-all active:scale-95 cursor-pointer"
+          >
+            <Plus className="w-4 h-4" />
+            <span>Post New Tuition</span>
+          </Link>
+        </div>
       </div>
+
+      {/* Admin Notice Bar when Moderation Mode is Active */}
+      {showAdminControls && (
+        <div className="rounded-2xl p-4 bg-[#FDECEF] dark:bg-[#2A060C] border border-[#F2B8C4] dark:border-[#E11D48]/40 flex items-center justify-between text-xs animate-in fade-in duration-200">
+          <div className="flex items-center gap-2.5">
+            <ShieldCheck className="w-4 h-4 text-[#D91E48] dark:text-[#FF1E40]" />
+            <span className="font-bold text-[#180C0E] dark:text-white">
+              Admin Moderation Tools Active:
+            </span>
+            <span className="text-[#5C494C] dark:text-[#BFA5AA]">
+              You can click <b>Approve</b> or <b>Reject</b> on any listing to test real-time approval status updates.
+            </span>
+          </div>
+          <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#D91E48] dark:text-[#FF1E40] bg-white dark:bg-[#160307] px-2 py-0.5 rounded-full border border-[#F2B8C4] dark:border-[#E11D48]/30">
+            ADMIN SIMULATOR
+          </span>
+        </div>
+      )}
 
       {/* Main Table Container */}
       <div className="rounded-2xl border border-[#EADCDD] dark:border-[#E11D48]/25 bg-white dark:bg-[#140204]/90 shadow-[0_12px_32px_-8px_rgba(24,12,14,0.06)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.85)] backdrop-blur-xl overflow-hidden">
@@ -582,24 +617,66 @@ export default function MyTuitionsPage() {
                       </span>
                     </td>
 
-                    {/* 4. Approval Status (Read-Only, Admin Controlled) */}
+                    {/* 4. Approval Status (Read-Only for Tutor, Interactive when Admin Tools Active) */}
                     <td className="py-4 px-5 text-center whitespace-nowrap">
-                      {item.approvalStatus === "approved" ? (
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono font-bold bg-[#ECFDF5] dark:bg-[#0A2618] text-[#059669] dark:text-[#10B981] border border-[#A7F3D0] dark:border-[#10B981]/40 shadow-xs">
-                          <span className="h-1.5 w-1.5 rounded-full bg-[#10B981] animate-pulse" />
-                          <span>Approved</span>
-                        </span>
-                      ) : item.approvalStatus === "rejected" ? (
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono font-bold bg-[#FDECEF] dark:bg-[#2A0612] text-[#D91E48] dark:text-[#FF4D6D] border border-[#F2B8C4] dark:border-[#FF4D6D]/40 shadow-xs">
-                          <span className="h-1.5 w-1.5 rounded-full bg-[#D91E48] dark:bg-[#FF4D6D]" />
-                          <span>Rejected</span>
-                        </span>
-                      ) : (
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono font-bold bg-[#FEF3C7] dark:bg-[#281804] text-[#B45309] dark:text-[#FFB800] border border-[#FDE68A] dark:border-[#FFB800]/40 shadow-xs">
-                          <span className="h-1.5 w-1.5 rounded-full bg-[#FFB800] animate-ping" />
-                          <span>Pending</span>
-                        </span>
-                      )}
+                      <div className="flex flex-col items-center gap-1.5">
+                        {item.approvalStatus === "approved" ? (
+                          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono font-bold bg-[#ECFDF5] dark:bg-[#0A2618] text-[#059669] dark:text-[#10B981] border border-[#A7F3D0] dark:border-[#10B981]/40 shadow-xs">
+                            <span className="h-1.5 w-1.5 rounded-full bg-[#10B981] animate-pulse" />
+                            <span>Approved</span>
+                          </span>
+                        ) : item.approvalStatus === "rejected" ? (
+                          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono font-bold bg-[#FDECEF] dark:bg-[#2A0612] text-[#D91E48] dark:text-[#FF4D6D] border border-[#F2B8C4] dark:border-[#FF4D6D]/40 shadow-xs">
+                            <span className="h-1.5 w-1.5 rounded-full bg-[#D91E48] dark:bg-[#FF4D6D]" />
+                            <span>Rejected</span>
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono font-bold bg-[#FEF3C7] dark:bg-[#281804] text-[#D97706] dark:text-[#FFB800] border border-[#FDE68A] dark:border-[#FFB800]/40 shadow-xs">
+                            <span className="h-1.5 w-1.5 rounded-full bg-[#FFB800] animate-ping" />
+                            <span>Pending</span>
+                          </span>
+                        )}
+
+                        {/* Interactive Admin Controls for Testing / Approving / Rejecting */}
+                        {showAdminControls && (
+                          <div className="flex items-center gap-1.5 mt-0.5">
+                            {item.approvalStatus !== "approved" && (
+                              <button
+                                type="button"
+                                onClick={() => handleUpdateApproval(item.id, "approved")}
+                                title="Approve this post"
+                                className="px-2 py-0.5 rounded-md text-[10px] font-bold font-mono bg-[#ECFDF5] hover:bg-[#A7F3D0] text-[#059669] border border-[#A7F3D0] transition-all cursor-pointer flex items-center gap-0.5 shadow-2xs active:scale-95"
+                              >
+                                <Check className="w-2.5 h-2.5" />
+                                <span>Approve</span>
+                              </button>
+                            )}
+
+                            {item.approvalStatus !== "rejected" && (
+                              <button
+                                type="button"
+                                onClick={() => handleUpdateApproval(item.id, "rejected")}
+                                title="Reject this post"
+                                className="px-2 py-0.5 rounded-md text-[10px] font-bold font-mono bg-[#FDECEF] hover:bg-[#F2B8C4] text-[#D91E48] border border-[#F2B8C4] transition-all cursor-pointer flex items-center gap-0.5 shadow-2xs active:scale-95"
+                              >
+                                <X className="w-2.5 h-2.5" />
+                                <span>Reject</span>
+                              </button>
+                            )}
+
+                            {item.approvalStatus !== "pending" && (
+                              <button
+                                type="button"
+                                onClick={() => handleUpdateApproval(item.id, "pending")}
+                                title="Reset back to Pending"
+                                className="px-1.5 py-0.5 rounded-md text-[10px] font-mono text-[#8C7679] hover:bg-[#EADCDD] transition-all cursor-pointer"
+                              >
+                                <RotateCcw className="w-2.5 h-2.5" />
+                              </button>
+                            )}
+                          </div>
+                        )}
+                      </div>
                     </td>
 
                     {/* 5. Active Status (Tutor Controlled One-Click Toggle) */}

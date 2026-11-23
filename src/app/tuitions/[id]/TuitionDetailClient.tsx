@@ -13,7 +13,10 @@ import {
   Sparkles, 
   Globe, 
   GraduationCap, 
-  ShieldCheck 
+  ShieldCheck,
+  AlertOctagon,
+  Clock,
+  Lock
 } from "lucide-react";
 
 export default function TuitionDetailClient({ id }: { id: string }) {
@@ -57,9 +60,21 @@ export default function TuitionDetailClient({ id }: { id: string }) {
     }
   }, [id, session?.user?.email]);
 
+  const isRejected = tuition?.approvalStatus === "rejected";
+  const isPending = tuition?.approvalStatus === "pending";
+  const isClosed = tuition?.isActive === false || isRejected || isPending;
+
   const handleApply = () => {
-    if (!tuition?.isActive) {
-      toast.error("This tuition post is currently closed by the tutor.");
+    if (isRejected) {
+      toast.error("This tuition was rejected by moderation and is not open for applications.", { icon: "🚫" });
+      return;
+    }
+    if (isPending) {
+      toast.error("This tuition is currently awaiting admin verification.", { icon: "⏳" });
+      return;
+    }
+    if (tuition?.isActive === false) {
+      toast.error("This tuition post is currently closed by the tutor.", { icon: "🔒" });
       return;
     }
     toast.success("Application modal will open next! (Application workflow)", { icon: "📝" });
@@ -75,8 +90,6 @@ export default function TuitionDetailClient({ id }: { id: string }) {
       </div>
     );
   }
-
-  const isClosed = tuition?.isActive === false;
 
   return (
     <div className="max-w-4xl mx-auto p-4 sm:p-6 md:p-8 space-y-6 animate-in fade-in duration-300">
@@ -107,15 +120,24 @@ export default function TuitionDetailClient({ id }: { id: string }) {
               <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-[#D91E48] text-white shadow-md">
                 {tuition.subject || "Subject"}
               </span>
-              <span
-                className={`px-3 py-1 rounded-full text-xs font-mono font-bold border shadow-md ${
-                  isClosed
-                    ? "bg-black/60 text-gray-300 border-white/20"
-                    : "bg-[#0A2618]/90 text-[#10B981] border-[#10B981]/50"
-                }`}
-              >
-                {isClosed ? "🔒 Applications Closed" : "🟢 Accepting Students"}
-              </span>
+              
+              {isRejected ? (
+                <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-[#FDECEF] dark:bg-[#2A0612] text-[#D91E48] dark:text-[#FF4D6D] border border-[#F2B8C4] dark:border-[#FF4D6D]/40 shadow-md">
+                  🚫 Moderation Rejected
+                </span>
+              ) : isPending ? (
+                <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-[#FEF3C7] dark:bg-[#281804] text-[#D97706] dark:text-[#FFB800] border border-[#FDE68A] dark:border-[#FFB800]/40 shadow-md">
+                  ⏳ Awaiting Approval
+                </span>
+              ) : tuition?.isActive === false ? (
+                <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-black/60 text-gray-300 border border-white/20 shadow-md">
+                  🔒 Applications Closed
+                </span>
+              ) : (
+                <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-[#0A2618]/90 text-[#10B981] border border-[#10B981]/50 shadow-md">
+                  🟢 Accepting Students
+                </span>
+              )}
             </div>
           </div>
         ) : (
@@ -123,15 +145,24 @@ export default function TuitionDetailClient({ id }: { id: string }) {
             <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-[#FDECEF] dark:bg-[#2A060C] text-[#D91E48] dark:text-[#FF1E40] border border-[#F2B8C4] dark:border-[#E11D48]/30">
               {tuition?.subject || "Subject Discipline"}
             </span>
-            <span
-              className={`px-3 py-1 rounded-full text-xs font-mono font-bold border ${
-                isClosed
-                  ? "bg-[#F5ECEC] dark:bg-[#1E0307] text-[#8C7679] dark:text-[#BFA5AA] border-[#EADCDD]"
-                  : "bg-[#ECFDF5] dark:bg-[#0A2618] text-[#059669] dark:text-[#10B981] border-[#A7F3D0]"
-              }`}
-            >
-              {isClosed ? "🔒 Closed" : "🟢 Active"}
-            </span>
+
+            {isRejected ? (
+              <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-[#FDECEF] dark:bg-[#2A0612] text-[#D91E48] dark:text-[#FF4D6D] border border-[#F2B8C4] dark:border-[#FF4D6D]/40 shadow-xs">
+                🚫 Moderation Rejected
+              </span>
+            ) : isPending ? (
+              <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-[#FEF3C7] dark:bg-[#281804] text-[#D97706] dark:text-[#FFB800] border border-[#FDE68A] dark:border-[#FFB800]/40 shadow-xs">
+                ⏳ Awaiting Approval
+              </span>
+            ) : tuition?.isActive === false ? (
+              <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-[#F5ECEC] dark:bg-[#1E0307] text-[#8C7679] dark:text-[#BFA5AA] border border-[#EADCDD]">
+                🔒 Closed
+              </span>
+            ) : (
+              <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-[#ECFDF5] dark:bg-[#0A2618] text-[#059669] dark:text-[#10B981] border border-[#A7F3D0]">
+                🟢 Active
+              </span>
+            )}
           </div>
         )}
 
@@ -189,6 +220,27 @@ export default function TuitionDetailClient({ id }: { id: string }) {
             </div>
           </div>
 
+          {/* Status Warning Alerts if rejected or pending */}
+          {isRejected && (
+            <div className="p-4 rounded-2xl bg-[#FDECEF] dark:bg-[#2A0612] border border-[#F2B8C4] dark:border-[#FF4D6D]/40 text-xs text-[#D91E48] dark:text-[#FF4D6D] flex items-center gap-3">
+              <AlertOctagon className="w-5 h-5 shrink-0" />
+              <div>
+                <span className="font-bold block">Listing Moderation Notice</span>
+                <span>This tuition listing was rejected by platform administrators. Please edit your tuition details or contact support for assistance.</span>
+              </div>
+            </div>
+          )}
+
+          {isPending && (
+            <div className="p-4 rounded-2xl bg-[#FEF3C7] dark:bg-[#281804] border border-[#FDE68A] dark:border-[#FFB800]/40 text-xs text-[#B45309] dark:text-[#FFB800] flex items-center gap-3">
+              <Clock className="w-5 h-5 shrink-0" />
+              <div>
+                <span className="font-bold block">Awaiting Administrator Review</span>
+                <span>This tuition listing has been submitted and is currently pending verification. It will become publicly visible once approved.</span>
+              </div>
+            </div>
+          )}
+
           {/* Description */}
           <div className="space-y-2">
             <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-[#8C7679] dark:text-[#BFA5AA]">
@@ -217,19 +269,31 @@ export default function TuitionDetailClient({ id }: { id: string }) {
             </div>
 
             {/* Approval Badge */}
-            <span className="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold uppercase bg-[#FEF3C7] dark:bg-[#281804] text-[#B45309] dark:text-[#FFB800] border border-[#FDE68A] dark:border-[#FFB800]/30">
+            <span
+              className={`px-2.5 py-1 rounded-full text-[10px] font-mono font-bold uppercase border ${
+                isRejected
+                  ? "bg-[#FDECEF] dark:bg-[#2A0612] text-[#D91E48] dark:text-[#FF4D6D] border-[#F2B8C4]"
+                  : isPending
+                  ? "bg-[#FEF3C7] dark:bg-[#281804] text-[#B45309] dark:text-[#FFB800] border-[#FDE68A]"
+                  : "bg-[#ECFDF5] dark:bg-[#0A2618] text-[#059669] dark:text-[#10B981] border-[#A7F3D0]"
+              }`}
+            >
               {tuition?.approvalStatus || "Pending Review"}
             </span>
           </div>
 
-          {/* Action / Apply CTA (Respects isClosed!) */}
+          {/* Action / Apply CTA */}
           <div className="pt-4 border-t border-[#EADCDD] dark:border-[#E11D48]/20 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
               <span className="text-[10px] font-mono text-[#8C7679] uppercase block">
                 Tuition Availability
               </span>
               <p className="text-xs font-semibold text-[#180C0E] dark:text-white">
-                {isClosed
+                {isRejected
+                  ? "Applications are locked because this listing was rejected."
+                  : isPending
+                  ? "Applications will open as soon as this post is approved by admin."
+                  : tuition?.isActive === false
                   ? "Tutor has paused applications for this batch."
                   : "Seats are currently open for new student applicants."}
               </p>
@@ -240,12 +304,22 @@ export default function TuitionDetailClient({ id }: { id: string }) {
               disabled={isClosed}
               onClick={handleApply}
               className={`px-6 py-2.5 rounded-xl font-bold text-xs shadow-md transition-all active:scale-95 cursor-pointer ${
-                isClosed
+                isRejected
+                  ? "bg-[#FDECEF] dark:bg-[#2A0612] text-[#D91E48] dark:text-[#FF4D6D] border border-[#F2B8C4] cursor-not-allowed opacity-75"
+                  : isPending
+                  ? "bg-[#FEF3C7] dark:bg-[#281804] text-[#B45309] dark:text-[#FFB800] border border-[#FDE68A] cursor-not-allowed opacity-75"
+                  : tuition?.isActive === false
                   ? "bg-[#EADCDD] dark:bg-[#2A060C] text-[#8C7679] dark:text-[#BFA5AA] cursor-not-allowed opacity-60"
                   : "bg-[#D91E48] hover:bg-[#B31438] dark:bg-gradient-to-r dark:from-[#E11D48] dark:via-[#FF1E40] dark:to-[#FF4D6D] text-white hover:shadow-lg"
               }`}
             >
-              {isClosed ? "🔒 Closed" : "Apply for Tuition"}
+              {isRejected
+                ? "🚫 Post Rejected"
+                : isPending
+                ? "⏳ Pending Approval"
+                : tuition?.isActive === false
+                ? "🔒 Closed"
+                : "Apply for Tuition"}
             </button>
           </div>
 
