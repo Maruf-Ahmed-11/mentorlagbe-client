@@ -33,21 +33,21 @@ export default function DashboardLayout({
   const { data: session, isPending } = authClient.useSession();
   const [isCollapsed, setIsCollapsed] = useState(false);
 
-  // Synchronously initialize cached user to avoid any flicker on refresh!
+  const [mounted, setMounted] = useState(false);
   const [cachedUser, setCachedUser] = useState<{
     name: string;
     email: string;
     role: string;
     image?: string | null;
-  } | null>(() => {
-    if (typeof window !== "undefined") {
-      try {
-        const saved = localStorage.getItem("mentorlagbe_cached_user");
-        if (saved) return JSON.parse(saved);
-      } catch {}
-    }
-    return null;
-  });
+  } | null>(null);
+
+  useEffect(() => {
+    setMounted(true);
+    try {
+      const saved = localStorage.getItem("mentorlagbe_cached_user");
+      if (saved) setCachedUser(JSON.parse(saved));
+    } catch {}
+  }, []);
 
   // Keep cache synced with fresh session data
   useEffect(() => {
@@ -89,7 +89,7 @@ export default function DashboardLayout({
   };
 
   // Derive user info strictly from active session or cached user (ZERO hardcoded demo fallback)
-  const user = session?.user || cachedUser;
+  const user = mounted ? (session?.user || cachedUser) : null;
   const userEmail = user?.email || "";
   const userRole = (user as any)?.role || (userEmail.toLowerCase().includes("admin") ? "admin" : (userEmail.toLowerCase().includes("tutor") || userEmail.toLowerCase().includes("teacher") ? "tutor" : "student"));
   const userName = user?.name || (isPending ? "Loading..." : "Member");
@@ -141,62 +141,74 @@ export default function DashboardLayout({
 
           {/* User Profile Card */}
           <div className={`px-4 pb-5 border-b border-[#EADCDD] dark:border-[#E11D48]/20 ${isCollapsed ? "flex justify-center px-2" : ""}`}>
-            <div className="flex items-center gap-3">
-              {/* Avatar with gold crown badge */}
-              <div className="relative shrink-0">
-                {user?.image ? (
-                  <Image
-                    src={user.image}
-                    alt={userName}
-                    width={42}
-                    height={42}
-                    className="h-10 w-10 rounded-full object-cover border-2 border-[#F2B8C4] dark:border-[#E11D48]/50 shadow-sm dark:shadow-[0_0_15px_rgba(225,29,72,0.3)]"
-                  />
-                ) : (
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-[#E11D48] via-[#FF1E40] to-[#FF4D6D] text-white font-black text-sm shadow-[0_2px_10px_rgba(217,30,72,0.3)] dark:shadow-[0_0_15px_rgba(255,30,64,0.4)]">
-                    {initials}
+            {!mounted ? (
+              <div className="flex items-center gap-3 animate-pulse">
+                <div className="h-10 w-10 rounded-full bg-[#EADCDD] dark:bg-[#2A060C]" />
+                {!isCollapsed && (
+                  <div className="space-y-1.5">
+                    <div className="h-3.5 w-20 rounded bg-[#EADCDD] dark:bg-[#2A060C]" />
+                    <div className="h-2.5 w-14 rounded bg-[#EADCDD]/70 dark:bg-[#2A060C]/70" />
                   </div>
                 )}
-                {/* Crown Badge */}
-                <div className="absolute -bottom-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#FFB800] text-black shadow-sm">
-                  <Crown className="h-2.5 w-2.5 fill-black" />
-                </div>
               </div>
-
-              {/* User Name & Badges (Visible when expanded) */}
-              {!isCollapsed && (
-                <div className="overflow-hidden">
-                  <div className="flex items-center gap-1.5">
-                    <span className="text-sm font-bold text-[#180C0E] dark:text-white truncate max-w-[95px]">
-                      {userName}
-                    </span>
-                    <span className="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold uppercase bg-[#FEF3C7] dark:bg-[#FFB800]/20 text-[#B45309] dark:text-[#FFB800] border border-[#FDE68A] dark:border-[#FFB800]/40">
-                      {userPlan}
-                    </span>
-                  </div>
-
-                  {/* Dynamic Role Capsule (Admin / Tutor / Student) */}
-                  <div className="mt-1 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase">
-                    {userRole === "admin" ? (
-                      <span className="inline-flex items-center gap-1 text-[#D91E48] dark:text-[#FF1E40] bg-[#FDECEF] dark:bg-[#2E070F] border border-[#F2B8C4] dark:border-[#FF1E40]/40 px-2 py-0.5 rounded-full">
-                        <ShieldCheck className="h-3 w-3" />
-                        <span>Admin</span>
-                      </span>
-                    ) : userRole === "tutor" ? (
-                      <span className="inline-flex items-center gap-1 text-[#B45309] dark:text-[#FFB800] bg-[#FEF3C7] dark:bg-[#281804] border border-[#FDE68A] dark:border-[#FFB800]/40 px-2 py-0.5 rounded-full">
-                        <GraduationCap className="h-3 w-3" />
-                        <span>Tutor</span>
-                      </span>
-                    ) : (
-                      <span className="inline-flex items-center gap-1 text-[#D91E48] dark:text-[#FF4D6D] bg-[#FDECEF] dark:bg-[#2A0612] border border-[#F2B8C4] dark:border-[#FF4D6D]/40 px-2 py-0.5 rounded-full">
-                        <UserCheck className="h-3 w-3" />
-                        <span>Student</span>
-                      </span>
-                    )}
+            ) : (
+              <div className="flex items-center gap-3">
+                {/* Avatar with gold crown badge */}
+                <div className="relative shrink-0">
+                  {user?.image ? (
+                    <Image
+                      src={user.image}
+                      alt={userName}
+                      width={42}
+                      height={42}
+                      className="h-10 w-10 rounded-full object-cover border-2 border-[#F2B8C4] dark:border-[#E11D48]/50 shadow-sm dark:shadow-[0_0_15px_rgba(225,29,72,0.3)]"
+                    />
+                  ) : (
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-[#E11D48] via-[#FF1E40] to-[#FF4D6D] text-white font-black text-sm shadow-[0_2px_10px_rgba(217,30,72,0.3)] dark:shadow-[0_0_15px_rgba(255,30,64,0.4)]">
+                      {initials}
+                    </div>
+                  )}
+                  {/* Crown Badge */}
+                  <div className="absolute -bottom-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#FFB800] text-black shadow-sm">
+                    <Crown className="h-2.5 w-2.5 fill-black" />
                   </div>
                 </div>
-              )}
-            </div>
+
+                {/* User Name & Badges (Visible when expanded) */}
+                {!isCollapsed && (
+                  <div className="overflow-hidden">
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-sm font-bold text-[#180C0E] dark:text-white truncate max-w-[95px]">
+                        {userName}
+                      </span>
+                      <span className="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold uppercase bg-[#FEF3C7] dark:bg-[#FFB800]/20 text-[#B45309] dark:text-[#FFB800] border border-[#FDE68A] dark:border-[#FFB800]/40">
+                        {userPlan}
+                      </span>
+                    </div>
+
+                    {/* Dynamic Role Capsule (Admin / Tutor / Student) */}
+                    <div className="mt-1 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase">
+                      {userRole === "admin" ? (
+                        <span className="inline-flex items-center gap-1 text-[#D91E48] dark:text-[#FF1E40] bg-[#FDECEF] dark:bg-[#2E070F] border border-[#F2B8C4] dark:border-[#FF1E40]/40 px-2 py-0.5 rounded-full">
+                          <ShieldCheck className="h-3 w-3" />
+                          <span>Admin</span>
+                        </span>
+                      ) : userRole === "tutor" ? (
+                        <span className="inline-flex items-center gap-1 text-[#B45309] dark:text-[#FFB800] bg-[#FEF3C7] dark:bg-[#281804] border border-[#FDE68A] dark:border-[#FFB800]/40 px-2 py-0.5 rounded-full">
+                          <GraduationCap className="h-3 w-3" />
+                          <span>Tutor</span>
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1 text-[#D91E48] dark:text-[#FF4D6D] bg-[#FDECEF] dark:bg-[#2A0612] border border-[#F2B8C4] dark:border-[#FF4D6D]/40 px-2 py-0.5 rounded-full">
+                          <UserCheck className="h-3 w-3" />
+                          <span>Student</span>
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
           {/* Nav Links */}

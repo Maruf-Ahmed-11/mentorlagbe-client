@@ -25,15 +25,16 @@ export default function Navbar() {
     return name.slice(0, 2).toUpperCase() || "ML";
   };
 
-  const [cachedUser] = useState<{ name: string; email: string; role: string; image?: string } | null>(() => {
-    if (typeof window !== "undefined") {
-      try {
-        const saved = localStorage.getItem("mentorlagbe_cached_user");
-        if (saved) return JSON.parse(saved);
-      } catch {}
-    }
-    return null;
-  });
+  const [mounted, setMounted] = useState(false);
+  const [cachedUser, setCachedUser] = useState<{ name: string; email: string; role: string; image?: string } | null>(null);
+
+  useEffect(() => {
+    setMounted(true);
+    try {
+      const saved = localStorage.getItem("mentorlagbe_cached_user");
+      if (saved) setCachedUser(JSON.parse(saved));
+    } catch {}
+  }, []);
 
   const activeUser = session?.user || cachedUser;
   const userName = activeUser?.name || "";
@@ -252,7 +253,7 @@ export default function Navbar() {
           </button>
 
           {/* User State */}
-          {isPending && !activeUser ? (
+          {!mounted || isPending ? (
             <div className="h-9 w-9 animate-pulse rounded-full bg-[#F5ECEC] dark:bg-[#2A060C] border border-[#F2B8C4] dark:border-[#E11D48]/30" />
           ) : activeUser ? (
             /* User Pill & Dropdown (MentorLagbe Signature Crimson Aesthetic) */
