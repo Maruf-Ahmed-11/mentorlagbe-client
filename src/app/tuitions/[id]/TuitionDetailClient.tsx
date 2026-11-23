@@ -42,8 +42,9 @@ export default function TuitionDetailClient({ id }: { id: string }) {
 
       // Check localStorage
       try {
-        const userEmail = session?.user?.email || "tutor@mentorlagbe.com";
-        const stored: any[] = JSON.parse(localStorage.getItem(`mentorlagbe_tuitions_${userEmail}`) || "[]");
+        const cachedUser = typeof window !== "undefined" ? JSON.parse(localStorage.getItem("mentorlagbe_cached_user") || "null") : null;
+        const userEmail = session?.user?.email || cachedUser?.email || "";
+        const stored: any[] = userEmail ? JSON.parse(localStorage.getItem(`mentorlagbe_tuitions_${userEmail}`) || "[]") : [];
         const found = stored.find((item) => item.id === id || item._id === id);
         if (found) {
           setTuition(found);

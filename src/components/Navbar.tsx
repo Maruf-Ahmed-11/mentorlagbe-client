@@ -22,12 +22,23 @@ export default function Navbar() {
   const getInitials = (name: string) => {
     const parts = name.trim().split(" ");
     if (parts.length >= 2) return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
-    return name.slice(0, 2).toUpperCase() || "AS";
+    return name.slice(0, 2).toUpperCase() || "ML";
   };
 
-  const userName = session?.user?.name || "asdf";
-  const userEmail = session?.user?.email || "admin@mentorlagbe.com";
-  const rawRole = (session?.user as any)?.role || (userEmail.toLowerCase().includes("admin") ? "admin" : "student");
+  const [cachedUser] = useState<{ name: string; email: string; role: string; image?: string } | null>(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const saved = localStorage.getItem("mentorlagbe_cached_user");
+        if (saved) return JSON.parse(saved);
+      } catch {}
+    }
+    return null;
+  });
+
+  const activeUser = session?.user || cachedUser;
+  const userName = activeUser?.name || "";
+  const userEmail = activeUser?.email || "";
+  const rawRole = (activeUser as any)?.role || (userEmail.toLowerCase().includes("admin") ? "admin" : (userEmail.toLowerCase().includes("tutor") || userEmail.toLowerCase().includes("teacher") ? "tutor" : "student"));
   const roleLabel = rawRole === "admin" ? "Admin" : rawRole === "tutor" ? "Tutor" : "Student";
   const userPlan = "PRO";
   const initials = getInitials(userName);
@@ -232,9 +243,9 @@ export default function Navbar() {
           </button>
 
           {/* User State */}
-          {isPending ? (
+          {isPending && !activeUser ? (
             <div className="h-9 w-9 animate-pulse rounded-full bg-[#F5ECEC] dark:bg-[#2A060C] border border-[#F2B8C4] dark:border-[#E11D48]/30" />
-          ) : session?.user ? (
+          ) : activeUser ? (
             /* User Pill & Dropdown (MentorLagbe Signature Crimson Aesthetic) */
             <div className="relative" ref={dropdownRef}>
               <button
@@ -242,9 +253,9 @@ export default function Navbar() {
                 aria-label="Toggle user menu"
                 className="flex items-center gap-2 rounded-full pl-1.5 pr-3 py-1 bg-white dark:bg-[#1C0307] border border-[#F2B8C4] dark:border-[#E11D48]/35 hover:border-[#D91E48] dark:hover:border-[#FF1E40] hover:shadow-[0_4px_14px_rgba(217,30,72,0.15)] dark:hover:shadow-[0_0_15px_rgba(255,30,64,0.3)] transition-all cursor-pointer shadow-sm group"
               >
-                {session.user.image ? (
+                {activeUser.image ? (
                   <Image
-                    src={session.user.image}
+                    src={activeUser.image}
                     alt={userName}
                     width={28}
                     height={28}

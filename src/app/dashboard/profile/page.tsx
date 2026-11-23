@@ -35,22 +35,31 @@ export default function ProfilePage() {
 
   // Load user profile details
   useEffect(() => {
-    if (sessionUser?.email) {
-      setEmail(sessionUser.email);
-      setName(sessionUser.name || "asdf");
+    // Check cached user first for zero-latency hydration
+    let initialUser = sessionUser;
+    if (!initialUser && typeof window !== "undefined") {
+      try {
+        const cached = JSON.parse(localStorage.getItem("mentorlagbe_cached_user") || "null");
+        if (cached?.email) initialUser = cached;
+      } catch {}
+    }
+
+    if (initialUser?.email) {
+      setEmail(initialUser.email);
+      setName(initialUser.name || "Member");
       
-      const sessionRole = (sessionUser as any)?.role || 
-        (sessionUser.email.toLowerCase().includes("admin") ? "admin" : "student");
-      setRole(sessionRole);
-      setPlan((sessionUser as any)?.plan || "pro");
-      if (sessionUser.image) setImage(sessionUser.image);
+      const userRole = (initialUser as any)?.role || 
+        (initialUser.email.toLowerCase().includes("admin") ? "admin" : (initialUser.email.toLowerCase().includes("tutor") || initialUser.email.toLowerCase().includes("teacher") ? "tutor" : "student"));
+      setRole(userRole);
+      setPlan((initialUser as any)?.plan || "pro");
+      if (initialUser.image) setImage(initialUser.image);
 
       // Fetch additional stored details from database
       const fetchDetails = async () => {
         setIsLoading(true);
         try {
           const token = await getTokenFromClient();
-          const res = await fetch(`/api/user/profile?email=${encodeURIComponent(sessionUser.email)}`, {
+          const res = await fetch(`/api/user/profile?email=${encodeURIComponent(initialUser.email)}`, {
             headers: token ? { authorization: `Bearer ${token}` } : {},
           });
           if (res.ok) {
@@ -71,10 +80,9 @@ export default function ProfilePage() {
 
       fetchDetails();
     } else {
-      // Default demo state
-      setName("asdf");
-      setEmail("admin@mentorlagbe.com");
-      setRole("admin");
+      setName("");
+      setEmail("");
+      setRole("student");
       setPlan("pro");
     }
   }, [sessionUser]);

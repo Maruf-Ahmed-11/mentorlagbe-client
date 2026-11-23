@@ -138,8 +138,9 @@ export default function PostTuitionPage() {
     }
 
     setIsSubmitting(true);
-    const userEmail = session?.user?.email || "tutor@mentorlagbe.com";
-    const userName = session?.user?.name || "Verified Tutor";
+    const cachedUser = typeof window !== "undefined" ? JSON.parse(localStorage.getItem("mentorlagbe_cached_user") || "null") : null;
+    const userEmail = session?.user?.email || cachedUser?.email || "";
+    const userName = session?.user?.name || cachedUser?.name || "Verified Tutor";
     const resolvedLocation = isOfflineOrHybrid ? location.trim() : "Online (Zoom / Meet)";
 
     // 1. Strict Duplicate Check on Local Data

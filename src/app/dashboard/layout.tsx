@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
@@ -30,14 +30,56 @@ export default function DashboardLayout({
 }) {
   const router = useRouter();
   const pathname = usePathname();
-  const { data: session } = authClient.useSession();
+  const { data: session, isPending } = authClient.useSession();
   const [isCollapsed, setIsCollapsed] = useState(false);
+
+  // Synchronously initialize cached user to avoid any flicker on refresh!
+  const [cachedUser, setCachedUser] = useState<{
+    name: string;
+    email: string;
+    role: string;
+    image?: string | null;
+  } | null>(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const saved = localStorage.getItem("mentorlagbe_cached_user");
+        if (saved) return JSON.parse(saved);
+      } catch {}
+    }
+    return null;
+  });
+
+  // Keep cache synced with fresh session data
+  useEffect(() => {
+    if (session?.user) {
+      const email = session.user.email || "";
+      const role =
+        (session.user as any)?.role ||
+        (email.toLowerCase().includes("admin")
+          ? "admin"
+          : email.toLowerCase().includes("tutor") || email.toLowerCase().includes("teacher")
+          ? "tutor"
+          : "student");
+      const userData = {
+        name: session.user.name || "Member",
+        email,
+        role,
+        image: session.user.image,
+      };
+      setCachedUser(userData);
+      try {
+        localStorage.setItem("mentorlagbe_cached_user", JSON.stringify(userData));
+        localStorage.setItem("mentorlagbe_last_active_email", email);
+      } catch {}
+    }
+  }, [session]);
 
   const handleSignOut = async () => {
     await authClient.signOut({
       fetchOptions: {
         onSuccess: () => {
           localStorage.removeItem("access-token");
+          localStorage.removeItem("mentorlagbe_cached_user");
           toast.success("Signed out successfully");
           router.push("/sign-in");
           router.refresh();
@@ -46,11 +88,11 @@ export default function DashboardLayout({
     });
   };
 
-  // Derive user info
-  const user = session?.user;
-  const userEmail = user?.email || "admin@mentorlagbe.com";
+  // Derive user info strictly from active session or cached user (ZERO hardcoded demo fallback)
+  const user = session?.user || cachedUser;
+  const userEmail = user?.email || "";
   const userRole = (user as any)?.role || (userEmail.toLowerCase().includes("admin") ? "admin" : (userEmail.toLowerCase().includes("tutor") || userEmail.toLowerCase().includes("teacher") ? "tutor" : "student"));
-  const userName = user?.name || "asdf";
+  const userName = user?.name || (isPending ? "Loading..." : "Member");
   const userPlan = "PRO";
 
   // Initials for avatar placeholder
