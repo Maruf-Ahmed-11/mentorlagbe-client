@@ -51,6 +51,8 @@ export interface TuitionItem {
   applicantsCount?: number;
   approvalStatus: ApprovalStatus;
   isActive: boolean;
+  tutorEmail?: string;
+  tutorName?: string;
   createdAt?: string;
   adminVerifiedAt?: string;
   isDemo?: boolean;
@@ -87,18 +89,15 @@ const WEEKLY_FREQUENCY_OPTIONS = [
 ];
 
 export default function MyTuitionsPage() {
-  const { data: session } = authClient.useSession();
+  const { data: session, isPending: isSessionPending } = authClient.useSession();
   const [tuitions, setTuitions] = useState<TuitionItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   // User role checking
   const user = session?.user;
-  const userEmail = user?.email || "tutor@mentorlagbe.com";
+  const userEmail = user?.email || (typeof window !== "undefined" ? localStorage.getItem("mentorlagbe_last_active_email") || "" : "");
   const userRole = (user as any)?.role || (userEmail.toLowerCase().includes("admin") ? "admin" : (userEmail.toLowerCase().includes("tutor") || userEmail.toLowerCase().includes("teacher") ? "tutor" : "student"));
   const isAdmin = userRole === "admin";
-
-  // Admin moderation test toggle (accessible to admin or for quick interactive testing)
-  const [showAdminControls, setShowAdminControls] = useState(isAdmin);
 
   // Edit Modal State
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -119,46 +118,59 @@ export default function MyTuitionsPage() {
   const [deletingTuition, setDeletingTuition] = useState<TuitionItem | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
 
-  // Load Tuitions on Mount & Sanitize Legacy "approved" Statuses to "pending"
+  // Load Tuitions on Mount & Handle Instant Cache + Async Backend
   useEffect(() => {
+    let isCancelled = false;
+
     async function loadTuitions() {
-      setIsLoading(true);
-      try {
-        const userKey = `mentorlagbe_tuitions_${userEmail}`;
-        let storedLocally: any[] = JSON.parse(localStorage.getItem(userKey) || "[]");
-        const hasRealFlag = localStorage.getItem("mentorlagbe_has_real_tuitions") === "true";
+      // 1. Instant Synchronous Cache Check to Prevent Refresh Glitch / Flicker
+      const activeEmail = user?.email || (typeof window !== "undefined" ? localStorage.getItem("mentorlagbe_last_active_email") || "" : "");
+      const userKey = activeEmail ? `mentorlagbe_tuitions_${activeEmail}` : "";
 
-        // CRITICAL FIX: If posts were stored with legacy hardcoded "approved" status before admin review,
-        // sanitize them to "pending" as requested!
-        let storageUpdated = false;
-        storedLocally = storedLocally.map((item) => {
-          if (item.approvalStatus === "approved" && !item.adminVerifiedAt) {
-            storageUpdated = true;
-            return { ...item, approvalStatus: "pending" };
+      if (userKey && typeof window !== "undefined") {
+        try {
+          const cached: any[] = JSON.parse(localStorage.getItem(userKey) || "[]");
+          if (cached.length > 0 && tuitions.length === 0) {
+            setTuitions(cached);
+            setIsLoading(false);
           }
-          return item;
-        });
-        if (storageUpdated) {
-          localStorage.setItem(userKey, JSON.stringify(storedLocally));
-        }
+        } catch {}
+      }
 
+      // If session is resolving and we don't have userEmail yet, wait for session
+      if (isSessionPending && !user?.email) {
+        return;
+      }
+
+      const effectiveEmail = user?.email || activeEmail;
+      if (effectiveEmail && typeof window !== "undefined") {
+        localStorage.setItem("mentorlagbe_last_active_email", effectiveEmail);
+      }
+
+      try {
         let backendTuitions: any[] = [];
         try {
-          const emailQuery = userEmail ? `?email=${encodeURIComponent(userEmail)}` : "";
-          const res = await apiFetch<any[]>(`/tuitions${emailQuery}`);
+          // If Admin: fetch ALL tuitions across the platform for moderation
+          // If Tutor: fetch only their own tuitions
+          const endpoint = isAdmin
+            ? "/tuitions?sort=newest"
+            : (effectiveEmail ? `/tuitions?email=${encodeURIComponent(effectiveEmail)}&sort=newest` : "/tuitions?sort=newest");
+
+          const res = await apiFetch<any[]>(endpoint);
           if (Array.isArray(res)) {
             backendTuitions = res;
           }
-        } catch {
-          // Backend network fallback
+        } catch (fetchErr) {
+          console.warn("Backend fetch notice:", fetchErr);
         }
+
+        if (isCancelled) return;
 
         const combinedMap = new Map<string, TuitionItem>();
 
         // Add backend items
         backendTuitions.forEach((item) => {
           const id = item._id || item.id || `b-${Date.now()}`;
-          // Ensure posts not explicitly verified by admin resolve to "pending"
           const resolvedStatus: ApprovalStatus = item.adminVerifiedAt
             ? (item.approvalStatus as ApprovalStatus)
             : item.approvalStatus === "rejected"
@@ -173,58 +185,75 @@ export default function MyTuitionsPage() {
             classLevel: item.classLevel,
             mode: item.mode || "Online Batch",
             location: item.location || (item.mode === "Online Batch" ? "Online / Remote" : "Dhaka"),
-            schedule: item.schedule || item.daysPerWeek ? `${item.daysPerWeek} days / week` : "3 days / week",
+            schedule: item.schedule || (item.daysPerWeek ? `${item.daysPerWeek} days / week` : "3 days / week"),
             monthlyFee: Number(item.monthlyFee || 0),
             bannerImage: item.bannerImage || "",
             description: item.description || "",
             approvalStatus: resolvedStatus,
             adminVerifiedAt: item.adminVerifiedAt,
             isActive: item.isActive !== undefined ? Boolean(item.isActive) : true,
+            tutorEmail: item.tutorEmail,
+            tutorName: item.tutorName,
             isDemo: false,
           });
         });
 
-        // Add local items
-        storedLocally.forEach((item) => {
-          const id = item.id || item._id || `loc-${Date.now()}`;
-          const resolvedStatus: ApprovalStatus = item.adminVerifiedAt
-            ? (item.approvalStatus as ApprovalStatus)
-            : item.approvalStatus === "rejected"
-            ? "rejected"
-            : "pending";
+        // Add local items for tutor if not already present
+        if (!isAdmin && userKey && typeof window !== "undefined") {
+          let storedLocally: any[] = [];
+          try {
+            storedLocally = JSON.parse(localStorage.getItem(userKey) || "[]");
+          } catch {}
 
-          if (!combinedMap.has(id)) {
-            combinedMap.set(id, {
-              id,
-              _id: item._id,
-              title: item.title,
-              subject: item.subject,
-              classLevel: item.classLevel,
-              mode: item.mode || "Online Batch",
-              location: item.location || "Online",
-              schedule: item.schedule || "3 days / week",
-              monthlyFee: Number(item.monthlyFee || 0),
-              bannerImage: item.bannerImage || "",
-              description: item.description || "",
-              approvalStatus: resolvedStatus,
-              adminVerifiedAt: item.adminVerifiedAt,
-              isActive: item.isActive !== undefined ? Boolean(item.isActive) : true,
-              isDemo: false,
-            });
-          }
-        });
+          storedLocally.forEach((item) => {
+            const id = item.id || item._id || `loc-${Date.now()}`;
+            const resolvedStatus: ApprovalStatus = item.adminVerifiedAt
+              ? (item.approvalStatus as ApprovalStatus)
+              : item.approvalStatus === "rejected"
+              ? "rejected"
+              : "pending";
+
+            if (!combinedMap.has(id)) {
+              combinedMap.set(id, {
+                id,
+                _id: item._id,
+                title: item.title,
+                subject: item.subject,
+                classLevel: item.classLevel,
+                mode: item.mode || "Online Batch",
+                location: item.location || "Online",
+                schedule: item.schedule || "3 days / week",
+                monthlyFee: Number(item.monthlyFee || 0),
+                bannerImage: item.bannerImage || "",
+                description: item.description || "",
+                approvalStatus: resolvedStatus,
+                adminVerifiedAt: item.adminVerifiedAt,
+                isActive: item.isActive !== undefined ? Boolean(item.isActive) : true,
+                tutorEmail: item.tutorEmail,
+                tutorName: item.tutorName,
+                isDemo: false,
+              });
+            }
+          });
+        }
 
         const realTuitions = Array.from(combinedMap.values());
         setTuitions(realTuitions);
       } catch {
-        setTuitions([]);
+        // Fallback
       } finally {
-        setIsLoading(false);
+        if (!isCancelled) {
+          setIsLoading(false);
+        }
       }
     }
 
     loadTuitions();
-  }, [userEmail]);
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [user?.email, isSessionPending, isAdmin]);
 
   // 1. One-Click Toggle Active Status (Tutor Controlled)
   const handleToggleActive = async (id: string) => {
@@ -273,8 +302,15 @@ export default function MyTuitionsPage() {
     );
   };
 
-  // 2. Admin Approval & Rejection Handler
+  // 2. Admin Approval & Rejection Handler (Strictly executable only when isAdmin === true)
   const handleUpdateApproval = async (id: string, newStatus: ApprovalStatus) => {
+    if (!isAdmin) {
+      toast.error("Unauthorized: Only platform administrators can approve or reject tuition listings.", {
+        icon: "🚫",
+      });
+      return;
+    }
+
     const target = tuitions.find((t) => t.id === id);
     if (!target) return;
 
@@ -287,15 +323,19 @@ export default function MyTuitionsPage() {
       )
     );
 
-    // Update localStorage
-    const userKey = `mentorlagbe_tuitions_${userEmail}`;
-    const storedLocally: any[] = JSON.parse(localStorage.getItem(userKey) || "[]");
-    const updatedLocally = storedLocally.map((item) =>
-      item.id === id || item._id === id
-        ? { ...item, approvalStatus: newStatus, adminVerifiedAt: verifiedTimestamp }
-        : item
-    );
-    localStorage.setItem(userKey, JSON.stringify(updatedLocally));
+    // Update localStorage if target belongs to a tutor
+    if (target.tutorEmail) {
+      const tutorKey = `mentorlagbe_tuitions_${target.tutorEmail}`;
+      try {
+        const storedLocally: any[] = JSON.parse(localStorage.getItem(tutorKey) || "[]");
+        const updatedLocally = storedLocally.map((item) =>
+          item.id === id || item._id === id
+            ? { ...item, approvalStatus: newStatus, adminVerifiedAt: verifiedTimestamp }
+            : item
+        );
+        localStorage.setItem(tutorKey, JSON.stringify(updatedLocally));
+      } catch {}
+    }
 
     // Update backend API
     try {
@@ -306,22 +346,24 @@ export default function MyTuitionsPage() {
           adminVerifiedAt: verifiedTimestamp,
         }),
       });
-    } catch (err) {
-      console.warn("Backend approval update notice:", err);
-    }
 
-    if (newStatus === "approved") {
-      toast.success(`Tuition approved! Status is now Approved (Green).`, {
-        icon: "✅",
-      });
-    } else if (newStatus === "rejected") {
-      toast.error(`Tuition rejected! Status is now Rejected (Red).`, {
-        icon: "🚫",
-      });
-    } else {
-      toast.success("Tuition status reset to Pending (Amber).", {
-        icon: "⏳",
-      });
+      if (newStatus === "approved") {
+        toast.success(`Tuition approved successfully! (Live on platform)`, {
+          icon: "✅",
+        });
+      } else if (newStatus === "rejected") {
+        toast.error(`Tuition rejected.`, {
+          icon: "🚫",
+        });
+      }
+    } catch (err: any) {
+      toast.error(err.message || "Failed to update approval status");
+      // Revert if error
+      setTuitions((prev) =>
+        prev.map((t) =>
+          t.id === id ? { ...t, approvalStatus: target.approvalStatus, adminVerifiedAt: target.adminVerifiedAt } : t
+        )
+      );
     }
   };
 
@@ -453,60 +495,31 @@ export default function MyTuitionsPage() {
           <div className="flex items-center gap-2">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-[#1C0307] border border-[#F2B8C4] dark:border-[#E11D48]/35 text-[11px] font-mono font-bold tracking-wider text-[#D91E48] dark:text-[#FF1E40] uppercase shadow-sm">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>TUTOR WORKSPACE // COURSE MANAGEMENT</span>
+              <span>{isAdmin ? "ADMIN WORKSPACE // COURSE MODERATION" : "TUTOR WORKSPACE // COURSE MANAGEMENT"}</span>
             </span>
           </div>
           <h2 className="text-2xl sm:text-3xl font-black text-[#180C0E] dark:text-white tracking-tight mt-2">
-            My Tuitions
+            {isAdmin ? "Manage Tuitions" : "My Tuitions"}
           </h2>
           <p className="text-xs sm:text-sm text-[#5C494C] dark:text-[#BFA5AA] mt-1">
-            Manage your created tuition listings, toggle availability, or make updates.
+            {isAdmin
+              ? "Review, approve, or reject tuition listings submitted by tutors across the platform."
+              : "Manage your created tuition listings, toggle availability, or make updates."}
           </p>
         </div>
 
         <div className="flex items-center gap-2.5 self-start sm:self-auto">
-          {/* Admin Moderation Mode Toggle */}
-          <button
-            type="button"
-            onClick={() => setShowAdminControls(!showAdminControls)}
-            className={`inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs font-mono font-bold transition-all border cursor-pointer shadow-xs ${
-              showAdminControls
-                ? "bg-[#D91E48] text-white border-[#D91E48] shadow-sm"
-                : "bg-white dark:bg-[#160307] text-[#8C7679] dark:text-[#BFA5AA] border-[#EADCDD] dark:border-[#E11D48]/30 hover:border-[#D91E48]"
-            }`}
-            title="Toggle Admin Moderation Controls"
-          >
-            <ShieldCheck className="w-4 h-4" />
-            <span>{showAdminControls ? "Admin Controls: On" : "Admin Moderation Tools"}</span>
-          </button>
-
-          <Link
-            href="/dashboard/post-tuition"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#D91E48] hover:bg-[#B31438] dark:bg-gradient-to-r dark:from-[#E11D48] dark:via-[#FF1E40] dark:to-[#FF4D6D] text-white font-bold text-xs shadow-[0_4px_16px_rgba(217,30,72,0.25)] dark:shadow-[0_0_20px_rgba(225,29,72,0.5)] transition-all active:scale-95 cursor-pointer"
-          >
-            <Plus className="w-4 h-4" />
-            <span>Post New Tuition</span>
-          </Link>
+          {!isAdmin && (
+            <Link
+              href="/dashboard/post-tuition"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#D91E48] hover:bg-[#B31438] dark:bg-gradient-to-r dark:from-[#E11D48] dark:via-[#FF1E40] dark:to-[#FF4D6D] text-white font-bold text-xs shadow-[0_4px_16px_rgba(217,30,72,0.25)] dark:shadow-[0_0_20px_rgba(225,29,72,0.5)] transition-all active:scale-95 cursor-pointer"
+            >
+              <Plus className="w-4 h-4" />
+              <span>Post New Tuition</span>
+            </Link>
+          )}
         </div>
       </div>
-
-      {/* Admin Notice Bar when Moderation Mode is Active */}
-      {showAdminControls && (
-        <div className="rounded-2xl p-4 bg-[#FDECEF] dark:bg-[#2A060C] border border-[#F2B8C4] dark:border-[#E11D48]/40 flex items-center justify-between text-xs animate-in fade-in duration-200">
-          <div className="flex items-center gap-2.5">
-            <ShieldCheck className="w-4 h-4 text-[#D91E48] dark:text-[#FF1E40]" />
-            <span className="font-bold text-[#180C0E] dark:text-white">
-              Admin Moderation Tools Active:
-            </span>
-            <span className="text-[#5C494C] dark:text-[#BFA5AA]">
-              You can click <b>Approve</b> or <b>Reject</b> on any listing to test real-time approval status updates.
-            </span>
-          </div>
-          <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#D91E48] dark:text-[#FF1E40] bg-white dark:bg-[#160307] px-2 py-0.5 rounded-full border border-[#F2B8C4] dark:border-[#E11D48]/30">
-            ADMIN SIMULATOR
-          </span>
-        </div>
-      )}
 
       {/* Main Table Container */}
       <div className="rounded-2xl border border-[#EADCDD] dark:border-[#E11D48]/25 bg-white dark:bg-[#140204]/90 shadow-[0_12px_32px_-8px_rgba(24,12,14,0.06)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.85)] backdrop-blur-xl overflow-hidden">
@@ -617,7 +630,7 @@ export default function MyTuitionsPage() {
                       </span>
                     </td>
 
-                    {/* 4. Approval Status (Read-Only for Tutor, Interactive when Admin Tools Active) */}
+                    {/* 4. Approval Status (Read-Only for Tutor, Authenticated Admin Execution only) */}
                     <td className="py-4 px-5 text-center whitespace-nowrap">
                       <div className="flex flex-col items-center gap-1.5">
                         {item.approvalStatus === "approved" ? (
@@ -637,17 +650,17 @@ export default function MyTuitionsPage() {
                           </span>
                         )}
 
-                        {/* Interactive Admin Controls for Testing / Approving / Rejecting */}
-                        {showAdminControls && (
+                        {/* Admin Action Buttons (STRICTLY visible ONLY when user is an authenticated Admin) */}
+                        {isAdmin && (
                           <div className="flex items-center gap-1.5 mt-0.5">
                             {item.approvalStatus !== "approved" && (
                               <button
                                 type="button"
                                 onClick={() => handleUpdateApproval(item.id, "approved")}
-                                title="Approve this post"
-                                className="px-2 py-0.5 rounded-md text-[10px] font-bold font-mono bg-[#ECFDF5] hover:bg-[#A7F3D0] text-[#059669] border border-[#A7F3D0] transition-all cursor-pointer flex items-center gap-0.5 shadow-2xs active:scale-95"
+                                title="Admin: Approve this tuition listing"
+                                className="px-2.5 py-1 rounded-lg text-[10px] font-bold font-mono bg-[#ECFDF5] hover:bg-[#A7F3D0] text-[#059669] border border-[#A7F3D0] transition-all cursor-pointer flex items-center gap-1 shadow-2xs active:scale-95"
                               >
-                                <Check className="w-2.5 h-2.5" />
+                                <Check className="w-3 h-3" />
                                 <span>Approve</span>
                               </button>
                             )}
@@ -656,22 +669,11 @@ export default function MyTuitionsPage() {
                               <button
                                 type="button"
                                 onClick={() => handleUpdateApproval(item.id, "rejected")}
-                                title="Reject this post"
-                                className="px-2 py-0.5 rounded-md text-[10px] font-bold font-mono bg-[#FDECEF] hover:bg-[#F2B8C4] text-[#D91E48] border border-[#F2B8C4] transition-all cursor-pointer flex items-center gap-0.5 shadow-2xs active:scale-95"
+                                title="Admin: Reject this tuition listing"
+                                className="px-2.5 py-1 rounded-lg text-[10px] font-bold font-mono bg-[#FDECEF] hover:bg-[#F2B8C4] text-[#D91E48] border border-[#F2B8C4] transition-all cursor-pointer flex items-center gap-1 shadow-2xs active:scale-95"
                               >
-                                <X className="w-2.5 h-2.5" />
+                                <X className="w-3 h-3" />
                                 <span>Reject</span>
-                              </button>
-                            )}
-
-                            {item.approvalStatus !== "pending" && (
-                              <button
-                                type="button"
-                                onClick={() => handleUpdateApproval(item.id, "pending")}
-                                title="Reset back to Pending"
-                                className="px-1.5 py-0.5 rounded-md text-[10px] font-mono text-[#8C7679] hover:bg-[#EADCDD] transition-all cursor-pointer"
-                              >
-                                <RotateCcw className="w-2.5 h-2.5" />
                               </button>
                             )}
                           </div>
