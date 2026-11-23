@@ -45,8 +45,17 @@ export default function Navbar() {
 
   // Initialize theme from document or localStorage with MutationObserver
   useEffect(() => {
-    const isDarkMode = document.documentElement.classList.contains("dark");
-    setIsDark(isDarkMode);
+    const storedTheme = typeof window !== "undefined" ? localStorage.getItem("theme") : null;
+    const currentIsDark = storedTheme !== null ? storedTheme === "dark" : true;
+    setIsDark(currentIsDark);
+
+    if (currentIsDark) {
+      document.documentElement.classList.add("dark");
+      document.documentElement.classList.remove("light");
+    } else {
+      document.documentElement.classList.remove("dark");
+      document.documentElement.classList.add("light");
+    }
 
     const observer = new MutationObserver(() => {
       setIsDark(document.documentElement.classList.contains("dark"));
