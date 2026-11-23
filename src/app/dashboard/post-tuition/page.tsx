@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import Link from "next/link";
@@ -18,9 +18,9 @@ import {
   Loader2,
   GraduationCap,
   Upload,
-  Image as ImageIcon,
   X,
-  AlertCircle
+  AlertCircle,
+  RotateCcw
 } from "lucide-react";
 
 const SUBJECT_OPTIONS = [
@@ -69,6 +69,28 @@ export default function PostTuitionPage() {
   const [bannerImage, setBannerImage] = useState("");
   const [description, setDescription] = useState("");
 
+  const resetForm = () => {
+    setTitle("");
+    setSubject(SUBJECT_OPTIONS[0]);
+    setClassLevel(CLASS_LEVEL_OPTIONS[1]);
+    setMode("Offline Tuition");
+    setLocation("Dhanmondi, Dhaka");
+    setSchedule("3 days / week");
+    setMonthlyFee("6000");
+    setBannerImage("");
+    setDescription("");
+  };
+
+  // Reset form when page mounts or if returning from a completed submission
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      if (sessionStorage.getItem("mentorlagbe_post_submitted") === "true") {
+        resetForm();
+        sessionStorage.removeItem("mentorlagbe_post_submitted");
+      }
+    }
+  }, []);
+
   const isOfflineOrHybrid = mode === "Offline Tuition" || mode === "Hybrid Model";
   const descLength = description.trim().length;
   const isDescValid = descLength >= 50;
@@ -93,8 +115,12 @@ export default function PostTuitionPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    const cleanTitle = title.trim();
+    const cleanSubject = subject.trim();
+    const cleanClass = classLevel.trim();
+
     // Mandatory validations
-    if (!title.trim()) {
+    if (!cleanTitle) {
       toast.error("Please enter a tuition title / program name");
       return;
     }
@@ -116,11 +142,62 @@ export default function PostTuitionPage() {
     const userName = session?.user?.name || "Verified Tutor";
     const resolvedLocation = isOfflineOrHybrid ? location.trim() : "Online (Zoom / Meet)";
 
+    // 1. Strict Duplicate Check on Local Data
+    const userKey = `mentorlagbe_tuitions_${userEmail}`;
+    const localExisting: any[] = JSON.parse(localStorage.getItem(userKey) || "[]");
+    const isLocalDuplicate = localExisting.some((item) => {
+      const itemTitle = (item.title || "").trim().toLowerCase();
+      const itemSub = (item.subject || "").trim().toLowerCase();
+      const itemCls = (item.classLevel || "").trim().toLowerCase();
+      return (
+        itemTitle === cleanTitle.toLowerCase() &&
+        itemSub === cleanSubject.toLowerCase() &&
+        itemCls === cleanClass.toLowerCase()
+      );
+    });
+
+    if (isLocalDuplicate) {
+      setIsSubmitting(false);
+      toast.error("Duplicate post blocked: You already have an active tuition listing with this exact Title, Subject, and Class Level.", {
+        icon: "⚠️",
+        duration: 5000,
+      });
+      return;
+    }
+
+    // 2. Strict Duplicate Check on Server Data
+    try {
+      const serverItems = await apiFetch<any[]>(`/tuitions?email=${encodeURIComponent(userEmail)}`);
+      if (Array.isArray(serverItems)) {
+        const isServerDuplicate = serverItems.some((item) => {
+          const itemTitle = (item.title || "").trim().toLowerCase();
+          const itemSub = (item.subject || "").trim().toLowerCase();
+          const itemCls = (item.classLevel || "").trim().toLowerCase();
+          return (
+            itemTitle === cleanTitle.toLowerCase() &&
+            itemSub === cleanSubject.toLowerCase() &&
+            itemCls === cleanClass.toLowerCase()
+          );
+        });
+
+        if (isServerDuplicate) {
+          setIsSubmitting(false);
+          toast.error("Duplicate post blocked: An identical listing already exists on the server. Please edit the existing post instead.", {
+            icon: "⚠️",
+            duration: 5000,
+          });
+          return;
+        }
+      }
+    } catch {
+      // If server check fails due to offline mode, local check still protects integrity
+    }
+
     const newTuitionData = {
       id: `tuition_${Date.now()}`,
-      title: title.trim(),
-      subject,
-      classLevel,
+      title: cleanTitle,
+      subject: cleanSubject,
+      classLevel: cleanClass,
       mode,
       location: resolvedLocation,
       schedule,
@@ -136,7 +213,7 @@ export default function PostTuitionPage() {
     };
 
     try {
-      // 1. Send to backend API
+      // Send to backend API
       const res = await apiFetch<any>("/tuitions", {
         method: "POST",
         body: JSON.stringify(newTuitionData),
@@ -146,25 +223,38 @@ export default function PostTuitionPage() {
         newTuitionData.id = res._id || res.id || res.insertedId;
       }
     } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Notice: Saved locally";
+      if (msg.includes("duplicate") || msg.includes("Duplicate") || msg.includes("already exists")) {
+        setIsSubmitting(false);
+        toast.error(msg, { icon: "⚠️" });
+        return;
+      }
       console.warn("Backend save notice:", err);
-      // Even if backend fails, we persist in localStorage so user's post is safe
     }
 
     try {
-      // 2. Persist in local storage for this tutor & set has_real_tuitions flag
-      const userKey = `mentorlagbe_tuitions_${userEmail}`;
-      const existing = JSON.parse(localStorage.getItem(userKey) || "[]");
-      const updated = [newTuitionData, ...existing];
+      // Persist in local storage for this tutor & set has_real_tuitions flag
+      const updated = [newTuitionData, ...localExisting];
       localStorage.setItem(userKey, JSON.stringify(updated));
       localStorage.setItem("mentorlagbe_has_real_tuitions", "true");
+
+      // Mark session storage so back-button navigation clears form
+      sessionStorage.setItem("mentorlagbe_post_submitted", "true");
+
+      // Immediately reset form state so fields are clean
+      resetForm();
 
       toast.success("Tuition post created successfully! Your live listing is ready.", {
         icon: "🎉",
       });
-      router.push("/dashboard/my-tuitions");
+
+      // Use replace to prevent back-button loops into populated form
+      router.replace("/dashboard/my-tuitions");
+      router.refresh();
     } catch {
+      resetForm();
       toast.success("Tuition post created!");
-      router.push("/dashboard/my-tuitions");
+      router.replace("/dashboard/my-tuitions");
     } finally {
       setIsSubmitting(false);
     }
@@ -196,13 +286,25 @@ export default function PostTuitionPage() {
           </p>
         </div>
 
-        <Link
-          href="/dashboard/my-tuitions"
-          className="inline-flex items-center gap-2 self-start sm:self-auto px-4 py-2.5 rounded-xl bg-[#F5ECEC] dark:bg-[#1E0307] border border-[#EADCDD] dark:border-[#E11D48]/30 text-xs font-bold text-[#180C0E] dark:text-white hover:border-[#D91E48] dark:hover:border-[#FF1E40] transition-all cursor-pointer shadow-sm"
-        >
-          <BookOpen className="w-3.5 h-3.5 text-[#D91E48] dark:text-[#FF1E40]" />
-          <span>View My Tuitions</span>
-        </Link>
+        <div className="flex items-center gap-2.5 self-start sm:self-auto">
+          <button
+            type="button"
+            onClick={resetForm}
+            className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-white dark:bg-[#160307] border border-[#EADCDD] dark:border-[#E11D48]/30 text-xs font-semibold text-[#5C494C] dark:text-[#BFA5AA] hover:text-[#D91E48] dark:hover:text-[#FF1E40] transition-all cursor-pointer shadow-sm"
+            title="Reset all inputs"
+          >
+            <RotateCcw className="w-3.5 h-3.5" />
+            <span>Reset Form</span>
+          </button>
+
+          <Link
+            href="/dashboard/my-tuitions"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#F5ECEC] dark:bg-[#1E0307] border border-[#EADCDD] dark:border-[#E11D48]/30 text-xs font-bold text-[#180C0E] dark:text-white hover:border-[#D91E48] dark:hover:border-[#FF1E40] transition-all cursor-pointer shadow-sm"
+          >
+            <BookOpen className="w-3.5 h-3.5 text-[#D91E48] dark:text-[#FF1E40]" />
+            <span>View My Tuitions</span>
+          </Link>
+        </div>
       </div>
 
       {/* Main Form Container */}
@@ -469,6 +571,13 @@ export default function PostTuitionPage() {
 
           {/* Submit Button */}
           <div className="pt-4 flex items-center justify-end gap-3 border-t border-[#EADCDD] dark:border-[#E11D48]/20">
+            <button
+              type="button"
+              onClick={resetForm}
+              className="px-4 py-2.5 rounded-xl text-xs font-bold text-[#5C494C] dark:text-[#BFA5AA] hover:bg-[#F5ECEC] dark:hover:bg-[#1E0307] transition-all cursor-pointer"
+            >
+              Clear
+            </button>
             <Link
               href="/dashboard"
               className="px-5 py-2.5 rounded-xl text-xs font-bold text-[#5C494C] dark:text-[#BFA5AA] hover:bg-[#F5ECEC] dark:hover:bg-[#1E0307] transition-all cursor-pointer"
