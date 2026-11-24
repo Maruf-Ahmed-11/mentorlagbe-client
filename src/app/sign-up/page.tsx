@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect, Suspense } from "react";
 import { authClient } from "@/lib/auth-client";
@@ -146,17 +146,17 @@ function SignUpContent() {
   };
 
   return (
-    <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center bg-[#0A0203] p-4 md:p-8 relative overflow-hidden">
+    <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center bg-[#050B14] p-4 md:p-8 relative overflow-hidden">
       
       {/* Ambient Crimson Glows */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[900px] h-[550px] bg-[radial-gradient(ellipse_at_center,_rgba(225,29,72,0.22)_0%,_transparent_70%)] blur-3xl pointer-events-none" />
-      <div className="absolute -bottom-20 -right-20 w-[450px] h-[450px] bg-[#880816]/20 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[900px] h-[550px] bg-[radial-gradient(ellipse_at_center,_rgba(2, 132, 199,0.22)_0%,_transparent_70%)] blur-3xl pointer-events-none" />
+      <div className="absolute -bottom-20 -right-20 w-[450px] h-[450px] bg-[#0C4A6E]/20 rounded-full blur-[140px] pointer-events-none" />
 
       {/* Main Auth Container (BookNook Cinematic 2-Column Style) */}
-      <div className="flex w-full max-w-[1100px] overflow-hidden rounded-3xl bg-[#140205]/95 border-2 border-[#E11D48]/40 shadow-[0_20px_60px_rgba(0,0,0,0.9),_inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-2xl relative z-10">
+      <div className="flex w-full max-w-[1100px] overflow-hidden rounded-3xl bg-[#0B1930]/95 border-2 border-[#0284C7]/40 shadow-[0_20px_60px_rgba(0,0,0,0.9),_inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-2xl relative z-10">
         
         {/* Left Side: Moody Cinematic Artwork & Community Quote */}
-        <div className="hidden md:flex w-1/2 relative flex-col justify-between p-10 overflow-hidden bg-[#1E0307]">
+        <div className="hidden md:flex w-1/2 relative flex-col justify-between p-10 overflow-hidden bg-[#0D1D38]">
           {/* Background Image with Dark Vignette (Academic Mentorship & University Study) */}
           <div
             className="absolute inset-0 bg-cover bg-center transition-transform duration-700 hover:scale-105"
@@ -165,13 +165,13 @@ function SignUpContent() {
                 "url('https://images.unsplash.com/photo-1571260899304-425eee4c7efc?q=80&w=1600&auto=format&fit=crop')",
             }}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#140205] via-[#140205]/65 to-[#140205]/40" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0B1930] via-[#0B1930]/65 to-[#0B1930]/40" />
 
           {/* Top Badge */}
           <div className="relative z-10">
             <Logo />
-            <div className="mt-4 inline-flex items-center gap-2 rounded-full bg-[#1C0307]/80 border border-[#FF1E40]/50 px-3 py-1 shadow-[0_0_15px_rgba(255,30,64,0.4)]">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#FF1E40] animate-pulse" />
+            <div className="mt-4 inline-flex items-center gap-2 rounded-full bg-[#0D1D38]/80 border border-[#0EA5E9]/50 px-3 py-1 shadow-[0_0_15px_rgba(14, 165, 233,0.4)]">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#0EA5E9] animate-pulse" />
               <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-white">
                 02 // JOIN THE COMMUNITY
               </span>
@@ -182,14 +182,14 @@ function SignUpContent() {
           <div className="relative z-10 space-y-3">
             <h2 className="text-2xl lg:text-3xl font-black uppercase tracking-tight text-white leading-tight">
               Unlock Your Potential, <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-[#FF4D6D] to-[#FF1E40]">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-[#38BDF8] to-[#0EA5E9]">
                 One Lesson at a Time
               </span>
             </h2>
-            <p className="text-xs text-[#F4E2E5]/80 leading-relaxed font-sans max-w-sm">
+            <p className="text-xs text-[#E2E8F0]/80 leading-relaxed font-sans max-w-sm">
               Create your account to start applying for top-tier tuitions or share your subject expertise with ambitious students nationwide.
             </p>
-            <div className="pt-2 flex items-center gap-4 text-xs font-mono text-[#BFA5AA]">
+            <div className="pt-2 flex items-center gap-4 text-xs font-mono text-[#94A3B8]">
               <span>✓ Instant Free Account</span>
               <span>✓ Zero Commission</span>
             </div>
@@ -197,16 +197,16 @@ function SignUpContent() {
         </div>
 
         {/* Right Side: Registration Form Card */}
-        <div className="w-full md:w-1/2 p-6 sm:p-10 lg:p-12 flex flex-col justify-center bg-[#140205]/95">
+        <div className="w-full md:w-1/2 p-6 sm:p-10 lg:p-12 flex flex-col justify-center bg-[#0B1930]/95">
           
           <div className="text-center md:text-left mb-6">
-            <span className="text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-[#FF1E40] block mb-1">
+            <span className="text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-[#0EA5E9] block mb-1">
               REGISTRATION
             </span>
             <h1 className="text-2xl sm:text-3xl font-black uppercase tracking-tight text-white">
               Create your account
             </h1>
-            <p className="mt-1 text-xs text-[#F4E2E5]/75">
+            <p className="mt-1 text-xs text-[#E2E8F0]/75">
               Join thousands of learners and educators across Bangladesh
             </p>
           </div>
@@ -216,59 +216,59 @@ function SignUpContent() {
             
             {/* Full Name */}
             <div>
-              <label className="text-xs font-medium text-[#F4E2E5] mb-1.5 block">
+              <label className="text-xs font-medium text-[#E2E8F0] mb-1.5 block">
                 Full Name
               </label>
               <div className="relative">
-                <User className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#FF1E40]" />
+                <User className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#0EA5E9]" />
                 <input
                   type="text"
                   required
                   placeholder="e.g. Tanvir Hasan"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full rounded-xl bg-[#1C0307] border border-[#E11D48]/40 pl-10 pr-4 py-3 text-sm text-white placeholder-[#BFA5AA]/60 outline-none focus:border-[#FF1E40] focus:ring-1 focus:ring-[#FF1E40] transition-all shadow-inner"
+                  className="w-full rounded-xl bg-[#0D1D38] border border-[#0284C7]/40 pl-10 pr-4 py-3 text-sm text-white placeholder-[#94A3B8]/60 outline-none focus:border-[#0EA5E9] focus:ring-1 focus:ring-[#0EA5E9] transition-all shadow-inner"
                 />
               </div>
             </div>
 
             {/* Email Address */}
             <div>
-              <label className="text-xs font-medium text-[#F4E2E5] mb-1.5 block">
+              <label className="text-xs font-medium text-[#E2E8F0] mb-1.5 block">
                 Email Address
               </label>
               <div className="relative">
-                <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#FF1E40]" />
+                <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#0EA5E9]" />
                 <input
                   type="email"
                   required
                   placeholder="name@example.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full rounded-xl bg-[#1C0307] border border-[#E11D48]/40 pl-10 pr-4 py-3 text-sm text-white placeholder-[#BFA5AA]/60 outline-none focus:border-[#FF1E40] focus:ring-1 focus:ring-[#FF1E40] transition-all shadow-inner"
+                  className="w-full rounded-xl bg-[#0D1D38] border border-[#0284C7]/40 pl-10 pr-4 py-3 text-sm text-white placeholder-[#94A3B8]/60 outline-none focus:border-[#0EA5E9] focus:ring-1 focus:ring-[#0EA5E9] transition-all shadow-inner"
                 />
               </div>
             </div>
 
             {/* Password Field with Eye Toggle */}
             <div>
-              <label className="text-xs font-medium text-[#F4E2E5] mb-1.5 block">
+              <label className="text-xs font-medium text-[#E2E8F0] mb-1.5 block">
                 Password (min. 6 characters)
               </label>
               <div className="relative">
-                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#FF1E40]" />
+                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#0EA5E9]" />
                 <input
                   type={showPassword ? "text" : "password"}
                   required
                   placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full rounded-xl bg-[#1C0307] border border-[#E11D48]/40 pl-10 pr-10 py-3 text-sm text-white placeholder-[#BFA5AA]/60 outline-none focus:border-[#FF1E40] focus:ring-1 focus:ring-[#FF1E40] transition-all shadow-inner"
+                  className="w-full rounded-xl bg-[#0D1D38] border border-[#0284C7]/40 pl-10 pr-10 py-3 text-sm text-white placeholder-[#94A3B8]/60 outline-none focus:border-[#0EA5E9] focus:ring-1 focus:ring-[#0EA5E9] transition-all shadow-inner"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#BFA5AA] hover:text-white transition-colors cursor-pointer"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#94A3B8] hover:text-white transition-colors cursor-pointer"
                   aria-label="Toggle password visibility"
                 >
                   {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -278,15 +278,15 @@ function SignUpContent() {
               {/* Password Criteria Checklist */}
               {password.length > 0 && (
                 <div className="mt-2 grid grid-cols-3 gap-1 text-[10px] font-mono">
-                  <span className={`flex items-center gap-1 ${hasMinLength ? "text-green-400" : "text-[#BFA5AA]"}`}>
+                  <span className={`flex items-center gap-1 ${hasMinLength ? "text-green-400" : "text-[#94A3B8]"}`}>
                     {hasMinLength ? <CheckCircle2 className="h-3 w-3" /> : <XCircle className="h-3 w-3" />}
                     6+ Chars
                   </span>
-                  <span className={`flex items-center gap-1 ${hasUppercase ? "text-green-400" : "text-[#BFA5AA]"}`}>
+                  <span className={`flex items-center gap-1 ${hasUppercase ? "text-green-400" : "text-[#94A3B8]"}`}>
                     {hasUppercase ? <CheckCircle2 className="h-3 w-3" /> : <XCircle className="h-3 w-3" />}
                     1 Uppercase
                   </span>
-                  <span className={`flex items-center gap-1 ${hasLowercase ? "text-green-400" : "text-[#BFA5AA]"}`}>
+                  <span className={`flex items-center gap-1 ${hasLowercase ? "text-green-400" : "text-[#94A3B8]"}`}>
                     {hasLowercase ? <CheckCircle2 className="h-3 w-3" /> : <XCircle className="h-3 w-3" />}
                     1 Lowercase
                   </span>
@@ -296,7 +296,7 @@ function SignUpContent() {
 
             {/* Role Selection: Student vs. Tutor vs. Admin */}
             <div>
-              <label className="text-xs font-medium text-[#F4E2E5] mb-2 block">
+              <label className="text-xs font-medium text-[#E2E8F0] mb-2 block">
                 I want to join as:
               </label>
               <div className="grid grid-cols-2 gap-3">
@@ -307,25 +307,25 @@ function SignUpContent() {
                   onClick={() => setRole("student")}
                   className={`flex items-center gap-3 p-3 rounded-xl border text-left transition-all cursor-pointer ${
                     role === "student"
-                      ? "bg-[#2A060C] border-[#FF1E40] shadow-[0_0_15px_rgba(255,30,64,0.4)]"
-                      : "bg-[#1C0307] border-[#E11D48]/30 hover:border-[#FF1E40]/60"
+                      ? "bg-[#102547] border-[#0EA5E9] shadow-[0_0_15px_rgba(14, 165, 233,0.4)]"
+                      : "bg-[#0D1D38] border-[#0284C7]/30 hover:border-[#0EA5E9]/60"
                   }`}
                 >
                   <div
                     className={`h-4 w-4 rounded-full border flex items-center justify-center shrink-0 ${
                       role === "student"
-                        ? "border-[#FF1E40] bg-[#FF1E40]"
-                        : "border-[#BFA5AA]"
+                        ? "border-[#0EA5E9] bg-[#0EA5E9]"
+                        : "border-[#94A3B8]"
                     }`}
                   >
                     {role === "student" && <div className="h-1.5 w-1.5 rounded-full bg-white" />}
                   </div>
                   <div>
                     <p className="text-xs font-bold text-white flex items-center gap-1.5">
-                      <UserCheck className="h-3.5 w-3.5 text-[#FF1E40]" />
+                      <UserCheck className="h-3.5 w-3.5 text-[#0EA5E9]" />
                       <span>Student / Learner</span>
                     </p>
-                    <p className="text-[10px] text-[#BFA5AA]">Find tutors &amp; batches</p>
+                    <p className="text-[10px] text-[#94A3B8]">Find tutors &amp; batches</p>
                   </div>
                 </button>
 
@@ -335,25 +335,25 @@ function SignUpContent() {
                   onClick={() => setRole("tutor")}
                   className={`flex items-center gap-3 p-3 rounded-xl border text-left transition-all cursor-pointer ${
                     role === "tutor"
-                      ? "bg-[#2A060C] border-[#FF1E40] shadow-[0_0_15px_rgba(255,30,64,0.4)]"
-                      : "bg-[#1C0307] border-[#E11D48]/30 hover:border-[#FF1E40]/60"
+                      ? "bg-[#102547] border-[#0EA5E9] shadow-[0_0_15px_rgba(14, 165, 233,0.4)]"
+                      : "bg-[#0D1D38] border-[#0284C7]/30 hover:border-[#0EA5E9]/60"
                   }`}
                 >
                   <div
                     className={`h-4 w-4 rounded-full border flex items-center justify-center shrink-0 ${
                       role === "tutor"
-                        ? "border-[#FF1E40] bg-[#FF1E40]"
-                        : "border-[#BFA5AA]"
+                        ? "border-[#0EA5E9] bg-[#0EA5E9]"
+                        : "border-[#94A3B8]"
                     }`}
                   >
                     {role === "tutor" && <div className="h-1.5 w-1.5 rounded-full bg-white" />}
                   </div>
                   <div>
                     <p className="text-xs font-bold text-white flex items-center gap-1.5">
-                      <GraduationCap className="h-3.5 w-3.5 text-[#FF1E40]" />
+                      <GraduationCap className="h-3.5 w-3.5 text-[#0EA5E9]" />
                       <span>Tutor / Mentor</span>
                     </p>
-                    <p className="text-[10px] text-[#BFA5AA]">Post &amp; teach batches</p>
+                    <p className="text-[10px] text-[#94A3B8]">Post &amp; teach batches</p>
                   </div>
                 </button>
               </div>
@@ -366,41 +366,41 @@ function SignUpContent() {
                     onClick={() => setRole(role === "admin" ? "student" : "admin")}
                     className={`w-full flex items-center justify-between p-2.5 rounded-xl border text-xs font-mono transition-all cursor-pointer ${
                       role === "admin"
-                        ? "bg-[#35070E] border-[#FF1E40] text-white shadow-[0_0_15px_rgba(255,30,64,0.4)]"
-                        : "bg-[#180306] border-[#E11D48]/25 text-[#BFA5AA] hover:text-white hover:border-[#FF1E40]/50"
+                        ? "bg-[#102547] border-[#0EA5E9] text-white shadow-[0_0_15px_rgba(14, 165, 233,0.4)]"
+                        : "bg-[#0B1930] border-[#0284C7]/25 text-[#94A3B8] hover:text-white hover:border-[#0EA5E9]/50"
                     }`}
                   >
                     <span className="flex items-center gap-2">
-                      <ShieldCheck className="h-4 w-4 text-[#FF1E40]" />
+                      <ShieldCheck className="h-4 w-4 text-[#0EA5E9]" />
                       <span>First-Time Setup: Sign Up as Administrator</span>
                     </span>
-                    <span className="text-[10px] font-bold text-[#FF1E40]">
+                    <span className="text-[10px] font-bold text-[#0EA5E9]">
                       {role === "admin" ? "ACTIVE" : "SELECT"}
                     </span>
                   </button>
 
                   {/* Admin Secret Key Input Field */}
                   {role === "admin" && (
-                    <div className="mt-2.5 p-3 rounded-xl bg-[#200408] border border-[#FF1E40]/50 space-y-2 animate-fadeIn">
+                    <div className="mt-2.5 p-3 rounded-xl bg-[#0D1D38] border border-[#0EA5E9]/50 space-y-2 animate-fadeIn">
                       <div className="flex items-center justify-between">
-                        <label className="text-[11px] font-mono text-[#F4E2E5] font-bold">
+                        <label className="text-[11px] font-mono text-[#E2E8F0] font-bold">
                           Admin Secret Security Key:
                         </label>
-                        <span className="text-[10px] font-mono text-[#FF1E40]">
+                        <span className="text-[10px] font-mono text-[#0EA5E9]">
                           Default: MENTOR_ADMIN_2026
                         </span>
                       </div>
                       <div className="relative">
-                        <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-[#FF1E40]" />
+                        <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-[#0EA5E9]" />
                         <input
                           type="password"
                           placeholder="Enter MENTOR_ADMIN_2026"
                           value={adminSecretKey}
                           onChange={(e) => setAdminSecretKey(e.target.value)}
-                          className="w-full rounded-lg bg-[#140205] border border-[#E11D48]/40 pl-9 pr-3 py-2 text-xs text-white placeholder-[#BFA5AA]/60 outline-none focus:border-[#FF1E40]"
+                          className="w-full rounded-lg bg-[#0B1930] border border-[#0284C7]/40 pl-9 pr-3 py-2 text-xs text-white placeholder-[#94A3B8]/60 outline-none focus:border-[#0EA5E9]"
                         />
                       </div>
-                      <p className="text-[10px] text-[#BFA5AA] leading-normal font-sans">
+                      <p className="text-[10px] text-[#94A3B8] leading-normal font-sans">
                         Grants full control over the website (approving tuitions, user management, and revenue analytics).
                       </p>
                     </div>
@@ -413,7 +413,7 @@ function SignUpContent() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-[#E11D48] hover:bg-[#FF1E40] text-white text-sm font-bold tracking-wide shadow-[0_0_25px_rgba(255,30,64,0.6)] hover:shadow-[0_0_35px_rgba(255,30,64,0.9)] transition-all cursor-pointer active:scale-95 disabled:opacity-60"
+              className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-[#0284C7] hover:bg-[#0EA5E9] text-white text-sm font-bold tracking-wide shadow-[0_0_25px_rgba(14, 165, 233,0.6)] hover:shadow-[0_0_35px_rgba(14, 165, 233,0.9)] transition-all cursor-pointer active:scale-95 disabled:opacity-60"
             >
               {loading ? (
                 <>
@@ -431,11 +431,11 @@ function SignUpContent() {
 
           {/* Divider */}
           <div className="my-6 flex items-center gap-4">
-            <div className="h-px flex-1 bg-[#E11D48]/25" />
-            <span className="text-[10px] font-mono uppercase text-[#BFA5AA] tracking-wider">
+            <div className="h-px flex-1 bg-[#0284C7]/25" />
+            <span className="text-[10px] font-mono uppercase text-[#94A3B8] tracking-wider">
               OR CONTINUE WITH
             </span>
-            <div className="h-px flex-1 bg-[#E11D48]/25" />
+            <div className="h-px flex-1 bg-[#0284C7]/25" />
           </div>
 
           {/* Google Sign Up Button */}
@@ -443,7 +443,7 @@ function SignUpContent() {
             type="button"
             onClick={handleGoogleSignUp}
             disabled={googleLoading}
-            className="w-full flex items-center justify-center gap-3 py-3 rounded-xl bg-[#1E0408] border border-[#E11D48]/40 hover:border-white hover:bg-[#2A060C] text-white text-sm font-semibold transition-all cursor-pointer shadow-md hover:shadow-[0_0_20px_rgba(225,29,72,0.3)] disabled:opacity-60"
+            className="w-full flex items-center justify-center gap-3 py-3 rounded-xl bg-[#0D1D38] border border-[#0284C7]/40 hover:border-white hover:bg-[#102547] text-white text-sm font-semibold transition-all cursor-pointer shadow-md hover:shadow-[0_0_20px_rgba(2, 132, 199,0.3)] disabled:opacity-60"
           >
             {googleLoading ? (
               <Loader2 className="h-4 w-4 animate-spin" />
@@ -471,11 +471,11 @@ function SignUpContent() {
           </button>
 
           {/* Footer Already Registered Link */}
-          <div className="mt-6 text-center text-xs text-[#F4E2E5]/75">
+          <div className="mt-6 text-center text-xs text-[#E2E8F0]/75">
             Already have an account?{" "}
             <Link
               href="/sign-in"
-              className="text-[#FF1E40] font-bold hover:underline"
+              className="text-[#0EA5E9] font-bold hover:underline"
             >
               Sign In
             </Link>
@@ -490,7 +490,7 @@ function SignUpContent() {
 
 export default function SignUpPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-[#0A0203] flex items-center justify-center text-white font-mono text-sm">Loading registration portal...</div>}>
+    <Suspense fallback={<div className="min-h-screen bg-[#050B14] flex items-center justify-center text-white font-mono text-sm">Loading registration portal...</div>}>
       <SignUpContent />
     </Suspense>
   );

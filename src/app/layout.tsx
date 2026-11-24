@@ -31,7 +31,7 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-background text-foreground transition-colors duration-200 selection:bg-[#E11D48] selection:text-white">
+      <body className="min-h-full flex flex-col bg-background text-foreground transition-colors duration-200 selection:bg-[#0284C7] selection:text-white">
         <Navbar />
         <main className="flex-grow">{children}</main>
         <Footer />
@@ -39,20 +39,20 @@ export default function RootLayout({
           position="top-center"
           toastOptions={{
             style: {
-              background: "#1C0307",
+              background: "#0D1D38",
               color: "#FFFFFF",
-              border: "1px solid rgba(225, 29, 72, 0.4)",
-              boxShadow: "0 10px 30px rgba(225, 29, 72, 0.3)",
+              border: "1px solid rgba(2, 132, 199, 0.4)",
+              boxShadow: "0 10px 30px rgba(2, 132, 199, 0.3)",
             },
             success: {
               iconTheme: {
-                primary: "#FF1E40",
+                primary: "#0EA5E9",
                 secondary: "#FFFFFF",
               },
             },
             error: {
               iconTheme: {
-                primary: "#880816",
+                primary: "#0C4A6E",
                 secondary: "#FFFFFF",
               },
             },

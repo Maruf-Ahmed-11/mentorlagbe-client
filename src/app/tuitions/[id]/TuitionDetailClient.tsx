@@ -134,8 +134,8 @@ export default function TuitionDetailClient({ id }: { id: string }) {
   if (isLoading) {
     return (
       <div className="min-h-[70vh] flex flex-col items-center justify-center p-6 text-center">
-        <Sparkles className="w-8 h-8 text-[#D91E48] dark:text-[#FF1E40] animate-spin mb-3" />
-        <p className="text-xs font-mono font-bold uppercase tracking-wider text-[#8C7679] dark:text-[#BFA5AA]">
+        <Sparkles className="w-8 h-8 text-[#0284C7] dark:text-[#0EA5E9] animate-spin mb-3" />
+        <p className="text-xs font-mono font-bold uppercase tracking-wider text-[#64748B] dark:text-[#94A3B8]">
           Loading tuition details...
         </p>
       </div>
@@ -146,18 +146,18 @@ export default function TuitionDetailClient({ id }: { id: string }) {
   if (!tuition) {
     return (
       <div className="max-w-xl mx-auto min-h-[60vh] flex flex-col items-center justify-center p-6 text-center animate-in fade-in duration-300">
-        <div className="w-16 h-16 rounded-full bg-[#FDECEF] dark:bg-[#2A0612] border border-[#F2B8C4] dark:border-[#FF4D6D]/40 flex items-center justify-center text-[#D91E48] dark:text-[#FF4D6D] mb-4">
+        <div className="w-16 h-16 rounded-full bg-[#E0F2FE] dark:bg-[#2A0612] border border-[#BAE6FD] dark:border-[#38BDF8]/40 flex items-center justify-center text-[#0284C7] dark:text-[#38BDF8] mb-4">
           <AlertOctagon className="w-8 h-8" />
         </div>
-        <h2 className="text-xl font-bold text-[#180C0E] dark:text-white">
+        <h2 className="text-xl font-bold text-[#0B1320] dark:text-white">
           Tuition Not Found
         </h2>
-        <p className="mt-2 text-xs sm:text-sm text-[#5C494C] dark:text-[#BFA5AA]">
+        <p className="mt-2 text-xs sm:text-sm text-[#475569] dark:text-[#94A3B8]">
           This tuition listing does not exist, has been removed, or is awaiting administrator verification.
         </p>
         <button
           onClick={() => router.back()}
-          className="mt-6 px-6 py-2.5 rounded-xl bg-[#D91E48] text-white text-xs font-bold shadow-md hover:bg-[#B31438] transition-all cursor-pointer"
+          className="mt-6 px-6 py-2.5 rounded-xl bg-[#0284C7] text-white text-xs font-bold shadow-md hover:bg-[#0369A1] transition-all cursor-pointer"
         >
           Go Back
         </button>
@@ -171,18 +171,18 @@ export default function TuitionDetailClient({ id }: { id: string }) {
       {/* Back button */}
       <button
         onClick={() => router.back()}
-        className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#8C7679] dark:text-[#BFA5AA] hover:text-[#D91E48] dark:hover:text-[#FF1E40] transition-colors cursor-pointer"
+        className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#64748B] dark:text-[#94A3B8] hover:text-[#0284C7] dark:hover:text-[#0EA5E9] transition-colors cursor-pointer"
       >
         <ArrowLeft className="w-3.5 h-3.5" />
         <span>Go Back</span>
       </button>
 
       {/* Main Card */}
-      <div className="rounded-3xl border border-[#EADCDD] dark:border-[#E11D48]/25 bg-white dark:bg-[#140204]/95 shadow-[0_12px_32px_-8px_rgba(24,12,14,0.06)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.85)] overflow-hidden">
+      <div className="rounded-3xl border border-[#E2E8F0] dark:border-[#0284C7]/25 bg-white dark:bg-[#0B1930]/95 shadow-[0_12px_32px_-8px_rgba(11, 19, 32,0.06)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.85)] overflow-hidden">
 
         {/* Banner Image */}
         {tuition?.bannerImage ? (
-          <div className="relative w-full h-56 sm:h-72 bg-[#FCF9F8] dark:bg-[#0D0204] overflow-hidden">
+          <div className="relative w-full h-56 sm:h-72 bg-[#F8FAFC] dark:bg-[#0D0204] overflow-hidden">
             <Image
               src={tuition.bannerImage}
               alt={tuition.title || "Tuition Banner"}
@@ -191,14 +191,14 @@ export default function TuitionDetailClient({ id }: { id: string }) {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
             <div className="absolute bottom-4 left-6 right-6 flex flex-wrap items-center justify-between gap-2">
-              <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-[#D91E48] text-white shadow-md">
+              <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-[#0284C7] text-white shadow-md">
                 {tuition.subject || "Subject"}
               </span>
 
               <div className="flex items-center gap-2">
                 {/* 1. Approval Status Badge */}
                 {isRejected ? (
-                  <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-[#FDECEF] dark:bg-[#2A0612] text-[#D91E48] dark:text-[#FF4D6D] border border-[#F2B8C4] dark:border-[#FF4D6D]/40 shadow-md">
+                  <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-[#E0F2FE] dark:bg-[#2A0612] text-[#0284C7] dark:text-[#38BDF8] border border-[#BAE6FD] dark:border-[#38BDF8]/40 shadow-md">
                     🚫 Moderation Rejected
                   </span>
                 ) : isPending ? (
@@ -225,15 +225,15 @@ export default function TuitionDetailClient({ id }: { id: string }) {
             </div>
           </div>
         ) : (
-          <div className="p-6 border-b border-[#EADCDD] dark:border-[#E11D48]/20 flex flex-wrap items-center justify-between gap-3">
-            <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-[#FDECEF] dark:bg-[#2A060C] text-[#D91E48] dark:text-[#FF1E40] border border-[#F2B8C4] dark:border-[#E11D48]/30">
+          <div className="p-6 border-b border-[#E2E8F0] dark:border-[#0284C7]/20 flex flex-wrap items-center justify-between gap-3">
+            <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-[#E0F2FE] dark:bg-[#102547] text-[#0284C7] dark:text-[#0EA5E9] border border-[#BAE6FD] dark:border-[#0284C7]/30">
               {tuition?.subject || "Subject Discipline"}
             </span>
 
             <div className="flex items-center gap-2">
               {/* 1. Approval Status Badge */}
               {isRejected ? (
-                <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-[#FDECEF] dark:bg-[#2A0612] text-[#D91E48] dark:text-[#FF4D6D] border border-[#F2B8C4] dark:border-[#FF4D6D]/40">
+                <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-[#E0F2FE] dark:bg-[#2A0612] text-[#0284C7] dark:text-[#38BDF8] border border-[#BAE6FD] dark:border-[#38BDF8]/40">
                   🚫 Moderation Rejected
                 </span>
               ) : isPending ? (
@@ -248,7 +248,7 @@ export default function TuitionDetailClient({ id }: { id: string }) {
 
               {/* 2. Active Status Badge */}
               {isPostClosed ? (
-                <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-[#F5ECEC] dark:bg-[#1E0307] text-[#8C7679] dark:text-[#BFA5AA] border border-[#EADCDD]">
+                <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-[#F0F7FF] dark:bg-[#0D1D38] text-[#64748B] dark:text-[#94A3B8] border border-[#E2E8F0]">
                   🔒 Closed
                 </span>
               ) : (
@@ -264,51 +264,51 @@ export default function TuitionDetailClient({ id }: { id: string }) {
 
           {/* Header Title & Details */}
           <div>
-            <h1 className="text-xl sm:text-2xl md:text-3xl font-black text-[#180C0E] dark:text-white tracking-tight">
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-black text-[#0B1320] dark:text-white tracking-tight">
               {tuition?.title || "Tuition Program"}
             </h1>
-            <p className="text-xs sm:text-sm font-semibold text-[#D91E48] dark:text-[#FF1E40] mt-1">
+            <p className="text-xs sm:text-sm font-semibold text-[#0284C7] dark:text-[#0EA5E9] mt-1">
               Target Level: {tuition?.classLevel || "Class Level"}
             </p>
           </div>
 
           {/* Quick Metrics Bar */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 p-4 rounded-2xl bg-[#FCF9F8] dark:bg-[#0D0204] border border-[#EADCDD] dark:border-[#E11D48]/20 text-xs">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 p-4 rounded-2xl bg-[#F8FAFC] dark:bg-[#0D0204] border border-[#E2E8F0] dark:border-[#0284C7]/20 text-xs">
             <div>
-              <span className="text-[10px] font-mono uppercase text-[#8C7679] dark:text-[#BFA5AA] block">
+              <span className="text-[10px] font-mono uppercase text-[#64748B] dark:text-[#94A3B8] block">
                 Mode
               </span>
-              <span className="font-bold text-[#180C0E] dark:text-white flex items-center gap-1 mt-0.5">
-                <Globe className="w-3.5 h-3.5 text-[#D91E48]" />
+              <span className="font-bold text-[#0B1320] dark:text-white flex items-center gap-1 mt-0.5">
+                <Globe className="w-3.5 h-3.5 text-[#0284C7]" />
                 <span className="truncate">{tuition?.mode || "Online"}</span>
               </span>
             </div>
 
             <div>
-              <span className="text-[10px] font-mono uppercase text-[#8C7679] dark:text-[#BFA5AA] block">
+              <span className="text-[10px] font-mono uppercase text-[#64748B] dark:text-[#94A3B8] block">
                 Location
               </span>
-              <span className="font-bold text-[#180C0E] dark:text-white flex items-center gap-1 mt-0.5">
-                <MapPin className="w-3.5 h-3.5 text-[#D91E48]" />
+              <span className="font-bold text-[#0B1320] dark:text-white flex items-center gap-1 mt-0.5">
+                <MapPin className="w-3.5 h-3.5 text-[#0284C7]" />
                 <span className="truncate">{tuition?.location || "Bangladesh"}</span>
               </span>
             </div>
 
             <div>
-              <span className="text-[10px] font-mono uppercase text-[#8C7679] dark:text-[#BFA5AA] block">
+              <span className="text-[10px] font-mono uppercase text-[#64748B] dark:text-[#94A3B8] block">
                 Schedule
               </span>
-              <span className="font-bold text-[#180C0E] dark:text-white flex items-center gap-1 mt-0.5">
-                <Calendar className="w-3.5 h-3.5 text-[#D91E48]" />
+              <span className="font-bold text-[#0B1320] dark:text-white flex items-center gap-1 mt-0.5">
+                <Calendar className="w-3.5 h-3.5 text-[#0284C7]" />
                 <span className="truncate">{tuition?.schedule || "3 days / week"}</span>
               </span>
             </div>
 
             <div>
-              <span className="text-[10px] font-mono uppercase text-[#8C7679] dark:text-[#BFA5AA] block">
+              <span className="text-[10px] font-mono uppercase text-[#64748B] dark:text-[#94A3B8] block">
                 Monthly Fee
               </span>
-              <span className="text-sm font-black font-mono text-[#D91E48] dark:text-[#FF1E40] block mt-0.5">
+              <span className="text-sm font-black font-mono text-[#0284C7] dark:text-[#0EA5E9] block mt-0.5">
                 ৳{Number(tuition?.monthlyFee || 0).toLocaleString()}
               </span>
             </div>
@@ -316,7 +316,7 @@ export default function TuitionDetailClient({ id }: { id: string }) {
 
           {/* Status Warning Alerts if rejected or pending */}
           {isRejected && (
-            <div className="p-4 rounded-2xl bg-[#FDECEF] dark:bg-[#2A0612] border border-[#F2B8C4] dark:border-[#FF4D6D]/40 text-xs text-[#D91E48] dark:text-[#FF4D6D] flex items-center gap-3">
+            <div className="p-4 rounded-2xl bg-[#E0F2FE] dark:bg-[#2A0612] border border-[#BAE6FD] dark:border-[#38BDF8]/40 text-xs text-[#0284C7] dark:text-[#38BDF8] flex items-center gap-3">
               <AlertOctagon className="w-5 h-5 shrink-0" />
               <div>
                 <span className="font-bold block">Listing Moderation Notice</span>
@@ -337,26 +337,26 @@ export default function TuitionDetailClient({ id }: { id: string }) {
 
           {/* Description */}
           <div className="space-y-2">
-            <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-[#8C7679] dark:text-[#BFA5AA]">
+            <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-[#64748B] dark:text-[#94A3B8]">
               Syllabus &amp; Course Coverage
             </h3>
-            <p className="text-xs sm:text-sm text-[#5C494C] dark:text-[#F4E2E5]/90 leading-relaxed whitespace-pre-line">
+            <p className="text-xs sm:text-sm text-[#475569] dark:text-[#E2E8F0]/90 leading-relaxed whitespace-pre-line">
               {tuition?.description || "No description provided."}
             </p>
           </div>
 
           {/* Tutor Info */}
-          <div className="p-4 rounded-2xl bg-[#FCF9F8] dark:bg-[#0D0204] border border-[#EADCDD] dark:border-[#E11D48]/20 flex items-center justify-between">
+          <div className="p-4 rounded-2xl bg-[#F8FAFC] dark:bg-[#0D0204] border border-[#E2E8F0] dark:border-[#0284C7]/20 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#FDECEF] dark:bg-[#2A060C] text-[#D91E48] dark:text-[#FF1E40] font-bold border border-[#F2B8C4] dark:border-[#E11D48]/30">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#E0F2FE] dark:bg-[#102547] text-[#0284C7] dark:text-[#0EA5E9] font-bold border border-[#BAE6FD] dark:border-[#0284C7]/30">
                 <GraduationCap className="w-5 h-5" />
               </div>
               <div>
-                <h4 className="text-xs sm:text-sm font-bold text-[#180C0E] dark:text-white flex items-center gap-1.5">
+                <h4 className="text-xs sm:text-sm font-bold text-[#0B1320] dark:text-white flex items-center gap-1.5">
                   <span>{tuition?.tutorName || "Verified Mentor"}</span>
                   <ShieldCheck className="w-4 h-4 text-[#059669] dark:text-[#10B981]" />
                 </h4>
-                <p className="text-[11px] text-[#5C494C] dark:text-[#BFA5AA]">
+                <p className="text-[11px] text-[#475569] dark:text-[#94A3B8]">
                   {tuition?.tutorEmail || "Verified Instructor"}
                 </p>
               </div>
@@ -365,7 +365,7 @@ export default function TuitionDetailClient({ id }: { id: string }) {
             {/* Approval Badge */}
             <span
               className={`px-2.5 py-1 rounded-full text-[10px] font-mono font-bold uppercase border ${isRejected
-                ? "bg-[#FDECEF] dark:bg-[#2A0612] text-[#D91E48] dark:text-[#FF4D6D] border-[#F2B8C4]"
+                ? "bg-[#E0F2FE] dark:bg-[#2A0612] text-[#0284C7] dark:text-[#38BDF8] border-[#BAE6FD]"
                 : isPending
                   ? "bg-[#FEF3C7] dark:bg-[#281804] text-[#B45309] dark:text-[#FFB800] border-[#FDE68A]"
                   : "bg-[#ECFDF5] dark:bg-[#0A2618] text-[#059669] dark:text-[#10B981] border-[#A7F3D0]"
@@ -376,12 +376,12 @@ export default function TuitionDetailClient({ id }: { id: string }) {
           </div>
 
           {/* Action / Apply CTA */}
-          <div className="pt-4 border-t border-[#EADCDD] dark:border-[#E11D48]/20 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div className="pt-4 border-t border-[#E2E8F0] dark:border-[#0284C7]/20 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <span className="text-[10px] font-mono text-[#8C7679] uppercase block">
+              <span className="text-[10px] font-mono text-[#64748B] uppercase block">
                 Tuition Availability
               </span>
-              <p className="text-xs font-semibold text-[#180C0E] dark:text-white">
+              <p className="text-xs font-semibold text-[#0B1320] dark:text-white">
                 {isOwner
                   ? "You are the creator of this tuition post. Manage it from your dashboard."
                   : isTutor
@@ -399,7 +399,7 @@ export default function TuitionDetailClient({ id }: { id: string }) {
             {isOwner ? (
               <Link
                 href="/dashboard/my-tuitions"
-                className="px-6 py-2.5 rounded-xl font-bold text-xs bg-[#D91E48] hover:bg-[#B31438] text-white shadow-md transition-all flex items-center justify-center gap-2"
+                className="px-6 py-2.5 rounded-xl font-bold text-xs bg-[#0284C7] hover:bg-[#0369A1] text-white shadow-md transition-all flex items-center justify-center gap-2"
               >
                 <Pencil className="w-3.5 h-3.5" />
                 <span>Manage in My Tuitions</span>
@@ -408,7 +408,7 @@ export default function TuitionDetailClient({ id }: { id: string }) {
               <button
                 type="button"
                 disabled
-                className="px-6 py-2.5 rounded-xl font-bold text-xs bg-[#EADCDD] dark:bg-[#2A060C] text-[#8C7679] dark:text-[#BFA5AA] cursor-not-allowed opacity-75"
+                className="px-6 py-2.5 rounded-xl font-bold text-xs bg-[#E2E8F0] dark:bg-[#102547] text-[#64748B] dark:text-[#94A3B8] cursor-not-allowed opacity-75"
               >
                 Tutor View Only
               </button>
@@ -418,12 +418,12 @@ export default function TuitionDetailClient({ id }: { id: string }) {
                 disabled={isApplyLocked}
                 onClick={handleApply}
                 className={`px-6 py-2.5 rounded-xl font-bold text-xs shadow-md transition-all active:scale-95 cursor-pointer ${isRejected
-                  ? "bg-[#FDECEF] dark:bg-[#2A0612] text-[#D91E48] dark:text-[#FF4D6D] border border-[#F2B8C4] cursor-not-allowed opacity-75"
+                  ? "bg-[#E0F2FE] dark:bg-[#2A0612] text-[#0284C7] dark:text-[#38BDF8] border border-[#BAE6FD] cursor-not-allowed opacity-75"
                   : isPending
                     ? "bg-[#FEF3C7] dark:bg-[#281804] text-[#B45309] dark:text-[#FFB800] border border-[#FDE68A] cursor-not-allowed opacity-75"
                     : isPostClosed
-                      ? "bg-[#EADCDD] dark:bg-[#2A060C] text-[#8C7679] dark:text-[#BFA5AA] cursor-not-allowed opacity-60"
-                      : "bg-[#D91E48] hover:bg-[#B31438] dark:bg-gradient-to-r dark:from-[#E11D48] dark:via-[#FF1E40] dark:to-[#FF4D6D] text-white hover:shadow-lg"
+                      ? "bg-[#E2E8F0] dark:bg-[#102547] text-[#64748B] dark:text-[#94A3B8] cursor-not-allowed opacity-60"
+                      : "bg-[#0284C7] hover:bg-[#0369A1] dark:bg-gradient-to-r dark:from-[#0284C7] dark:via-[#0EA5E9] dark:to-[#38BDF8] text-white hover:shadow-lg"
                   }`}
               >
                 {isRejected

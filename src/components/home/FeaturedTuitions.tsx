@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import Link from "next/link";
@@ -163,33 +163,33 @@ export default function FeaturedTuitions() {
   };
 
   return (
-    <section id="tuitions" className="relative py-20 bg-[#FCF9F8] dark:bg-[#0E0203] overflow-hidden border-t border-[#EADCDD] dark:border-[#E11D48]/20 transition-colors duration-200">
+    <section id="tuitions" className="relative py-20 bg-[#F8FAFC] dark:bg-[#050B14] overflow-hidden border-t border-[#E2E8F0] dark:border-[#0284C7]/20 transition-colors duration-200">
       {/* Ambient Crimson Flare */}
-      <div className="absolute top-1/3 -left-48 w-[500px] h-[500px] bg-[#D91E48]/8 dark:bg-[#E11D48]/10 rounded-full blur-[140px] pointer-events-none" />
-      <div className="absolute bottom-10 -right-48 w-[500px] h-[500px] bg-[#B31438]/8 dark:bg-[#880816]/15 rounded-full blur-[150px] pointer-events-none" />
+      <div className="absolute top-1/3 -left-48 w-[500px] h-[500px] bg-[#0284C7]/8 dark:bg-[#0284C7]/10 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute bottom-10 -right-48 w-[500px] h-[500px] bg-[#0369A1]/8 dark:bg-[#0C4A6E]/15 rounded-full blur-[150px] pointer-events-none" />
 
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full border border-[#F2B8C4] dark:border-[#E11D48]/40 bg-[#FFFFFF] dark:bg-[#1C0307]/80 px-3.5 py-1.5 mb-3 shadow-[0_4px_16px_rgba(217,30,72,0.12)] dark:shadow-[0_0_15px_rgba(225,29,72,0.25)]">
-              <Sparkles className="h-3.5 w-3.5 text-[#D91E48] dark:text-[#FF1E40]" />
-              <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#180C0E] dark:text-white">
+            <div className="inline-flex items-center gap-2 rounded-full border border-[#BAE6FD] dark:border-[#0284C7]/40 bg-[#FFFFFF] dark:bg-[#0D1D38]/80 px-3.5 py-1.5 mb-3 shadow-[0_4px_16px_rgba(2, 132, 199,0.12)] dark:shadow-[0_0_15px_rgba(2, 132, 199,0.25)]">
+              <Sparkles className="h-3.5 w-3.5 text-[#0284C7] dark:text-[#0EA5E9]" />
+              <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#0B1320] dark:text-white">
                 VERIFIED TUITIONS // REAL-TIME POSTS
               </span>
             </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#180C0E] dark:text-white uppercase tracking-tight">
-              Featured <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D91E48] via-[#FF1E40] to-[#B31438] dark:from-white dark:via-[#FF4D6D] dark:to-[#FF1E40] drop-shadow-[0_0_16px_rgba(217,30,72,0.25)] dark:drop-shadow-[0_0_25px_rgba(255,30,64,0.6)]">Mentorship Batches</span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#0B1320] dark:text-white uppercase tracking-tight">
+              Featured <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0284C7] via-[#0EA5E9] to-[#0369A1] dark:from-white dark:via-[#38BDF8] dark:to-[#0EA5E9] drop-shadow-[0_0_16px_rgba(2, 132, 199,0.25)] dark:drop-shadow-[0_0_25px_rgba(14, 165, 233,0.6)]">Mentorship Batches</span>
             </h2>
-            <p className="mt-2 text-sm sm:text-base text-[#5C494C] dark:text-[#F4E2E5]/80 max-w-2xl">
+            <p className="mt-2 text-sm sm:text-base text-[#475569] dark:text-[#E2E8F0]/80 max-w-2xl">
               Explore recently approved home and online tuition postings. Filter by curriculum, subject, or class level.
             </p>
           </div>
 
           <Link
             href="/tuitions"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-[#F2B8C4] dark:border-[#E11D48]/50 bg-[#D91E48] hover:bg-[#B31438] dark:bg-[#1C0307]/80 dark:hover:bg-[#E11D48] hover:border-[#D91E48] dark:hover:border-white text-white text-sm font-bold tracking-wide shadow-[0_4px_16px_rgba(217,30,72,0.3)] dark:shadow-[0_0_20px_rgba(225,29,72,0.3)] transition-all cursor-pointer group shrink-0"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-[#BAE6FD] dark:border-[#0284C7]/50 bg-[#0284C7] hover:bg-[#0369A1] dark:bg-[#0D1D38]/80 dark:hover:bg-[#0284C7] hover:border-[#0284C7] dark:hover:border-white text-white text-sm font-bold tracking-wide shadow-[0_4px_16px_rgba(2, 132, 199,0.3)] dark:shadow-[0_0_20px_rgba(2, 132, 199,0.3)] transition-all cursor-pointer group shrink-0"
           >
             <span>View All Tuitions</span>
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -204,8 +204,8 @@ export default function FeaturedTuitions() {
               onClick={() => setActiveCategory(cat)}
               className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold tracking-wide whitespace-nowrap transition-all duration-200 cursor-pointer ${
                 activeCategory === cat
-                  ? "bg-[#D91E48] text-white shadow-[0_4px_16px_rgba(217,30,72,0.35)] dark:bg-[#E11D48] dark:shadow-[0_0_20px_rgba(225,29,72,0.6)] border border-[#F2B8C4]/50 dark:border-white/30"
-                  : "bg-[#FFFFFF] dark:bg-[#1C0307]/90 text-[#5C494C] dark:text-[#F4E2E5]/80 border border-[#EADCDD] dark:border-[#E11D48]/30 hover:border-[#D91E48] dark:hover:border-[#FF1E40] hover:text-[#180C0E] dark:hover:text-white shadow-sm dark:shadow-none"
+                  ? "bg-[#0284C7] text-white shadow-[0_4px_16px_rgba(2, 132, 199,0.35)] dark:bg-[#0284C7] dark:shadow-[0_0_20px_rgba(2, 132, 199,0.6)] border border-[#BAE6FD]/50 dark:border-white/30"
+                  : "bg-[#FFFFFF] dark:bg-[#0D1D38]/90 text-[#475569] dark:text-[#E2E8F0]/80 border border-[#E2E8F0] dark:border-[#0284C7]/30 hover:border-[#0284C7] dark:hover:border-[#0EA5E9] hover:text-[#0B1320] dark:hover:text-white shadow-sm dark:shadow-none"
               }`}
             >
               {cat}
@@ -222,28 +222,28 @@ export default function FeaturedTuitions() {
             return (
               <div
                 key={tuitionId}
-                className="group relative rounded-2xl bg-[#FFFFFF] dark:bg-[#180306]/90 border border-[#EADCDD] dark:border-[#E11D48]/35 overflow-hidden shadow-[0_12px_32px_-8px_rgba(24,12,14,0.06),_0_0_0_1px_rgba(242,184,196,0.25)] dark:shadow-[0_15px_35px_rgba(0,0,0,0.7),_inset_0_1px_0_rgba(255,255,255,0.1)] hover:border-[#D91E48] dark:hover:border-[#FF1E40] hover:shadow-[0_16px_36px_-6px_rgba(217,30,72,0.2),_0_0_20px_rgba(217,30,72,0.12)] dark:hover:shadow-[0_0_35px_rgba(225,29,72,0.45)] hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between h-full w-full"
+                className="group relative rounded-2xl bg-[#FFFFFF] dark:bg-[#0B1930]/90 border border-[#E2E8F0] dark:border-[#0284C7]/35 overflow-hidden shadow-[0_12px_32px_-8px_rgba(11, 19, 32,0.06),_0_0_0_1px_rgba(186, 230, 253,0.25)] dark:shadow-[0_15px_35px_rgba(0,0,0,0.7),_inset_0_1px_0_rgba(255,255,255,0.1)] hover:border-[#0284C7] dark:hover:border-[#0EA5E9] hover:shadow-[0_16px_36px_-6px_rgba(2, 132, 199,0.2),_0_0_20px_rgba(2, 132, 199,0.12)] dark:hover:shadow-[0_0_35px_rgba(2, 132, 199,0.45)] hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between h-full w-full"
               >
                 {/* Top Image Banner & Badges */}
-                <div className="relative h-48 w-full overflow-hidden bg-[#F5ECEC] dark:bg-[#2D060C]">
+                <div className="relative h-48 w-full overflow-hidden bg-[#F0F7FF] dark:bg-[#0C4A6E]">
                   <Image
                     src={tuition.bannerImage || "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80"}
                     alt={tuition.title}
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent dark:from-[#180306] dark:via-black/40 dark:to-black/20" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent dark:from-[#0B1930] dark:via-black/40 dark:to-black/20" />
 
                   {/* Mode Pill (Online / Offline) */}
                   <div className="absolute top-3 left-3 flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold text-white shadow-[0_0_12px_rgba(0,0,0,0.8)] backdrop-blur-md border border-white/20 bg-black/60">
                     {tuition.mode === "Online" ? (
                       <>
-                        <Globe className="h-3 w-3 text-[#D91E48] dark:text-[#FF1E40]" />
+                        <Globe className="h-3 w-3 text-[#0284C7] dark:text-[#0EA5E9]" />
                         <span>ONLINE BATCH</span>
                       </>
                     ) : (
                       <>
-                        <Compass className="h-3 w-3 text-[#D91E48] dark:text-[#FF1E40]" />
+                        <Compass className="h-3 w-3 text-[#0284C7] dark:text-[#0EA5E9]" />
                         <span>OFFLINE TUITION</span>
                       </>
                     )}
@@ -255,8 +255,8 @@ export default function FeaturedTuitions() {
                     aria-label="Bookmark tuition"
                     className={`absolute top-3 right-3 h-9 w-9 rounded-full flex items-center justify-center transition-all cursor-pointer backdrop-blur-md border ${
                       isBookmarked
-                        ? "bg-[#D91E48] text-white border-white shadow-[0_0_15px_rgba(217,30,72,0.8)]"
-                        : "bg-black/60 text-white/90 border-white/20 hover:bg-[#D91E48] hover:text-white"
+                        ? "bg-[#0284C7] text-white border-white shadow-[0_0_15px_rgba(2, 132, 199,0.8)]"
+                        : "bg-black/60 text-white/90 border-white/20 hover:bg-[#0284C7] hover:text-white"
                     }`}
                   >
                     <Bookmark className={`h-4 w-4 ${isBookmarked ? "fill-white" : ""}`} />
@@ -264,7 +264,7 @@ export default function FeaturedTuitions() {
 
                   {/* Subject Badge */}
                   <div className="absolute bottom-3 left-3">
-                    <span className="px-2.5 py-1 rounded-md bg-[#D91E48] dark:bg-[#E11D48]/90 text-white font-mono text-[11px] font-bold tracking-wider uppercase shadow-sm">
+                    <span className="px-2.5 py-1 rounded-md bg-[#0284C7] dark:bg-[#0284C7]/90 text-white font-mono text-[11px] font-bold tracking-wider uppercase shadow-sm">
                       {tuition.subject}
                     </span>
                   </div>
@@ -274,31 +274,31 @@ export default function FeaturedTuitions() {
                 <div className="p-5 flex-grow flex flex-col justify-between">
                   <div>
                     {/* Class Level */}
-                    <div className="flex items-center gap-1.5 text-xs text-[#8C7679] dark:text-[#BFA5AA] font-mono mb-2">
-                      <GraduationCap className="h-3.5 w-3.5 text-[#D91E48] dark:text-[#FF1E40]" />
+                    <div className="flex items-center gap-1.5 text-xs text-[#64748B] dark:text-[#94A3B8] font-mono mb-2">
+                      <GraduationCap className="h-3.5 w-3.5 text-[#0284C7] dark:text-[#0EA5E9]" />
                       <span>{tuition.classLevel}</span>
                     </div>
 
                     {/* Title */}
-                    <h3 className="text-base font-bold text-[#180C0E] dark:text-white group-hover:text-[#D91E48] dark:group-hover:text-[#FF1E40] transition-colors line-clamp-2 leading-snug">
+                    <h3 className="text-base font-bold text-[#0B1320] dark:text-white group-hover:text-[#0284C7] dark:group-hover:text-[#0EA5E9] transition-colors line-clamp-2 leading-snug">
                       {tuition.title}
                     </h3>
 
                     {/* Description snippet */}
-                    <p className="mt-2 text-xs text-[#5C494C] dark:text-[#F4E2E5]/75 line-clamp-2 leading-relaxed">
+                    <p className="mt-2 text-xs text-[#475569] dark:text-[#E2E8F0]/75 line-clamp-2 leading-relaxed">
                       {tuition.description}
                     </p>
                   </div>
 
                   {/* Details / Specs Row */}
-                  <div className="mt-4 pt-3 border-t border-[#EADCDD] dark:border-[#E11D48]/20 space-y-2">
-                    <div className="flex items-center justify-between text-xs text-[#5C494C] dark:text-[#F4E2E5]/90">
-                      <div className="flex items-center gap-1.5 text-[#8C7679] dark:text-[#BFA5AA]">
-                        <Calendar className="h-3.5 w-3.5 text-[#D91E48] dark:text-[#FF1E40]" />
+                  <div className="mt-4 pt-3 border-t border-[#E2E8F0] dark:border-[#0284C7]/20 space-y-2">
+                    <div className="flex items-center justify-between text-xs text-[#475569] dark:text-[#E2E8F0]/90">
+                      <div className="flex items-center gap-1.5 text-[#64748B] dark:text-[#94A3B8]">
+                        <Calendar className="h-3.5 w-3.5 text-[#0284C7] dark:text-[#0EA5E9]" />
                         <span>{tuition.daysPerWeek} days / week</span>
                       </div>
-                      <div className="flex items-center gap-1.5 text-[#8C7679] dark:text-[#BFA5AA]">
-                        <MapPin className="h-3.5 w-3.5 text-[#D91E48] dark:text-[#FF1E40]" />
+                      <div className="flex items-center gap-1.5 text-[#64748B] dark:text-[#94A3B8]">
+                        <MapPin className="h-3.5 w-3.5 text-[#0284C7] dark:text-[#0EA5E9]" />
                         <span className="truncate max-w-[120px]">{tuition.location}</span>
                       </div>
                     </div>
@@ -306,30 +306,30 @@ export default function FeaturedTuitions() {
                     {/* Tutor info */}
                     <div className="flex items-center justify-between pt-1">
                       <div className="flex items-center gap-2">
-                        <div className="h-6 w-6 rounded-full bg-[#F5ECEC] dark:bg-[#35070E] border border-[#F2B8C4] dark:border-[#FF1E40]/60 flex items-center justify-center text-[10px] font-bold text-[#D91E48] dark:text-white uppercase">
+                        <div className="h-6 w-6 rounded-full bg-[#F0F7FF] dark:bg-[#102547] border border-[#BAE6FD] dark:border-[#0EA5E9]/60 flex items-center justify-center text-[10px] font-bold text-[#0284C7] dark:text-white uppercase">
                           {tuition.tutorName.charAt(0)}
                         </div>
-                        <span className="text-xs font-semibold text-[#180C0E] dark:text-white">
+                        <span className="text-xs font-semibold text-[#0B1320] dark:text-white">
                           {tuition.tutorName}
                         </span>
-                        <CheckCircle className="h-3.5 w-3.5 text-[#D91E48] dark:text-[#FF1E40]" />
+                        <CheckCircle className="h-3.5 w-3.5 text-[#0284C7] dark:text-[#0EA5E9]" />
                       </div>
                     </div>
                   </div>
                 </div>
 
                 {/* Card Footer: Monthly Fee + CTA */}
-                <div className="px-5 py-4 bg-[#FBF6F6] dark:bg-[#140204] border-t border-[#EADCDD] dark:border-[#E11D48]/25 flex items-center justify-between">
+                <div className="px-5 py-4 bg-[#F8FAFC] dark:bg-[#0B1930] border-t border-[#E2E8F0] dark:border-[#0284C7]/25 flex items-center justify-between">
                   <div>
-                    <span className="text-[10px] font-mono text-[#8C7679] dark:text-[#BFA5AA] block uppercase">Monthly Fee</span>
-                    <span className="text-lg font-black font-mono text-[#D91E48] dark:text-[#FF1E40] dark:glow-scarlet">
+                    <span className="text-[10px] font-mono text-[#64748B] dark:text-[#94A3B8] block uppercase">Monthly Fee</span>
+                    <span className="text-lg font-black font-mono text-[#0284C7] dark:text-[#0EA5E9] dark:glow-scarlet">
                       ৳{tuition.monthlyFee.toLocaleString()}
                     </span>
                   </div>
 
                   <Link
                     href={`/tuitions/${tuition._id}`}
-                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#D91E48] hover:bg-[#B31438] dark:bg-[#E11D48] dark:hover:bg-[#FF1E40] text-white text-xs font-bold tracking-wide shadow-[0_4px_14px_rgba(217,30,72,0.35)] dark:shadow-[0_0_15px_rgba(225,29,72,0.4)] transition-all cursor-pointer active:scale-95"
+                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#0284C7] hover:bg-[#0369A1] dark:bg-[#0284C7] dark:hover:bg-[#0EA5E9] text-white text-xs font-bold tracking-wide shadow-[0_4px_14px_rgba(2, 132, 199,0.35)] dark:shadow-[0_0_15px_rgba(2, 132, 199,0.4)] transition-all cursor-pointer active:scale-95"
                   >
                     <span>View Details</span>
                     <ArrowRight className="h-3.5 w-3.5" />
@@ -343,9 +343,9 @@ export default function FeaturedTuitions() {
 
         {/* Bottom Helper Note for Quota */}
         <div className="mt-12 text-center">
-          <p className="text-xs text-[#8C7679] dark:text-[#BFA5AA] font-mono">
+          <p className="text-xs text-[#64748B] dark:text-[#94A3B8] font-mono">
             Showing verified tuition batches • Free accounts can bookmark up to 5 tuitions.{" "}
-            <Link href="/pricing" className="text-[#D91E48] dark:text-[#FF1E40] hover:underline font-bold">
+            <Link href="/pricing" className="text-[#0284C7] dark:text-[#0EA5E9] hover:underline font-bold">
               Upgrade to Pro for unlimited saves &amp; priority alerts →
             </Link>
           </p>

@@ -307,21 +307,21 @@ export default function PostTuitionPage() {
         <div>
           <Link
             href="/dashboard"
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#8C7679] dark:text-[#BFA5AA] hover:text-[#D91E48] dark:hover:text-[#FF1E40] mb-2 transition-colors cursor-pointer"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#64748B] dark:text-[#94A3B8] hover:text-[#0284C7] dark:hover:text-[#0EA5E9] mb-2 transition-colors cursor-pointer"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
             <span>Back to Dashboard</span>
           </Link>
           <div className="flex items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-[#1C0307] border border-[#F2B8C4] dark:border-[#E11D48]/35 text-[11px] font-mono font-bold tracking-wider text-[#D91E48] dark:text-[#FF1E40] uppercase shadow-sm">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-[#0D1D38] border border-[#BAE6FD] dark:border-[#0284C7]/35 text-[11px] font-mono font-bold tracking-wider text-[#0284C7] dark:text-[#0EA5E9] uppercase shadow-sm">
               <Sparkles className="w-3.5 h-3.5" />
               <span>TUTOR PORTAL // CREATE LISTING</span>
             </span>
           </div>
-          <h2 className="text-2xl sm:text-3xl font-black text-[#180C0E] dark:text-white tracking-tight mt-2">
+          <h2 className="text-2xl sm:text-3xl font-black text-[#0B1320] dark:text-white tracking-tight mt-2">
             Post New Tuition
           </h2>
-          <p className="text-xs sm:text-sm text-[#5C494C] dark:text-[#BFA5AA] mt-1">
+          <p className="text-xs sm:text-sm text-[#475569] dark:text-[#94A3B8] mt-1">
             Create a new tuition offering or mentorship batch to start receiving applications.
           </p>
         </div>
@@ -330,7 +330,7 @@ export default function PostTuitionPage() {
           <button
             type="button"
             onClick={resetForm}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-white dark:bg-[#160307] border border-[#EADCDD] dark:border-[#E11D48]/30 text-xs font-semibold text-[#5C494C] dark:text-[#BFA5AA] hover:text-[#D91E48] dark:hover:text-[#FF1E40] transition-all cursor-pointer shadow-sm"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-white dark:bg-[#0B1930] border border-[#E2E8F0] dark:border-[#0284C7]/30 text-xs font-semibold text-[#475569] dark:text-[#94A3B8] hover:text-[#0284C7] dark:hover:text-[#0EA5E9] transition-all cursor-pointer shadow-sm"
             title="Reset all inputs"
           >
             <RotateCcw className="w-3.5 h-3.5" />
@@ -339,33 +339,33 @@ export default function PostTuitionPage() {
 
           <Link
             href="/dashboard/my-tuitions"
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#F5ECEC] dark:bg-[#1E0307] border border-[#EADCDD] dark:border-[#E11D48]/30 text-xs font-bold text-[#180C0E] dark:text-white hover:border-[#D91E48] dark:hover:border-[#FF1E40] transition-all cursor-pointer shadow-sm"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#F0F7FF] dark:bg-[#0D1D38] border border-[#E2E8F0] dark:border-[#0284C7]/30 text-xs font-bold text-[#0B1320] dark:text-white hover:border-[#0284C7] dark:hover:border-[#0EA5E9] transition-all cursor-pointer shadow-sm"
           >
-            <BookOpen className="w-3.5 h-3.5 text-[#D91E48] dark:text-[#FF1E40]" />
+            <BookOpen className="w-3.5 h-3.5 text-[#0284C7] dark:text-[#0EA5E9]" />
             <span>View My Tuitions</span>
           </Link>
         </div>
       </div>
 
       {/* Main Form Container */}
-      <div className="rounded-2xl border border-[#EADCDD] dark:border-[#E11D48]/25 bg-white dark:bg-[#160307]/90 p-6 sm:p-8 shadow-[0_12px_32px_-8px_rgba(24,12,14,0.06)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.85)] backdrop-blur-xl">
+      <div className="rounded-2xl border border-[#E2E8F0] dark:border-[#0284C7]/25 bg-white dark:bg-[#0B1930]/90 p-6 sm:p-8 shadow-[0_12px_32px_-8px_rgba(11, 19, 32,0.06)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.85)] backdrop-blur-xl">
         <form onSubmit={handleSubmit} className="space-y-6">
           
           {/* Tuition Title */}
           <div className="space-y-2">
-            <label className="text-xs font-semibold text-[#180C0E] dark:text-[#F4E2E5] flex items-center gap-1">
+            <label className="text-xs font-semibold text-[#0B1320] dark:text-[#E2E8F0] flex items-center gap-1">
               <span>Tuition Title / Program Name</span>
-              <span className="text-[#D91E48] dark:text-[#FF1E40] font-bold">*</span>
+              <span className="text-[#0284C7] dark:text-[#0EA5E9] font-bold">*</span>
             </label>
             <div className="relative">
-              <GraduationCap className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#8C7679] dark:text-[#BFA5AA]" />
+              <GraduationCap className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#64748B] dark:text-[#94A3B8]" />
               <input
                 type="text"
                 required
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="e.g. Master HSC Higher Mathematics & Calculus"
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#FCF9F8] dark:bg-[#0D0204] border border-[#EADCDD] dark:border-[#E11D48]/30 text-sm text-[#180C0E] dark:text-white placeholder-[#8C7679] dark:placeholder-[#BFA5AA]/50 focus:border-[#D91E48] dark:focus:border-[#FF1E40] focus:outline-none focus:ring-1 focus:ring-[#D91E48] dark:focus:ring-[#FF1E40] transition-colors"
+                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#F8FAFC] dark:bg-[#0D0204] border border-[#E2E8F0] dark:border-[#0284C7]/30 text-sm text-[#0B1320] dark:text-white placeholder-[#64748B] dark:placeholder-[#94A3B8]/50 focus:border-[#0284C7] dark:focus:border-[#0EA5E9] focus:outline-none focus:ring-1 focus:ring-[#0284C7] dark:focus:ring-[#0EA5E9] transition-colors"
               />
             </div>
           </div>
@@ -374,19 +374,19 @@ export default function PostTuitionPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             {/* Subject Category */}
             <div className="space-y-2">
-              <label className="text-xs font-semibold text-[#180C0E] dark:text-[#F4E2E5] flex items-center gap-1">
+              <label className="text-xs font-semibold text-[#0B1320] dark:text-[#E2E8F0] flex items-center gap-1">
                 <span>Subject Discipline</span>
-                <span className="text-[#D91E48] dark:text-[#FF1E40] font-bold">*</span>
+                <span className="text-[#0284C7] dark:text-[#0EA5E9] font-bold">*</span>
               </label>
               <div className="relative">
                 <select
                   required
                   value={subject}
                   onChange={(e) => setSubject(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#FCF9F8] dark:bg-[#0D0204] border border-[#EADCDD] dark:border-[#E11D48]/30 text-sm text-[#180C0E] dark:text-white focus:border-[#D91E48] dark:focus:border-[#FF1E40] focus:outline-none transition-colors cursor-pointer"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#F8FAFC] dark:bg-[#0D0204] border border-[#E2E8F0] dark:border-[#0284C7]/30 text-sm text-[#0B1320] dark:text-white focus:border-[#0284C7] dark:focus:border-[#0EA5E9] focus:outline-none transition-colors cursor-pointer"
                 >
                   {SUBJECT_OPTIONS.map((sub) => (
-                    <option key={sub} value={sub} className="bg-white dark:bg-[#160307] text-[#180C0E] dark:text-white">
+                    <option key={sub} value={sub} className="bg-white dark:bg-[#0B1930] text-[#0B1320] dark:text-white">
                       {sub}
                     </option>
                   ))}
@@ -396,19 +396,19 @@ export default function PostTuitionPage() {
 
             {/* Target Class / Grade */}
             <div className="space-y-2">
-              <label className="text-xs font-semibold text-[#180C0E] dark:text-[#F4E2E5] flex items-center gap-1">
+              <label className="text-xs font-semibold text-[#0B1320] dark:text-[#E2E8F0] flex items-center gap-1">
                 <span>Target Class Level</span>
-                <span className="text-[#D91E48] dark:text-[#FF1E40] font-bold">*</span>
+                <span className="text-[#0284C7] dark:text-[#0EA5E9] font-bold">*</span>
               </label>
               <div className="relative">
                 <select
                   required
                   value={classLevel}
                   onChange={(e) => setClassLevel(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#FCF9F8] dark:bg-[#0D0204] border border-[#EADCDD] dark:border-[#E11D48]/30 text-sm text-[#180C0E] dark:text-white focus:border-[#D91E48] dark:focus:border-[#FF1E40] focus:outline-none transition-colors cursor-pointer"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#F8FAFC] dark:bg-[#0D0204] border border-[#E2E8F0] dark:border-[#0284C7]/30 text-sm text-[#0B1320] dark:text-white focus:border-[#0284C7] dark:focus:border-[#0EA5E9] focus:outline-none transition-colors cursor-pointer"
                 >
                   {CLASS_LEVEL_OPTIONS.map((lvl) => (
-                    <option key={lvl} value={lvl} className="bg-white dark:bg-[#160307] text-[#180C0E] dark:text-white">
+                    <option key={lvl} value={lvl} className="bg-white dark:bg-[#0B1930] text-[#0B1320] dark:text-white">
                       {lvl}
                     </option>
                   ))}
@@ -419,9 +419,9 @@ export default function PostTuitionPage() {
 
           {/* Mode of Teaching (Radio Buttons) */}
           <div className="space-y-2">
-            <label className="text-xs font-semibold text-[#180C0E] dark:text-[#F4E2E5] flex items-center gap-1">
+            <label className="text-xs font-semibold text-[#0B1320] dark:text-[#E2E8F0] flex items-center gap-1">
               <span>Teaching Mode</span>
-              <span className="text-[#D91E48] dark:text-[#FF1E40] font-bold">*</span>
+              <span className="text-[#0284C7] dark:text-[#0EA5E9] font-bold">*</span>
             </label>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               {(["Online Batch", "Offline Tuition", "Hybrid Model"] as const).map((item) => (
@@ -431,8 +431,8 @@ export default function PostTuitionPage() {
                   onClick={() => setMode(item)}
                   className={`py-2.5 px-3 rounded-xl text-xs font-bold transition-all border cursor-pointer ${
                     mode === item
-                      ? "bg-[#D91E48] text-white border-[#D91E48] shadow-sm dark:bg-gradient-to-r dark:from-[#E11D48] dark:to-[#FF1E40]"
-                      : "bg-[#FCF9F8] dark:bg-[#0D0204] text-[#5C494C] dark:text-[#BFA5AA] border-[#EADCDD] dark:border-[#E11D48]/25 hover:border-[#D91E48]"
+                      ? "bg-[#0284C7] text-white border-[#0284C7] shadow-sm dark:bg-gradient-to-r dark:from-[#0284C7] dark:to-[#0EA5E9]"
+                      : "bg-[#F8FAFC] dark:bg-[#0D0204] text-[#475569] dark:text-[#94A3B8] border-[#E2E8F0] dark:border-[#0284C7]/25 hover:border-[#0284C7]"
                   }`}
                 >
                   {item}
@@ -446,19 +446,19 @@ export default function PostTuitionPage() {
             {/* Conditional Location (Only for Offline or Hybrid) */}
             {isOfflineOrHybrid && (
               <div className="space-y-2 animate-in fade-in duration-200">
-                <label className="text-xs font-semibold text-[#180C0E] dark:text-[#F4E2E5] flex items-center gap-1">
+                <label className="text-xs font-semibold text-[#0B1320] dark:text-[#E2E8F0] flex items-center gap-1">
                   <span>Location / District</span>
-                  <span className="text-[#D91E48] dark:text-[#FF1E40] font-bold">*</span>
+                  <span className="text-[#0284C7] dark:text-[#0EA5E9] font-bold">*</span>
                 </label>
                 <div className="relative">
-                  <MapPin className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#8C7679] dark:text-[#BFA5AA]" />
+                  <MapPin className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#64748B] dark:text-[#94A3B8]" />
                   <input
                     type="text"
                     required={isOfflineOrHybrid}
                     value={location}
                     onChange={(e) => setLocation(e.target.value)}
                     placeholder="e.g. Dhanmondi, Dhaka"
-                    className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#FCF9F8] dark:bg-[#0D0204] border border-[#EADCDD] dark:border-[#E11D48]/30 text-sm text-[#180C0E] dark:text-white placeholder-[#8C7679] dark:placeholder-[#BFA5AA]/50 focus:border-[#D91E48] dark:focus:border-[#FF1E40] focus:outline-none transition-colors"
+                    className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#F8FAFC] dark:bg-[#0D0204] border border-[#E2E8F0] dark:border-[#0284C7]/30 text-sm text-[#0B1320] dark:text-white placeholder-[#64748B] dark:placeholder-[#94A3B8]/50 focus:border-[#0284C7] dark:focus:border-[#0EA5E9] focus:outline-none transition-colors"
                   />
                 </div>
               </div>
@@ -466,20 +466,20 @@ export default function PostTuitionPage() {
 
             {/* Weekly Frequency (Dropdown) */}
             <div className="space-y-2">
-              <label className="text-xs font-semibold text-[#180C0E] dark:text-[#F4E2E5] flex items-center gap-1">
+              <label className="text-xs font-semibold text-[#0B1320] dark:text-[#E2E8F0] flex items-center gap-1">
                 <span>Days Per Week / Frequency</span>
-                <span className="text-[#D91E48] dark:text-[#FF1E40] font-bold">*</span>
+                <span className="text-[#0284C7] dark:text-[#0EA5E9] font-bold">*</span>
               </label>
               <div className="relative">
-                <Calendar className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#8C7679] dark:text-[#BFA5AA] pointer-events-none" />
+                <Calendar className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#64748B] dark:text-[#94A3B8] pointer-events-none" />
                 <select
                   required
                   value={schedule}
                   onChange={(e) => setSchedule(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#FCF9F8] dark:bg-[#0D0204] border border-[#EADCDD] dark:border-[#E11D48]/30 text-sm text-[#180C0E] dark:text-white focus:border-[#D91E48] dark:focus:border-[#FF1E40] focus:outline-none transition-colors cursor-pointer"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#F8FAFC] dark:bg-[#0D0204] border border-[#E2E8F0] dark:border-[#0284C7]/30 text-sm text-[#0B1320] dark:text-white focus:border-[#0284C7] dark:focus:border-[#0EA5E9] focus:outline-none transition-colors cursor-pointer"
                 >
                   {WEEKLY_FREQUENCY_OPTIONS.map((freq) => (
-                    <option key={freq} value={freq} className="bg-white dark:bg-[#160307] text-[#180C0E] dark:text-white">
+                    <option key={freq} value={freq} className="bg-white dark:bg-[#0B1930] text-[#0B1320] dark:text-white">
                       {freq}
                     </option>
                   ))}
@@ -489,12 +489,12 @@ export default function PostTuitionPage() {
 
             {/* Monthly Fee */}
             <div className="space-y-2">
-              <label className="text-xs font-semibold text-[#180C0E] dark:text-[#F4E2E5] flex items-center gap-1">
+              <label className="text-xs font-semibold text-[#0B1320] dark:text-[#E2E8F0] flex items-center gap-1">
                 <span>Monthly Fee (BDT)</span>
-                <span className="text-[#D91E48] dark:text-[#FF1E40] font-bold">*</span>
+                <span className="text-[#0284C7] dark:text-[#0EA5E9] font-bold">*</span>
               </label>
               <div className="relative">
-                <DollarSign className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#8C7679] dark:text-[#BFA5AA]" />
+                <DollarSign className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#64748B] dark:text-[#94A3B8]" />
                 <input
                   type="number"
                   required
@@ -502,7 +502,7 @@ export default function PostTuitionPage() {
                   value={monthlyFee}
                   onChange={(e) => setMonthlyFee(e.target.value)}
                   placeholder="6000"
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#FCF9F8] dark:bg-[#0D0204] border border-[#EADCDD] dark:border-[#E11D48]/30 text-sm text-[#180C0E] dark:text-white placeholder-[#8C7679] dark:placeholder-[#BFA5AA]/50 focus:border-[#D91E48] dark:focus:border-[#FF1E40] focus:outline-none transition-colors"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#F8FAFC] dark:bg-[#0D0204] border border-[#E2E8F0] dark:border-[#0284C7]/30 text-sm text-[#0B1320] dark:text-white placeholder-[#64748B] dark:placeholder-[#94A3B8]/50 focus:border-[#0284C7] dark:focus:border-[#0EA5E9] focus:outline-none transition-colors"
                 />
               </div>
             </div>
@@ -510,19 +510,19 @@ export default function PostTuitionPage() {
 
           {/* Banner Image Input Field (ImgBB Ready) */}
           <div className="space-y-2">
-            <label className="text-xs font-semibold text-[#180C0E] dark:text-[#F4E2E5] flex items-center justify-between">
+            <label className="text-xs font-semibold text-[#0B1320] dark:text-[#E2E8F0] flex items-center justify-between">
               <div className="flex items-center gap-1">
                 <span>Banner Image</span>
-                <span className="text-[10px] font-mono text-[#8C7679] dark:text-[#BFA5AA]">(Optional)</span>
+                <span className="text-[10px] font-mono text-[#64748B] dark:text-[#94A3B8]">(Optional)</span>
               </div>
-              <span className="text-[11px] font-mono text-[#D91E48] dark:text-[#FF1E40]">
+              <span className="text-[11px] font-mono text-[#0284C7] dark:text-[#0EA5E9]">
                 ImgBB cloud ready
               </span>
             </label>
 
             {bannerImage ? (
-              <div className="relative rounded-xl overflow-hidden border border-[#F2B8C4] dark:border-[#E11D48]/40 bg-[#FCF9F8] dark:bg-[#0D0204] p-3 flex items-center gap-4">
-                <div className="relative h-16 w-24 rounded-lg overflow-hidden shrink-0 border border-[#EADCDD] dark:border-[#E11D48]/20">
+              <div className="relative rounded-xl overflow-hidden border border-[#BAE6FD] dark:border-[#0284C7]/40 bg-[#F8FAFC] dark:bg-[#0D0204] p-3 flex items-center gap-4">
+                <div className="relative h-16 w-24 rounded-lg overflow-hidden shrink-0 border border-[#E2E8F0] dark:border-[#0284C7]/20">
                   <Image
                     src={bannerImage}
                     alt="Tuition Banner Preview"
@@ -531,17 +531,17 @@ export default function PostTuitionPage() {
                   />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-xs font-bold text-[#180C0E] dark:text-white truncate">
+                  <p className="text-xs font-bold text-[#0B1320] dark:text-white truncate">
                     Banner Attached
                   </p>
-                  <p className="text-[11px] text-[#5C494C] dark:text-[#BFA5AA]">
+                  <p className="text-[11px] text-[#475569] dark:text-[#94A3B8]">
                     Preview ready for public tuition listing
                   </p>
                 </div>
                 <button
                   type="button"
                   onClick={() => setBannerImage("")}
-                  className="p-1.5 rounded-lg text-[#D91E48] hover:bg-[#FDECEF] dark:hover:bg-[#2A0612] transition-colors cursor-pointer"
+                  className="p-1.5 rounded-lg text-[#0284C7] hover:bg-[#E0F2FE] dark:hover:bg-[#2A0612] transition-colors cursor-pointer"
                   title="Remove image"
                 >
                   <X className="w-4 h-4" />
@@ -549,15 +549,15 @@ export default function PostTuitionPage() {
               </div>
             ) : (
               <div className="relative">
-                <label className="flex items-center gap-3 px-4 py-3 rounded-xl border border-dashed border-[#EADCDD] dark:border-[#E11D48]/35 bg-[#FCF9F8] dark:bg-[#0D0204] hover:border-[#D91E48] dark:hover:border-[#FF1E40] transition-colors cursor-pointer group">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#FDECEF] dark:bg-[#2A060C] text-[#D91E48] dark:text-[#FF1E40] border border-[#F2B8C4] dark:border-[#E11D48]/30 group-hover:scale-105 transition-transform">
+                <label className="flex items-center gap-3 px-4 py-3 rounded-xl border border-dashed border-[#E2E8F0] dark:border-[#0284C7]/35 bg-[#F8FAFC] dark:bg-[#0D0204] hover:border-[#0284C7] dark:hover:border-[#0EA5E9] transition-colors cursor-pointer group">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#E0F2FE] dark:bg-[#102547] text-[#0284C7] dark:text-[#0EA5E9] border border-[#BAE6FD] dark:border-[#0284C7]/30 group-hover:scale-105 transition-transform">
                     <Upload className="w-4 h-4" />
                   </div>
                   <div>
-                    <span className="text-xs font-bold text-[#180C0E] dark:text-white group-hover:text-[#D91E48] dark:group-hover:text-[#FF1E40] transition-colors">
+                    <span className="text-xs font-bold text-[#0B1320] dark:text-white group-hover:text-[#0284C7] dark:group-hover:text-[#0EA5E9] transition-colors">
                       Upload Image (ImgBB)
                     </span>
-                    <p className="text-[11px] text-[#8C7679] dark:text-[#BFA5AA]">
+                    <p className="text-[11px] text-[#64748B] dark:text-[#94A3B8]">
                       PNG, JPG, or WEBP up to 5MB
                     </p>
                   </div>
@@ -575,15 +575,15 @@ export default function PostTuitionPage() {
           {/* Description & Syllabus details with min 50 characters counter */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <label className="text-xs font-semibold text-[#180C0E] dark:text-[#F4E2E5] flex items-center gap-1">
+              <label className="text-xs font-semibold text-[#0B1320] dark:text-[#E2E8F0] flex items-center gap-1">
                 <span>Tuition Description</span>
-                <span className="text-[#D91E48] dark:text-[#FF1E40] font-bold">*</span>
+                <span className="text-[#0284C7] dark:text-[#0EA5E9] font-bold">*</span>
               </label>
               <span
                 className={`text-[11px] font-mono font-bold transition-colors ${
                   isDescValid
                     ? "text-[#059669] dark:text-[#10B981]"
-                    : "text-[#D91E48] dark:text-[#FF1E40]"
+                    : "text-[#0284C7] dark:text-[#0EA5E9]"
                 }`}
               >
                 {descLength} / min 50 chars
@@ -595,14 +595,14 @@ export default function PostTuitionPage() {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Describe what students will learn, your teaching methodology, prerequisites, and expected outcomes..."
-              className={`w-full px-4 py-3 rounded-xl bg-[#FCF9F8] dark:bg-[#0D0204] border text-sm text-[#180C0E] dark:text-white placeholder-[#8C7679] dark:placeholder-[#BFA5AA]/50 focus:outline-none transition-colors resize-none leading-relaxed ${
+              className={`w-full px-4 py-3 rounded-xl bg-[#F8FAFC] dark:bg-[#0D0204] border text-sm text-[#0B1320] dark:text-white placeholder-[#64748B] dark:placeholder-[#94A3B8]/50 focus:outline-none transition-colors resize-none leading-relaxed ${
                 !isDescValid && descLength > 0
-                  ? "border-[#D91E48] dark:border-[#FF1E40]/70"
-                  : "border-[#EADCDD] dark:border-[#E11D48]/30 focus:border-[#D91E48] dark:focus:border-[#FF1E40]"
+                  ? "border-[#0284C7] dark:border-[#0EA5E9]/70"
+                  : "border-[#E2E8F0] dark:border-[#0284C7]/30 focus:border-[#0284C7] dark:focus:border-[#0EA5E9]"
               }`}
             />
             {!isDescValid && descLength > 0 && (
-              <p className="text-[11px] text-[#D91E48] dark:text-[#FF1E40] flex items-center gap-1">
+              <p className="text-[11px] text-[#0284C7] dark:text-[#0EA5E9] flex items-center gap-1">
                 <AlertCircle className="w-3 h-3" />
                 <span>Please write at least {50 - descLength} more characters.</span>
               </p>
@@ -610,24 +610,24 @@ export default function PostTuitionPage() {
           </div>
 
           {/* Submit Button */}
-          <div className="pt-4 flex items-center justify-end gap-3 border-t border-[#EADCDD] dark:border-[#E11D48]/20">
+          <div className="pt-4 flex items-center justify-end gap-3 border-t border-[#E2E8F0] dark:border-[#0284C7]/20">
             <button
               type="button"
               onClick={resetForm}
-              className="px-4 py-2.5 rounded-xl text-xs font-bold text-[#5C494C] dark:text-[#BFA5AA] hover:bg-[#F5ECEC] dark:hover:bg-[#1E0307] transition-all cursor-pointer"
+              className="px-4 py-2.5 rounded-xl text-xs font-bold text-[#475569] dark:text-[#94A3B8] hover:bg-[#F0F7FF] dark:hover:bg-[#0D1D38] transition-all cursor-pointer"
             >
               Clear
             </button>
             <Link
               href="/dashboard"
-              className="px-5 py-2.5 rounded-xl text-xs font-bold text-[#5C494C] dark:text-[#BFA5AA] hover:bg-[#F5ECEC] dark:hover:bg-[#1E0307] transition-all cursor-pointer"
+              className="px-5 py-2.5 rounded-xl text-xs font-bold text-[#475569] dark:text-[#94A3B8] hover:bg-[#F0F7FF] dark:hover:bg-[#0D1D38] transition-all cursor-pointer"
             >
               Cancel
             </Link>
             <button
               type="submit"
               disabled={isSubmitting || !isDescValid || !title.trim()}
-              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[#D91E48] hover:bg-[#B31438] dark:bg-gradient-to-r dark:from-[#E11D48] dark:via-[#FF1E40] dark:to-[#FF4D6D] text-white font-bold text-xs shadow-[0_4px_16px_rgba(217,30,72,0.25)] hover:shadow-lg transition-all active:scale-95 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[#0284C7] hover:bg-[#0369A1] dark:bg-gradient-to-r dark:from-[#0284C7] dark:via-[#0EA5E9] dark:to-[#38BDF8] text-white font-bold text-xs shadow-[0_4px_16px_rgba(2, 132, 199,0.25)] hover:shadow-lg transition-all active:scale-95 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isSubmitting ? (
                 <>

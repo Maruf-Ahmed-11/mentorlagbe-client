@@ -137,7 +137,7 @@ function CheckoutContent() {
       <div className="mb-6">
         <Link
           href="/"
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#8C7679] dark:text-[#BFA5AA] hover:text-[#D91E48] dark:hover:text-[#FF1E40] transition-colors"
+          className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#64748B] dark:text-[#94A3B8] hover:text-[#0284C7] dark:hover:text-[#0EA5E9] transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Back to Home</span>
@@ -146,19 +146,19 @@ function CheckoutContent() {
 
       {/* Header */}
       <div className="text-center max-w-2xl mx-auto mb-10">
-        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono font-bold uppercase tracking-wider bg-[#FDECEF] dark:bg-[#2A060C] text-[#D91E48] dark:text-[#FF1E40] border border-[#F2B8C4] dark:border-[#E11D48]/30 mb-3">
+        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono font-bold uppercase tracking-wider bg-[#E0F2FE] dark:bg-[#102547] text-[#0284C7] dark:text-[#0EA5E9] border border-[#BAE6FD] dark:border-[#0284C7]/30 mb-3">
           <Sparkles className="w-3.5 h-3.5" />
           <span>STRIPE SECURE CHECKOUT</span>
         </span>
-        <h1 className="text-3xl sm:text-4xl font-black text-[#180C0E] dark:text-white tracking-tight">
-          Upgrade to <span className="text-[#D91E48] dark:text-[#FF1E40]">MentorLagbe Pro</span>
+        <h1 className="text-3xl sm:text-4xl font-black text-[#0B1320] dark:text-white tracking-tight">
+          Upgrade to <span className="text-[#0284C7] dark:text-[#0EA5E9]">MentorLagbe Pro</span>
         </h1>
-        <p className="mt-2 text-sm text-[#5C494C] dark:text-[#F4E2E5]/80">
+        <p className="mt-2 text-sm text-[#475569] dark:text-[#E2E8F0]/80">
           Unlock unlimited tuition postings, priority booking, and standout verified credentials.
         </p>
 
         {/* Plan Switcher - Role Locked */}
-        <div className="mt-6 inline-flex p-1 rounded-2xl bg-[#EADCDD]/60 dark:bg-[#200408] border border-[#EADCDD] dark:border-[#E11D48]/30">
+        <div className="mt-6 inline-flex p-1 rounded-2xl bg-[#E2E8F0]/60 dark:bg-[#0D1D38] border border-[#E2E8F0] dark:border-[#0284C7]/30">
           <button
             type="button"
             disabled={isStudentUser}
@@ -166,14 +166,14 @@ function CheckoutContent() {
             title={isStudentUser ? "Your logged-in account is a Student. Tutor plan is disabled." : undefined}
             className={`px-6 py-2.5 rounded-xl text-xs font-bold transition-all ${
               selectedPlan === "tutor"
-                ? "bg-[#D91E48] text-white shadow-md cursor-default"
+                ? "bg-[#0284C7] text-white shadow-md cursor-default"
                 : isStudentUser
-                ? "text-[#8C7679]/40 dark:text-[#BFA5AA]/30 cursor-not-allowed opacity-60"
-                : "text-[#5C494C] dark:text-[#BFA5AA] hover:text-[#180C0E] dark:hover:text-white cursor-pointer"
+                ? "text-[#64748B]/40 dark:text-[#94A3B8]/30 cursor-not-allowed opacity-60"
+                : "text-[#475569] dark:text-[#94A3B8] hover:text-[#0B1320] dark:hover:text-white cursor-pointer"
             }`}
           >
             <span>Tutor Pro ($15)</span>
-            {isStudentUser && <span className="text-[10px] ml-1.5 font-mono text-[#D91E48] dark:text-[#FF4D6D]">(Tutors Only)</span>}
+            {isStudentUser && <span className="text-[10px] ml-1.5 font-mono text-[#0284C7] dark:text-[#38BDF8]">(Tutors Only)</span>}
           </button>
 
           <button
@@ -183,14 +183,14 @@ function CheckoutContent() {
             title={isTutorUser ? "Your logged-in account is a Tutor. Student plan is disabled." : undefined}
             className={`px-6 py-2.5 rounded-xl text-xs font-bold transition-all ${
               selectedPlan === "student"
-                ? "bg-[#D91E48] text-white shadow-md cursor-default"
+                ? "bg-[#0284C7] text-white shadow-md cursor-default"
                 : isTutorUser
-                ? "text-[#8C7679]/40 dark:text-[#BFA5AA]/30 cursor-not-allowed opacity-60"
-                : "text-[#5C494C] dark:text-[#BFA5AA] hover:text-[#180C0E] dark:hover:text-white cursor-pointer"
+                ? "text-[#64748B]/40 dark:text-[#94A3B8]/30 cursor-not-allowed opacity-60"
+                : "text-[#475569] dark:text-[#94A3B8] hover:text-[#0B1320] dark:hover:text-white cursor-pointer"
             }`}
           >
             <span>Student Pro ($10)</span>
-            {isTutorUser && <span className="text-[10px] ml-1.5 font-mono text-[#D91E48] dark:text-[#FF4D6D]">(Students Only)</span>}
+            {isTutorUser && <span className="text-[10px] ml-1.5 font-mono text-[#0284C7] dark:text-[#38BDF8]">(Students Only)</span>}
           </button>
         </div>
       </div>
@@ -199,67 +199,67 @@ function CheckoutContent() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
         {/* Left Column: Plan Benefits */}
-        <div className="lg:col-span-7 rounded-3xl border border-[#EADCDD] dark:border-[#E11D48]/25 bg-white dark:bg-[#140204]/90 p-6 sm:p-8 shadow-[0_12px_32px_-8px_rgba(24,12,14,0.06)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.85)]">
-          <div className="flex items-center justify-between pb-4 border-b border-[#EADCDD] dark:border-[#E11D48]/20">
+        <div className="lg:col-span-7 rounded-3xl border border-[#E2E8F0] dark:border-[#0284C7]/25 bg-white dark:bg-[#0B1930]/90 p-6 sm:p-8 shadow-[0_12px_32px_-8px_rgba(11, 19, 32,0.06)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.85)]">
+          <div className="flex items-center justify-between pb-4 border-b border-[#E2E8F0] dark:border-[#0284C7]/20">
             <div>
-              <span className="text-[10px] font-mono font-bold tracking-widest text-[#D91E48] dark:text-[#FF1E40] uppercase">
+              <span className="text-[10px] font-mono font-bold tracking-widest text-[#0284C7] dark:text-[#0EA5E9] uppercase">
                 YOUR ACCOUNT PLAN
               </span>
-              <h2 className="text-xl font-bold text-[#180C0E] dark:text-white mt-0.5">
+              <h2 className="text-xl font-bold text-[#0B1320] dark:text-white mt-0.5">
                 {planTitle}
               </h2>
             </div>
             <div className="text-right">
-              <span className="text-3xl font-black font-mono text-[#D91E48] dark:text-[#FF1E40]">
+              <span className="text-3xl font-black font-mono text-[#0284C7] dark:text-[#0EA5E9]">
                 {planPrice}
               </span>
-              <span className="text-xs font-mono text-[#8C7679] dark:text-[#BFA5AA]">
+              <span className="text-xs font-mono text-[#64748B] dark:text-[#94A3B8]">
                 {planPeriod}
               </span>
             </div>
           </div>
 
           <div className="mt-6">
-            <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-[#8C7679] dark:text-[#BFA5AA] mb-4">
+            <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-[#64748B] dark:text-[#94A3B8] mb-4">
               Everything Included in {selectedPlan.toUpperCase()} PRO:
             </h3>
 
-            <ul className="space-y-3.5 text-xs sm:text-sm text-[#180C0E] dark:text-white">
+            <ul className="space-y-3.5 text-xs sm:text-sm text-[#0B1320] dark:text-white">
               {isTutor ? (
                 <>
                   <li className="flex items-start gap-3">
-                    <CheckCircle2 className="w-4 h-4 text-[#D91E48] dark:text-[#FF1E40] shrink-0 mt-0.5" />
+                    <CheckCircle2 className="w-4 h-4 text-[#0284C7] dark:text-[#0EA5E9] shrink-0 mt-0.5" />
                     <span><strong>Unlimited Tuition Posts</strong> (Free tier capped at 2 posts)</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <CheckCircle2 className="w-4 h-4 text-[#D91E48] dark:text-[#FF1E40] shrink-0 mt-0.5" />
+                    <CheckCircle2 className="w-4 h-4 text-[#0284C7] dark:text-[#0EA5E9] shrink-0 mt-0.5" />
                     <span><strong>Glowing Pro Verified Badge</strong> on profile and listing cards</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <CheckCircle2 className="w-4 h-4 text-[#D91E48] dark:text-[#FF1E40] shrink-0 mt-0.5" />
+                    <CheckCircle2 className="w-4 h-4 text-[#0284C7] dark:text-[#0EA5E9] shrink-0 mt-0.5" />
                     <span>Top priority search placement &amp; direct student inquiry inbox</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <CheckCircle2 className="w-4 h-4 text-[#D91E48] dark:text-[#FF1E40] shrink-0 mt-0.5" />
+                    <CheckCircle2 className="w-4 h-4 text-[#0284C7] dark:text-[#0EA5E9] shrink-0 mt-0.5" />
                     <span>0% platform commission on all tuition payments</span>
                   </li>
                 </>
               ) : (
                 <>
                   <li className="flex items-start gap-3">
-                    <CheckCircle2 className="w-4 h-4 text-[#D91E48] dark:text-[#FF1E40] shrink-0 mt-0.5" />
+                    <CheckCircle2 className="w-4 h-4 text-[#0284C7] dark:text-[#0EA5E9] shrink-0 mt-0.5" />
                     <span><strong>Unlimited Tuition Applications</strong> (Free tier capped at 10 applications)</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <CheckCircle2 className="w-4 h-4 text-[#D91E48] dark:text-[#FF1E40] shrink-0 mt-0.5" />
+                    <CheckCircle2 className="w-4 h-4 text-[#0284C7] dark:text-[#0EA5E9] shrink-0 mt-0.5" />
                     <span><strong>Priority Applicant Spotlight</strong> directly at top of tutor applicant inboxes</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <CheckCircle2 className="w-4 h-4 text-[#D91E48] dark:text-[#FF1E40] shrink-0 mt-0.5" />
+                    <CheckCircle2 className="w-4 h-4 text-[#0284C7] dark:text-[#0EA5E9] shrink-0 mt-0.5" />
                     <span>Instant application alerts and verified student badge</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <CheckCircle2 className="w-4 h-4 text-[#D91E48] dark:text-[#FF1E40] shrink-0 mt-0.5" />
+                    <CheckCircle2 className="w-4 h-4 text-[#0284C7] dark:text-[#0EA5E9] shrink-0 mt-0.5" />
                     <span>Unlimited bookmarks and tuition alerts</span>
                   </li>
                 </>
@@ -267,7 +267,7 @@ function CheckoutContent() {
             </ul>
           </div>
 
-          <div className="mt-8 pt-6 border-t border-[#EADCDD] dark:border-[#E11D48]/20 flex items-center justify-between text-xs text-[#8C7679] dark:text-[#BFA5AA]">
+          <div className="mt-8 pt-6 border-t border-[#E2E8F0] dark:border-[#0284C7]/20 flex items-center justify-between text-xs text-[#64748B] dark:text-[#94A3B8]">
             <span className="flex items-center gap-1.5">
               <Lock className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
               <span>Cancel or manage subscription anytime</span>
@@ -277,12 +277,12 @@ function CheckoutContent() {
         </div>
 
         {/* Right Column: Checkout Summary & Trigger */}
-        <div className="lg:col-span-5 rounded-3xl border border-[#EADCDD] dark:border-[#E11D48]/25 bg-white dark:bg-[#140204]/90 p-6 sm:p-8 shadow-[0_12px_32px_-8px_rgba(24,12,14,0.06)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.85)] flex flex-col justify-between">
+        <div className="lg:col-span-5 rounded-3xl border border-[#E2E8F0] dark:border-[#0284C7]/25 bg-white dark:bg-[#0B1930]/90 p-6 sm:p-8 shadow-[0_12px_32px_-8px_rgba(11, 19, 32,0.06)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.85)] flex flex-col justify-between">
           <div>
-            <h3 className="text-base font-bold text-[#180C0E] dark:text-white">
+            <h3 className="text-base font-bold text-[#0B1320] dark:text-white">
               Order Summary
             </h3>
-            <p className="text-xs text-[#8C7679] dark:text-[#BFA5AA] mt-0.5">
+            <p className="text-xs text-[#64748B] dark:text-[#94A3B8] mt-0.5">
               Instant activation linked to your authenticated account.
             </p>
 
@@ -297,40 +297,40 @@ function CheckoutContent() {
               </div>
             )}
 
-            <div className="mt-6 space-y-3 pb-6 border-b border-[#EADCDD] dark:border-[#E11D48]/20 text-xs sm:text-sm">
-              <div className="flex justify-between text-[#5C494C] dark:text-[#F4E2E5]/80">
+            <div className="mt-6 space-y-3 pb-6 border-b border-[#E2E8F0] dark:border-[#0284C7]/20 text-xs sm:text-sm">
+              <div className="flex justify-between text-[#475569] dark:text-[#E2E8F0]/80">
                 <span>Account Email:</span>
-                <span className="font-mono font-medium text-[#180C0E] dark:text-white truncate max-w-[180px]">
+                <span className="font-mono font-medium text-[#0B1320] dark:text-white truncate max-w-[180px]">
                   {session?.user?.email || cachedUser?.email || "Signed-in user"}
                 </span>
               </div>
-              <div className="flex justify-between text-[#5C494C] dark:text-[#F4E2E5]/80">
+              <div className="flex justify-between text-[#475569] dark:text-[#E2E8F0]/80">
                 <span>Account Role:</span>
-                <span className="font-medium text-[#180C0E] dark:text-white uppercase font-mono">
+                <span className="font-medium text-[#0B1320] dark:text-white uppercase font-mono">
                   {userRole}
                 </span>
               </div>
-              <div className="flex justify-between text-[#5C494C] dark:text-[#F4E2E5]/80">
+              <div className="flex justify-between text-[#475569] dark:text-[#E2E8F0]/80">
                 <span>Selected Plan:</span>
-                <span className="font-medium text-[#D91E48] dark:text-[#FF1E40] font-bold">
+                <span className="font-medium text-[#0284C7] dark:text-[#0EA5E9] font-bold">
                   {planTitle}
                 </span>
               </div>
-              <div className="flex justify-between text-[#5C494C] dark:text-[#F4E2E5]/80">
+              <div className="flex justify-between text-[#475569] dark:text-[#E2E8F0]/80">
                 <span>Billing Period:</span>
-                <span className="font-medium text-[#180C0E] dark:text-white">Monthly Subscription</span>
+                <span className="font-medium text-[#0B1320] dark:text-white">Monthly Subscription</span>
               </div>
             </div>
 
             <div className="mt-6 flex items-baseline justify-between">
-              <span className="text-sm font-bold text-[#180C0E] dark:text-white">
+              <span className="text-sm font-bold text-[#0B1320] dark:text-white">
                 Total Due Today:
               </span>
               <div className="text-right">
-                <span className="text-2xl font-black font-mono text-[#D91E48] dark:text-[#FF1E40]">
+                <span className="text-2xl font-black font-mono text-[#0284C7] dark:text-[#0EA5E9]">
                   {planPrice}.00
                 </span>
-                <span className="text-[11px] text-[#8C7679] dark:text-[#BFA5AA] block">
+                <span className="text-[11px] text-[#64748B] dark:text-[#94A3B8] block">
                   USD (Billed via Stripe)
                 </span>
               </div>
@@ -350,7 +350,7 @@ function CheckoutContent() {
                 </button>
                 <Link
                   href="/dashboard"
-                  className="w-full py-3.5 rounded-2xl bg-[#D91E48] hover:bg-[#B31438] text-white font-bold text-xs shadow-md transition-all flex items-center justify-center gap-2"
+                  className="w-full py-3.5 rounded-2xl bg-[#0284C7] hover:bg-[#0369A1] text-white font-bold text-xs shadow-md transition-all flex items-center justify-center gap-2"
                 >
                   <span>Return to Dashboard</span>
                   <ArrowRight className="w-4 h-4" />
@@ -361,7 +361,7 @@ function CheckoutContent() {
                 type="button"
                 onClick={() => handleCheckout()}
                 disabled={isLoading}
-                className="w-full py-4 rounded-2xl bg-[#D91E48] hover:bg-[#B31438] dark:bg-gradient-to-r dark:from-[#E11D48] dark:via-[#FF1E40] dark:to-[#FF4D6D] text-white font-bold text-sm shadow-[0_8px_25px_rgba(217,30,72,0.4)] hover:shadow-[0_10px_30px_rgba(217,30,72,0.55)] transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-98 disabled:opacity-75"
+                className="w-full py-4 rounded-2xl bg-[#0284C7] hover:bg-[#0369A1] dark:bg-gradient-to-r dark:from-[#0284C7] dark:via-[#0EA5E9] dark:to-[#38BDF8] text-white font-bold text-sm shadow-[0_8px_25px_rgba(2, 132, 199,0.4)] hover:shadow-[0_10px_30px_rgba(2, 132, 199,0.55)] transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-98 disabled:opacity-75"
               >
                 {isLoading ? (
                   <>
@@ -378,7 +378,7 @@ function CheckoutContent() {
               </button>
             )}
 
-            <div className="flex items-center justify-center gap-2 text-[11px] text-[#8C7679] dark:text-[#BFA5AA]">
+            <div className="flex items-center justify-center gap-2 text-[11px] text-[#64748B] dark:text-[#94A3B8]">
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
               <span>256-Bit SSL Encrypted by Stripe</span>
             </div>
@@ -396,8 +396,8 @@ export default function CheckoutPage() {
     <Suspense
       fallback={
         <div className="min-h-[70vh] flex flex-col items-center justify-center p-6 text-center">
-          <Loader2 className="w-8 h-8 text-[#D91E48] animate-spin mb-3" />
-          <p className="text-xs font-mono font-bold uppercase tracking-wider text-[#8C7679]">
+          <Loader2 className="w-8 h-8 text-[#0284C7] animate-spin mb-3" />
+          <p className="text-xs font-mono font-bold uppercase tracking-wider text-[#64748B]">
             Loading Checkout...
           </p>
         </div>

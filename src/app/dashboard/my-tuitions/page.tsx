@@ -487,21 +487,21 @@ export default function MyTuitionsPage() {
         <div>
           <Link
             href="/dashboard"
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#8C7679] dark:text-[#BFA5AA] hover:text-[#D91E48] dark:hover:text-[#FF1E40] mb-2 transition-colors cursor-pointer"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#64748B] dark:text-[#94A3B8] hover:text-[#0284C7] dark:hover:text-[#0EA5E9] mb-2 transition-colors cursor-pointer"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
             <span>Back to Dashboard</span>
           </Link>
           <div className="flex items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-[#1C0307] border border-[#F2B8C4] dark:border-[#E11D48]/35 text-[11px] font-mono font-bold tracking-wider text-[#D91E48] dark:text-[#FF1E40] uppercase shadow-sm">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-[#0D1D38] border border-[#BAE6FD] dark:border-[#0284C7]/35 text-[11px] font-mono font-bold tracking-wider text-[#0284C7] dark:text-[#0EA5E9] uppercase shadow-sm">
               <Sparkles className="w-3.5 h-3.5" />
               <span>{isAdmin ? "ADMIN WORKSPACE // COURSE MODERATION" : "TUTOR WORKSPACE // COURSE MANAGEMENT"}</span>
             </span>
           </div>
-          <h2 className="text-2xl sm:text-3xl font-black text-[#180C0E] dark:text-white tracking-tight mt-2">
+          <h2 className="text-2xl sm:text-3xl font-black text-[#0B1320] dark:text-white tracking-tight mt-2">
             {isAdmin ? "Manage Tuitions" : "My Tuitions"}
           </h2>
-          <p className="text-xs sm:text-sm text-[#5C494C] dark:text-[#BFA5AA] mt-1">
+          <p className="text-xs sm:text-sm text-[#475569] dark:text-[#94A3B8] mt-1">
             {isAdmin
               ? "Review, approve, or reject tuition listings submitted by tutors across the platform."
               : "Manage your created tuition listings, toggle availability, or make updates."}
@@ -512,7 +512,7 @@ export default function MyTuitionsPage() {
           {!isAdmin && (
             <Link
               href="/dashboard/post-tuition"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#D91E48] hover:bg-[#B31438] dark:bg-gradient-to-r dark:from-[#E11D48] dark:via-[#FF1E40] dark:to-[#FF4D6D] text-white font-bold text-xs shadow-[0_4px_16px_rgba(217,30,72,0.25)] dark:shadow-[0_0_20px_rgba(225,29,72,0.5)] transition-all active:scale-95 cursor-pointer"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#0284C7] hover:bg-[#0369A1] dark:bg-gradient-to-r dark:from-[#0284C7] dark:via-[#0EA5E9] dark:to-[#38BDF8] text-white font-bold text-xs shadow-[0_4px_16px_rgba(2, 132, 199,0.25)] dark:shadow-[0_0_20px_rgba(2, 132, 199,0.5)] transition-all active:scale-95 cursor-pointer"
             >
               <Plus className="w-4 h-4" />
               <span>Post New Tuition</span>
@@ -522,29 +522,29 @@ export default function MyTuitionsPage() {
       </div>
 
       {/* Main Table Container */}
-      <div className="rounded-2xl border border-[#EADCDD] dark:border-[#E11D48]/25 bg-white dark:bg-[#140204]/90 shadow-[0_12px_32px_-8px_rgba(24,12,14,0.06)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.85)] backdrop-blur-xl overflow-hidden">
+      <div className="rounded-2xl border border-[#E2E8F0] dark:border-[#0284C7]/25 bg-white dark:bg-[#0B1930]/90 shadow-[0_12px_32px_-8px_rgba(11, 19, 32,0.06)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.85)] backdrop-blur-xl overflow-hidden">
         
         {isLoading ? (
           <div className="p-16 text-center">
-            <Sparkles className="w-8 h-8 text-[#D91E48] dark:text-[#FF1E40] animate-spin mx-auto mb-3" />
-            <p className="text-xs font-mono font-bold uppercase tracking-wider text-[#8C7679] dark:text-[#BFA5AA]">
+            <Sparkles className="w-8 h-8 text-[#0284C7] dark:text-[#0EA5E9] animate-spin mx-auto mb-3" />
+            <p className="text-xs font-mono font-bold uppercase tracking-wider text-[#64748B] dark:text-[#94A3B8]">
               Loading your tuition listings...
             </p>
           </div>
         ) : tuitions.length === 0 ? (
           <div className="p-16 text-center space-y-4">
-            <BookOpen className="w-12 h-12 text-[#8C7679] mx-auto opacity-70" />
+            <BookOpen className="w-12 h-12 text-[#64748B] mx-auto opacity-70" />
             <div className="space-y-1">
-              <h3 className="text-base font-bold text-[#180C0E] dark:text-white">
+              <h3 className="text-base font-bold text-[#0B1320] dark:text-white">
                 No tuitions created yet
               </h3>
-              <p className="text-xs text-[#5C494C] dark:text-[#BFA5AA] max-w-sm mx-auto">
+              <p className="text-xs text-[#475569] dark:text-[#94A3B8] max-w-sm mx-auto">
                 Post your first tuition course to start receiving applications from prospective students.
               </p>
             </div>
             <Link
               href="/dashboard/post-tuition"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#D91E48] text-white font-bold text-xs shadow-sm hover:bg-[#B31438] transition-all"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#0284C7] text-white font-bold text-xs shadow-sm hover:bg-[#0369A1] transition-all"
             >
               <Plus className="w-4 h-4" />
               <span>Create First Post</span>
@@ -555,7 +555,7 @@ export default function MyTuitionsPage() {
             <table className="w-full text-left border-collapse">
               {/* Table Header */}
               <thead>
-                <tr className="border-b border-[#EADCDD] dark:border-[#E11D48]/20 bg-[#FCF9F8] dark:bg-[#0D0204]/80 text-[10px] sm:text-[11px] font-mono font-bold uppercase tracking-wider text-[#8C7679] dark:text-[#BFA5AA]">
+                <tr className="border-b border-[#E2E8F0] dark:border-[#0284C7]/20 bg-[#F8FAFC] dark:bg-[#0D0204]/80 text-[10px] sm:text-[11px] font-mono font-bold uppercase tracking-wider text-[#64748B] dark:text-[#94A3B8]">
                   <th className="py-4 px-5">TUITION</th>
                   <th className="py-4 px-5">SUBJECT &amp; LEVEL</th>
                   <th className="py-4 px-5">MONTHLY FEE</th>
@@ -566,17 +566,17 @@ export default function MyTuitionsPage() {
               </thead>
 
               {/* Table Body */}
-              <tbody className="divide-y divide-[#EADCDD]/60 dark:divide-[#E11D48]/15 text-xs">
+              <tbody className="divide-y divide-[#E2E8F0]/60 dark:divide-[#0284C7]/15 text-xs">
                 {tuitions.map((item) => (
                   <tr
                     key={item.id}
-                    className="hover:bg-[#FCF9F8]/80 dark:hover:bg-[#1C0307]/60 transition-colors group"
+                    className="hover:bg-[#F8FAFC]/80 dark:hover:bg-[#0D1D38]/60 transition-colors group"
                   >
                     {/* 1. Tuition (Banner + Title + Mode/Location) */}
                     <td className="py-4 px-5">
                       <div className="flex items-center gap-3.5">
                         {/* Thumbnail */}
-                        <div className="relative w-12 h-12 rounded-xl overflow-hidden border border-[#EADCDD] dark:border-[#E11D48]/30 bg-[#FCF9F8] dark:bg-[#1B0307] shrink-0 flex items-center justify-center shadow-xs">
+                        <div className="relative w-12 h-12 rounded-xl overflow-hidden border border-[#E2E8F0] dark:border-[#0284C7]/30 bg-[#F8FAFC] dark:bg-[#1B0307] shrink-0 flex items-center justify-center shadow-xs">
                           {item.bannerImage ? (
                             <Image
                               src={item.bannerImage}
@@ -585,24 +585,24 @@ export default function MyTuitionsPage() {
                               className="object-cover group-hover:scale-105 transition-transform duration-300"
                             />
                           ) : (
-                            <GraduationCap className="w-5 h-5 text-[#D91E48] dark:text-[#FF1E40]" />
+                            <GraduationCap className="w-5 h-5 text-[#0284C7] dark:text-[#0EA5E9]" />
                           )}
                         </div>
 
                         {/* Title and location */}
                         <div className="min-w-0 max-w-[240px] sm:max-w-[300px]">
-                          <h4 className="text-xs sm:text-sm font-bold text-[#180C0E] dark:text-white truncate group-hover:text-[#D91E48] dark:group-hover:text-[#FF1E40] transition-colors">
+                          <h4 className="text-xs sm:text-sm font-bold text-[#0B1320] dark:text-white truncate group-hover:text-[#0284C7] dark:group-hover:text-[#0EA5E9] transition-colors">
                             {item.title}
                           </h4>
-                          <div className="flex items-center gap-1.5 mt-1 text-[11px] text-[#5C494C] dark:text-[#BFA5AA]">
+                          <div className="flex items-center gap-1.5 mt-1 text-[11px] text-[#475569] dark:text-[#94A3B8]">
                             {item.mode === "Online Batch" || item.location.toLowerCase().includes("online") ? (
                               <>
-                                <Globe className="w-3 h-3 text-[#D91E48] dark:text-[#FF1E40] shrink-0" />
+                                <Globe className="w-3 h-3 text-[#0284C7] dark:text-[#0EA5E9] shrink-0" />
                                 <span className="truncate">Online</span>
                               </>
                             ) : (
                               <>
-                                <MapPin className="w-3 h-3 text-[#D91E48] dark:text-[#FF1E40] shrink-0" />
+                                <MapPin className="w-3 h-3 text-[#0284C7] dark:text-[#0EA5E9] shrink-0" />
                                 <span className="truncate">{item.location}</span>
                               </>
                             )}
@@ -614,10 +614,10 @@ export default function MyTuitionsPage() {
                     {/* 2. Subject & Level */}
                     <td className="py-4 px-5">
                       <div className="space-y-1">
-                        <span className="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-[#FDECEF] dark:bg-[#2A060C] text-[#D91E48] dark:text-[#FF1E40] border border-[#F2B8C4] dark:border-[#E11D48]/30 shadow-2xs">
+                        <span className="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-[#E0F2FE] dark:bg-[#102547] text-[#0284C7] dark:text-[#0EA5E9] border border-[#BAE6FD] dark:border-[#0284C7]/30 shadow-2xs">
                           {item.subject}
                         </span>
-                        <p className="text-[11px] text-[#5C494C] dark:text-[#BFA5AA]">
+                        <p className="text-[11px] text-[#475569] dark:text-[#94A3B8]">
                           {item.classLevel}
                         </p>
                       </div>
@@ -625,7 +625,7 @@ export default function MyTuitionsPage() {
 
                     {/* 3. Monthly Fee */}
                     <td className="py-4 px-5 whitespace-nowrap">
-                      <span className="text-sm font-mono font-black text-[#180C0E] dark:text-white">
+                      <span className="text-sm font-mono font-black text-[#0B1320] dark:text-white">
                         ৳{Number(item.monthlyFee).toLocaleString()}
                       </span>
                     </td>
@@ -639,8 +639,8 @@ export default function MyTuitionsPage() {
                             <span>Approved</span>
                           </span>
                         ) : item.approvalStatus === "rejected" ? (
-                          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono font-bold bg-[#FDECEF] dark:bg-[#2A0612] text-[#D91E48] dark:text-[#FF4D6D] border border-[#F2B8C4] dark:border-[#FF4D6D]/40 shadow-xs">
-                            <span className="h-1.5 w-1.5 rounded-full bg-[#D91E48] dark:bg-[#FF4D6D]" />
+                          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono font-bold bg-[#E0F2FE] dark:bg-[#2A0612] text-[#0284C7] dark:text-[#38BDF8] border border-[#BAE6FD] dark:border-[#38BDF8]/40 shadow-xs">
+                            <span className="h-1.5 w-1.5 rounded-full bg-[#0284C7] dark:bg-[#38BDF8]" />
                             <span>Rejected</span>
                           </span>
                         ) : (
@@ -670,7 +670,7 @@ export default function MyTuitionsPage() {
                                 type="button"
                                 onClick={() => handleUpdateApproval(item.id, "rejected")}
                                 title="Admin: Reject this tuition listing"
-                                className="px-2.5 py-1 rounded-lg text-[10px] font-bold font-mono bg-[#FDECEF] hover:bg-[#F2B8C4] text-[#D91E48] border border-[#F2B8C4] transition-all cursor-pointer flex items-center gap-1 shadow-2xs active:scale-95"
+                                className="px-2.5 py-1 rounded-lg text-[10px] font-bold font-mono bg-[#E0F2FE] hover:bg-[#BAE6FD] text-[#0284C7] border border-[#BAE6FD] transition-all cursor-pointer flex items-center gap-1 shadow-2xs active:scale-95"
                               >
                                 <X className="w-3 h-3" />
                                 <span>Reject</span>
@@ -690,7 +690,7 @@ export default function MyTuitionsPage() {
                         className={`inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-[11px] font-mono font-bold cursor-pointer transition-all active:scale-95 shadow-xs ${
                           item.isActive
                             ? "bg-[#ECFDF5] hover:bg-[#D1FAE5] dark:bg-[#0A2618] dark:hover:bg-[#0F3823] text-[#059669] dark:text-[#10B981] border border-[#A7F3D0] dark:border-[#10B981]/50 dark:shadow-[0_0_12px_rgba(16,185,129,0.25)]"
-                            : "bg-[#F5ECEC] hover:bg-[#EADCDD] dark:bg-[#1E0307] dark:hover:bg-[#2A060C] text-[#8C7679] dark:text-[#BFA5AA] border border-[#EADCDD] dark:border-[#E11D48]/25"
+                            : "bg-[#F0F7FF] hover:bg-[#E2E8F0] dark:bg-[#0D1D38] dark:hover:bg-[#102547] text-[#64748B] dark:text-[#94A3B8] border border-[#E2E8F0] dark:border-[#0284C7]/25"
                         }`}
                       >
                         {item.isActive ? (
@@ -700,7 +700,7 @@ export default function MyTuitionsPage() {
                           </>
                         ) : (
                           <>
-                            <PowerOff className="w-3 h-3 text-[#8C7679] dark:text-[#BFA5AA]" />
+                            <PowerOff className="w-3 h-3 text-[#64748B] dark:text-[#94A3B8]" />
                             <span>Closed</span>
                           </>
                         )}
@@ -713,7 +713,7 @@ export default function MyTuitionsPage() {
                         {/* Eye / View Details */}
                         <Link
                           href={`/tuitions/${item._id || item.id}`}
-                          className="p-2 rounded-xl text-[#5C494C] dark:text-[#BFA5AA] hover:text-[#D91E48] dark:hover:text-[#FF1E40] hover:bg-[#FDECEF] dark:hover:bg-[#2A060C] transition-all duration-200 cursor-pointer group/eye"
+                          className="p-2 rounded-xl text-[#475569] dark:text-[#94A3B8] hover:text-[#0284C7] dark:hover:text-[#0EA5E9] hover:bg-[#E0F2FE] dark:hover:bg-[#102547] transition-all duration-200 cursor-pointer group/eye"
                           title="View Details"
                         >
                           <Eye className="w-4 h-4 group-hover/eye:scale-110 transition-transform" />
@@ -723,7 +723,7 @@ export default function MyTuitionsPage() {
                         <button
                           type="button"
                           onClick={() => handleOpenEditModal(item)}
-                          className="p-2 rounded-xl text-[#5C494C] dark:text-[#BFA5AA] hover:text-[#D97706] dark:hover:text-[#FFB800] hover:bg-[#FEF3C7] dark:hover:bg-[#281804] transition-all duration-200 cursor-pointer group/edit"
+                          className="p-2 rounded-xl text-[#475569] dark:text-[#94A3B8] hover:text-[#D97706] dark:hover:text-[#FFB800] hover:bg-[#FEF3C7] dark:hover:bg-[#281804] transition-all duration-200 cursor-pointer group/edit"
                           title="Edit Tuition Post"
                         >
                           <Pencil className="w-4 h-4 group-hover/edit:scale-110 transition-transform" />
@@ -733,7 +733,7 @@ export default function MyTuitionsPage() {
                         <button
                           type="button"
                           onClick={() => handleOpenDeleteModal(item)}
-                          className="p-2 rounded-xl text-[#5C494C] dark:text-[#BFA5AA] hover:text-[#D91E48] dark:hover:text-[#FF4D6D] hover:bg-[#FDECEF] dark:hover:bg-[#2A0612] transition-all duration-200 cursor-pointer group/del"
+                          className="p-2 rounded-xl text-[#475569] dark:text-[#94A3B8] hover:text-[#0284C7] dark:hover:text-[#38BDF8] hover:bg-[#E0F2FE] dark:hover:bg-[#2A0612] transition-all duration-200 cursor-pointer group/del"
                           title="Delete Tuition Post"
                         >
                           <Trash2 className="w-4 h-4 group-hover/del:scale-110 transition-transform" />
@@ -753,22 +753,22 @@ export default function MyTuitionsPage() {
       {/* ========================================================================= */}
       {isEditModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md animate-in fade-in duration-200">
-          <div className="relative w-full max-w-xl max-h-[90vh] overflow-y-auto rounded-2xl border border-[#EADCDD] dark:border-[#E11D48]/35 bg-white dark:bg-[#140204] p-6 shadow-2xl dark:shadow-[0_0_50px_rgba(225,29,72,0.3)]">
+          <div className="relative w-full max-w-xl max-h-[90vh] overflow-y-auto rounded-2xl border border-[#E2E8F0] dark:border-[#0284C7]/35 bg-white dark:bg-[#0B1930] p-6 shadow-2xl dark:shadow-[0_0_50px_rgba(2, 132, 199,0.3)]">
             
             {/* Modal Header */}
-            <div className="flex items-start justify-between pb-4 border-b border-[#EADCDD] dark:border-[#E11D48]/20">
+            <div className="flex items-start justify-between pb-4 border-b border-[#E2E8F0] dark:border-[#0284C7]/20">
               <div>
-                <h3 className="text-lg font-black text-[#180C0E] dark:text-white tracking-tight">
+                <h3 className="text-lg font-black text-[#0B1320] dark:text-white tracking-tight">
                   Edit Tuition Post
                 </h3>
-                <p className="text-xs text-[#5C494C] dark:text-[#BFA5AA] mt-0.5 truncate max-w-sm">
+                <p className="text-xs text-[#475569] dark:text-[#94A3B8] mt-0.5 truncate max-w-sm">
                   Update details for: {editingTuition?.title}
                 </p>
               </div>
               <button
                 type="button"
                 onClick={() => setIsEditModalOpen(false)}
-                className="p-1.5 rounded-lg text-[#8C7679] hover:text-[#180C0E] dark:hover:text-white hover:bg-[#F5ECEC] dark:hover:bg-[#1E0307] transition-colors cursor-pointer"
+                className="p-1.5 rounded-lg text-[#64748B] hover:text-[#0B1320] dark:hover:text-white hover:bg-[#F0F7FF] dark:hover:bg-[#0D1D38] transition-colors cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -779,7 +779,7 @@ export default function MyTuitionsPage() {
               
               {/* Title */}
               <div className="space-y-1.5">
-                <label className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#180C0E] dark:text-[#F4E2E5]">
+                <label className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#0B1320] dark:text-[#E2E8F0]">
                   TITLE
                 </label>
                 <input
@@ -787,23 +787,23 @@ export default function MyTuitionsPage() {
                   required
                   value={editTitle}
                   onChange={(e) => setEditTitle(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#FCF9F8] dark:bg-[#0D0204] border border-[#EADCDD] dark:border-[#E11D48]/30 text-xs text-[#180C0E] dark:text-white focus:border-[#D91E48] dark:focus:border-[#FF1E40] focus:outline-none transition-colors"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#F8FAFC] dark:bg-[#0D0204] border border-[#E2E8F0] dark:border-[#0284C7]/30 text-xs text-[#0B1320] dark:text-white focus:border-[#0284C7] dark:focus:border-[#0EA5E9] focus:outline-none transition-colors"
                 />
               </div>
 
               {/* Subject & Class Level */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <label className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#180C0E] dark:text-[#F4E2E5]">
+                  <label className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#0B1320] dark:text-[#E2E8F0]">
                     SUBJECT
                   </label>
                   <select
                     value={editSubject}
                     onChange={(e) => setEditSubject(e.target.value)}
-                    className="w-full px-3 py-2.5 rounded-xl bg-[#FCF9F8] dark:bg-[#0D0204] border border-[#EADCDD] dark:border-[#E11D48]/30 text-xs text-[#180C0E] dark:text-white focus:border-[#D91E48] dark:focus:border-[#FF1E40] focus:outline-none transition-colors cursor-pointer"
+                    className="w-full px-3 py-2.5 rounded-xl bg-[#F8FAFC] dark:bg-[#0D0204] border border-[#E2E8F0] dark:border-[#0284C7]/30 text-xs text-[#0B1320] dark:text-white focus:border-[#0284C7] dark:focus:border-[#0EA5E9] focus:outline-none transition-colors cursor-pointer"
                   >
                     {SUBJECT_OPTIONS.map((sub) => (
-                      <option key={sub} value={sub} className="bg-white dark:bg-[#140204] text-[#180C0E] dark:text-white">
+                      <option key={sub} value={sub} className="bg-white dark:bg-[#0B1930] text-[#0B1320] dark:text-white">
                         {sub}
                       </option>
                     ))}
@@ -811,16 +811,16 @@ export default function MyTuitionsPage() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#180C0E] dark:text-[#F4E2E5]">
+                  <label className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#0B1320] dark:text-[#E2E8F0]">
                     CLASS LEVEL
                   </label>
                   <select
                     value={editClassLevel}
                     onChange={(e) => setEditClassLevel(e.target.value)}
-                    className="w-full px-3 py-2.5 rounded-xl bg-[#FCF9F8] dark:bg-[#0D0204] border border-[#EADCDD] dark:border-[#E11D48]/30 text-xs text-[#180C0E] dark:text-white focus:border-[#D91E48] dark:focus:border-[#FF1E40] focus:outline-none transition-colors cursor-pointer"
+                    className="w-full px-3 py-2.5 rounded-xl bg-[#F8FAFC] dark:bg-[#0D0204] border border-[#E2E8F0] dark:border-[#0284C7]/30 text-xs text-[#0B1320] dark:text-white focus:border-[#0284C7] dark:focus:border-[#0EA5E9] focus:outline-none transition-colors cursor-pointer"
                   >
                     {CLASS_LEVEL_OPTIONS.map((lvl) => (
-                      <option key={lvl} value={lvl} className="bg-white dark:bg-[#140204] text-[#180C0E] dark:text-white">
+                      <option key={lvl} value={lvl} className="bg-white dark:bg-[#0B1930] text-[#0B1320] dark:text-white">
                         {lvl}
                       </option>
                     ))}
@@ -830,10 +830,10 @@ export default function MyTuitionsPage() {
 
               {/* Mode Selection */}
               <div className="space-y-1.5">
-                <label className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#180C0E] dark:text-[#F4E2E5]">
+                <label className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#0B1320] dark:text-[#E2E8F0]">
                   MODE
                 </label>
-                <div className="flex items-center gap-4 text-xs font-semibold text-[#180C0E] dark:text-white">
+                <div className="flex items-center gap-4 text-xs font-semibold text-[#0B1320] dark:text-white">
                   {(["Online Batch", "Offline Tuition", "Hybrid Model"] as const).map((modeOption) => (
                     <label key={modeOption} className="inline-flex items-center gap-2 cursor-pointer">
                       <input
@@ -841,7 +841,7 @@ export default function MyTuitionsPage() {
                         name="editMode"
                         checked={editMode === modeOption}
                         onChange={() => setEditMode(modeOption)}
-                        className="accent-[#D91E48] dark:accent-[#FF1E40]"
+                        className="accent-[#0284C7] dark:accent-[#0EA5E9]"
                       />
                       <span>{modeOption}</span>
                     </label>
@@ -852,7 +852,7 @@ export default function MyTuitionsPage() {
               {/* Conditional Location */}
               {editMode !== "Online Batch" && (
                 <div className="space-y-1.5 animate-in fade-in duration-200">
-                  <label className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#180C0E] dark:text-[#F4E2E5]">
+                  <label className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#0B1320] dark:text-[#E2E8F0]">
                     LOCATION / DISTRICT
                   </label>
                   <input
@@ -861,7 +861,7 @@ export default function MyTuitionsPage() {
                     value={editLocation}
                     onChange={(e) => setEditLocation(e.target.value)}
                     placeholder="e.g. Dhanmondi, Dhaka"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#FCF9F8] dark:bg-[#0D0204] border border-[#EADCDD] dark:border-[#E11D48]/30 text-xs text-[#180C0E] dark:text-white focus:border-[#D91E48] dark:focus:border-[#FF1E40] focus:outline-none transition-colors"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#F8FAFC] dark:bg-[#0D0204] border border-[#E2E8F0] dark:border-[#0284C7]/30 text-xs text-[#0B1320] dark:text-white focus:border-[#0284C7] dark:focus:border-[#0EA5E9] focus:outline-none transition-colors"
                   />
                 </div>
               )}
@@ -869,7 +869,7 @@ export default function MyTuitionsPage() {
               {/* Monthly Fee & Days Per Week */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <label className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#180C0E] dark:text-[#F4E2E5]">
+                  <label className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#0B1320] dark:text-[#E2E8F0]">
                     MONTHLY FEE (BDT)
                   </label>
                   <input
@@ -877,21 +877,21 @@ export default function MyTuitionsPage() {
                     required
                     value={editMonthlyFee}
                     onChange={(e) => setEditMonthlyFee(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#FCF9F8] dark:bg-[#0D0204] border border-[#EADCDD] dark:border-[#E11D48]/30 text-xs text-[#180C0E] dark:text-white focus:border-[#D91E48] dark:focus:border-[#FF1E40] focus:outline-none transition-colors"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#F8FAFC] dark:bg-[#0D0204] border border-[#E2E8F0] dark:border-[#0284C7]/30 text-xs text-[#0B1320] dark:text-white focus:border-[#0284C7] dark:focus:border-[#0EA5E9] focus:outline-none transition-colors"
                   />
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#180C0E] dark:text-[#F4E2E5]">
+                  <label className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#0B1320] dark:text-[#E2E8F0]">
                     DAYS PER WEEK
                   </label>
                   <select
                     value={editSchedule}
                     onChange={(e) => setEditSchedule(e.target.value)}
-                    className="w-full px-3 py-2.5 rounded-xl bg-[#FCF9F8] dark:bg-[#0D0204] border border-[#EADCDD] dark:border-[#E11D48]/30 text-xs text-[#180C0E] dark:text-white focus:border-[#D91E48] dark:focus:border-[#FF1E40] focus:outline-none transition-colors cursor-pointer"
+                    className="w-full px-3 py-2.5 rounded-xl bg-[#F8FAFC] dark:bg-[#0D0204] border border-[#E2E8F0] dark:border-[#0284C7]/30 text-xs text-[#0B1320] dark:text-white focus:border-[#0284C7] dark:focus:border-[#0EA5E9] focus:outline-none transition-colors cursor-pointer"
                   >
                     {WEEKLY_FREQUENCY_OPTIONS.map((freq) => (
-                      <option key={freq} value={freq} className="bg-white dark:bg-[#140204] text-[#180C0E] dark:text-white">
+                      <option key={freq} value={freq} className="bg-white dark:bg-[#0B1930] text-[#0B1320] dark:text-white">
                         {freq}
                       </option>
                     ))}
@@ -901,12 +901,12 @@ export default function MyTuitionsPage() {
 
               {/* Banner Image */}
               <div className="space-y-1.5">
-                <label className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#180C0E] dark:text-[#F4E2E5]">
+                <label className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#0B1320] dark:text-[#E2E8F0]">
                   BANNER IMAGE
                 </label>
                 <div className="flex items-center gap-3">
-                  <label className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl border border-[#EADCDD] dark:border-[#E11D48]/30 bg-[#FCF9F8] dark:bg-[#0D0204] text-xs font-semibold text-[#180C0E] dark:text-white hover:border-[#D91E48] cursor-pointer transition-colors">
-                    <Upload className="w-3.5 h-3.5 text-[#D91E48] dark:text-[#FF1E40]" />
+                  <label className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl border border-[#E2E8F0] dark:border-[#0284C7]/30 bg-[#F8FAFC] dark:bg-[#0D0204] text-xs font-semibold text-[#0B1320] dark:text-white hover:border-[#0284C7] cursor-pointer transition-colors">
+                    <Upload className="w-3.5 h-3.5 text-[#0284C7] dark:text-[#0EA5E9]" />
                     <span>Replace Image (ImgBB)</span>
                     <input
                       type="file"
@@ -926,7 +926,7 @@ export default function MyTuitionsPage() {
                     />
                   </label>
                   {editBannerImage && (
-                    <div className="relative w-12 h-10 rounded-lg overflow-hidden border border-[#EADCDD] dark:border-[#E11D48]/30">
+                    <div className="relative w-12 h-10 rounded-lg overflow-hidden border border-[#E2E8F0] dark:border-[#0284C7]/30">
                       <Image src={editBannerImage} alt="Preview" fill className="object-cover" />
                     </div>
                   )}
@@ -936,14 +936,14 @@ export default function MyTuitionsPage() {
               {/* Description */}
               <div className="space-y-1.5">
                 <div className="flex items-center justify-between">
-                  <label className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#180C0E] dark:text-[#F4E2E5]">
+                  <label className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#0B1320] dark:text-[#E2E8F0]">
                     DESCRIPTION
                   </label>
                   <span
                     className={`text-[10px] font-mono font-bold ${
                       editDescription.trim().length >= 50
                         ? "text-[#059669] dark:text-[#10B981]"
-                        : "text-[#D91E48] dark:text-[#FF1E40]"
+                        : "text-[#0284C7] dark:text-[#0EA5E9]"
                     }`}
                   >
                     ({editDescription.trim().length} CHARS, MIN 50)
@@ -954,23 +954,23 @@ export default function MyTuitionsPage() {
                   required
                   value={editDescription}
                   onChange={(e) => setEditDescription(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#FCF9F8] dark:bg-[#0D0204] border border-[#EADCDD] dark:border-[#E11D48]/30 text-xs text-[#180C0E] dark:text-white placeholder-[#8C7679] focus:border-[#D91E48] dark:focus:border-[#FF1E40] focus:outline-none transition-colors resize-none leading-relaxed"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#F8FAFC] dark:bg-[#0D0204] border border-[#E2E8F0] dark:border-[#0284C7]/30 text-xs text-[#0B1320] dark:text-white placeholder-[#64748B] focus:border-[#0284C7] dark:focus:border-[#0EA5E9] focus:outline-none transition-colors resize-none leading-relaxed"
                 />
               </div>
 
               {/* Modal Actions */}
-              <div className="pt-4 flex items-center justify-end gap-3 border-t border-[#EADCDD] dark:border-[#E11D48]/20">
+              <div className="pt-4 flex items-center justify-end gap-3 border-t border-[#E2E8F0] dark:border-[#0284C7]/20">
                 <button
                   type="button"
                   onClick={() => setIsEditModalOpen(false)}
-                  className="px-4 py-2 rounded-xl text-xs font-bold text-[#5C494C] dark:text-[#BFA5AA] hover:bg-[#F5ECEC] dark:hover:bg-[#1E0307] transition-all cursor-pointer"
+                  className="px-4 py-2 rounded-xl text-xs font-bold text-[#475569] dark:text-[#94A3B8] hover:bg-[#F0F7FF] dark:hover:bg-[#0D1D38] transition-all cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={isSavingEdit || editDescription.trim().length < 50}
-                  className="inline-flex items-center gap-1.5 px-5 py-2 rounded-xl bg-[#D91E48] hover:bg-[#B31438] dark:bg-gradient-to-r dark:from-[#E11D48] dark:via-[#FF1E40] dark:to-[#FF4D6D] text-white font-bold text-xs shadow-md transition-all active:scale-95 cursor-pointer disabled:opacity-50"
+                  className="inline-flex items-center gap-1.5 px-5 py-2 rounded-xl bg-[#0284C7] hover:bg-[#0369A1] dark:bg-gradient-to-r dark:from-[#0284C7] dark:via-[#0EA5E9] dark:to-[#38BDF8] text-white font-bold text-xs shadow-md transition-all active:scale-95 cursor-pointer disabled:opacity-50"
                 >
                   {isSavingEdit ? (
                     <>
@@ -993,23 +993,23 @@ export default function MyTuitionsPage() {
       {/* ========================================================================= */}
       {isDeleteModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md animate-in fade-in duration-200">
-          <div className="relative w-full max-w-md rounded-2xl border border-[#EADCDD] dark:border-[#E11D48]/35 bg-white dark:bg-[#140204] p-6 shadow-2xl dark:shadow-[0_0_50px_rgba(225,29,72,0.3)] space-y-5">
+          <div className="relative w-full max-w-md rounded-2xl border border-[#E2E8F0] dark:border-[#0284C7]/35 bg-white dark:bg-[#0B1930] p-6 shadow-2xl dark:shadow-[0_0_50px_rgba(2, 132, 199,0.3)] space-y-5">
             
             <div className="flex items-center gap-3">
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#FDECEF] dark:bg-[#2A0612] text-[#D91E48] dark:text-[#FF4D6D] border border-[#F2B8C4] dark:border-[#FF4D6D]/40 shadow-xs">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#E0F2FE] dark:bg-[#2A0612] text-[#0284C7] dark:text-[#38BDF8] border border-[#BAE6FD] dark:border-[#38BDF8]/40 shadow-xs">
                 <AlertTriangle className="h-5 w-5" />
               </div>
               <div>
-                <h3 className="text-base font-black text-[#180C0E] dark:text-white tracking-tight">
+                <h3 className="text-base font-black text-[#0B1320] dark:text-white tracking-tight">
                   Delete Tuition Post?
                 </h3>
-                <p className="text-xs text-[#5C494C] dark:text-[#BFA5AA] mt-0.5 line-clamp-1">
+                <p className="text-xs text-[#475569] dark:text-[#94A3B8] mt-0.5 line-clamp-1">
                   {deletingTuition?.title}
                 </p>
               </div>
             </div>
 
-            <p className="text-xs text-[#5C494C] dark:text-[#BFA5AA] leading-relaxed">
+            <p className="text-xs text-[#475569] dark:text-[#94A3B8] leading-relaxed">
               Are you sure you want to permanently delete this tuition? All associated applicant references will be removed.
             </p>
 
@@ -1017,7 +1017,7 @@ export default function MyTuitionsPage() {
               <button
                 type="button"
                 onClick={() => setIsDeleteModalOpen(false)}
-                className="px-4 py-2 rounded-xl text-xs font-bold text-[#5C494C] dark:text-[#BFA5AA] hover:bg-[#F5ECEC] dark:hover:bg-[#1E0307] transition-all cursor-pointer"
+                className="px-4 py-2 rounded-xl text-xs font-bold text-[#475569] dark:text-[#94A3B8] hover:bg-[#F0F7FF] dark:hover:bg-[#0D1D38] transition-all cursor-pointer"
               >
                 Cancel
               </button>
@@ -1025,7 +1025,7 @@ export default function MyTuitionsPage() {
                 type="button"
                 disabled={isDeleting}
                 onClick={handleConfirmDelete}
-                className="inline-flex items-center gap-1.5 px-5 py-2 rounded-xl bg-[#D91E48] hover:bg-[#B31438] dark:bg-gradient-to-r dark:from-[#E11D48] dark:via-[#FF1E40] dark:to-[#FF4D6D] text-white font-bold text-xs shadow-md transition-all active:scale-95 cursor-pointer disabled:opacity-50"
+                className="inline-flex items-center gap-1.5 px-5 py-2 rounded-xl bg-[#0284C7] hover:bg-[#0369A1] dark:bg-gradient-to-r dark:from-[#0284C7] dark:via-[#0EA5E9] dark:to-[#38BDF8] text-white font-bold text-xs shadow-md transition-all active:scale-95 cursor-pointer disabled:opacity-50"
               >
                 {isDeleting ? (
                   <>

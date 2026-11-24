@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -13,56 +13,56 @@ export default function Footer() {
     return null;
   }
   return (
-    <footer className="relative bg-[#FCF9F8] dark:bg-[#0A0203] border-t border-[#EADCDD] dark:border-[#E11D48]/30 text-[#5C494C] dark:text-[#F4E2E5] pt-16 pb-8 overflow-hidden transition-colors duration-200">
+    <footer className="relative bg-[#F8FAFC] dark:bg-[#050B14] border-t border-[#E2E8F0] dark:border-[#0284C7]/30 text-[#475569] dark:text-[#E2E8F0] pt-16 pb-8 overflow-hidden transition-colors duration-200">
       {/* Ambient Crimson Spotlight Glow at Base */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[750px] h-[240px] bg-gradient-to-t from-[#F2B8C4]/25 via-[#F7E8EA]/15 to-transparent dark:from-[#E11D48]/25 dark:via-[#880816]/15 dark:to-transparent blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[750px] h-[240px] bg-gradient-to-t from-[#BAE6FD]/25 via-[#E0F2FE]/15 to-transparent dark:from-[#0284C7]/25 dark:via-[#0C4A6E]/15 dark:to-transparent blur-3xl pointer-events-none" />
 
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* 4-Column Main Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12 pb-12 border-b border-[#EADCDD] dark:border-[#E11D48]/20">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12 pb-12 border-b border-[#E2E8F0] dark:border-[#0284C7]/20">
           
           {/* Column 1: Logo & Tagline */}
           <div className="flex flex-col items-start space-y-4">
             <Logo />
-            <p className="text-sm text-[#5C494C] dark:text-[#F4E2E5]/80 leading-relaxed max-w-xs">
+            <p className="text-sm text-[#475569] dark:text-[#E2E8F0]/80 leading-relaxed max-w-xs">
               Find your perfect tutor or share your expertise with students across Bangladesh.
             </p>
-            <div className="flex items-center gap-2 text-xs font-mono font-semibold text-[#D91E48] dark:text-[#FF1E40]">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#D91E48] dark:bg-[#FF1E40] animate-pulse shadow-[0_0_8px_#D91E48] dark:shadow-[0_0_8px_#FF1E40]" />
+            <div className="flex items-center gap-2 text-xs font-mono font-semibold text-[#0284C7] dark:text-[#0EA5E9]">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#0284C7] dark:bg-[#0EA5E9] animate-pulse shadow-[0_0_8px_#0284C7] dark:shadow-[0_0_8px_#0EA5E9]" />
               <span>COMMITTED TO ACADEMIC MASTERY</span>
             </div>
           </div>
 
           {/* Column 2: Quick Navigation Links */}
           <div className="flex flex-col space-y-3">
-            <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-[#180C0E] dark:text-white flex items-center gap-1.5">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#D91E48] dark:bg-[#FF1E40] shadow-[0_0_8px_#D91E48] dark:shadow-[0_0_8px_#FF1E40]" />
+            <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-[#0B1320] dark:text-white flex items-center gap-1.5">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#0284C7] dark:bg-[#0EA5E9] shadow-[0_0_8px_#0284C7] dark:shadow-[0_0_8px_#0EA5E9]" />
               QUICK LINKS
             </h3>
-            <ul className="space-y-2.5 text-sm text-[#5C494C] dark:text-[#F4E2E5]/85">
+            <ul className="space-y-2.5 text-sm text-[#475569] dark:text-[#E2E8F0]/85">
               <li>
-                <Link href="/#home" className="hover:text-[#D91E48] dark:hover:text-[#FF1E40] hover:translate-x-1 inline-block transition-all">
+                <Link href="/#home" className="hover:text-[#0284C7] dark:hover:text-[#0EA5E9] hover:translate-x-1 inline-block transition-all">
                   Home
                 </Link>
               </li>
               <li>
-                <Link href="/#tuitions" className="hover:text-[#D91E48] dark:hover:text-[#FF1E40] hover:translate-x-1 inline-block transition-all">
+                <Link href="/#tuitions" className="hover:text-[#0284C7] dark:hover:text-[#0EA5E9] hover:translate-x-1 inline-block transition-all">
                   Browse Tuitions
                 </Link>
               </li>
               <li>
-                <Link href="/#pricing" className="hover:text-[#D91E48] dark:hover:text-[#FF1E40] hover:translate-x-1 inline-block transition-all">
+                <Link href="/#pricing" className="hover:text-[#0284C7] dark:hover:text-[#0EA5E9] hover:translate-x-1 inline-block transition-all">
                   Pricing / Pro Plans
                 </Link>
               </li>
               <li>
-                <Link href="/#how-it-works" className="hover:text-[#D91E48] dark:hover:text-[#FF1E40] hover:translate-x-1 inline-block transition-all">
+                <Link href="/#how-it-works" className="hover:text-[#0284C7] dark:hover:text-[#0EA5E9] hover:translate-x-1 inline-block transition-all">
                   How It Works
                 </Link>
               </li>
               <li>
-                <Link href="/#about" className="hover:text-[#D91E48] dark:hover:text-[#FF1E40] hover:translate-x-1 inline-block transition-all">
+                <Link href="/#about" className="hover:text-[#0284C7] dark:hover:text-[#0EA5E9] hover:translate-x-1 inline-block transition-all">
                   About Us
                 </Link>
               </li>
@@ -71,21 +71,21 @@ export default function Footer() {
 
           {/* Column 3: Contact Info */}
           <div className="flex flex-col space-y-3">
-            <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-[#180C0E] dark:text-white flex items-center gap-1.5">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#D91E48] dark:bg-[#FF1E40] shadow-[0_0_8px_#D91E48] dark:shadow-[0_0_8px_#FF1E40]" />
+            <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-[#0B1320] dark:text-white flex items-center gap-1.5">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#0284C7] dark:bg-[#0EA5E9] shadow-[0_0_8px_#0284C7] dark:shadow-[0_0_8px_#0EA5E9]" />
               CONTACT INFO
             </h3>
-            <div className="space-y-3 text-sm text-[#5C494C] dark:text-[#F4E2E5]/90">
+            <div className="space-y-3 text-sm text-[#475569] dark:text-[#E2E8F0]/90">
               {/* Email */}
               <div className="flex items-start gap-2.5">
-                <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#FFFFFF] dark:bg-[#2A060C] border border-[#F2B8C4] dark:border-[#FF1E40]/60 text-[#D91E48] dark:text-[#FF1E40] shadow-sm dark:shadow-[0_0_10px_rgba(255,30,64,0.3)]">
-                  <Mail className="h-3.5 w-3.5 text-[#D91E48] dark:text-white" />
+                <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#FFFFFF] dark:bg-[#102547] border border-[#BAE6FD] dark:border-[#0EA5E9]/60 text-[#0284C7] dark:text-[#0EA5E9] shadow-sm dark:shadow-[0_0_10px_rgba(14, 165, 233,0.3)]">
+                  <Mail className="h-3.5 w-3.5 text-[#0284C7] dark:text-white" />
                 </div>
                 <div>
-                  <p className="text-[10px] font-mono uppercase text-[#8C7679] dark:text-[#BFA5AA]">Email Support</p>
+                  <p className="text-[10px] font-mono uppercase text-[#64748B] dark:text-[#94A3B8]">Email Support</p>
                   <a
                     href="mailto:maruf04ahmed12rohan04@gmail.com"
-                    className="font-medium text-[#180C0E] dark:text-white hover:text-[#D91E48] dark:hover:text-[#FF1E40] transition-colors break-all"
+                    className="font-medium text-[#0B1320] dark:text-white hover:text-[#0284C7] dark:hover:text-[#0EA5E9] transition-colors break-all"
                   >
                     maruf04ahmed12rohan04@gmail.com
                   </a>
@@ -94,14 +94,14 @@ export default function Footer() {
 
               {/* Phone */}
               <div className="flex items-start gap-2.5">
-                <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#FFFFFF] dark:bg-[#2A060C] border border-[#F2B8C4] dark:border-[#FF1E40]/60 text-[#D91E48] dark:text-[#FF1E40] shadow-sm dark:shadow-[0_0_10px_rgba(255,30,64,0.3)]">
-                  <Phone className="h-3.5 w-3.5 text-[#D91E48] dark:text-white" />
+                <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#FFFFFF] dark:bg-[#102547] border border-[#BAE6FD] dark:border-[#0EA5E9]/60 text-[#0284C7] dark:text-[#0EA5E9] shadow-sm dark:shadow-[0_0_10px_rgba(14, 165, 233,0.3)]">
+                  <Phone className="h-3.5 w-3.5 text-[#0284C7] dark:text-white" />
                 </div>
                 <div>
-                  <p className="text-[10px] font-mono uppercase text-[#8C7679] dark:text-[#BFA5AA]">Direct Line</p>
+                  <p className="text-[10px] font-mono uppercase text-[#64748B] dark:text-[#94A3B8]">Direct Line</p>
                   <a
                     href="tel:+8801773532098"
-                    className="font-mono font-bold text-[#180C0E] dark:text-white hover:text-[#D91E48] dark:hover:text-[#FF1E40] transition-colors"
+                    className="font-mono font-bold text-[#0B1320] dark:text-white hover:text-[#0284C7] dark:hover:text-[#0EA5E9] transition-colors"
                   >
                     +880 1773 532 098
                   </a>
@@ -110,12 +110,12 @@ export default function Footer() {
 
               {/* Location */}
               <div className="flex items-start gap-2.5">
-                <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#FFFFFF] dark:bg-[#2A060C] border border-[#F2B8C4] dark:border-[#FF1E40]/60 text-[#D91E48] dark:text-[#FF1E40] shadow-sm dark:shadow-[0_0_10px_rgba(255,30,64,0.3)]">
-                  <MapPin className="h-3.5 w-3.5 text-[#D91E48] dark:text-white" />
+                <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#FFFFFF] dark:bg-[#102547] border border-[#BAE6FD] dark:border-[#0EA5E9]/60 text-[#0284C7] dark:text-[#0EA5E9] shadow-sm dark:shadow-[0_0_10px_rgba(14, 165, 233,0.3)]">
+                  <MapPin className="h-3.5 w-3.5 text-[#0284C7] dark:text-white" />
                 </div>
                 <div>
-                  <p className="text-[10px] font-mono uppercase text-[#8C7679] dark:text-[#BFA5AA]">Headquarters</p>
-                  <p className="text-xs text-[#5C494C] dark:text-[#F4E2E5]">
+                  <p className="text-[10px] font-mono uppercase text-[#64748B] dark:text-[#94A3B8]">Headquarters</p>
+                  <p className="text-xs text-[#475569] dark:text-[#E2E8F0]">
                     1 No. Navy Gate, Khalishpur, Khulna, Bangladesh
                   </p>
                 </div>
@@ -125,11 +125,11 @@ export default function Footer() {
 
           {/* Column 4: Connect & Social Media Links */}
           <div className="flex flex-col space-y-3">
-            <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-[#180C0E] dark:text-white flex items-center gap-1.5">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#D91E48] dark:bg-[#FF1E40] shadow-[0_0_8px_#D91E48] dark:shadow-[0_0_8px_#FF1E40]" />
+            <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-[#0B1320] dark:text-white flex items-center gap-1.5">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#0284C7] dark:bg-[#0EA5E9] shadow-[0_0_8px_#0284C7] dark:shadow-[0_0_8px_#0EA5E9]" />
               CONNECT WITH US
             </h3>
-            <p className="text-xs text-[#8C7679] dark:text-[#BFA5AA] leading-relaxed">
+            <p className="text-xs text-[#64748B] dark:text-[#94A3B8] leading-relaxed">
               Follow our verified channels for study tips, tutor spotlights, and platform announcements.
             </p>
             
@@ -142,7 +142,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="X (formerly Twitter)"
-                className="group flex items-center justify-center h-11 w-11 rounded-xl bg-white dark:bg-[#2D060C] border-2 border-[#F2B8C4] dark:border-[#FF1E40] text-[#180C0E] dark:text-white shadow-[0_4px_12px_rgba(217,30,72,0.12)] dark:shadow-[0_0_15px_rgba(255,30,64,0.4),_inset_0_1px_0_rgba(255,255,255,0.25)] hover:border-[#D91E48] hover:bg-[#D91E48] hover:text-white dark:hover:border-white dark:hover:bg-[#FF1E40] hover:shadow-[0_6px_20px_rgba(217,30,72,0.35)] dark:hover:shadow-[0_0_25px_rgba(255,30,64,0.9)] hover:scale-110 transition-all duration-300 cursor-pointer"
+                className="group flex items-center justify-center h-11 w-11 rounded-xl bg-white dark:bg-[#0C4A6E] border-2 border-[#BAE6FD] dark:border-[#0EA5E9] text-[#0B1320] dark:text-white shadow-[0_4px_12px_rgba(2, 132, 199,0.12)] dark:shadow-[0_0_15px_rgba(14, 165, 233,0.4),_inset_0_1px_0_rgba(255,255,255,0.25)] hover:border-[#0284C7] hover:bg-[#0284C7] hover:text-white dark:hover:border-white dark:hover:bg-[#0EA5E9] hover:shadow-[0_6px_20px_rgba(2, 132, 199,0.35)] dark:hover:shadow-[0_0_25px_rgba(14, 165, 233,0.9)] hover:scale-110 transition-all duration-300 cursor-pointer"
                 title="X (formerly Twitter)"
               >
                 <svg className="h-5 w-5 transition-transform group-hover:scale-110 fill-current" viewBox="0 0 24 24">
@@ -156,7 +156,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn"
-                className="group flex items-center justify-center h-11 w-11 rounded-xl bg-white dark:bg-[#2D060C] border-2 border-[#F2B8C4] dark:border-[#FF1E40] text-[#180C0E] dark:text-white shadow-[0_4px_12px_rgba(217,30,72,0.12)] dark:shadow-[0_0_15px_rgba(255,30,64,0.4),_inset_0_1px_0_rgba(255,255,255,0.25)] hover:border-[#D91E48] hover:bg-[#D91E48] hover:text-white dark:hover:border-white dark:hover:bg-[#FF1E40] hover:shadow-[0_6px_20px_rgba(217,30,72,0.35)] dark:hover:shadow-[0_0_25px_rgba(255,30,64,0.9)] hover:scale-110 transition-all duration-300 cursor-pointer"
+                className="group flex items-center justify-center h-11 w-11 rounded-xl bg-white dark:bg-[#0C4A6E] border-2 border-[#BAE6FD] dark:border-[#0EA5E9] text-[#0B1320] dark:text-white shadow-[0_4px_12px_rgba(2, 132, 199,0.12)] dark:shadow-[0_0_15px_rgba(14, 165, 233,0.4),_inset_0_1px_0_rgba(255,255,255,0.25)] hover:border-[#0284C7] hover:bg-[#0284C7] hover:text-white dark:hover:border-white dark:hover:bg-[#0EA5E9] hover:shadow-[0_6px_20px_rgba(2, 132, 199,0.35)] dark:hover:shadow-[0_0_25px_rgba(14, 165, 233,0.9)] hover:scale-110 transition-all duration-300 cursor-pointer"
                 title="LinkedIn"
               >
                 <svg className="h-5 w-5 transition-transform group-hover:scale-110 fill-current" viewBox="0 0 24 24">
@@ -170,7 +170,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="GitHub"
-                className="group flex items-center justify-center h-11 w-11 rounded-xl bg-white dark:bg-[#2D060C] border-2 border-[#F2B8C4] dark:border-[#FF1E40] text-[#180C0E] dark:text-white shadow-[0_4px_12px_rgba(217,30,72,0.12)] dark:shadow-[0_0_15px_rgba(255,30,64,0.4),_inset_0_1px_0_rgba(255,255,255,0.25)] hover:border-[#D91E48] hover:bg-[#D91E48] hover:text-white dark:hover:border-white dark:hover:bg-[#FF1E40] hover:shadow-[0_6px_20px_rgba(217,30,72,0.35)] dark:hover:shadow-[0_0_25px_rgba(255,30,64,0.9)] hover:scale-110 transition-all duration-300 cursor-pointer"
+                className="group flex items-center justify-center h-11 w-11 rounded-xl bg-white dark:bg-[#0C4A6E] border-2 border-[#BAE6FD] dark:border-[#0EA5E9] text-[#0B1320] dark:text-white shadow-[0_4px_12px_rgba(2, 132, 199,0.12)] dark:shadow-[0_0_15px_rgba(14, 165, 233,0.4),_inset_0_1px_0_rgba(255,255,255,0.25)] hover:border-[#0284C7] hover:bg-[#0284C7] hover:text-white dark:hover:border-white dark:hover:bg-[#0EA5E9] hover:shadow-[0_6px_20px_rgba(2, 132, 199,0.35)] dark:hover:shadow-[0_0_25px_rgba(14, 165, 233,0.9)] hover:scale-110 transition-all duration-300 cursor-pointer"
                 title="GitHub"
               >
                 <svg className="h-5 w-5 transition-transform group-hover:scale-110 fill-current" viewBox="0 0 24 24">
@@ -184,7 +184,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Facebook"
-                className="group flex items-center justify-center h-11 w-11 rounded-xl bg-white dark:bg-[#2D060C] border-2 border-[#F2B8C4] dark:border-[#FF1E40] text-[#180C0E] dark:text-white shadow-[0_4px_12px_rgba(217,30,72,0.12)] dark:shadow-[0_0_15px_rgba(255,30,64,0.4),_inset_0_1px_0_rgba(255,255,255,0.25)] hover:border-[#D91E48] hover:bg-[#D91E48] hover:text-white dark:hover:border-white dark:hover:bg-[#FF1E40] hover:shadow-[0_6px_20px_rgba(217,30,72,0.35)] dark:hover:shadow-[0_0_25px_rgba(255,30,64,0.9)] hover:scale-110 transition-all duration-300 cursor-pointer"
+                className="group flex items-center justify-center h-11 w-11 rounded-xl bg-white dark:bg-[#0C4A6E] border-2 border-[#BAE6FD] dark:border-[#0EA5E9] text-[#0B1320] dark:text-white shadow-[0_4px_12px_rgba(2, 132, 199,0.12)] dark:shadow-[0_0_15px_rgba(14, 165, 233,0.4),_inset_0_1px_0_rgba(255,255,255,0.25)] hover:border-[#0284C7] hover:bg-[#0284C7] hover:text-white dark:hover:border-white dark:hover:bg-[#0EA5E9] hover:shadow-[0_6px_20px_rgba(2, 132, 199,0.35)] dark:hover:shadow-[0_0_25px_rgba(14, 165, 233,0.9)] hover:scale-110 transition-all duration-300 cursor-pointer"
                 title="Facebook"
               >
                 <svg className="h-5 w-5 transition-transform group-hover:scale-110 fill-current" viewBox="0 0 24 24">
@@ -198,7 +198,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"
-                className="group flex items-center justify-center h-11 w-11 rounded-xl bg-white dark:bg-[#2D060C] border-2 border-[#F2B8C4] dark:border-[#FF1E40] text-[#180C0E] dark:text-white shadow-[0_4px_12px_rgba(217,30,72,0.12)] dark:shadow-[0_0_15px_rgba(255,30,64,0.4),_inset_0_1px_0_rgba(255,255,255,0.25)] hover:border-[#D91E48] hover:bg-[#D91E48] hover:text-white dark:hover:border-white dark:hover:bg-[#FF1E40] hover:shadow-[0_6px_20px_rgba(217,30,72,0.35)] dark:hover:shadow-[0_0_25px_rgba(255,30,64,0.9)] hover:scale-110 transition-all duration-300 cursor-pointer"
+                className="group flex items-center justify-center h-11 w-11 rounded-xl bg-white dark:bg-[#0C4A6E] border-2 border-[#BAE6FD] dark:border-[#0EA5E9] text-[#0B1320] dark:text-white shadow-[0_4px_12px_rgba(2, 132, 199,0.12)] dark:shadow-[0_0_15px_rgba(14, 165, 233,0.4),_inset_0_1px_0_rgba(255,255,255,0.25)] hover:border-[#0284C7] hover:bg-[#0284C7] hover:text-white dark:hover:border-white dark:hover:bg-[#0EA5E9] hover:shadow-[0_6px_20px_rgba(2, 132, 199,0.35)] dark:hover:shadow-[0_0_25px_rgba(14, 165, 233,0.9)] hover:scale-110 transition-all duration-300 cursor-pointer"
                 title="Instagram"
               >
                 <svg className="h-5 w-5 transition-transform group-hover:scale-110 fill-current" viewBox="0 0 24 24">
@@ -212,19 +212,19 @@ export default function Footer() {
         </div>
 
         {/* Bottom Sub-bar */}
-        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#8C7679] dark:text-[#BFA5AA]">
+        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#64748B] dark:text-[#94A3B8]">
           <p>© 2026 MentorLagbe. All rights reserved.</p>
           <div className="flex items-center gap-6">
-            <Link href="/#about" className="hover:text-[#180C0E] dark:hover:text-white transition-colors">
+            <Link href="/#about" className="hover:text-[#0B1320] dark:hover:text-white transition-colors">
               About
             </Link>
-            <Link href="/#pricing" className="hover:text-[#180C0E] dark:hover:text-white transition-colors">
+            <Link href="/#pricing" className="hover:text-[#0B1320] dark:hover:text-white transition-colors">
               Pricing
             </Link>
-            <Link href="/#how-it-works" className="hover:text-[#180C0E] dark:hover:text-white transition-colors">
+            <Link href="/#how-it-works" className="hover:text-[#0B1320] dark:hover:text-white transition-colors">
               How It Works
             </Link>
-            <Link href="/#tuitions" className="hover:text-[#180C0E] dark:hover:text-white transition-colors">
+            <Link href="/#tuitions" className="hover:text-[#0B1320] dark:hover:text-white transition-colors">
               Browse Tuitions
             </Link>
           </div>

@@ -14,8 +14,8 @@ export default async function TuitionDetailPage({
     <Suspense
       fallback={
         <div className="min-h-[70vh] flex flex-col items-center justify-center p-6 text-center">
-          <Sparkles className="w-8 h-8 text-[#D91E48] dark:text-[#FF1E40] animate-spin mb-3" />
-          <p className="text-xs font-mono font-bold uppercase tracking-wider text-[#8C7679] dark:text-[#BFA5AA]">
+          <Sparkles className="w-8 h-8 text-[#0284C7] dark:text-[#0EA5E9] animate-spin mb-3" />
+          <p className="text-xs font-mono font-bold uppercase tracking-wider text-[#64748B] dark:text-[#94A3B8]">
             Loading tuition details...
           </p>
         </div>

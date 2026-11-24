@@ -52,8 +52,8 @@ export default function DashboardOverviewPage() {
   if (!mounted || (isPending && !activeUser)) {
     return (
       <div className="max-w-6xl mx-auto p-12 text-center animate-pulse">
-        <div className="h-8 w-48 bg-[#EADCDD] dark:bg-[#2A060C] rounded-xl mx-auto mb-4" />
-        <div className="h-4 w-72 bg-[#EADCDD]/60 dark:bg-[#2A060C]/60 rounded-lg mx-auto" />
+        <div className="h-8 w-48 bg-[#E2E8F0] dark:bg-[#102547] rounded-xl mx-auto mb-4" />
+        <div className="h-4 w-72 bg-[#E2E8F0]/60 dark:bg-[#102547]/60 rounded-lg mx-auto" />
       </div>
     );
   }
