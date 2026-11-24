@@ -26,6 +26,10 @@ function CheckoutContent() {
   const [isLoading, setIsLoading] = useState(false);
   const { data: session } = authClient.useSession();
 
+  const cachedUser = typeof window !== "undefined" ? JSON.parse(localStorage.getItem("mentorlagbe_cached_user") || "null") : null;
+  const userPlan = ((session?.user as any)?.plan || cachedUser?.plan || "free").toLowerCase();
+  const isAlreadyPro = userPlan === "pro";
+
   const isTutor = selectedPlan === "tutor";
   const planPrice = isTutor ? "$15" : "$10";
   const planPeriod = "/ month";
@@ -33,6 +37,10 @@ function CheckoutContent() {
 
   const handleCheckout = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
+    if (isAlreadyPro) {
+      toast.success("You already have an active Pro membership!", { icon: "💎" });
+      return;
+    }
     setIsLoading(true);
 
     try {
@@ -237,25 +245,36 @@ function CheckoutContent() {
           </div>
 
           <div className="mt-8 space-y-3">
-            <button
-              type="button"
-              onClick={() => handleCheckout()}
-              disabled={isLoading}
-              className="w-full py-4 rounded-2xl bg-[#D91E48] hover:bg-[#B31438] dark:bg-gradient-to-r dark:from-[#E11D48] dark:via-[#FF1E40] dark:to-[#FF4D6D] text-white font-bold text-sm shadow-[0_8px_25px_rgba(217,30,72,0.4)] hover:shadow-[0_10px_30px_rgba(217,30,72,0.55)] transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-98 disabled:opacity-75"
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  <span>Redirecting to Stripe...</span>
-                </>
-              ) : (
-                <>
-                  <CreditCard className="w-4 h-4" />
-                  <span>Proceed to Stripe Checkout</span>
-                  <ArrowRight className="w-4 h-4" />
-                </>
-              )}
-            </button>
+            {isAlreadyPro ? (
+              <button
+                type="button"
+                disabled
+                className="w-full py-4 rounded-2xl bg-emerald-100 dark:bg-[#0A2618] text-emerald-800 dark:text-[#10B981] border border-emerald-300 dark:border-[#10B981]/50 font-bold text-sm cursor-not-allowed opacity-80 flex items-center justify-center gap-2"
+              >
+                <CheckCircle2 className="w-4 h-4" />
+                <span>Already Pro Member &bull; Checkout Disabled</span>
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={() => handleCheckout()}
+                disabled={isLoading}
+                className="w-full py-4 rounded-2xl bg-[#D91E48] hover:bg-[#B31438] dark:bg-gradient-to-r dark:from-[#E11D48] dark:via-[#FF1E40] dark:to-[#FF4D6D] text-white font-bold text-sm shadow-[0_8px_25px_rgba(217,30,72,0.4)] hover:shadow-[0_10px_30px_rgba(217,30,72,0.55)] transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-98 disabled:opacity-75"
+              >
+                {isLoading ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <span>Redirecting to Stripe...</span>
+                  </>
+                ) : (
+                  <>
+                    <CreditCard className="w-4 h-4" />
+                    <span>Proceed to Stripe Checkout</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </>
+                )}
+              </button>
+            )}
 
             <div className="flex items-center justify-center gap-2 text-[11px] text-[#8C7679] dark:text-[#BFA5AA]">
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />

@@ -1,11 +1,24 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Check, Sparkles, Zap, Shield, ArrowRight } from "lucide-react";
+import { Check, Sparkles, Zap, Shield, ArrowRight, CheckCircle2 } from "lucide-react";
+import { authClient } from "@/lib/auth-client";
 
 export default function PricingSection() {
   const [roleMode, setRoleMode] = useState<"tutor" | "student">("tutor");
+  const { data: session } = authClient.useSession();
+  const [isPro, setIsPro] = useState(false);
+
+  useEffect(() => {
+    try {
+      const cached = JSON.parse(localStorage.getItem("mentorlagbe_cached_user") || "null");
+      const plan = ((session?.user as any)?.plan || cached?.plan || "free").toLowerCase();
+      setIsPro(plan === "pro");
+    } catch {
+      setIsPro(false);
+    }
+  }, [session]);
 
   return (
     <section id="pricing" className="relative py-24 bg-[#FCF9F8] dark:bg-[#110204] overflow-hidden border-t border-[#EADCDD] dark:border-[#E11D48]/20 transition-colors duration-200">
@@ -252,13 +265,24 @@ export default function PricingSection() {
             </div>
 
             <div className="mt-10">
-              <Link
-                href={`/checkout?plan=${roleMode}`}
-                className="w-full inline-flex items-center justify-center gap-2 py-3.5 rounded-xl bg-[#D91E48] hover:bg-[#B31438] text-white text-xs sm:text-sm font-bold tracking-wide shadow-[0_6px_20px_rgba(217,30,72,0.4)] hover:shadow-[0_8px_25px_rgba(217,30,72,0.55)] dark:bg-[#E11D48] dark:hover:bg-[#FF1E40] dark:shadow-[0_0_25px_rgba(255,30,64,0.7)] transition-all cursor-pointer active:scale-95"
-              >
-                <span>Upgrade to Pro with Stripe</span>
-                <ArrowRight className="h-4 w-4" />
-              </Link>
+              {isPro ? (
+                <button
+                  type="button"
+                  disabled
+                  className="w-full inline-flex items-center justify-center gap-2 py-3.5 rounded-xl bg-emerald-100 dark:bg-[#0A2618] text-emerald-800 dark:text-[#10B981] border border-emerald-300 dark:border-[#10B981]/50 text-xs sm:text-sm font-bold tracking-wide opacity-80 cursor-not-allowed"
+                >
+                  <CheckCircle2 className="h-4 w-4" />
+                  <span>Already Subscribed &bull; Pro Active</span>
+                </button>
+              ) : (
+                <Link
+                  href={`/checkout?plan=${roleMode}`}
+                  className="w-full inline-flex items-center justify-center gap-2 py-3.5 rounded-xl bg-[#D91E48] hover:bg-[#B31438] text-white text-xs sm:text-sm font-bold tracking-wide shadow-[0_6px_20px_rgba(217,30,72,0.4)] hover:shadow-[0_8px_25px_rgba(217,30,72,0.55)] dark:bg-[#E11D48] dark:hover:bg-[#FF1E40] dark:shadow-[0_0_25px_rgba(255,30,64,0.7)] transition-all cursor-pointer active:scale-95"
+                >
+                  <span>Upgrade to Pro with Stripe</span>
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              )}
             </div>
           </div>
 

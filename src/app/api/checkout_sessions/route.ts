@@ -3,8 +3,8 @@ import { headers } from "next/headers";
 import { stripe } from "@/lib/stripe";
 import { getServerAuth } from "@/lib/core/server";
 
-export const TUTOR_PRICE_ID = "price_1UfDp4FE0yzRsXvaEsBsvGLU"; // $15 Pro Tutor
-export const STUDENT_PRICE_ID = "price_1UfEJdFE0yzRsXvab17JDSqU"; // $10 Pro Student
+const TUTOR_PRICE_ID = "price_1UfDp4FE0yzRsXvaEsBsvGLU"; // $15 Pro Tutor
+const STUDENT_PRICE_ID = "price_1UfEJdFE0yzRsXvab17JDSqU"; // $10 Pro Student
 
 export async function POST(req: Request) {
   try {

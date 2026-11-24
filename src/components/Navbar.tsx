@@ -41,7 +41,8 @@ export default function Navbar() {
   const userEmail = activeUser?.email || "";
   const rawRole = (activeUser as any)?.role || (userEmail.toLowerCase().includes("admin") ? "admin" : (userEmail.toLowerCase().includes("tutor") || userEmail.toLowerCase().includes("teacher") ? "tutor" : "student"));
   const roleLabel = rawRole === "admin" ? "Admin" : rawRole === "tutor" ? "Tutor" : "Student";
-  const userPlan = "PRO";
+  const isUserPro = ((activeUser as any)?.plan || "free").toLowerCase() === "pro";
+  const userPlan = isUserPro ? "PRO" : "FREE";
   const initials = getInitials(userName);
 
   // Initialize theme from document or localStorage with MutationObserver
@@ -283,7 +284,11 @@ export default function Navbar() {
                     <span className="text-xs font-bold text-[#180C0E] dark:text-white max-w-[85px] truncate">
                       {userName}
                     </span>
-                    <span className="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold uppercase bg-[#FEF3C7] dark:bg-[#FFB800]/20 text-[#D97706] dark:text-[#FFB800] border border-[#FCD34D] dark:border-[#FFB800]/40">
+                    <span className={`px-1.5 py-0.5 rounded text-[9px] font-mono font-bold uppercase border ${
+                      isUserPro
+                        ? "bg-[#FEF3C7] dark:bg-[#FFB800]/20 text-[#D97706] dark:text-[#FFB800] border-[#FCD34D] dark:border-[#FFB800]/40"
+                        : "bg-[#F5ECEC] dark:bg-[#200408] text-[#8C7679] dark:text-[#BFA5AA] border-[#EADCDD] dark:border-[#E11D48]/20"
+                    }`}>
                       {userPlan}
                     </span>
                   </div>
@@ -309,7 +314,11 @@ export default function Navbar() {
                       <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase bg-[#F5ECEC] dark:bg-[#2E070F] text-[#D91E48] dark:text-[#FF1E40] border border-[#F2B8C4] dark:border-[#FF1E40]/40">
                         {roleLabel}
                       </span>
-                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase bg-[#FEF3C7] dark:bg-[#241704] text-[#D97706] dark:text-[#FFB800] border border-[#FCD34D] dark:border-[#FFB800]/40">
+                      <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase border ${
+                        isUserPro
+                          ? "bg-[#FEF3C7] dark:bg-[#241704] text-[#D97706] dark:text-[#FFB800] border border-[#FCD34D] dark:border-[#FFB800]/40"
+                          : "bg-[#F5ECEC] dark:bg-[#200408] text-[#8C7679] dark:text-[#BFA5AA] border border-[#EADCDD] dark:border-[#E11D48]/20"
+                      }`}>
                         {userPlan}
                       </span>
                     </div>

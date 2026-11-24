@@ -93,7 +93,8 @@ export default function DashboardLayout({
   const userEmail = user?.email || "";
   const userRole = (user as any)?.role || (userEmail.toLowerCase().includes("admin") ? "admin" : (userEmail.toLowerCase().includes("tutor") || userEmail.toLowerCase().includes("teacher") ? "tutor" : "student"));
   const userName = user?.name || (isPending ? "Loading..." : "Member");
-  const userPlan = "PRO";
+  const isUserPro = ((user as any)?.plan || "free").toLowerCase() === "pro";
+  const userPlan = isUserPro ? "PRO" : "FREE";
 
   // Initials for avatar placeholder
   const getInitials = (name: string) => {
@@ -168,10 +169,12 @@ export default function DashboardLayout({
                       {initials}
                     </div>
                   )}
-                  {/* Crown Badge */}
-                  <div className="absolute -bottom-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#FFB800] text-black shadow-sm">
-                    <Crown className="h-2.5 w-2.5 fill-black" />
-                  </div>
+                  {/* Crown Badge (Only for Pro users) */}
+                  {isUserPro && (
+                    <div className="absolute -bottom-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#FFB800] text-black shadow-sm">
+                      <Crown className="h-2.5 w-2.5 fill-black" />
+                    </div>
+                  )}
                 </div>
 
                 {/* User Name & Badges (Visible when expanded) */}
@@ -181,7 +184,11 @@ export default function DashboardLayout({
                       <span className="text-sm font-bold text-[#180C0E] dark:text-white truncate max-w-[95px]">
                         {userName}
                       </span>
-                      <span className="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold uppercase bg-[#FEF3C7] dark:bg-[#FFB800]/20 text-[#B45309] dark:text-[#FFB800] border border-[#FDE68A] dark:border-[#FFB800]/40">
+                      <span className={`px-1.5 py-0.5 rounded text-[9px] font-mono font-bold uppercase border ${
+                        isUserPro
+                          ? "bg-[#FEF3C7] dark:bg-[#FFB800]/20 text-[#B45309] dark:text-[#FFB800] border-[#FDE68A] dark:border-[#FFB800]/40"
+                          : "bg-[#F5ECEC] dark:bg-[#200408] text-[#8C7679] dark:text-[#BFA5AA] border-[#EADCDD] dark:border-[#E11D48]/20"
+                      }`}>
                         {userPlan}
                       </span>
                     </div>

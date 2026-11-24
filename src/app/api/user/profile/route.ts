@@ -23,7 +23,7 @@ export async function GET(request: Request) {
       phone: user.phone || "",
       bio: user.bio || "",
       role: user.role || (email.toLowerCase().includes("admin") ? "admin" : "student"),
-      plan: user.plan || "pro",
+      plan: user.plan || "free",
       image: user.image || null,
     });
   } catch (error) {
