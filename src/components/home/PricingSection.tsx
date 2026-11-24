@@ -45,7 +45,7 @@ export default function PricingSection() {
           </div>
 
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#0B1320] dark:text-white uppercase tracking-tight">
-            Flexible Plans for <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0284C7] via-[#0EA5E9] to-[#0369A1] dark:from-white dark:via-[#38BDF8] dark:to-[#0EA5E9] drop-shadow-[0_0_16px_rgba(2, 132, 199,0.25)] dark:drop-shadow-[0_0_25px_rgba(14, 165, 233,0.6)]">Every Need</span>
+            Flexible Plans for <span className="glow-hero-gradient font-black">Every Need</span>
           </h2>
           <p className="mt-4 text-sm sm:text-base text-[#475569] dark:text-[#E2E8F0]/80 leading-relaxed">
             Start completely free or unlock unlimited reach with Pro. No hidden cuts, no commission fees on student payments.

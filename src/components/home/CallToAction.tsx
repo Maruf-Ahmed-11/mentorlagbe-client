@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { ArrowRight, Sparkles, ShieldCheck, CheckCircle } from "lucide-react";
 
 export default function CallToAction() {
@@ -29,7 +29,7 @@ export default function CallToAction() {
         {/* Heading */}
         <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black text-[#0B1320] dark:text-white uppercase tracking-tight leading-[1.1]">
           Ready to Connect With the{" "}
-          <span className="block text-transparent bg-clip-text bg-gradient-to-r from-[#0284C7] via-[#0EA5E9] to-[#0369A1] dark:from-white dark:via-[#E0F2FE] dark:to-[#0EA5E9] drop-shadow-[0_0_18px_rgba(2,132,199,0.25)] dark:drop-shadow-[0_0_35px_rgba(14,165,233,0.85)] mt-1">
+          <span className="block glow-hero-gradient font-black mt-1">
             Best Tutors in Bangladesh?
           </span>
         </h2>

@@ -54,7 +54,7 @@ export default function HeroBanner() {
             {/* Main Headline */}
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight uppercase leading-[1.08] text-[#0B1320] dark:text-white">
               Find Your Ideal{" "}
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-[#0B1320] via-[#0284C7] to-[#0369A1] dark:from-white dark:via-[#E0F2FE] dark:to-[#38BDF8] drop-shadow-[0_0_35px_rgba(14,165,233,0.3)]">
+              <span className="block glow-hero-gradient font-black tracking-tight uppercase mt-1">
                 Tutor or Mentorship
               </span>
               Batch Today
@@ -101,26 +101,26 @@ export default function HeroBanner() {
             {/* Trust Metrics Row */}
             <div className="mt-10 grid grid-cols-3 gap-6 pt-6 border-t border-[#E2E8F0] dark:border-[#0284C7]/25 w-full max-w-xl">
               <div>
-                <p className="text-2xl sm:text-3xl font-black text-[#0B1320] dark:text-white font-mono">
+                <p className="text-2xl sm:text-3xl font-black text-[#0284C7] dark:text-[#38BDF8] dark:glow-azure font-mono">
                   2,800+
                 </p>
-                <p className="text-xs uppercase font-mono tracking-wider text-[#0284C7] dark:text-[#0EA5E9] mt-0.5 font-bold">
+                <p className="text-xs uppercase font-mono tracking-wider text-[#0284C7] dark:text-[#38BDF8] mt-0.5 font-bold">
                   Verified Tutors
                 </p>
               </div>
               <div>
-                <p className="text-2xl sm:text-3xl font-black text-[#0B1320] dark:text-white font-mono">
+                <p className="text-2xl sm:text-3xl font-black text-[#0B1320] dark:text-white dark:drop-shadow-[0_0_15px_rgba(255,255,255,0.6)] font-mono">
                   18,000+
                 </p>
-                <p className="text-xs uppercase font-mono tracking-wider text-[#475569] dark:text-[#E2E8F0]/75 mt-0.5">
+                <p className="text-xs uppercase font-mono tracking-wider text-[#475569] dark:text-[#E2E8F0]/85 mt-0.5 font-semibold">
                   Active Students
                 </p>
               </div>
               <div>
-                <p className="text-2xl sm:text-3xl font-black text-[#0284C7] dark:text-[#0EA5E9] font-mono">
+                <p className="text-2xl sm:text-3xl font-black text-[#0284C7] dark:text-[#38BDF8] dark:glow-azure font-mono">
                   99.2%
                 </p>
-                <p className="text-xs uppercase font-mono tracking-wider text-[#475569] dark:text-[#E2E8F0]/75 mt-0.5">
+                <p className="text-xs uppercase font-mono tracking-wider text-[#475569] dark:text-[#E2E8F0]/85 mt-0.5 font-semibold">
                   Match Success
                 </p>
               </div>
