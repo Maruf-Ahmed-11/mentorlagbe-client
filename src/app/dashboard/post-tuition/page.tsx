@@ -141,7 +141,37 @@ export default function PostTuitionPage() {
     const cachedUser = typeof window !== "undefined" ? JSON.parse(localStorage.getItem("mentorlagbe_cached_user") || "null") : null;
     const userEmail = session?.user?.email || cachedUser?.email || "";
     const userName = session?.user?.name || cachedUser?.name || "Verified Tutor";
+    const userPlan = cachedUser?.plan || (session?.user as any)?.plan || "free";
     const resolvedLocation = isOfflineOrHybrid ? location.trim() : "Online (Zoom / Meet)";
+
+    // 0. Free Tier Limit Check (Max 2 tuitions for free tutors, unlimited for Pro)
+    if (userPlan !== "pro" && (session?.user as any)?.role !== "admin") {
+      try {
+        const usage = await fetch(`/api/user/usage?email=${encodeURIComponent(userEmail)}`).then((r) => r.json());
+        if (usage && usage.canPost === false) {
+          setIsSubmitting(false);
+          toast.error(
+            `Free limit reached: You have created ${usage.tuitionsCount} of ${usage.tutorLimit} free tuition posts. Please upgrade to Pro for unlimited postings!`,
+            { icon: "💎", duration: 5000 }
+          );
+          router.push("/checkout?plan=tutor");
+          return;
+        }
+      } catch {
+        // Fallback check against local records if server is unreachable
+        const userKey = `mentorlagbe_tuitions_${userEmail}`;
+        const localExisting: any[] = JSON.parse(localStorage.getItem(userKey) || "[]");
+        if (localExisting.length >= 2) {
+          setIsSubmitting(false);
+          toast.error("Free limit reached: Free tutors can post up to 2 tuitions. Redirecting to upgrade to Pro...", {
+            icon: "💎",
+            duration: 5000,
+          });
+          router.push("/checkout?plan=tutor");
+          return;
+        }
+      }
+    }
 
     // 1. Strict Duplicate Check on Local Data
     const userKey = `mentorlagbe_tuitions_${userEmail}`;
@@ -225,6 +255,15 @@ export default function PostTuitionPage() {
       }
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "Notice: Saved locally";
+      if (msg.includes("limit") || msg.includes("LIMIT_REACHED")) {
+        setIsSubmitting(false);
+        toast.error("Free limit reached: You have reached the maximum 2 free tuition posts. Redirecting to upgrade to Pro...", {
+          icon: "💎",
+          duration: 5000,
+        });
+        router.push("/checkout?plan=tutor");
+        return;
+      }
       if (msg.includes("duplicate") || msg.includes("Duplicate") || msg.includes("already exists")) {
         setIsSubmitting(false);
         toast.error(msg, { icon: "⚠️" });

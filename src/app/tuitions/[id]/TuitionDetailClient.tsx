@@ -65,7 +65,7 @@ export default function TuitionDetailClient({ id }: { id: string }) {
   const isPending = tuition?.approvalStatus === "pending";
   const isClosed = tuition?.isActive === false || isRejected || isPending;
 
-  const handleApply = () => {
+  const handleApply = async () => {
     if (isRejected) {
       toast.error("This tuition was rejected by moderation and is not open for applications.", { icon: "🚫" });
       return;
@@ -78,6 +78,28 @@ export default function TuitionDetailClient({ id }: { id: string }) {
       toast.error("This tuition post is currently closed by the tutor.", { icon: "🔒" });
       return;
     }
+
+    // Check student application limit (10 for free students, unlimited for Pro)
+    const cachedUser = typeof window !== "undefined" ? JSON.parse(localStorage.getItem("mentorlagbe_cached_user") || "null") : null;
+    const userEmail = session?.user?.email || cachedUser?.email || "";
+    const userPlan = cachedUser?.plan || (session?.user as any)?.plan || "free";
+
+    if (userEmail && userPlan !== "pro" && (session?.user as any)?.role !== "admin") {
+      try {
+        const usage = await fetch(`/api/user/usage?email=${encodeURIComponent(userEmail)}`).then((r) => r.json());
+        if (usage && usage.canApply === false) {
+          toast.error(
+            `Free limit reached: You have submitted ${usage.applicationsCount} of ${usage.studentLimit} free applications. Redirecting to upgrade to Pro for unlimited applications!`,
+            { icon: "💎", duration: 5000 }
+          );
+          router.push("/checkout?plan=student");
+          return;
+        }
+      } catch {
+        // continue
+      }
+    }
+
     toast.success("Application modal will open next! (Application workflow)", { icon: "📝" });
   };
 

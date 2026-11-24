@@ -179,7 +179,7 @@ export default function PricingSection() {
                 
                 <div className="mt-6 flex items-baseline gap-2">
                   <span className="text-4xl sm:text-5xl font-black font-mono text-[#D91E48] dark:text-[#FF1E40] drop-shadow-[0_0_12px_rgba(217,30,72,0.25)]">
-                    {roleMode === "tutor" ? "৳499" : "৳299"}
+                    {roleMode === "tutor" ? "$15" : "$10"}
                   </span>
                   <span className="text-xs font-mono text-[#8C7679] dark:text-[#BFA5AA]">/ month</span>
                 </div>
@@ -253,10 +253,10 @@ export default function PricingSection() {
 
             <div className="mt-10">
               <Link
-                href="/pricing"
+                href={`/checkout?plan=${roleMode}`}
                 className="w-full inline-flex items-center justify-center gap-2 py-3.5 rounded-xl bg-[#D91E48] hover:bg-[#B31438] text-white text-xs sm:text-sm font-bold tracking-wide shadow-[0_6px_20px_rgba(217,30,72,0.4)] hover:shadow-[0_8px_25px_rgba(217,30,72,0.55)] dark:bg-[#E11D48] dark:hover:bg-[#FF1E40] dark:shadow-[0_0_25px_rgba(255,30,64,0.7)] transition-all cursor-pointer active:scale-95"
               >
-                <span>Subscribe with Stripe</span>
+                <span>Upgrade to Pro with Stripe</span>
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
