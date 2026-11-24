@@ -9,11 +9,14 @@ import {
   CheckCircle2, 
   Zap, 
   Plus, 
-  ChevronRight 
+  ChevronRight,
+  Sparkles 
 } from "lucide-react";
 import { DashboardViewProps } from "./types";
 
-export default function TutorDashboardView({ userName }: DashboardViewProps) {
+export default function TutorDashboardView({ user, userName }: DashboardViewProps) {
+  const isPro = (user?.plan || "free").toLowerCase() === "pro";
+
   return (
     <div className="space-y-8 animate-in fade-in duration-300">
       {/* Tutor Header */}
@@ -54,14 +57,18 @@ export default function TutorDashboardView({ userName }: DashboardViewProps) {
           </div>
           <div className="mt-4 flex items-baseline gap-2">
             <span className="text-3xl font-black text-[#180C0E] dark:text-white tracking-tight drop-shadow-sm">
-              12
+              {isPro ? "Unlimited" : "Max 2"}
             </span>
-            <span className="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold uppercase bg-[#FEF3C7] dark:bg-[#FFB800]/20 text-[#B45309] dark:text-[#FFB800] border border-[#FDE68A] dark:border-[#FFB800]/40">
-              PRO
+            <span className={`px-1.5 py-0.5 rounded text-[9px] font-mono font-bold uppercase border ${
+              isPro
+                ? "bg-[#FEF3C7] dark:bg-[#FFB800]/20 text-[#B45309] dark:text-[#FFB800] border-[#FDE68A] dark:border-[#FFB800]/40"
+                : "bg-[#F5ECEC] dark:bg-[#200408] text-[#8C7679] dark:text-[#BFA5AA] border-[#EADCDD] dark:border-[#E11D48]/20"
+            }`}>
+              {isPro ? "PRO" : "FREE"}
             </span>
           </div>
           <p className="text-[11px] text-[#5C494C] dark:text-[#BFA5AA] mt-1">
-            Unlimited posts unlocked
+            {isPro ? "Unlimited posts unlocked" : "Free tier: up to 2 posts"}
           </p>
         </div>
 
@@ -111,17 +118,37 @@ export default function TutorDashboardView({ userName }: DashboardViewProps) {
             <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#8C7679] dark:text-[#BFA5AA]">
               Current Plan
             </span>
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#FEF3C7] dark:bg-[#281804] text-[#B45309] dark:text-[#FFB800] border border-[#FDE68A] dark:border-[#FFB800]/30 shadow-sm">
-              <Crown className="h-4.5 w-4.5 fill-[#B45309] dark:fill-[#FFB800]" />
+            <div className={`flex h-9 w-9 items-center justify-center rounded-xl ${
+              isPro
+                ? "bg-[#FEF3C7] dark:bg-[#281804] text-[#B45309] dark:text-[#FFB800] border border-[#FDE68A] dark:border-[#FFB800]/30 shadow-sm"
+                : "bg-[#F5ECEC] dark:bg-[#200408] text-[#8C7679] dark:text-[#BFA5AA] border border-[#EADCDD] dark:border-[#E11D48]/20"
+            }`}>
+              {isPro ? (
+                <Crown className="h-4.5 w-4.5 fill-[#B45309] dark:fill-[#FFB800]" />
+              ) : (
+                <Sparkles className="h-4.5 w-4.5 text-[#D91E48] dark:text-[#FF1E40]" />
+              )}
             </div>
           </div>
-          <div className="mt-4">
-            <span className="text-3xl font-black text-[#B45309] dark:text-[#FFB800] tracking-tight drop-shadow-sm">
-              PRO
-            </span>
-            <p className="text-[11px] text-[#5C494C] dark:text-[#BFA5AA] mt-1">
-              Priority listing in searches
-            </p>
+          <div className="mt-4 flex items-baseline justify-between">
+            <div>
+              <span className={`text-3xl font-black tracking-tight drop-shadow-sm ${
+                isPro ? "text-[#B45309] dark:text-[#FFB800]" : "text-[#180C0E] dark:text-white"
+              }`}>
+                {isPro ? "PRO" : "FREE"}
+              </span>
+              <p className="text-[11px] text-[#5C494C] dark:text-[#BFA5AA] mt-1">
+                {isPro ? "Unlimited tuition posts & priority leads" : "Up to 2 free tuition posts"}
+              </p>
+            </div>
+            {!isPro && (
+              <Link
+                href="/checkout?plan=tutor"
+                className="px-3 py-1.5 rounded-xl bg-[#D91E48] hover:bg-[#B31438] text-white text-[11px] font-bold shadow-sm transition-all active:scale-95"
+              >
+                Upgrade
+              </Link>
+            )}
           </div>
         </div>
       </div>

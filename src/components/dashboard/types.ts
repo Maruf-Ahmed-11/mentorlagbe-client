@@ -4,6 +4,7 @@ export interface DashboardUser {
   email?: string | null;
   image?: string | null;
   role?: string | null;
+  plan?: string | null;
 }
 
 export interface DashboardViewProps {

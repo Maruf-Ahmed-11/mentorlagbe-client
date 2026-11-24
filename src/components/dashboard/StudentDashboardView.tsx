@@ -14,7 +14,9 @@ import {
 } from "lucide-react";
 import { DashboardViewProps } from "./types";
 
-export default function StudentDashboardView({ userName }: DashboardViewProps) {
+export default function StudentDashboardView({ user, userName }: DashboardViewProps) {
+  const isPro = (user?.plan || "free").toLowerCase() === "pro";
+
   return (
     <div className="space-y-8 animate-in fade-in duration-300">
       {/* Header Banner */}
@@ -106,17 +108,37 @@ export default function StudentDashboardView({ userName }: DashboardViewProps) {
             <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#8C7679] dark:text-[#BFA5AA]">
               Current Plan
             </span>
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#FEF3C7] dark:bg-[#281804] text-[#B45309] dark:text-[#FFB800] border border-[#FDE68A] dark:border-[#FFB800]/30 shadow-sm">
-              <Crown className="h-4.5 w-4.5 fill-[#B45309] dark:fill-[#FFB800]" />
+            <div className={`flex h-9 w-9 items-center justify-center rounded-xl ${
+              isPro
+                ? "bg-[#FEF3C7] dark:bg-[#281804] text-[#B45309] dark:text-[#FFB800] border border-[#FDE68A] dark:border-[#FFB800]/30 shadow-sm"
+                : "bg-[#F5ECEC] dark:bg-[#200408] text-[#8C7679] dark:text-[#BFA5AA] border border-[#EADCDD] dark:border-[#E11D48]/20"
+            }`}>
+              {isPro ? (
+                <Crown className="h-4.5 w-4.5 fill-[#B45309] dark:fill-[#FFB800]" />
+              ) : (
+                <Sparkles className="h-4.5 w-4.5 text-[#D91E48] dark:text-[#FF1E40]" />
+              )}
             </div>
           </div>
-          <div className="mt-4">
-            <span className="text-3xl font-black text-[#B45309] dark:text-[#FFB800] tracking-tight drop-shadow-sm">
-              PRO
-            </span>
-            <p className="text-[11px] text-[#5C494C] dark:text-[#BFA5AA] mt-1">
-              Premium member access enabled
-            </p>
+          <div className="mt-4 flex items-baseline justify-between">
+            <div>
+              <span className={`text-3xl font-black tracking-tight drop-shadow-sm ${
+                isPro ? "text-[#B45309] dark:text-[#FFB800]" : "text-[#180C0E] dark:text-white"
+              }`}>
+                {isPro ? "PRO" : "FREE"}
+              </span>
+              <p className="text-[11px] text-[#5C494C] dark:text-[#BFA5AA] mt-1">
+                {isPro ? "Unlimited applications & priority ranking" : "10 free applications limit"}
+              </p>
+            </div>
+            {!isPro && (
+              <Link
+                href="/checkout?plan=student"
+                className="px-3 py-1.5 rounded-xl bg-[#D91E48] hover:bg-[#B31438] text-white text-[11px] font-bold shadow-sm transition-all active:scale-95"
+              >
+                Upgrade
+              </Link>
+            )}
           </div>
         </div>
       </div>

@@ -14,31 +14,94 @@ import {
   Loader2, 
   CreditCard,
   Zap,
-  ArrowLeft
+  ArrowLeft,
+  AlertCircle
 } from "lucide-react";
 
 function CheckoutContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const initialPlan = searchParams.get("plan")?.toLowerCase() === "student" ? "student" : "tutor";
+  const queryPlan = searchParams.get("plan")?.toLowerCase();
   
-  const [selectedPlan, setSelectedPlan] = useState<"tutor" | "student">(initialPlan);
-  const [isLoading, setIsLoading] = useState(false);
   const { data: session } = authClient.useSession();
+  const [cachedUser, setCachedUser] = useState<any>(null);
+  const [livePlan, setLivePlan] = useState<string>("free");
+  const [userRole, setUserRole] = useState<string>("student");
+  const [selectedPlan, setSelectedPlan] = useState<"tutor" | "student">("student");
+  const [isLoading, setIsLoading] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
-  const cachedUser = typeof window !== "undefined" ? JSON.parse(localStorage.getItem("mentorlagbe_cached_user") || "null") : null;
-  const userPlan = ((session?.user as any)?.plan || cachedUser?.plan || "free").toLowerCase();
-  const isAlreadyPro = userPlan === "pro";
+  useEffect(() => {
+    setMounted(true);
+
+    let initialRole = "student";
+    let initialPlan = "free";
+
+    try {
+      const saved = localStorage.getItem("mentorlagbe_cached_user");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        setCachedUser(parsed);
+        if (parsed.plan) initialPlan = parsed.plan.toLowerCase();
+        if (parsed.role) initialRole = parsed.role.toLowerCase();
+      }
+    } catch {}
+
+    const email = session?.user?.email || cachedUser?.email || "";
+    const sessionRole = ((session?.user as any)?.role || "").toLowerCase();
+    const finalRole = sessionRole || initialRole || (email.includes("tutor") || email.includes("teacher") ? "tutor" : "student");
+    setUserRole(finalRole);
+
+    // Strict role locking: Students can only buy student plan; Tutors can only buy tutor plan
+    if (finalRole === "tutor") {
+      setSelectedPlan("tutor");
+    } else if (finalRole === "student") {
+      setSelectedPlan("student");
+    } else {
+      // If admin, respect query param
+      setSelectedPlan(queryPlan === "tutor" ? "tutor" : "student");
+    }
+
+    if (!email) return;
+
+    // Fetch real-time plan status directly from database
+    fetch(`/api/user/usage?email=${encodeURIComponent(email)}`)
+      .then((r) => r.json())
+      .then((data) => {
+        if (data?.plan) {
+          setLivePlan(data.plan.toLowerCase());
+          try {
+            const current = JSON.parse(localStorage.getItem("mentorlagbe_cached_user") || "null") || {};
+            current.plan = data.plan;
+            localStorage.setItem("mentorlagbe_cached_user", JSON.stringify(current));
+          } catch {}
+        }
+        if (data?.role) {
+          const r = data.role.toLowerCase();
+          setUserRole(r);
+          if (r === "tutor") setSelectedPlan("tutor");
+          else if (r === "student") setSelectedPlan("student");
+        }
+      })
+      .catch(() => {});
+  }, [session?.user]);
+
+  const isAlreadyPro = livePlan === "pro" || 
+                       ((session?.user as any)?.plan || "").toLowerCase() === "pro" || 
+                       (cachedUser?.plan || "").toLowerCase() === "pro";
 
   const isTutor = selectedPlan === "tutor";
   const planPrice = isTutor ? "$15" : "$10";
   const planPeriod = "/ month";
   const planTitle = isTutor ? "Pro Tutor Membership" : "Pro Student Membership";
 
+  const isStudentUser = userRole === "student";
+  const isTutorUser = userRole === "tutor";
+
   const handleCheckout = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
     if (isAlreadyPro) {
-      toast.success("You already have an active Pro membership!", { icon: "💎" });
+      toast.error("You are already subscribed to Pro! Duplicate checkout is disabled.", { icon: "💎" });
       return;
     }
     setIsLoading(true);
@@ -94,29 +157,40 @@ function CheckoutContent() {
           Unlock unlimited tuition postings, priority booking, and standout verified credentials.
         </p>
 
-        {/* Plan Switcher */}
+        {/* Plan Switcher - Role Locked */}
         <div className="mt-6 inline-flex p-1 rounded-2xl bg-[#EADCDD]/60 dark:bg-[#200408] border border-[#EADCDD] dark:border-[#E11D48]/30">
           <button
             type="button"
-            onClick={() => setSelectedPlan("tutor")}
-            className={`px-6 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-              isTutor
-                ? "bg-[#D91E48] text-white shadow-md"
-                : "text-[#5C494C] dark:text-[#BFA5AA] hover:text-[#180C0E] dark:hover:text-white"
+            disabled={isStudentUser}
+            onClick={() => !isStudentUser && setSelectedPlan("tutor")}
+            title={isStudentUser ? "Your logged-in account is a Student. Tutor plan is disabled." : undefined}
+            className={`px-6 py-2.5 rounded-xl text-xs font-bold transition-all ${
+              selectedPlan === "tutor"
+                ? "bg-[#D91E48] text-white shadow-md cursor-default"
+                : isStudentUser
+                ? "text-[#8C7679]/40 dark:text-[#BFA5AA]/30 cursor-not-allowed opacity-60"
+                : "text-[#5C494C] dark:text-[#BFA5AA] hover:text-[#180C0E] dark:hover:text-white cursor-pointer"
             }`}
           >
-            Tutor Pro ($15)
+            <span>Tutor Pro ($15)</span>
+            {isStudentUser && <span className="text-[10px] ml-1.5 font-mono text-[#D91E48] dark:text-[#FF4D6D]">(Tutors Only)</span>}
           </button>
+
           <button
             type="button"
-            onClick={() => setSelectedPlan("student")}
-            className={`px-6 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-              !isTutor
-                ? "bg-[#D91E48] text-white shadow-md"
-                : "text-[#5C494C] dark:text-[#BFA5AA] hover:text-[#180C0E] dark:hover:text-white"
+            disabled={isTutorUser}
+            onClick={() => !isTutorUser && setSelectedPlan("student")}
+            title={isTutorUser ? "Your logged-in account is a Tutor. Student plan is disabled." : undefined}
+            className={`px-6 py-2.5 rounded-xl text-xs font-bold transition-all ${
+              selectedPlan === "student"
+                ? "bg-[#D91E48] text-white shadow-md cursor-default"
+                : isTutorUser
+                ? "text-[#8C7679]/40 dark:text-[#BFA5AA]/30 cursor-not-allowed opacity-60"
+                : "text-[#5C494C] dark:text-[#BFA5AA] hover:text-[#180C0E] dark:hover:text-white cursor-pointer"
             }`}
           >
-            Student Pro ($10)
+            <span>Student Pro ($10)</span>
+            {isTutorUser && <span className="text-[10px] ml-1.5 font-mono text-[#D91E48] dark:text-[#FF4D6D]">(Students Only)</span>}
           </button>
         </div>
       </div>
@@ -129,7 +203,7 @@ function CheckoutContent() {
           <div className="flex items-center justify-between pb-4 border-b border-[#EADCDD] dark:border-[#E11D48]/20">
             <div>
               <span className="text-[10px] font-mono font-bold tracking-widest text-[#D91E48] dark:text-[#FF1E40] uppercase">
-                SELECTED TIER
+                YOUR ACCOUNT PLAN
               </span>
               <h2 className="text-xl font-bold text-[#180C0E] dark:text-white mt-0.5">
                 {planTitle}
@@ -212,20 +286,39 @@ function CheckoutContent() {
               Instant activation linked to your authenticated account.
             </p>
 
+            {/* Already Pro Banner */}
+            {isAlreadyPro && (
+              <div className="mt-4 p-4 rounded-2xl bg-emerald-50 dark:bg-[#0A2618] border border-emerald-300 dark:border-[#10B981]/40 text-xs text-emerald-800 dark:text-[#10B981] flex items-start gap-2.5">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-[#10B981] shrink-0 mt-0.5" />
+                <div>
+                  <span className="font-bold block">Active Pro Membership Detected</span>
+                  <span>You are already subscribed to Pro! Duplicate checkout is disabled so you are not charged twice.</span>
+                </div>
+              </div>
+            )}
+
             <div className="mt-6 space-y-3 pb-6 border-b border-[#EADCDD] dark:border-[#E11D48]/20 text-xs sm:text-sm">
               <div className="flex justify-between text-[#5C494C] dark:text-[#F4E2E5]/80">
                 <span>Account Email:</span>
                 <span className="font-mono font-medium text-[#180C0E] dark:text-white truncate max-w-[180px]">
-                  {session?.user?.email || "Signed-in user"}
+                  {session?.user?.email || cachedUser?.email || "Signed-in user"}
                 </span>
               </div>
               <div className="flex justify-between text-[#5C494C] dark:text-[#F4E2E5]/80">
-                <span>Plan Duration:</span>
-                <span className="font-medium text-[#180C0E] dark:text-white">Monthly Subscription</span>
+                <span>Account Role:</span>
+                <span className="font-medium text-[#180C0E] dark:text-white uppercase font-mono">
+                  {userRole}
+                </span>
               </div>
               <div className="flex justify-between text-[#5C494C] dark:text-[#F4E2E5]/80">
-                <span>Platform Fee:</span>
-                <span className="font-medium text-emerald-600 dark:text-emerald-400">Waived ($0.00)</span>
+                <span>Selected Plan:</span>
+                <span className="font-medium text-[#D91E48] dark:text-[#FF1E40] font-bold">
+                  {planTitle}
+                </span>
+              </div>
+              <div className="flex justify-between text-[#5C494C] dark:text-[#F4E2E5]/80">
+                <span>Billing Period:</span>
+                <span className="font-medium text-[#180C0E] dark:text-white">Monthly Subscription</span>
               </div>
             </div>
 
@@ -246,14 +339,23 @@ function CheckoutContent() {
 
           <div className="mt-8 space-y-3">
             {isAlreadyPro ? (
-              <button
-                type="button"
-                disabled
-                className="w-full py-4 rounded-2xl bg-emerald-100 dark:bg-[#0A2618] text-emerald-800 dark:text-[#10B981] border border-emerald-300 dark:border-[#10B981]/50 font-bold text-sm cursor-not-allowed opacity-80 flex items-center justify-center gap-2"
-              >
-                <CheckCircle2 className="w-4 h-4" />
-                <span>Already Pro Member &bull; Checkout Disabled</span>
-              </button>
+              <div className="space-y-3">
+                <button
+                  type="button"
+                  disabled
+                  className="w-full py-4 rounded-2xl bg-emerald-100 dark:bg-[#0A2618] text-emerald-800 dark:text-[#10B981] border border-emerald-300 dark:border-[#10B981]/50 font-bold text-sm cursor-not-allowed opacity-80 flex items-center justify-center gap-2"
+                >
+                  <CheckCircle2 className="w-4 h-4" />
+                  <span>Already Pro Member &bull; Checkout Disabled</span>
+                </button>
+                <Link
+                  href="/dashboard"
+                  className="w-full py-3.5 rounded-2xl bg-[#D91E48] hover:bg-[#B31438] text-white font-bold text-xs shadow-md transition-all flex items-center justify-center gap-2"
+                >
+                  <span>Return to Dashboard</span>
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
             ) : (
               <button
                 type="button"

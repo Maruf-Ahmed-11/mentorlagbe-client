@@ -14,11 +14,19 @@ export default function PricingSection() {
     try {
       const cached = JSON.parse(localStorage.getItem("mentorlagbe_cached_user") || "null");
       const plan = ((session?.user as any)?.plan || cached?.plan || "free").toLowerCase();
-      setIsPro(plan === "pro");
-    } catch {
-      setIsPro(false);
-    }
-  }, [session]);
+      if (plan === "pro") setIsPro(true);
+    } catch {}
+
+    const email = session?.user?.email;
+    if (!email) return;
+
+    fetch(`/api/user/usage?email=${encodeURIComponent(email)}`)
+      .then((r) => r.json())
+      .then((data) => {
+        if (data?.plan === "pro") setIsPro(true);
+      })
+      .catch(() => {});
+  }, [session?.user?.email]);
 
   return (
     <section id="pricing" className="relative py-24 bg-[#FCF9F8] dark:bg-[#110204] overflow-hidden border-t border-[#EADCDD] dark:border-[#E11D48]/20 transition-colors duration-200">

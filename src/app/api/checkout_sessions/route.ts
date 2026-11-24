@@ -30,6 +30,28 @@ export async function POST(req: Request) {
       }
     }
 
+    // 1. Verify user session & enforce role-based plan selection
+    if (user?.email) {
+      const { getTrackedUserUsage } = await import("@/lib/core/server");
+      const usage = await getTrackedUserUsage(user.email);
+      if (usage) {
+        // Anti-duplicate subscription: if user is already pro, block further checkout
+        if (usage.plan === "pro") {
+          return NextResponse.json(
+            { error: "You are already an active Pro member! Duplicate subscription is disabled." },
+            { status: 400 }
+          );
+        }
+
+        // Enforce user role: students can only purchase student pro; tutors can only purchase tutor pro
+        if (usage.role === "student") {
+          plan = "student";
+        } else if (usage.role === "tutor") {
+          plan = "tutor";
+        }
+      }
+    }
+
     const isStudent = plan.toLowerCase() === "student";
     const selectedPriceId = isStudent ? STUDENT_PRICE_ID : TUTOR_PRICE_ID;
     const planRole = isStudent ? "student" : "tutor";
@@ -74,13 +96,28 @@ export async function POST(req: Request) {
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
-    const plan = searchParams.get("plan") || "tutor";
+    let plan = searchParams.get("plan") || "tutor";
     const headersList = await headers();
     const origin = headersList.get("origin") || headersList.get("referer") || "http://localhost:3000";
     const cleanOrigin = origin.replace(/\/$/, "");
 
     const session = await getServerAuth();
     const user = session?.user;
+
+    if (user?.email) {
+      const { getTrackedUserUsage } = await import("@/lib/core/server");
+      const usage = await getTrackedUserUsage(user.email);
+      if (usage) {
+        if (usage.plan === "pro") {
+          return NextResponse.redirect(`${cleanOrigin}/checkout`, 303);
+        }
+        if (usage.role === "student") {
+          plan = "student";
+        } else if (usage.role === "tutor") {
+          plan = "tutor";
+        }
+      }
+    }
 
     const isStudent = plan.toLowerCase() === "student";
     const selectedPriceId = isStudent ? STUDENT_PRICE_ID : TUTOR_PRICE_ID;

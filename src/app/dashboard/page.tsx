@@ -9,20 +9,44 @@ import StudentDashboardView from "@/components/dashboard/StudentDashboardView";
 export default function DashboardOverviewPage() {
   const { data: session, isPending } = authClient.useSession();
   const [mounted, setMounted] = useState(false);
+  const [livePlan, setLivePlan] = useState<string>("free");
   const [cachedUser, setCachedUser] = useState<{ name: string; email: string; role: string; plan?: string } | null>(null);
 
   useEffect(() => {
     setMounted(true);
     try {
       const saved = localStorage.getItem("mentorlagbe_cached_user");
-      if (saved) setCachedUser(JSON.parse(saved));
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        setCachedUser(parsed);
+        if (parsed.plan) setLivePlan(parsed.plan.toLowerCase());
+      }
     } catch {}
-  }, []);
+
+    const email = session?.user?.email || cachedUser?.email;
+    if (!email) return;
+
+    fetch(`/api/user/usage?email=${encodeURIComponent(email)}`)
+      .then((r) => r.json())
+      .then((data) => {
+        if (data?.plan) {
+          setLivePlan(data.plan.toLowerCase());
+          try {
+            const current = JSON.parse(localStorage.getItem("mentorlagbe_cached_user") || "null") || {};
+            current.plan = data.plan;
+            localStorage.setItem("mentorlagbe_cached_user", JSON.stringify(current));
+          } catch {}
+        }
+      })
+      .catch(() => {});
+  }, [session?.user?.email]);
 
   const activeUser = session?.user || cachedUser;
   const userEmail = activeUser?.email || "";
   const userRole = (activeUser as any)?.role || (userEmail.toLowerCase().includes("admin") ? "admin" : (userEmail.toLowerCase().includes("tutor") || userEmail.toLowerCase().includes("teacher") ? "tutor" : "student"));
   const userName = activeUser?.name || "Member";
+  const effectivePlan = livePlan === "pro" || ((activeUser as any)?.plan || "").toLowerCase() === "pro" || (cachedUser?.plan || "").toLowerCase() === "pro" ? "pro" : "free";
+  const userWithPlan = { ...(activeUser as any), plan: effectivePlan };
 
   // When not mounted or pending without data, render identical skeleton on server and initial client hydration
   if (!mounted || (isPending && !activeUser)) {
@@ -37,11 +61,11 @@ export default function DashboardOverviewPage() {
   return (
     <div className="max-w-6xl mx-auto space-y-8 animate-in fade-in duration-300">
       {userRole === "admin" ? (
-        <AdminDashboardView user={activeUser as any} userName={userName} userEmail={userEmail} />
+        <AdminDashboardView user={userWithPlan} userName={userName} userEmail={userEmail} />
       ) : userRole === "tutor" ? (
-        <TutorDashboardView user={activeUser as any} userName={userName} userEmail={userEmail} />
+        <TutorDashboardView user={userWithPlan} userName={userName} userEmail={userEmail} />
       ) : (
-        <StudentDashboardView user={activeUser as any} userName={userName} userEmail={userEmail} />
+        <StudentDashboardView user={userWithPlan} userName={userName} userEmail={userEmail} />
       )}
     </div>
   );
