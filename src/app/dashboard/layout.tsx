@@ -34,10 +34,12 @@ export default function DashboardLayout({
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   const [mounted, setMounted] = useState(false);
+  const [livePlan, setLivePlan] = useState<string>("free");
   const [cachedUser, setCachedUser] = useState<{
     name: string;
     email: string;
     role: string;
+    plan?: string;
     image?: string | null;
   } | null>(null);
 
@@ -45,9 +47,59 @@ export default function DashboardLayout({
     setMounted(true);
     try {
       const saved = localStorage.getItem("mentorlagbe_cached_user");
-      if (saved) setCachedUser(JSON.parse(saved));
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        setCachedUser(parsed);
+        if (parsed.plan) {
+          setLivePlan(parsed.plan.toLowerCase());
+        }
+      }
     } catch {}
-  }, []);
+
+    const email = session?.user?.email || cachedUser?.email;
+    if (!email) return;
+
+    const syncPlan = async () => {
+      try {
+        const res = await fetch(`/api/user/usage?email=${encodeURIComponent(email)}`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data?.plan) {
+            setLivePlan(data.plan.toLowerCase());
+            try {
+              const current = JSON.parse(localStorage.getItem("mentorlagbe_cached_user") || "null") || {};
+              current.plan = data.plan;
+              localStorage.setItem("mentorlagbe_cached_user", JSON.stringify(current));
+            } catch {}
+          }
+        }
+      } catch {}
+    };
+
+    syncPlan();
+
+    const handleUpdate = () => {
+      try {
+        const updated = localStorage.getItem("mentorlagbe_cached_user");
+        if (updated) {
+          const parsed = JSON.parse(updated);
+          setCachedUser(parsed);
+          if (parsed.plan) {
+            setLivePlan(parsed.plan.toLowerCase());
+          }
+        }
+      } catch {}
+      syncPlan();
+    };
+
+    window.addEventListener("storage", handleUpdate);
+    window.addEventListener("mentorlagbe_user_updated", handleUpdate);
+
+    return () => {
+      window.removeEventListener("storage", handleUpdate);
+      window.removeEventListener("mentorlagbe_user_updated", handleUpdate);
+    };
+  }, [session?.user?.email]);
 
   // Keep cache synced with fresh session data
   useEffect(() => {
@@ -93,7 +145,9 @@ export default function DashboardLayout({
   const userEmail = user?.email || "";
   const userRole = (user as any)?.role || (userEmail.toLowerCase().includes("admin") ? "admin" : (userEmail.toLowerCase().includes("tutor") || userEmail.toLowerCase().includes("teacher") ? "tutor" : "student"));
   const userName = user?.name || (isPending ? "Loading..." : "Member");
-  const isUserPro = ((user as any)?.plan || "free").toLowerCase() === "pro";
+  const isUserPro = livePlan === "pro" || 
+                    ((user as any)?.plan || "").toLowerCase() === "pro" || 
+                    (cachedUser?.plan || "").toLowerCase() === "pro";
   const userPlan = isUserPro ? "PRO" : "FREE";
 
   // Initials for avatar placeholder

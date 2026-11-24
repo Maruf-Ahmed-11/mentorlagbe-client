@@ -66,15 +66,17 @@ function SuccessContent() {
 
         // Update cached user in localStorage so Pro status and badges immediately appear
         try {
-          const cached = JSON.parse(localStorage.getItem("mentorlagbe_cached_user") || "null");
-          if (cached) {
-            cached.plan = "pro";
-            localStorage.setItem("mentorlagbe_cached_user", JSON.stringify(cached));
-            window.dispatchEvent(new Event("storage"));
-          }
+          const current = JSON.parse(localStorage.getItem("mentorlagbe_cached_user") || "null") || {};
+          current.plan = "pro";
+          localStorage.setItem("mentorlagbe_cached_user", JSON.stringify(current));
         } catch {
           // ignore
         }
+
+        // Immediately notify Navbar, Sidebar, and all listening components
+        window.dispatchEvent(new Event("storage"));
+        window.dispatchEvent(new CustomEvent("mentorlagbe_user_updated", { detail: { plan: "pro" } }));
+        router.refresh();
 
         toast.success("Payment verified! Pro features unlocked.", { icon: "🎉" });
       } catch (err: unknown) {

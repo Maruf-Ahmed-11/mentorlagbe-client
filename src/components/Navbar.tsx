@@ -26,22 +26,79 @@ export default function Navbar() {
   };
 
   const [mounted, setMounted] = useState(false);
-  const [cachedUser, setCachedUser] = useState<{ name: string; email: string; role: string; image?: string } | null>(null);
+  const [cachedUser, setCachedUser] = useState<{ name: string; email: string; role: string; plan?: string; image?: string } | null>(null);
+
+  const [livePlan, setLivePlan] = useState<string>("free");
 
   useEffect(() => {
     setMounted(true);
+    // 1. Load initial cache
     try {
       const saved = localStorage.getItem("mentorlagbe_cached_user");
-      if (saved) setCachedUser(JSON.parse(saved));
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        setCachedUser(parsed);
+        if (parsed.plan) {
+          setLivePlan(parsed.plan.toLowerCase());
+        }
+      }
     } catch {}
-  }, []);
+
+    const email = session?.user?.email || cachedUser?.email;
+    if (!email) return;
+
+    // 2. Fetch latest plan directly from database usage endpoint
+    const syncPlan = async () => {
+      try {
+        const res = await fetch(`/api/user/usage?email=${encodeURIComponent(email)}`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data?.plan) {
+            setLivePlan(data.plan.toLowerCase());
+            try {
+              const current = JSON.parse(localStorage.getItem("mentorlagbe_cached_user") || "null") || {};
+              current.plan = data.plan;
+              localStorage.setItem("mentorlagbe_cached_user", JSON.stringify(current));
+            } catch {}
+          }
+        }
+      } catch {}
+    };
+
+    syncPlan();
+
+    // 3. React instantly to local storage updates or payment completion events
+    const handleUpdate = () => {
+      try {
+        const updated = localStorage.getItem("mentorlagbe_cached_user");
+        if (updated) {
+          const parsed = JSON.parse(updated);
+          setCachedUser(parsed);
+          if (parsed.plan) {
+            setLivePlan(parsed.plan.toLowerCase());
+          }
+        }
+      } catch {}
+      syncPlan();
+    };
+
+    window.addEventListener("storage", handleUpdate);
+    window.addEventListener("mentorlagbe_user_updated", handleUpdate);
+
+    return () => {
+      window.removeEventListener("storage", handleUpdate);
+      window.removeEventListener("mentorlagbe_user_updated", handleUpdate);
+    };
+  }, [session?.user?.email]);
 
   const activeUser = session?.user || cachedUser;
   const userName = activeUser?.name || "";
   const userEmail = activeUser?.email || "";
   const rawRole = (activeUser as any)?.role || (userEmail.toLowerCase().includes("admin") ? "admin" : (userEmail.toLowerCase().includes("tutor") || userEmail.toLowerCase().includes("teacher") ? "tutor" : "student"));
   const roleLabel = rawRole === "admin" ? "Admin" : rawRole === "tutor" ? "Tutor" : "Student";
-  const isUserPro = ((activeUser as any)?.plan || "free").toLowerCase() === "pro";
+  const isUserPro = livePlan === "pro" || 
+                    ((activeUser as any)?.plan || "").toLowerCase() === "pro" || 
+                    (cachedUser?.plan || "").toLowerCase() === "pro";
   const userPlan = isUserPro ? "PRO" : "FREE";
   const initials = getInitials(userName);
 

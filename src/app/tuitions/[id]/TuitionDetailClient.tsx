@@ -7,13 +7,13 @@ import Link from "next/link";
 import toast from "react-hot-toast";
 import { apiFetch } from "@/lib/api";
 import { authClient } from "@/lib/auth-client";
-import { 
-  ArrowLeft, 
-  MapPin, 
-  Calendar, 
-  Sparkles, 
-  Globe, 
-  GraduationCap, 
+import {
+  ArrowLeft,
+  MapPin,
+  Calendar,
+  Sparkles,
+  Globe,
+  GraduationCap,
   ShieldCheck,
   AlertOctagon,
   Clock,
@@ -167,7 +167,7 @@ export default function TuitionDetailClient({ id }: { id: string }) {
 
   return (
     <div className="max-w-4xl mx-auto p-4 sm:p-6 md:p-8 space-y-6 animate-in fade-in duration-300">
-      
+
       {/* Back button */}
       <button
         onClick={() => router.back()}
@@ -179,7 +179,7 @@ export default function TuitionDetailClient({ id }: { id: string }) {
 
       {/* Main Card */}
       <div className="rounded-3xl border border-[#EADCDD] dark:border-[#E11D48]/25 bg-white dark:bg-[#140204]/95 shadow-[0_12px_32px_-8px_rgba(24,12,14,0.06)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.85)] overflow-hidden">
-        
+
         {/* Banner Image */}
         {tuition?.bannerImage ? (
           <div className="relative w-full h-56 sm:h-72 bg-[#FCF9F8] dark:bg-[#0D0204] overflow-hidden">
@@ -194,7 +194,7 @@ export default function TuitionDetailClient({ id }: { id: string }) {
               <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-[#D91E48] text-white shadow-md">
                 {tuition.subject || "Subject"}
               </span>
-              
+
               <div className="flex items-center gap-2">
                 {/* 1. Approval Status Badge */}
                 {isRejected ? (
@@ -261,7 +261,7 @@ export default function TuitionDetailClient({ id }: { id: string }) {
         )}
 
         <div className="p-6 sm:p-8 space-y-6">
-          
+
           {/* Header Title & Details */}
           <div>
             <h1 className="text-xl sm:text-2xl md:text-3xl font-black text-[#180C0E] dark:text-white tracking-tight">
@@ -364,13 +364,12 @@ export default function TuitionDetailClient({ id }: { id: string }) {
 
             {/* Approval Badge */}
             <span
-              className={`px-2.5 py-1 rounded-full text-[10px] font-mono font-bold uppercase border ${
-                isRejected
-                  ? "bg-[#FDECEF] dark:bg-[#2A0612] text-[#D91E48] dark:text-[#FF4D6D] border-[#F2B8C4]"
-                  : isPending
+              className={`px-2.5 py-1 rounded-full text-[10px] font-mono font-bold uppercase border ${isRejected
+                ? "bg-[#FDECEF] dark:bg-[#2A0612] text-[#D91E48] dark:text-[#FF4D6D] border-[#F2B8C4]"
+                : isPending
                   ? "bg-[#FEF3C7] dark:bg-[#281804] text-[#B45309] dark:text-[#FFB800] border-[#FDE68A]"
                   : "bg-[#ECFDF5] dark:bg-[#0A2618] text-[#059669] dark:text-[#10B981] border-[#A7F3D0]"
-              }`}
+                }`}
             >
               {isRejected ? "Rejected" : isPending ? "Pending Review" : "Approved"}
             </span>
@@ -386,14 +385,14 @@ export default function TuitionDetailClient({ id }: { id: string }) {
                 {isOwner
                   ? "You are the creator of this tuition post. Manage it from your dashboard."
                   : isTutor
-                  ? "You are viewing this listing with a tutor account. Tutors cannot apply."
-                  : isRejected
-                  ? "Applications are locked because this listing was rejected."
-                  : isPending
-                  ? "Applications will open as soon as this post is approved by admin."
-                  : isPostClosed
-                  ? "Tutor has paused applications for this batch."
-                  : "Seats are currently open for new student applicants."}
+                    ? "You are viewing this listing with a tutor account. Tutors cannot apply."
+                    : isRejected
+                      ? "Applications are locked because this listing was rejected."
+                      : isPending
+                        ? "Applications will open as soon as this post is approved by admin."
+                        : isPostClosed
+                          ? "Tutor has paused applications for this batch."
+                          : "Seats are currently open for new student applicants."}
               </p>
             </div>
 
@@ -418,23 +417,22 @@ export default function TuitionDetailClient({ id }: { id: string }) {
                 type="button"
                 disabled={isApplyLocked}
                 onClick={handleApply}
-                className={`px-6 py-2.5 rounded-xl font-bold text-xs shadow-md transition-all active:scale-95 cursor-pointer ${
-                  isRejected
-                    ? "bg-[#FDECEF] dark:bg-[#2A0612] text-[#D91E48] dark:text-[#FF4D6D] border border-[#F2B8C4] cursor-not-allowed opacity-75"
-                    : isPending
+                className={`px-6 py-2.5 rounded-xl font-bold text-xs shadow-md transition-all active:scale-95 cursor-pointer ${isRejected
+                  ? "bg-[#FDECEF] dark:bg-[#2A0612] text-[#D91E48] dark:text-[#FF4D6D] border border-[#F2B8C4] cursor-not-allowed opacity-75"
+                  : isPending
                     ? "bg-[#FEF3C7] dark:bg-[#281804] text-[#B45309] dark:text-[#FFB800] border border-[#FDE68A] cursor-not-allowed opacity-75"
                     : isPostClosed
-                    ? "bg-[#EADCDD] dark:bg-[#2A060C] text-[#8C7679] dark:text-[#BFA5AA] cursor-not-allowed opacity-60"
-                    : "bg-[#D91E48] hover:bg-[#B31438] dark:bg-gradient-to-r dark:from-[#E11D48] dark:via-[#FF1E40] dark:to-[#FF4D6D] text-white hover:shadow-lg"
-                }`}
+                      ? "bg-[#EADCDD] dark:bg-[#2A060C] text-[#8C7679] dark:text-[#BFA5AA] cursor-not-allowed opacity-60"
+                      : "bg-[#D91E48] hover:bg-[#B31438] dark:bg-gradient-to-r dark:from-[#E11D48] dark:via-[#FF1E40] dark:to-[#FF4D6D] text-white hover:shadow-lg"
+                  }`}
               >
                 {isRejected
                   ? "🚫 Post Rejected"
                   : isPending
-                  ? "⏳ Pending Approval"
-                  : isPostClosed
-                  ? "🔒 Closed"
-                  : "Apply for Tuition"}
+                    ? "⏳ Pending Approval"
+                    : isPostClosed
+                      ? "🔒 Closed"
+                      : "Apply for Tuition"}
               </button>
             )}
           </div>
