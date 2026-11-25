@@ -158,23 +158,33 @@ export default function Navbar() {
     window.dispatchEvent(new Event("theme-change"));
   };
 
+  const [activeHash, setActiveHash] = useState<string>("/#home");
+
+  useEffect(() => {
+    const syncHash = () => {
+      if (pathname === "/") {
+        const currentHash = window.location.hash;
+        setActiveHash(currentHash ? `/${currentHash}` : "/#home");
+      } else if (pathname.startsWith("/tuitions")) {
+        setActiveHash("/#tuitions");
+      } else {
+        setActiveHash(pathname);
+      }
+    };
+    syncHash();
+    window.addEventListener("hashchange", syncHash);
+    return () => window.removeEventListener("hashchange", syncHash);
+  }, [pathname]);
+
   const isActive = (path: string) => {
-    if (path === "/" || path === "/#home") return pathname === "/";
-    return pathname === path;
+    return activeHash === path;
   };
 
   const navLinks = [
     { name: "Home", href: "/#home" },
     { name: "Browse Tuitions", href: "/#tuitions" },
-    { name: "How It Works", href: "/#how-it-works" },
-    { name: "About", href: "/#about" },
     { name: "Pricing", href: "/#pricing" },
-    ...(session
-      ? [
-          { name: "Post Tuition", href: "/post-tuition" },
-          { name: "My Tuitions", href: "/my-tuitions" },
-        ]
-      : []),
+    { name: "About", href: "/#about" },
   ];
 
   // Close dropdown when clicking outside
@@ -291,16 +301,21 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 prefetch={false}
-                className={`relative py-1 transition-colors duration-150 ${
+                onClick={() => setActiveHash(link.href)}
+                className={`group relative py-1 transition-colors duration-200 ${
                   active
-                    ? "text-[#0EA5E9] font-semibold drop-shadow-[0_0_10px_rgba(14, 165, 233,0.7)]"
-                    : "text-[#E2E8F0] hover:text-white"
+                    ? "nav-link-active text-[#0284C7] dark:text-[#0EA5E9] font-semibold dark:drop-shadow-[0_0_10px_rgba(14,165,233,0.7)]"
+                    : "text-[#475569] dark:text-[#E2E8F0] hover:text-[#0284C7] dark:hover:text-white"
                 }`}
               >
                 {link.name}
-                {active && (
-                  <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-[#0284C7] via-[#0EA5E9] to-[#38BDF8] rounded-full shadow-[0_0_12px_rgba(14, 165, 233,0.9)]" />
-                )}
+                <span
+                  className={`absolute -bottom-1 left-0 h-0.5 rounded-full bg-gradient-to-r from-[#0284C7] via-[#0EA5E9] to-[#38BDF8] transition-all duration-300 ${
+                    active
+                      ? "w-full opacity-100 shadow-[0_0_12px_rgba(14,165,233,0.9)]"
+                      : "w-0 opacity-0 group-hover:w-full group-hover:opacity-75"
+                  }`}
+                />
               </Link>
             );
           })}
@@ -476,7 +491,10 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 prefetch={false}
-                onClick={() => setIsMobileMenuOpen(false)}
+                onClick={() => {
+                  setActiveHash(link.href);
+                  setIsMobileMenuOpen(false);
+                }}
                 className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm transition-colors ${
                   active
                     ? "bg-[#102547] text-[#0EA5E9] border border-[#0EA5E9]/40 font-semibold"

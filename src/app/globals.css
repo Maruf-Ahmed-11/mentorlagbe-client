@@ -275,10 +275,11 @@ html:not(.dark) header {
   border-color: #E2E8F0 !important;
 }
 
-html:not(.dark) header nav a {
+html:not(.dark) header nav a:not(.nav-link-active) {
   color: #475569 !important;
 }
 
+html:not(.dark) header nav a.nav-link-active,
 html:not(.dark) header nav a:hover {
   color: #0284C7 !important;
 }
