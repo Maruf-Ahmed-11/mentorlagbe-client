@@ -214,7 +214,7 @@ function SignUpContent() {
       <div className="flex w-full max-w-[1100px] overflow-hidden rounded-3xl bg-[#0B1930]/95 border-2 border-[#0284C7]/40 shadow-[0_20px_60px_rgba(0,0,0,0.9),_inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-2xl relative z-10">
         
         {/* Left Side: Moody Cinematic Artwork & Community Quote */}
-        <div className="hidden md:flex w-1/2 relative flex-col justify-between p-10 overflow-hidden bg-[#0D1D38]">
+        <div className="auth-hero-panel hidden md:flex w-1/2 relative flex-col justify-between p-10 overflow-hidden bg-[#0D1D38]">
           {/* Background Image with Dark Vignette (Academic Mentorship & University Study) */}
           <div
             className="absolute inset-0 bg-cover bg-center transition-transform duration-700 hover:scale-105"
@@ -223,14 +223,16 @@ function SignUpContent() {
                 "url('https://images.unsplash.com/photo-1571260899304-425eee4c7efc?q=80&w=1600&auto=format&fit=crop')",
             }}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0B1930] via-[#0B1930]/65 to-[#0B1930]/40" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#050B14] via-[#050B14]/70 to-[#050B14]/45" />
 
           {/* Top Badge */}
           <div className="relative z-10">
-            <Logo />
-            <div className="mt-4 inline-flex items-center gap-2 rounded-full bg-[#0D1D38]/80 border border-[#0EA5E9]/50 px-3 py-1 shadow-[0_0_15px_rgba(14, 165, 233,0.4)]">
+            <div className="inline-block [&_span:first-of-type]:!text-white">
+              <Logo />
+            </div>
+            <div className="auth-pill mt-4 inline-flex items-center gap-2 rounded-full bg-[#0D1D38]/85 border border-[#0EA5E9]/50 px-3 py-1 shadow-[0_0_15px_rgba(14, 165, 233,0.4)]">
               <span className="h-1.5 w-1.5 rounded-full bg-[#0EA5E9] animate-pulse" />
-              <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-white">
+              <span className="auth-pill-text text-[10px] font-mono font-bold uppercase tracking-widest text-white">
                 02 // JOIN THE COMMUNITY
               </span>
             </div>
@@ -240,14 +242,14 @@ function SignUpContent() {
           <div className="relative z-10 space-y-3">
             <h2 className="text-2xl lg:text-3xl font-black uppercase tracking-tight text-white leading-tight">
               Unlock Your Potential, <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-[#38BDF8] to-[#0EA5E9]">
+              <span className="text-[#38BDF8]">
                 One Lesson at a Time
               </span>
             </h2>
-            <p className="text-xs text-[#E2E8F0]/80 leading-relaxed font-sans max-w-sm">
+            <p className="text-xs text-[#E2E8F0]/90 leading-relaxed font-sans max-w-sm">
               Create your account to start applying for top-tier tuitions or share your subject expertise with ambitious students nationwide.
             </p>
-            <div className="pt-2 flex items-center gap-4 text-xs font-mono text-[#94A3B8]">
+            <div className="auth-meta pt-2 flex items-center gap-4 text-xs font-mono text-[#CBD5E1]">
               <span>✓ Instant Free Account</span>
               <span>✓ Zero Commission</span>
             </div>
@@ -434,25 +436,25 @@ function SignUpContent() {
                   onClick={() => setRole("student")}
                   className={`flex items-center gap-3 p-3 rounded-xl border text-left transition-all cursor-pointer ${
                     role === "student"
-                      ? "bg-[#102547] border-[#0EA5E9] shadow-[0_0_15px_rgba(14, 165, 233,0.4)]"
-                      : "bg-[#0D1D38] border-[#0284C7]/30 hover:border-[#0EA5E9]/60"
+                      ? "bg-[#E0F2FE]/60 dark:bg-[#102547] border-[#0284C7] dark:border-[#0EA5E9] shadow-[0_0_15px_rgba(14, 165, 233,0.25)]"
+                      : "bg-white dark:bg-[#0D1D38] border-[#E2E8F0] dark:border-[#0284C7]/30 hover:border-[#0284C7] dark:hover:border-[#0EA5E9]/60"
                   }`}
                 >
                   <div
                     className={`h-4 w-4 rounded-full border flex items-center justify-center shrink-0 ${
                       role === "student"
-                        ? "border-[#0EA5E9] bg-[#0EA5E9]"
+                        ? "border-[#0284C7] bg-[#0284C7] dark:border-[#0EA5E9] dark:bg-[#0EA5E9]"
                         : "border-[#94A3B8]"
                     }`}
                   >
                     {role === "student" && <div className="h-1.5 w-1.5 rounded-full bg-white" />}
                   </div>
                   <div>
-                    <p className="text-xs font-bold text-white flex items-center gap-1.5">
-                      <UserCheck className="h-3.5 w-3.5 text-[#0EA5E9]" />
+                    <p className="text-xs font-bold text-[#0B1320] dark:text-white flex items-center gap-1.5">
+                      <UserCheck className="h-3.5 w-3.5 text-[#0284C7] dark:text-[#0EA5E9]" />
                       <span>Student / Learner</span>
                     </p>
-                    <p className="text-[10px] text-[#94A3B8]">Find tutors &amp; batches</p>
+                    <p className="text-[10px] text-[#475569] dark:text-[#94A3B8]">Find tutors &amp; batches</p>
                   </div>
                 </button>
 
@@ -462,25 +464,25 @@ function SignUpContent() {
                   onClick={() => setRole("tutor")}
                   className={`flex items-center gap-3 p-3 rounded-xl border text-left transition-all cursor-pointer ${
                     role === "tutor"
-                      ? "bg-[#102547] border-[#0EA5E9] shadow-[0_0_15px_rgba(14, 165, 233,0.4)]"
-                      : "bg-[#0D1D38] border-[#0284C7]/30 hover:border-[#0EA5E9]/60"
+                      ? "bg-[#E0F2FE]/60 dark:bg-[#102547] border-[#0284C7] dark:border-[#0EA5E9] shadow-[0_0_15px_rgba(14, 165, 233,0.25)]"
+                      : "bg-white dark:bg-[#0D1D38] border-[#E2E8F0] dark:border-[#0284C7]/30 hover:border-[#0284C7] dark:hover:border-[#0EA5E9]/60"
                   }`}
                 >
                   <div
                     className={`h-4 w-4 rounded-full border flex items-center justify-center shrink-0 ${
                       role === "tutor"
-                        ? "border-[#0EA5E9] bg-[#0EA5E9]"
+                        ? "border-[#0284C7] bg-[#0284C7] dark:border-[#0EA5E9] dark:bg-[#0EA5E9]"
                         : "border-[#94A3B8]"
                     }`}
                   >
                     {role === "tutor" && <div className="h-1.5 w-1.5 rounded-full bg-white" />}
                   </div>
                   <div>
-                    <p className="text-xs font-bold text-white flex items-center gap-1.5">
-                      <GraduationCap className="h-3.5 w-3.5 text-[#0EA5E9]" />
+                    <p className="text-xs font-bold text-[#0B1320] dark:text-white flex items-center gap-1.5">
+                      <GraduationCap className="h-3.5 w-3.5 text-[#0284C7] dark:text-[#0EA5E9]" />
                       <span>Tutor / Mentor</span>
                     </p>
-                    <p className="text-[10px] text-[#94A3B8]">Post &amp; teach batches</p>
+                    <p className="text-[10px] text-[#475569] dark:text-[#94A3B8]">Post &amp; teach batches</p>
                   </div>
                 </button>
               </div>
@@ -570,7 +572,7 @@ function SignUpContent() {
             type="button"
             onClick={handleGoogleSignUp}
             disabled={googleLoading}
-            className="w-full flex items-center justify-center gap-3 py-3 rounded-xl bg-[#0D1D38] border border-[#0284C7]/40 hover:border-white hover:bg-[#102547] text-white text-sm font-semibold transition-all cursor-pointer shadow-md hover:shadow-[0_0_20px_rgba(2, 132, 199,0.3)] disabled:opacity-60"
+            className="w-full flex items-center justify-center gap-3 py-3 rounded-xl bg-white dark:bg-[#0D1D38] border border-[#CBD5E1] dark:border-[#0284C7]/40 hover:border-[#0284C7] dark:hover:border-white hover:bg-[#F8FAFC] dark:hover:bg-[#102547] text-[#0B1320] dark:text-white text-sm font-semibold transition-all cursor-pointer shadow-sm hover:shadow-md dark:hover:shadow-[0_0_20px_rgba(2, 132, 199,0.3)] disabled:opacity-60"
           >
             {googleLoading ? (
               <Loader2 className="h-4 w-4 animate-spin" />
