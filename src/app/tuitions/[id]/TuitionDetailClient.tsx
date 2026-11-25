@@ -196,11 +196,27 @@ export default function TuitionDetailClient({ id }: { id: string }) {
   };
 
   const handleToggleBookmark = () => {
-    if (typeof window === "undefined" || !currentEmail) return;
+    if (typeof window === "undefined") return;
+    if (!currentEmail) {
+      toast.error("Please sign in as a student to save tuitions.");
+      return;
+    }
+    if (!isStudent) {
+      toast.error("Only student accounts can bookmark tuitions.");
+      return;
+    }
     try {
       const savedKey = `mentorlagbe_saved_tuitions_${currentEmail}`;
       const saved: string[] = JSON.parse(localStorage.getItem(savedKey) || "[]");
       const exists = saved.includes(id);
+      const userPlan = ((session?.user as any)?.plan || cachedUser?.plan || "free").toLowerCase();
+      const isPro = userPlan === "pro";
+
+      if (!exists && !isPro && saved.length >= 5) {
+        toast.error("Free plan allows up to 5 bookmarks. Upgrade to Pro for unlimited bookmarks!");
+        return;
+      }
+
       const next = exists ? saved.filter((x) => x !== id) : [...saved, id];
       localStorage.setItem(savedKey, JSON.stringify(next));
       setIsBookmarked(!exists);
