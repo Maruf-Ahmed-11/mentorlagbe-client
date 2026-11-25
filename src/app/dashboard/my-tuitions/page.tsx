@@ -429,24 +429,33 @@ export default function MyTuitionsPage() {
     );
     localStorage.setItem(userKey, JSON.stringify(updatedLocal));
 
-    // Update backend API + persist bannerImage directly to MongoDB
+    // Update backend API first, then persist bannerImage directly to MongoDB so it is never overwritten
     try {
-      await Promise.allSettled([
-        apiFetch(`/tuitions/${editingTuition._id || editingTuition.id}`, {
-          method: "PATCH",
-          body: JSON.stringify(updatedData),
-        }),
-        fetch("/api/tuitions/banner", {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            id: editingTuition._id || editingTuition.id,
-            bannerImage: editBannerImage || "",
-          }),
-        }),
-      ]);
+      await apiFetch(`/tuitions/${editingTuition._id || editingTuition.id}`, {
+        method: "PATCH",
+        body: JSON.stringify(updatedData),
+      });
     } catch {
       // Local sync persists
+    }
+
+    try {
+      const bannerRes = await fetch("/api/tuitions/banner", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id: editingTuition._id || editingTuition.id,
+          tuitionId: editingTuition.id,
+          title: editTitle.trim(),
+          tutorEmail: editingTuition.tutorEmail || userEmail,
+          bannerImage: editBannerImage || "",
+        }),
+      });
+      if (!bannerRes.ok) {
+        console.warn("Banner persistence warning:", await bannerRes.text());
+      }
+    } catch {
+      // ignore
     }
 
     setIsSavingEdit(false);
@@ -967,16 +976,42 @@ export default function MyTuitionsPage() {
                     <span>Replace Image (ImgBB)</span>
                     <input
                       type="file"
-                      accept="image/*"
+                      accept="image/png,image/jpeg,image/webp,image/gif"
                       onChange={async (e) => {
                         const file = e.target.files?.[0];
-                        if (!file) return;
+                        if (!file || !editingTuition) return;
                         const previous = editBannerImage;
+                        const localPreview = URL.createObjectURL(file);
+                        setEditBannerImage(localPreview);
                         const toastId = toast.loading("Uploading banner image to ImgBB...");
                         try {
                           const uploadedUrl = await uploadImageToImgBB(file);
                           setEditBannerImage(uploadedUrl);
-                          toast.success("Banner image uploaded!", { id: toastId });
+
+                          // Save immediately to MongoDB (just like Profile Avatar upload)
+                          const res = await fetch("/api/tuitions/banner", {
+                            method: "PATCH",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({
+                              id: editingTuition._id || editingTuition.id,
+                              tuitionId: editingTuition.id,
+                              title: editingTuition.title,
+                              tutorEmail: editingTuition.tutorEmail || userEmail,
+                              bannerImage: uploadedUrl,
+                            }),
+                          });
+
+                          if (!res.ok) {
+                            throw new Error("Failed to save banner image to database");
+                          }
+
+                          setTuitions((prev) =>
+                            prev.map((t) =>
+                              t.id === editingTuition.id ? { ...t, bannerImage: uploadedUrl } : t
+                            )
+                          );
+
+                          toast.success("Banner image uploaded and saved!", { id: toastId });
                         } catch (err: unknown) {
                           toast.error(
                             err instanceof Error ? err.message : "Failed to upload image",

@@ -276,6 +276,9 @@ export default function PostTuitionPage() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             id: newTuitionData.id,
+            tuitionId: newTuitionData.id,
+            title: cleanTitle,
+            tutorEmail: userEmail,
             bannerImage,
           }),
         }).catch(() => {});
