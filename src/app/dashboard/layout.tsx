@@ -35,6 +35,7 @@ export default function DashboardLayout({
 
   const [mounted, setMounted] = useState(false);
   const [livePlan, setLivePlan] = useState<string>("free");
+  const [liveImage, setLiveImage] = useState<string | null>(null);
   const [cachedUser, setCachedUser] = useState<{
     name: string;
     email: string;
@@ -53,6 +54,9 @@ export default function DashboardLayout({
         if (parsed.plan) {
           setLivePlan(parsed.plan.toLowerCase());
         }
+        if (parsed.image) {
+          setLiveImage(parsed.image);
+        }
       }
     } catch {}
 
@@ -66,12 +70,16 @@ export default function DashboardLayout({
           const data = await res.json();
           if (data?.plan) {
             setLivePlan(data.plan.toLowerCase());
-            try {
-              const current = JSON.parse(localStorage.getItem("mentorlagbe_cached_user") || "null") || {};
-              current.plan = data.plan;
-              localStorage.setItem("mentorlagbe_cached_user", JSON.stringify(current));
-            } catch {}
           }
+          if (data?.image !== undefined) {
+            setLiveImage(data.image);
+          }
+          try {
+            const current = JSON.parse(localStorage.getItem("mentorlagbe_cached_user") || "null") || {};
+            if (data?.plan) current.plan = data.plan;
+            if (data?.image !== undefined) current.image = data.image;
+            localStorage.setItem("mentorlagbe_cached_user", JSON.stringify(current));
+          } catch {}
         }
       } catch {}
     };
@@ -86,6 +94,9 @@ export default function DashboardLayout({
           setCachedUser(parsed);
           if (parsed.plan) {
             setLivePlan(parsed.plan.toLowerCase());
+          }
+          if (parsed.image !== undefined) {
+            setLiveImage(parsed.image);
           }
         }
       } catch {}
@@ -142,6 +153,7 @@ export default function DashboardLayout({
 
   // Derive user info strictly from active session or cached user (ZERO hardcoded demo fallback)
   const user = mounted ? (session?.user || cachedUser) : null;
+  const userImage = liveImage || user?.image || null;
   const userEmail = user?.email || "";
   const userRole = (user as any)?.role || (userEmail.toLowerCase().includes("admin") ? "admin" : (userEmail.toLowerCase().includes("tutor") || userEmail.toLowerCase().includes("teacher") ? "tutor" : "student"));
   const userName = user?.name || (isPending ? "Loading..." : "Member");
@@ -210,12 +222,13 @@ export default function DashboardLayout({
               <div className="flex items-center gap-3">
                 {/* Avatar with gold crown badge */}
                 <div className="relative shrink-0">
-                  {user?.image ? (
+                  {userImage ? (
                     <Image
-                      src={user.image}
+                      src={userImage}
                       alt={userName}
                       width={42}
                       height={42}
+                      unoptimized
                       className="h-10 w-10 rounded-full object-cover border-2 border-[#BAE6FD] dark:border-[#0284C7]/50 shadow-sm dark:shadow-[0_0_15px_rgba(2, 132, 199,0.3)]"
                     />
                   ) : (

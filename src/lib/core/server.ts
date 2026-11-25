@@ -6,6 +6,7 @@ export interface UserUsageInfo {
   userId: string;
   email: string;
   name: string;
+  image?: string | null;
   role: "tutor" | "student" | "admin";
   plan: "free" | "pro";
   tuitionsCount: number;
@@ -67,6 +68,7 @@ export async function getTrackedUserUsage(userEmail: string): Promise<UserUsageI
       userId: userDoc?._id?.toString() || userDoc?.id || "",
       email: userEmail,
       name: userDoc?.name || "",
+      image: userDoc?.image || null,
       role,
       plan: isPro ? "pro" : "free",
       tuitionsCount,

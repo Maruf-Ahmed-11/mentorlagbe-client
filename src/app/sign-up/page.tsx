@@ -1,11 +1,13 @@
 ﻿"use client";
 
-import { useState, useEffect, Suspense } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
 import { authClient } from "@/lib/auth-client";
 import { getTokenFromClient } from "@/lib/getTokenFromClient";
+import { uploadImageToImgBB } from "@/lib/imgbb";
 import { useRouter, useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
 import Link from "next/link";
+import Image from "next/image";
 import Logo from "@/components/Logo";
 import { 
   User, 
@@ -20,7 +22,10 @@ import {
   KeyRound,
   CheckCircle2,
   XCircle,
-  Loader2
+  Loader2,
+  Camera,
+  Upload,
+  X
 } from "lucide-react";
 
 function SignUpContent() {
@@ -37,8 +42,42 @@ function SignUpContent() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [adminSecretKey, setAdminSecretKey] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Show immediate local preview
+    const objectUrl = URL.createObjectURL(file);
+    setImagePreview(objectUrl);
+    setUploadingImage(true);
+
+    try {
+      const uploadedUrl = await uploadImageToImgBB(file);
+      setImageUrl(uploadedUrl);
+      setImagePreview(uploadedUrl);
+      toast.success("Profile photo uploaded!");
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Failed to upload image";
+      toast.error(msg);
+      setImagePreview(imageUrl || null);
+    } finally {
+      setUploadingImage(false);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    }
+  };
+
+  const handleRemoveImage = () => {
+    setImageUrl("");
+    setImagePreview(null);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
 
   // Check if an Admin account already exists in MongoDB
   useEffect(() => {
@@ -96,6 +135,11 @@ function SignUpContent() {
       }
     }
 
+    if (uploadingImage) {
+      toast.error("Please wait for your profile photo to finish uploading");
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -106,10 +150,24 @@ function SignUpContent() {
           password,
           role,
           plan: "free",
+          ...(imageUrl ? { image: imageUrl } : {}),
         },
         {
           onSuccess: async () => {
             await getTokenFromClient();
+            try {
+              localStorage.setItem(
+                "mentorlagbe_cached_user",
+                JSON.stringify({
+                  name: name.trim(),
+                  email: email.trim().toLowerCase(),
+                  role,
+                  plan: "free",
+                  image: imageUrl || null,
+                })
+              );
+              window.dispatchEvent(new Event("mentorlagbe_user_updated"));
+            } catch {}
             toast.success(
               role === "admin"
                 ? "Administrator account created successfully!"
@@ -214,6 +272,75 @@ function SignUpContent() {
           {/* Registration Form */}
           <form onSubmit={handleSignUp} className="space-y-4">
             
+            {/* Profile Photo Upload with Live Preview */}
+            <div className="flex items-center gap-4 p-3 rounded-xl bg-[#0D1D38]/80 border border-[#0284C7]/35">
+              <div className="relative shrink-0">
+                {imagePreview ? (
+                  <div className="relative h-14 w-14 rounded-full overflow-hidden border-2 border-[#0EA5E9] shadow-[0_0_15px_rgba(14,165,233,0.45)]">
+                    <Image
+                      src={imagePreview}
+                      alt="Profile preview"
+                      fill
+                      unoptimized
+                      className="object-cover"
+                    />
+                    {uploadingImage && (
+                      <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
+                        <Loader2 className="h-5 w-5 text-[#38BDF8] animate-spin" />
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <div className="h-14 w-14 rounded-full bg-[#102547] border-2 border-dashed border-[#0284C7]/60 flex items-center justify-center text-[#38BDF8]">
+                    {uploadingImage ? (
+                      <Loader2 className="h-5 w-5 animate-spin" />
+                    ) : (
+                      <Camera className="h-5 w-5" />
+                    )}
+                  </div>
+                )}
+                {imagePreview && !uploadingImage && (
+                  <button
+                    type="button"
+                    onClick={handleRemoveImage}
+                    title="Remove photo"
+                    className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-[#07101E] border border-[#0EA5E9]/60 text-white flex items-center justify-center hover:bg-[#0284C7] transition-colors cursor-pointer"
+                  >
+                    <X className="h-3 w-3" />
+                  </button>
+                )}
+              </div>
+
+              <div className="flex-1 min-w-0">
+                <p className="text-xs font-semibold text-white">
+                  Profile Photo <span className="text-[#94A3B8] font-normal">(Optional)</span>
+                </p>
+                <p className="text-[11px] text-[#94A3B8] truncate mt-0.5">
+                  {uploadingImage
+                    ? "Uploading to ImgBB..."
+                    : imageUrl
+                    ? "Photo uploaded & ready!"
+                    : "JPG, PNG or WebP (max 5MB)"}
+                </p>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/png,image/jpeg,image/webp,image/gif"
+                  onChange={handleImageUpload}
+                  className="hidden"
+                />
+                <button
+                  type="button"
+                  disabled={uploadingImage}
+                  onClick={() => fileInputRef.current?.click()}
+                  className="mt-1.5 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#102547] hover:bg-[#132E59] border border-[#0284C7]/50 text-[11px] font-semibold text-[#38BDF8] hover:text-white transition-colors cursor-pointer disabled:opacity-60"
+                >
+                  <Upload className="h-3 w-3" />
+                  <span>{imageUrl ? "Change Photo" : "Upload Photo"}</span>
+                </button>
+              </div>
+            </div>
+
             {/* Full Name */}
             <div>
               <label className="text-xs font-medium text-[#E2E8F0] mb-1.5 block">

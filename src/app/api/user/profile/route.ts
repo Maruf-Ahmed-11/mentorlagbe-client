@@ -35,7 +35,7 @@ export async function GET(request: Request) {
 export async function PATCH(request: Request) {
   try {
     const body = await request.json();
-    const { email, name, phone, bio } = body;
+    const { email, name, phone, bio, image } = body;
 
     if (!email) {
       return NextResponse.json({ error: "Email is required" }, { status: 400 });
@@ -49,6 +49,7 @@ export async function PATCH(request: Request) {
     if (name !== undefined) updateDoc.name = name;
     if (phone !== undefined) updateDoc.phone = phone;
     if (bio !== undefined) updateDoc.bio = bio;
+    if (image !== undefined) updateDoc.image = image;
 
     await db.collection("user").updateOne(
       { email: email.toLowerCase() },
@@ -59,6 +60,13 @@ export async function PATCH(request: Request) {
     return NextResponse.json({
       success: true,
       message: "Profile updated successfully",
+      user: {
+        email: email.toLowerCase(),
+        ...(name !== undefined && { name }),
+        ...(phone !== undefined && { phone }),
+        ...(bio !== undefined && { bio }),
+        ...(image !== undefined && { image }),
+      },
     });
   } catch (error) {
     console.error("Error updating profile:", error);

@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { authClient } from "@/lib/auth-client";
 import { getTokenFromClient } from "@/lib/getTokenFromClient";
+import { uploadImageToImgBB } from "@/lib/imgbb";
 import toast from "react-hot-toast";
 import Image from "next/image";
 import { 
@@ -16,7 +17,8 @@ import {
   UserCheck, 
   Save, 
   Loader2,
-  Sparkles
+  Sparkles,
+  Camera
 } from "lucide-react";
 
 export default function ProfilePage() {
@@ -30,6 +32,8 @@ export default function ProfilePage() {
   const [role, setRole] = useState("admin");
   const [plan, setPlan] = useState("pro");
   const [image, setImage] = useState<string | null>(null);
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
@@ -95,10 +99,58 @@ export default function ProfilePage() {
   };
   const initials = getInitials(name || "AS");
 
-  const handleAvatarPlaceholderClick = () => {
-    toast.success("ImgBB image upload will be connected in the next milestone! Avatar generated from initials.", {
-      icon: "🖼️",
-    });
+  const handleAvatarFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const previousImage = image;
+    const localPreview = URL.createObjectURL(file);
+    setImage(localPreview);
+    setUploadingImage(true);
+
+    try {
+      const uploadedUrl = await uploadImageToImgBB(file);
+      setImage(uploadedUrl);
+
+      if (email) {
+        const token = await getTokenFromClient();
+        const res = await fetch("/api/user/profile", {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            ...(token ? { authorization: `Bearer ${token}` } : {}),
+          },
+          body: JSON.stringify({
+            email,
+            image: uploadedUrl,
+          }),
+        });
+
+        if (!res.ok) {
+          throw new Error("Failed to save profile photo");
+        }
+
+        try {
+          await authClient.updateUser({ image: uploadedUrl });
+        } catch {}
+
+        try {
+          const cached = JSON.parse(localStorage.getItem("mentorlagbe_cached_user") || "null") || {};
+          cached.image = uploadedUrl;
+          localStorage.setItem("mentorlagbe_cached_user", JSON.stringify(cached));
+          window.dispatchEvent(new Event("mentorlagbe_user_updated"));
+        } catch {}
+      }
+
+      toast.success("Profile photo uploaded and saved!");
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Failed to upload avatar";
+      toast.error(msg);
+      setImage(previousImage);
+    } finally {
+      setUploadingImage(false);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    }
   };
 
   const handleSaveChanges = async (e: React.FormEvent) => {
@@ -122,12 +174,28 @@ export default function ProfilePage() {
           name,
           phone,
           bio,
+          ...(image ? { image } : {}),
         }),
       });
 
       if (!res.ok) {
         throw new Error("Failed to update profile");
       }
+
+      try {
+        await authClient.updateUser({
+          name,
+          ...(image ? { image } : {}),
+        });
+      } catch {}
+
+      try {
+        const cached = JSON.parse(localStorage.getItem("mentorlagbe_cached_user") || "null") || {};
+        cached.name = name;
+        if (image) cached.image = image;
+        localStorage.setItem("mentorlagbe_cached_user", JSON.stringify(cached));
+        window.dispatchEvent(new Event("mentorlagbe_user_updated"));
+      } catch {}
 
       toast.success("Profile updated successfully!");
     } catch (err) {
@@ -160,22 +228,32 @@ export default function ProfilePage() {
         <div className="flex flex-col sm:flex-row sm:items-center gap-6 pb-8 border-b border-[#E2E8F0] dark:border-[#0284C7]/20">
           {/* Avatar Circle with Crown Badge */}
           <div className="relative shrink-0">
-            {image ? (
-              <Image
-                src={image}
-                alt={name}
-                width={76}
-                height={76}
-                className="h-[76px] w-[76px] rounded-full object-cover border-2 border-[#BAE6FD] dark:border-[#0284C7]/60 shadow-[0_4px_16px_rgba(2, 132, 199,0.15)] dark:shadow-[0_0_20px_rgba(2, 132, 199,0.4)]"
-              />
-            ) : (
-              <div className="flex h-[76px] w-[76px] items-center justify-center rounded-full bg-gradient-to-br from-[#0284C7] via-[#0EA5E9] to-[#38BDF8] text-white font-black text-2xl shadow-[0_4px_20px_rgba(2, 132, 199,0.3)] dark:shadow-[0_0_25px_rgba(14, 165, 233,0.4)]">
-                {initials}
+            <div className="relative h-[76px] w-[76px] rounded-full overflow-hidden">
+              {image ? (
+                <Image
+                  src={image}
+                  alt={name || "Profile Avatar"}
+                  width={76}
+                  height={76}
+                  unoptimized
+                  className="h-[76px] w-[76px] rounded-full object-cover border-2 border-[#BAE6FD] dark:border-[#0284C7]/60 shadow-[0_4px_16px_rgba(2,132,199,0.15)] dark:shadow-[0_0_20px_rgba(2,132,199,0.4)]"
+                />
+              ) : (
+                <div className="flex h-[76px] w-[76px] items-center justify-center rounded-full bg-gradient-to-br from-[#0284C7] via-[#0EA5E9] to-[#38BDF8] text-white font-black text-2xl shadow-[0_4px_20px_rgba(2,132,199,0.3)] dark:shadow-[0_0_25px_rgba(14,165,233,0.4)]">
+                  {initials}
+                </div>
+              )}
+              {uploadingImage && (
+                <div className="absolute inset-0 bg-black/60 flex items-center justify-center rounded-full">
+                  <Loader2 className="h-6 w-6 text-[#38BDF8] animate-spin" />
+                </div>
+              )}
+            </div>
+            {plan.toLowerCase() === "pro" && (
+              <div className="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-[#FFB800] text-black shadow-md border-2 border-white dark:border-[#0B1930]">
+                <Crown className="h-3.5 w-3.5 fill-black" />
               </div>
             )}
-            <div className="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-[#FFB800] text-black shadow-md border-2 border-white dark:border-[#0B1930]">
-              <Crown className="h-3.5 w-3.5 fill-black" />
-            </div>
           </div>
 
           {/* Upload Avatar Details */}
@@ -184,15 +262,32 @@ export default function ProfilePage() {
               Profile Photo
             </h3>
             <p className="text-xs text-[#475569] dark:text-[#94A3B8] leading-relaxed">
-              Upload a clear portrait to build trust with students and guardians. Supports PNG, JPG, or WebP.
+              Upload a clear portrait to build trust with students and guardians. Supports PNG, JPG, or WebP (max 5MB).
             </p>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/png,image/jpeg,image/webp,image/gif"
+              onChange={handleAvatarFileChange}
+              className="hidden"
+            />
             <button
               type="button"
-              onClick={handleAvatarPlaceholderClick}
-              className="mt-2 inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#F0F7FF] hover:bg-[#E2E8F0] dark:bg-[#102547] dark:hover:bg-[#3D0A13] border border-[#E2E8F0] dark:border-[#0284C7]/40 text-xs font-semibold text-[#0B1320] dark:text-white transition-all cursor-pointer shadow-sm active:scale-95"
+              disabled={uploadingImage}
+              onClick={() => fileInputRef.current?.click()}
+              className="mt-2 inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#F0F7FF] hover:bg-[#E2E8F0] dark:bg-[#102547] dark:hover:bg-[#132E59] border border-[#E2E8F0] dark:border-[#0284C7]/40 text-xs font-semibold text-[#0B1320] dark:text-white transition-all cursor-pointer shadow-sm active:scale-95 disabled:opacity-60"
             >
-              <Upload className="w-3.5 h-3.5 text-[#0284C7] dark:text-[#0EA5E9]" />
-              <span>Upload New Avatar</span>
+              {uploadingImage ? (
+                <>
+                  <Loader2 className="w-3.5 h-3.5 text-[#0284C7] dark:text-[#0EA5E9] animate-spin" />
+                  <span>Uploading to ImgBB...</span>
+                </>
+              ) : (
+                <>
+                  <Camera className="w-3.5 h-3.5 text-[#0284C7] dark:text-[#0EA5E9]" />
+                  <span>Upload New Avatar</span>
+                </>
+              )}
             </button>
           </div>
         </div>
@@ -229,10 +324,16 @@ export default function ProfilePage() {
             <p className="text-xs font-mono font-bold uppercase tracking-wider text-[#64748B] dark:text-[#94A3B8]">
               Subscription Plan
             </p>
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#FEF3C7] dark:bg-[#281804] border border-[#FDE68A] dark:border-[#FFB800]/40 text-xs font-mono font-bold uppercase text-[#B45309] dark:text-[#FFB800]">
-              <Crown className="w-3.5 h-3.5 fill-[#B45309] dark:fill-[#FFB800]" />
-              <span>PRO Member</span>
-            </div>
+            {plan.toLowerCase() === "pro" ? (
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#FEF3C7] dark:bg-[#281804] border border-[#FDE68A] dark:border-[#FFB800]/40 text-xs font-mono font-bold uppercase text-[#B45309] dark:text-[#FFB800]">
+                <Crown className="w-3.5 h-3.5 fill-[#B45309] dark:fill-[#FFB800]" />
+                <span>PRO Member</span>
+              </div>
+            ) : (
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#F0F7FF] dark:bg-[#102547] border border-[#BAE6FD] dark:border-[#0284C7]/40 text-xs font-mono font-bold uppercase text-[#0284C7] dark:text-[#38BDF8]">
+                <span>FREE Plan</span>
+              </div>
+            )}
           </div>
         </div>
 

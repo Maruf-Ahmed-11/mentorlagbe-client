@@ -7,6 +7,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { authClient } from "@/lib/auth-client";
 import { apiFetch } from "@/lib/api";
+import { uploadImageToImgBB } from "@/lib/imgbb";
 import { 
   BookOpen, 
   MapPin, 
@@ -95,20 +96,23 @@ export default function PostTuitionPage() {
   const descLength = description.trim().length;
   const isDescValid = descLength >= 50;
 
-  // Handle mock image upload for ImgBB readiness
-  const handleImageFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // Handle ImgBB image upload for tuition banner
+  const handleImageFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      if (file.size > 5 * 1024 * 1024) {
-        toast.error("Image file size should be less than 5MB");
-        return;
-      }
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setBannerImage(reader.result as string);
-        toast.success("Banner image loaded! (ImgBB ready)", { icon: "🖼️" });
-      };
-      reader.readAsDataURL(file);
+    if (!file) return;
+
+    const previewUrl = URL.createObjectURL(file);
+    setBannerImage(previewUrl);
+    const toastId = toast.loading("Uploading banner image to ImgBB...");
+
+    try {
+      const uploadedUrl = await uploadImageToImgBB(file);
+      setBannerImage(uploadedUrl);
+      toast.success("Banner image uploaded!", { id: toastId, icon: "🖼️" });
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Failed to upload banner image";
+      toast.error(msg, { id: toastId });
+      setBannerImage("");
     }
   };
 

@@ -29,6 +29,7 @@ export default function Navbar() {
   const [cachedUser, setCachedUser] = useState<{ name: string; email: string; role: string; plan?: string; image?: string } | null>(null);
 
   const [livePlan, setLivePlan] = useState<string>("free");
+  const [liveImage, setLiveImage] = useState<string | null>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -41,13 +42,16 @@ export default function Navbar() {
         if (parsed.plan) {
           setLivePlan(parsed.plan.toLowerCase());
         }
+        if (parsed.image) {
+          setLiveImage(parsed.image);
+        }
       }
     } catch {}
 
     const email = session?.user?.email || cachedUser?.email;
     if (!email) return;
 
-    // 2. Fetch latest plan directly from database usage endpoint
+    // 2. Fetch latest plan & image directly from database usage endpoint
     const syncPlan = async () => {
       try {
         const res = await fetch(`/api/user/usage?email=${encodeURIComponent(email)}`);
@@ -55,19 +59,23 @@ export default function Navbar() {
           const data = await res.json();
           if (data?.plan) {
             setLivePlan(data.plan.toLowerCase());
-            try {
-              const current = JSON.parse(localStorage.getItem("mentorlagbe_cached_user") || "null") || {};
-              current.plan = data.plan;
-              localStorage.setItem("mentorlagbe_cached_user", JSON.stringify(current));
-            } catch {}
           }
+          if (data?.image !== undefined) {
+            setLiveImage(data.image);
+          }
+          try {
+            const current = JSON.parse(localStorage.getItem("mentorlagbe_cached_user") || "null") || {};
+            if (data?.plan) current.plan = data.plan;
+            if (data?.image !== undefined) current.image = data.image;
+            localStorage.setItem("mentorlagbe_cached_user", JSON.stringify(current));
+          } catch {}
         }
       } catch {}
     };
 
     syncPlan();
 
-    // 3. React instantly to local storage updates or payment completion events
+    // 3. React instantly to local storage updates or profile/payment completion events
     const handleUpdate = () => {
       try {
         const updated = localStorage.getItem("mentorlagbe_cached_user");
@@ -76,6 +84,9 @@ export default function Navbar() {
           setCachedUser(parsed);
           if (parsed.plan) {
             setLivePlan(parsed.plan.toLowerCase());
+          }
+          if (parsed.image !== undefined) {
+            setLiveImage(parsed.image);
           }
         }
       } catch {}
@@ -93,6 +104,7 @@ export default function Navbar() {
 
   const activeUser = session?.user || cachedUser;
   const userName = activeUser?.name || "";
+  const userImage = liveImage || activeUser?.image || null;
   const userEmail = activeUser?.email || "";
   const rawRole = (activeUser as any)?.role || (userEmail.toLowerCase().includes("admin") ? "admin" : (userEmail.toLowerCase().includes("tutor") || userEmail.toLowerCase().includes("teacher") ? "tutor" : "student"));
   const roleLabel = rawRole === "admin" ? "Admin" : rawRole === "tutor" ? "Tutor" : "Student";
@@ -241,9 +253,9 @@ export default function Navbar() {
               title="Update Profile"
               className="flex items-center gap-2 rounded-full pl-1.5 pr-3.5 py-1.5 bg-white dark:bg-[#0D1D38] border border-[#BAE6FD] dark:border-[#0284C7]/35 hover:border-[#0284C7] dark:hover:border-[#0EA5E9] hover:shadow-[0_4px_16px_rgba(2, 132, 199,0.15)] dark:hover:shadow-[0_0_18px_rgba(14, 165, 233,0.35)] transition-all cursor-pointer shadow-sm group active:scale-95"
             >
-              {session?.user?.image ? (
+              {userImage ? (
                 <Image
-                  src={session.user.image}
+                  src={userImage}
                   alt={userName}
                   width={28}
                   height={28}
@@ -321,9 +333,9 @@ export default function Navbar() {
                 aria-label="Toggle user menu"
                 className="flex items-center gap-2 rounded-full pl-1.5 pr-3 py-1 bg-white dark:bg-[#0D1D38] border border-[#BAE6FD] dark:border-[#0284C7]/35 hover:border-[#0284C7] dark:hover:border-[#0EA5E9] hover:shadow-[0_4px_14px_rgba(2, 132, 199,0.15)] dark:hover:shadow-[0_0_15px_rgba(14, 165, 233,0.3)] transition-all cursor-pointer shadow-sm group"
               >
-                {activeUser.image ? (
+                {userImage ? (
                   <Image
-                    src={activeUser.image}
+                    src={userImage}
                     alt={userName}
                     width={28}
                     height={28}
