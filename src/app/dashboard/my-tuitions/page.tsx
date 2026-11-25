@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -576,8 +576,8 @@ export default function MyTuitionsPage() {
                     {/* 1. Tuition (Banner + Title + Mode/Location) */}
                     <td className="py-4 px-5">
                       <div className="flex items-center gap-3.5">
-                        {/* Thumbnail */}
-                        <div className="relative w-12 h-12 rounded-xl overflow-hidden border border-[#E2E8F0] dark:border-[#0284C7]/30 bg-[#F8FAFC] dark:bg-[#1B0307] shrink-0 flex items-center justify-center shadow-xs">
+                        {/* Thumbnail Banner (Wide landscape format) */}
+                        <div className="relative w-20 h-12 sm:w-24 sm:h-14 rounded-xl overflow-hidden border border-[#E2E8F0] dark:border-[#0284C7]/30 bg-[#F8FAFC] dark:bg-[#07101E] shrink-0 flex items-center justify-center shadow-xs">
                           {item.bannerImage ? (
                             <Image
                               src={item.bannerImage}
@@ -640,8 +640,8 @@ export default function MyTuitionsPage() {
                             <span>Approved</span>
                           </span>
                         ) : item.approvalStatus === "rejected" ? (
-                          <span className="inline-flex items-center justify-center gap-1.5 min-w-[100px] px-3 py-1 rounded-full text-[11px] font-mono font-bold bg-[#E0F2FE] dark:bg-[#102547] text-[#0284C7] dark:text-[#38BDF8] border border-[#BAE6FD] dark:border-[#38BDF8]/40 shadow-xs">
-                            <span className="h-1.5 w-1.5 rounded-full bg-[#0284C7] dark:bg-[#38BDF8]" />
+                          <span className="inline-flex items-center justify-center gap-1.5 min-w-[100px] px-3 py-1 rounded-full text-[11px] font-mono font-bold bg-red-50 dark:bg-red-950/60 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-500/40 shadow-xs">
+                            <span className="h-1.5 w-1.5 rounded-full bg-red-500" />
                             <span>Rejected</span>
                           </span>
                         ) : (

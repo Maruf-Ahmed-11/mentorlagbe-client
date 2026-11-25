@@ -381,7 +381,7 @@ export default function ProfilePage() {
                 disabled
                 readOnly
                 value={email}
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#F0F7FF] dark:bg-[#070102] border border-[#E2E8F0] dark:border-[#0284C7]/20 text-sm text-[#64748B] dark:text-[#94A3B8] cursor-not-allowed select-none opacity-80"
+                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#F0F7FF] dark:bg-[#050B14] border border-[#E2E8F0] dark:border-[#0284C7]/20 text-sm text-[#64748B] dark:text-[#94A3B8] cursor-not-allowed select-none opacity-80"
               />
             </div>
           </div>

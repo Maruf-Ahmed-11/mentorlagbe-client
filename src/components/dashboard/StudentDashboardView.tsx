@@ -217,7 +217,7 @@ export default function StudentDashboardView({ user, userName }: DashboardViewPr
       </div>
 
       {/* Success Rate Tip Banner */}
-      <div className="rounded-2xl bg-[#E0F2FE] dark:bg-gradient-to-r dark:from-[#0D1D38] dark:to-[#120205] border border-[#BAE6FD] dark:border-[#0284C7]/30 p-4 sm:p-5 flex items-center gap-4 shadow-sm dark:shadow-lg">
+      <div className="rounded-2xl bg-[#E0F2FE] dark:bg-gradient-to-r dark:from-[#0D1D38] dark:to-[#07101E] border border-[#BAE6FD] dark:border-[#0284C7]/30 p-4 sm:p-5 flex items-center gap-4 shadow-sm dark:shadow-lg">
         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white dark:bg-[#132E59] text-[#0284C7] dark:text-[#0EA5E9] border border-[#BAE6FD] dark:border-[#0EA5E9]/40 shadow-sm">
           <Sparkles className="h-5 w-5" />
         </div>

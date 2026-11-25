@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
@@ -118,46 +118,57 @@ export default function ApplicantsAndDirectoryPage() {
   };
 
   // =========================================================================
-  // TUTOR APPLICANTS STATE
+  // TUTOR APPLICANTS STATE (Real MongoDB Applications, NO demo data)
   // =========================================================================
-  const [applicants, setApplicants] = useState<Applicant[]>([
-    {
-      id: "app-1",
-      name: "Rafiqul Islam",
-      email: "rafiq.islam@gmail.com",
-      phone: "+880-1711-234567",
-      tuitionTitle: "HSC Higher Math & Engineering Admission Prep",
-      appliedDate: "Nov 22, 2026",
-      note: "Looking for in-depth calculus problem-solving and shortcut tricks for BUET engineering test.",
-      status: "Pending",
-    },
-    {
-      id: "app-2",
-      name: "Nusrat Jahan",
-      email: "nusrat.j@gmail.com",
-      phone: "+880-1819-876543",
-      tuitionTitle: "Class 9-10 Physics & General Science Foundation",
-      appliedDate: "Nov 21, 2026",
-      note: "Needs home tuition 3 days a week for SSC board exam foundation.",
-      status: "Accepted",
-    },
-    {
-      id: "app-3",
-      name: "Tanvir Ahmed",
-      email: "tanvir.eng@gmail.com",
-      phone: "+880-1922-334455",
-      tuitionTitle: "Cambridge O / A-Level Chemistry & Past Papers",
-      appliedDate: "Nov 20, 2026",
-      note: "Targeting an A* in upcoming May/June exam series.",
-      status: "Pending",
-    },
-  ]);
+  const [applicants, setApplicants] = useState<Applicant[]>([]);
+  const [loadingApplicants, setLoadingApplicants] = useState(false);
 
-  const handleUpdateStatus = (id: string, newStatus: "Accepted" | "Rejected") => {
-    setApplicants((prev) =>
-      prev.map((app) => (app.id === id ? { ...app, status: newStatus } : app))
+  const fetchApplicants = useCallback(async () => {
+    if (!userEmail || isAdmin) return;
+    setLoadingApplicants(true);
+    try {
+      const res = await fetch(
+        `/api/applications?role=tutor&email=${encodeURIComponent(userEmail)}`,
+        { cache: "no-store" }
+      );
+      if (res.ok) {
+        const data = await res.json();
+        setApplicants(data.applications || []);
+      }
+    } catch (err) {
+      console.error("Failed to fetch applicants:", err);
+    } finally {
+      setLoadingApplicants(false);
+    }
+  }, [userEmail, isAdmin]);
+
+  useEffect(() => {
+    if (mounted && !isPending && !isAdmin && userEmail) {
+      fetchApplicants();
+      const interval = setInterval(fetchApplicants, 15000);
+      return () => clearInterval(interval);
+    }
+  }, [mounted, isPending, isAdmin, userEmail, fetchApplicants]);
+
+  const handleUpdateStatus = async (id: string, newStatus: "Accepted" | "Rejected") => {
+    const prev = applicants;
+    setApplicants((list) =>
+      list.map((app) => (app.id === id ? { ...app, status: newStatus } : app))
     );
-    toast.success(`Application marked as ${newStatus}!`);
+    try {
+      const res = await fetch("/api/applications", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, status: newStatus }),
+      });
+      if (!res.ok) {
+        throw new Error("Failed to update status");
+      }
+      toast.success(`Application marked as ${newStatus}!`);
+    } catch {
+      setApplicants(prev);
+      toast.error("Could not update application status");
+    }
   };
 
   if (!mounted || isPending) {
@@ -421,6 +432,21 @@ export default function ApplicantsAndDirectoryPage() {
       </div>
 
       {/* Applicants List */}
+      {loadingApplicants && applicants.length === 0 ? (
+        <div className="rounded-2xl border border-[#E2E8F0] dark:border-[#0284C7]/25 bg-white dark:bg-[#0B1930]/90 p-12 text-center text-xs font-mono text-[#64748B] dark:text-[#94A3B8]">
+          LOADING STUDENT APPLICATIONS...
+        </div>
+      ) : applicants.length === 0 ? (
+        <div className="rounded-2xl border border-[#E2E8F0] dark:border-[#0284C7]/25 bg-white dark:bg-[#0B1930]/90 p-12 text-center space-y-2 shadow-sm">
+          <Users className="w-8 h-8 text-[#0284C7] dark:text-[#0EA5E9] mx-auto" />
+          <h3 className="text-base font-bold text-[#0B1320] dark:text-white">
+            No student applications yet
+          </h3>
+          <p className="text-xs text-[#475569] dark:text-[#94A3B8] max-w-md mx-auto">
+            When students apply to your approved tuition listings, their applications will appear here in real time.
+          </p>
+        </div>
+      ) : (
       <div className="space-y-4">
         {applicants.map((app) => (
           <div
@@ -442,13 +468,13 @@ export default function ApplicantsAndDirectoryPage() {
                   </p>
                 </div>
 
-                {/* Status Badge */}
+                {/* Status Badge (Red for Rejected) */}
                 <span
                   className={`ml-auto sm:ml-2 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase border flex items-center gap-1 ${
                     app.status === "Accepted"
                       ? "bg-[#ECFDF5] dark:bg-[#0A2618] text-[#059669] dark:text-[#10B981] border-[#A7F3D0] dark:border-[#10B981]/30"
                       : app.status === "Rejected"
-                      ? "bg-[#E0F2FE] dark:bg-[#102547] text-[#0284C7] dark:text-[#38BDF8] border-[#BAE6FD] dark:border-[#0284C7]/30"
+                      ? "bg-red-50 dark:bg-red-950/60 text-red-600 dark:text-red-400 border-red-200 dark:border-red-500/40"
                       : "bg-[#FEF3C7] dark:bg-[#281804] text-[#D97706] dark:text-[#FFB800] border-[#FDE68A] dark:border-[#FFB800]/30"
                   }`}
                 >
@@ -515,6 +541,7 @@ export default function ApplicantsAndDirectoryPage() {
           </div>
         ))}
       </div>
+      )}
     </div>
   );
 }

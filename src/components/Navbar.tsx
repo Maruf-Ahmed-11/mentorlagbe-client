@@ -462,7 +462,7 @@ export default function Navbar() {
                   <div className="pt-2 border-t border-[#E2E8F0] dark:border-[#0284C7]/25">
                     <button
                       onClick={handleLogout}
-                      className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-rose-600 dark:text-red-400 hover:text-white hover:bg-[#0284C7] dark:hover:bg-[#0284C7] transition-all cursor-pointer"
+                      className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-red-600 dark:text-red-400 hover:text-white hover:bg-[#0284C7] dark:hover:bg-[#0284C7] transition-all cursor-pointer"
                     >
                       <LogOut className="w-4 h-4" />
                       <span>Sign Out</span>

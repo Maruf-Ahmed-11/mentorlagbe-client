@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { 
   Users, 
@@ -15,7 +16,48 @@ import {
 import { DashboardViewProps } from "./types";
 
 export default function TutorDashboardView({ user, userName }: DashboardViewProps) {
-  const isPro = (user?.plan || "free").toLowerCase() === "pro";
+  const [stats, setStats] = useState({
+    totalTuitions: 0,
+    activeAndApproved: 0,
+    totalApplicants: 0,
+    plan: (user?.plan || "free").toLowerCase(),
+  });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const email = user?.email;
+    if (!email) {
+      setLoading(false);
+      return;
+    }
+
+    const loadStats = async () => {
+      try {
+        const res = await fetch(`/api/tutor/stats?email=${encodeURIComponent(email)}`, {
+          cache: "no-store",
+        });
+        if (res.ok) {
+          const data = await res.json();
+          setStats({
+            totalTuitions: Number(data.totalTuitions || 0),
+            activeAndApproved: Number(data.activeAndApproved || 0),
+            totalApplicants: Number(data.totalApplicants || 0),
+            plan: (data.plan || user?.plan || "free").toLowerCase(),
+          });
+        }
+      } catch (err) {
+        console.error("Failed to fetch tutor stats:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadStats();
+    const interval = setInterval(loadStats, 20000);
+    return () => clearInterval(interval);
+  }, [user?.email, user?.plan]);
+
+  const isPro = stats.plan === "pro" || (user?.plan || "free").toLowerCase() === "pro";
 
   return (
     <div className="space-y-8 animate-in fade-in duration-300">
@@ -57,7 +99,7 @@ export default function TutorDashboardView({ user, userName }: DashboardViewProp
           </div>
           <div className="mt-4 flex items-baseline gap-2">
             <span className="text-3xl font-black text-[#0B1320] dark:text-white tracking-tight drop-shadow-sm">
-              {isPro ? "Unlimited" : "Max 2"}
+              {loading ? "—" : isPro ? stats.totalTuitions : `${stats.totalTuitions} / 2`}
             </span>
             <span className={`px-1.5 py-0.5 rounded text-[9px] font-mono font-bold uppercase border ${
               isPro
@@ -84,7 +126,7 @@ export default function TutorDashboardView({ user, userName }: DashboardViewProp
           </div>
           <div className="mt-4">
             <span className="text-3xl font-black text-[#0B1320] dark:text-white tracking-tight drop-shadow-sm">
-              11
+              {loading ? "—" : stats.activeAndApproved}
             </span>
             <p className="text-[11px] text-[#475569] dark:text-[#94A3B8] mt-1">
               Publicly listed and accepting students
@@ -104,7 +146,7 @@ export default function TutorDashboardView({ user, userName }: DashboardViewProp
           </div>
           <div className="mt-4">
             <span className="text-3xl font-black text-[#0B1320] dark:text-white tracking-tight drop-shadow-sm">
-              8
+              {loading ? "—" : stats.totalApplicants}
             </span>
             <p className="text-[11px] text-[#475569] dark:text-[#94A3B8] mt-1">
               Interested students applied across all posts
@@ -227,7 +269,7 @@ export default function TutorDashboardView({ user, userName }: DashboardViewProp
       </div>
 
       {/* Pro Member Active Banner */}
-      <div className="rounded-2xl bg-[#E0F2FE] dark:bg-gradient-to-r dark:from-[#0D1D38] dark:to-[#120205] border border-[#BAE6FD] dark:border-[#0284C7]/30 p-4 sm:p-5 flex items-center gap-4 shadow-sm dark:shadow-lg">
+      <div className="rounded-2xl bg-[#E0F2FE] dark:bg-gradient-to-r dark:from-[#0D1D38] dark:to-[#07101E] border border-[#BAE6FD] dark:border-[#0284C7]/30 p-4 sm:p-5 flex items-center gap-4 shadow-sm dark:shadow-lg">
         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white dark:bg-[#132E59] text-[#0284C7] dark:text-[#FFB800] border border-[#BAE6FD] dark:border-[#0EA5E9]/40 shadow-sm">
           <Crown className="h-5 w-5 fill-[#0284C7] dark:fill-[#FFB800]" />
         </div>

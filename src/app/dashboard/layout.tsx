@@ -344,16 +344,16 @@ export default function DashboardLayout({
         </div>
 
         {/* Bottom Section: Sign Out & Collapse Sidebar Toggle */}
-        <div className="p-3 border-t border-[#E2E8F0] dark:border-[#0284C7]/20 space-y-2 bg-[#FAF5F5] dark:bg-[#050B14]">
+        <div className="p-3 border-t border-[#E2E8F0] dark:border-[#0284C7]/20 space-y-2 bg-[#F8FAFC] dark:bg-[#050B14]">
           {/* Sign Out Button */}
           <button
             onClick={handleSignOut}
             title={isCollapsed ? "Sign Out" : undefined}
-            className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-[#0284C7] dark:text-rose-400 hover:text-[#0369A1] dark:hover:text-white hover:bg-[#E0F2FE] dark:hover:bg-[#0284C7]/30 transition-all cursor-pointer ${
+            className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-[#0284C7] dark:text-red-400 hover:text-[#0369A1] dark:hover:text-white hover:bg-[#E0F2FE] dark:hover:bg-[#0284C7]/30 transition-all cursor-pointer ${
               isCollapsed ? "justify-center px-0" : ""
             }`}
           >
-            <LogOut className="h-4 w-4 shrink-0 text-[#0284C7] dark:text-rose-400" />
+            <LogOut className="h-4 w-4 shrink-0 text-[#0284C7] dark:text-red-400" />
             {!isCollapsed && <span>Sign Out</span>}
           </button>
 

@@ -19,7 +19,11 @@ import {
   Clock,
   Lock,
   Pencil,
-  CheckCircle2
+  CheckCircle2,
+  X,
+  Send,
+  Phone,
+  Loader2
 } from "lucide-react";
 
 export default function TuitionDetailClient({ id }: { id: string }) {
@@ -28,6 +32,11 @@ export default function TuitionDetailClient({ id }: { id: string }) {
 
   const [tuition, setTuition] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isApplyModalOpen, setIsApplyModalOpen] = useState(false);
+  const [studentPhone, setStudentPhone] = useState("");
+  const [applicationNote, setApplicationNote] = useState("");
+  const [isSubmittingApply, setIsSubmittingApply] = useState(false);
+  const [hasApplied, setHasApplied] = useState(false);
 
   useEffect(() => {
     async function loadTuition() {
@@ -109,6 +118,12 @@ export default function TuitionDetailClient({ id }: { id: string }) {
       return;
     }
 
+    if (!currentEmail) {
+      toast.error("Please sign in as a student to apply for this tuition");
+      router.push("/sign-in");
+      return;
+    }
+
     // Check student application limit (10 for free students, unlimited for Pro)
     const userPlan = ((session?.user as any)?.plan || cachedUser?.plan || "free").toLowerCase();
 
@@ -117,7 +132,7 @@ export default function TuitionDetailClient({ id }: { id: string }) {
         const usage = await fetch(`/api/user/usage?email=${encodeURIComponent(currentEmail)}`).then((r) => r.json());
         if (usage && usage.canApply === false) {
           toast.error(
-            `Free limit reached: You have submitted ${usage.applicationsCount} of ${usage.studentLimit} free applications. Redirecting to upgrade to Pro for unlimited applications!`,
+            `Free limit reached: You have submitted ${usage.applicationsCount} of ${usage.studentFreeLimit} free applications. Redirecting to upgrade to Pro for unlimited applications!`,
             { icon: "💎", duration: 5000 }
           );
           router.push("/checkout?plan=student");
@@ -128,7 +143,57 @@ export default function TuitionDetailClient({ id }: { id: string }) {
       }
     }
 
-    toast.success("Application modal will open next! (Application workflow)", { icon: "📝" });
+    setIsApplyModalOpen(true);
+  };
+
+  const handleSubmitApplication = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!studentPhone.trim()) {
+      toast.error("Please enter your contact phone number");
+      return;
+    }
+    if (!applicationNote.trim()) {
+      toast.error("Please write a short note for the tutor");
+      return;
+    }
+
+    setIsSubmittingApply(true);
+    try {
+      const res = await fetch("/api/applications", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          tuitionId: tuition?._id || tuition?.id || id,
+          tuitionTitle: tuition?.title || "Tuition Session",
+          tutorEmail: tuition?.tutorEmail || "",
+          tutorName: tuition?.tutorName || "Mentor",
+          studentEmail: currentEmail,
+          studentName: session?.user?.name || cachedUser?.name || "Student",
+          studentPhone: studentPhone.trim(),
+          note: applicationNote.trim(),
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        if (data?.limitReached) {
+          toast.error(data.error);
+          router.push("/checkout?plan=student");
+          return;
+        }
+        throw new Error(data?.error || "Failed to submit application");
+      }
+
+      setHasApplied(true);
+      setIsApplyModalOpen(false);
+      setStudentPhone("");
+      setApplicationNote("");
+      toast.success("Application submitted! The tutor can now review it in real time.");
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : "Could not submit application");
+    } finally {
+      setIsSubmittingApply(false);
+    }
   };
 
   if (isLoading) {
@@ -415,10 +480,12 @@ export default function TuitionDetailClient({ id }: { id: string }) {
             ) : (
               <button
                 type="button"
-                disabled={isApplyLocked}
+                disabled={isApplyLocked || hasApplied}
                 onClick={handleApply}
-                className={`px-6 py-2.5 rounded-xl font-bold text-xs shadow-md transition-all active:scale-95 cursor-pointer ${isRejected
-                  ? "bg-[#E0F2FE] dark:bg-[#102547] text-[#0284C7] dark:text-[#38BDF8] border border-[#BAE6FD] cursor-not-allowed opacity-75"
+                className={`px-6 py-2.5 rounded-xl font-bold text-xs shadow-md transition-all active:scale-95 cursor-pointer ${hasApplied
+                  ? "bg-[#ECFDF5] dark:bg-[#0A2618] text-[#059669] dark:text-[#10B981] border border-[#A7F3D0] dark:border-[#10B981]/40 cursor-default"
+                  : isRejected
+                  ? "bg-red-50 dark:bg-red-950/60 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-500/40 cursor-not-allowed opacity-85"
                   : isPending
                     ? "bg-[#FEF3C7] dark:bg-[#281804] text-[#B45309] dark:text-[#FFB800] border border-[#FDE68A] cursor-not-allowed opacity-75"
                     : isPostClosed
@@ -426,7 +493,9 @@ export default function TuitionDetailClient({ id }: { id: string }) {
                       : "bg-[#0284C7] hover:bg-[#0369A1] dark:bg-gradient-to-r dark:from-[#0284C7] dark:via-[#0EA5E9] dark:to-[#38BDF8] text-white hover:shadow-lg"
                   }`}
               >
-                {isRejected
+                {hasApplied
+                  ? "✓ Application Submitted"
+                  : isRejected
                   ? "🚫 Post Rejected"
                   : isPending
                     ? "⏳ Pending Approval"
@@ -440,6 +509,91 @@ export default function TuitionDetailClient({ id }: { id: string }) {
         </div>
 
       </div>
+
+      {/* Application Modal */}
+      {isApplyModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
+          <div className="w-full max-w-md rounded-2xl bg-white dark:bg-[#0B1930] border border-[#E2E8F0] dark:border-[#0284C7]/40 p-6 shadow-2xl space-y-5 animate-in zoom-in-95 duration-200">
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <h3 className="text-lg font-black text-[#0B1320] dark:text-white">
+                  Apply for Tuition
+                </h3>
+                <p className="text-xs text-[#475569] dark:text-[#94A3B8] mt-0.5 line-clamp-1">
+                  {tuition?.title}
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsApplyModalOpen(false)}
+                className="p-1.5 rounded-lg text-[#64748B] hover:text-[#0B1320] dark:text-[#94A3B8] dark:hover:text-white cursor-pointer"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <form onSubmit={handleSubmitApplication} className="space-y-4">
+              <div>
+                <label className="block text-xs font-semibold text-[#0B1320] dark:text-[#E2E8F0] mb-1.5">
+                  Contact Phone Number <span className="text-[#0284C7]">*</span>
+                </label>
+                <div className="relative">
+                  <Phone className="w-4 h-4 text-[#0284C7] dark:text-[#0EA5E9] absolute left-3.5 top-1/2 -translate-y-1/2" />
+                  <input
+                    type="tel"
+                    required
+                    value={studentPhone}
+                    onChange={(e) => setStudentPhone(e.target.value)}
+                    placeholder="+880-17XX-XXXXXX"
+                    className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#F8FAFC] dark:bg-[#07101E] border border-[#E2E8F0] dark:border-[#0284C7]/35 text-sm text-[#0B1320] dark:text-white focus:border-[#0284C7] dark:focus:border-[#0EA5E9] focus:outline-none"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-[#0B1320] dark:text-[#E2E8F0] mb-1.5">
+                  Message to Tutor <span className="text-[#0284C7]">*</span>
+                </label>
+                <textarea
+                  required
+                  rows={3}
+                  value={applicationNote}
+                  onChange={(e) => setApplicationNote(e.target.value)}
+                  placeholder="Briefly share your class level, learning goals, and preferred schedule..."
+                  className="w-full px-4 py-2.5 rounded-xl bg-[#F8FAFC] dark:bg-[#07101E] border border-[#E2E8F0] dark:border-[#0284C7]/35 text-sm text-[#0B1320] dark:text-white focus:border-[#0284C7] dark:focus:border-[#0EA5E9] focus:outline-none"
+                />
+              </div>
+
+              <div className="flex items-center justify-end gap-2 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setIsApplyModalOpen(false)}
+                  className="px-4 py-2 rounded-xl text-xs font-semibold text-[#475569] dark:text-[#94A3B8] hover:bg-[#F0F7FF] dark:hover:bg-[#102547] cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={isSubmittingApply}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#0284C7] hover:bg-[#0369A1] text-white text-xs font-bold shadow-md transition-all cursor-pointer disabled:opacity-60"
+                >
+                  {isSubmittingApply ? (
+                    <>
+                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                      <span>Submitting...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-3.5 h-3.5" />
+                      <span>Submit Application</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
 
     </div>
   );
