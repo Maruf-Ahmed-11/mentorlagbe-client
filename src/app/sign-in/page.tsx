@@ -121,11 +121,11 @@ function SignInContent() {
           <div className="absolute inset-0 bg-gradient-to-t from-[#050B14] via-[#050B14]/70 to-[#050B14]/45" />
 
           {/* Top Badge */}
-          <div className="relative z-10">
-            <div className="inline-block [&_span:first-of-type]:!text-white">
+          <div className="relative z-10 flex flex-col items-start gap-4">
+            <div className="block [&_span:first-of-type]:!text-white">
               <Logo />
             </div>
-            <div className="auth-pill mt-4 inline-flex items-center gap-2 rounded-full bg-[#0D1D38]/85 border border-[#0EA5E9]/50 px-3 py-1 shadow-[0_0_15px_rgba(14, 165, 233,0.4)]">
+            <div className="auth-pill inline-flex items-center gap-2 rounded-full bg-[#0D1D38]/85 border border-[#0EA5E9]/50 px-3 py-1 shadow-[0_0_15px_rgba(14, 165, 233,0.4)]">
               <span className="h-1.5 w-1.5 rounded-full bg-[#0EA5E9] animate-pulse" />
               <span className="auth-pill-text text-[10px] font-mono font-bold uppercase tracking-widest text-white">
                 01 // ACADEMIC PORTAL
@@ -137,7 +137,7 @@ function SignInContent() {
           <div className="relative z-10 space-y-3">
             <h2 className="text-2xl lg:text-3xl font-black uppercase tracking-tight text-white leading-tight">
               Empowering Minds, <br />
-              <span className="text-[#38BDF8]">
+              <span className="auth-accent-text text-[#38BDF8]">
                 Elevating Futures
               </span>
             </h2>

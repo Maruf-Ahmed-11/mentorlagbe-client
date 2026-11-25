@@ -359,10 +359,13 @@ html:not(.dark) h6 {
 
 /* Auth Left Photo Panel stays high-contrast dark in both themes */
 html:not(.dark) .auth-hero-panel h2,
-html:not(.dark) .auth-hero-panel h2 span,
 html:not(.dark) .auth-hero-panel .auth-pill-text,
 html:not(.dark) .auth-hero-panel .brand-logo-text {
   color: #FFFFFF !important;
+}
+
+html:not(.dark) .auth-hero-panel h2 span.auth-accent-text {
+  color: #38BDF8 !important;
 }
 
 html:not(.dark) .auth-hero-panel p {
