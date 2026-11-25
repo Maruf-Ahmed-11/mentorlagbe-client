@@ -1,7 +1,7 @@
 import { getTokenFromClient } from "./getTokenFromClient";
 
 export const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URI || "http://localhost:8000";
+  process.env.NEXT_PUBLIC_API_URI || "https://mentorlagbe-server-indol.vercel.app";
 
 export async function apiFetch<T>(
   endpoint: string,

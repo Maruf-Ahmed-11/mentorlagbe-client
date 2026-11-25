@@ -9,7 +9,7 @@ const STUDENT_PRICE_ID = "price_1UfEJdFE0yzRsXvab17JDSqU"; // $10 Pro Student
 export async function POST(req: Request) {
   try {
     const headersList = await headers();
-    const origin = headersList.get("origin") || headersList.get("referer") || "http://localhost:3000";
+    const origin = headersList.get("origin") || headersList.get("referer") || "https://mentorlagbe-9oiym1a9a-mugiwara14.vercel.app";
     const cleanOrigin = origin.replace(/\/$/, "");
 
     // Get current authenticated user
@@ -98,7 +98,7 @@ export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
     let plan = searchParams.get("plan") || "tutor";
     const headersList = await headers();
-    const origin = headersList.get("origin") || headersList.get("referer") || "http://localhost:3000";
+    const origin = headersList.get("origin") || headersList.get("referer") || "https://mentorlagbe-9oiym1a9a-mugiwara14.vercel.app";
     const cleanOrigin = origin.replace(/\/$/, "");
 
     const session = await getServerAuth();
