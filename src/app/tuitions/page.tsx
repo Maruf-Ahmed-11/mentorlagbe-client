@@ -39,6 +39,8 @@ function AllTuitionsContent() {
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState(initialQ);
   const [selectedSubject, setSelectedSubject] = useState("All");
+  const [selectedClassLevel, setSelectedClassLevel] = useState("All");
+  const [selectedMode, setSelectedMode] = useState("All");
 
   useEffect(() => {
     setSearchQuery(initialQ);
@@ -67,10 +69,24 @@ function AllTuitionsContent() {
     return ["All", ...unique];
   }, [tuitions]);
 
+  const classLevels = useMemo(() => {
+    const unique = Array.from(new Set(tuitions.map((t) => t.classLevel).filter(Boolean)));
+    return ["All", ...unique];
+  }, [tuitions]);
+
+  const modes = useMemo(() => {
+    const unique = Array.from(new Set(tuitions.map((t) => t.mode).filter(Boolean)));
+    return unique.length > 0 ? ["All", ...unique] : ["All", "Online", "Offline", "Hybrid"];
+  }, [tuitions]);
+
   const filtered = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
     return tuitions.filter((t) => {
       const matchesSubject = selectedSubject === "All" || t.subject === selectedSubject;
+      const matchesClassLevel = selectedClassLevel === "All" || t.classLevel === selectedClassLevel;
+      const matchesMode =
+        selectedMode === "All" ||
+        (t.mode || "").toLowerCase() === selectedMode.toLowerCase();
       const matchesQuery =
         !q ||
         t.title.toLowerCase().includes(q) ||
@@ -78,9 +94,9 @@ function AllTuitionsContent() {
         t.classLevel.toLowerCase().includes(q) ||
         t.location.toLowerCase().includes(q) ||
         (t.tutorName || "").toLowerCase().includes(q);
-      return matchesSubject && matchesQuery;
+      return matchesSubject && matchesClassLevel && matchesMode && matchesQuery;
     });
-  }, [tuitions, searchQuery, selectedSubject]);
+  }, [tuitions, searchQuery, selectedSubject, selectedClassLevel, selectedMode]);
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] dark:bg-[#050B14] py-12 px-4 sm:px-6 lg:px-8">
@@ -114,22 +130,70 @@ function AllTuitionsContent() {
           </div>
         </div>
 
-        {/* Subject Filter Pills */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-2">
-          {subjects.map((sub) => (
-            <button
-              key={sub}
-              type="button"
-              onClick={() => setSelectedSubject(sub)}
-              className={`px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
-                selectedSubject === sub
-                  ? "bg-[#0284C7] text-white shadow-sm"
-                  : "bg-white dark:bg-[#0D1D38] text-[#475569] dark:text-[#94A3B8] border border-[#E2E8F0] dark:border-[#0284C7]/30 hover:border-[#0284C7]"
-              }`}
+        {/* Filters Row: Subject Pills + Class Level & Mode Dropdowns */}
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+          <div className="flex items-center gap-2 overflow-x-auto pb-2 lg:pb-0">
+            {subjects.map((sub) => (
+              <button
+                key={sub}
+                type="button"
+                onClick={() => setSelectedSubject(sub)}
+                className={`px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
+                  selectedSubject === sub
+                    ? "bg-[#0284C7] text-white shadow-sm"
+                    : "bg-white dark:bg-[#0D1D38] text-[#475569] dark:text-[#94A3B8] border border-[#E2E8F0] dark:border-[#0284C7]/30 hover:border-[#0284C7]"
+                }`}
+              >
+                {sub}
+              </button>
+            ))}
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3 shrink-0">
+            <select
+              aria-label="Filter by Class Level"
+              value={selectedClassLevel}
+              onChange={(e) => setSelectedClassLevel(e.target.value)}
+              className="px-3.5 py-2 rounded-xl bg-white dark:bg-[#0B1930] border border-[#E2E8F0] dark:border-[#0284C7]/35 text-xs font-semibold text-[#0B1320] dark:text-white focus:border-[#0284C7] dark:focus:border-[#0EA5E9] focus:outline-none cursor-pointer"
             >
-              {sub}
-            </button>
-          ))}
+              {classLevels.map((lvl) => (
+                <option key={lvl} value={lvl}>
+                  {lvl === "All" ? "All Class Levels" : lvl}
+                </option>
+              ))}
+            </select>
+
+            <select
+              aria-label="Filter by Mode"
+              value={selectedMode}
+              onChange={(e) => setSelectedMode(e.target.value)}
+              className="px-3.5 py-2 rounded-xl bg-white dark:bg-[#0B1930] border border-[#E2E8F0] dark:border-[#0284C7]/35 text-xs font-semibold text-[#0B1320] dark:text-white focus:border-[#0284C7] dark:focus:border-[#0EA5E9] focus:outline-none cursor-pointer"
+            >
+              {modes.map((m) => (
+                <option key={m} value={m}>
+                  {m === "All" ? "All Modes" : m}
+                </option>
+              ))}
+            </select>
+
+            {(selectedSubject !== "All" ||
+              selectedClassLevel !== "All" ||
+              selectedMode !== "All" ||
+              searchQuery.trim() !== "") && (
+              <button
+                type="button"
+                onClick={() => {
+                  setSelectedSubject("All");
+                  setSelectedClassLevel("All");
+                  setSelectedMode("All");
+                  setSearchQuery("");
+                }}
+                className="px-3 py-2 rounded-xl text-xs font-semibold text-[#0284C7] dark:text-[#38BDF8] hover:bg-[#E0F2FE]/60 dark:hover:bg-[#0284C7]/20 transition-colors cursor-pointer"
+              >
+                Reset
+              </button>
+            )}
+          </div>
         </div>
 
         {/* Grid */}

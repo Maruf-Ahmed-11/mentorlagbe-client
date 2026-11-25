@@ -30,7 +30,7 @@ export default function Home() {
       />
 
       {/* Vignette Edge Shading for Maximum Contrast & Immersion in Dark Mode */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_transparent_50%,_rgba(10,2,3,0.85)_100%)] pointer-events-none dark:block hidden" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_transparent_50%,_rgba(5,11,20,0.85)_100%)] pointer-events-none dark:block hidden" />
 
       {/* ========================================================================= */}
       {/* 5 CORE HOME PAGE SECTIONS (STRICT COMPLIANCE)                              */}

@@ -50,6 +50,7 @@ export default function TuitionDetailClient({ id }: { id: string }) {
   // Application Modal State
   const [isApplyModalOpen, setIsApplyModalOpen] = useState(false);
   const [studentPhone, setStudentPhone] = useState("");
+  const [preferredSchedule, setPreferredSchedule] = useState("");
   const [applicationNote, setApplicationNote] = useState("");
   const [isSubmittingApply, setIsSubmittingApply] = useState(false);
   const [hasApplied, setHasApplied] = useState(false);
@@ -298,6 +299,7 @@ export default function TuitionDetailClient({ id }: { id: string }) {
           studentEmail: currentEmail,
           studentName: session?.user?.name || cachedUser?.name || "Student",
           studentPhone: studentPhone.trim(),
+          preferredSchedule: preferredSchedule.trim(),
           note: applicationNote.trim(),
         }),
       });
@@ -908,6 +910,22 @@ export default function TuitionDetailClient({ id }: { id: string }) {
                     value={studentPhone}
                     onChange={(e) => setStudentPhone(e.target.value)}
                     placeholder="+880-17XX-XXXXXX"
+                    className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#F8FAFC] dark:bg-[#07101E] border border-[#E2E8F0] dark:border-[#0284C7]/35 text-sm text-[#0B1320] dark:text-white focus:border-[#0284C7] dark:focus:border-[#0EA5E9] focus:outline-none"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-[#0B1320] dark:text-[#E2E8F0] mb-1.5">
+                  Preferred Schedule
+                </label>
+                <div className="relative">
+                  <Clock className="w-4 h-4 text-[#0284C7] dark:text-[#0EA5E9] absolute left-3.5 top-1/2 -translate-y-1/2" />
+                  <input
+                    type="text"
+                    value={preferredSchedule}
+                    onChange={(e) => setPreferredSchedule(e.target.value)}
+                    placeholder="e.g. Sun, Tue, Thu at 5:00 PM"
                     className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#F8FAFC] dark:bg-[#07101E] border border-[#E2E8F0] dark:border-[#0284C7]/35 text-sm text-[#0B1320] dark:text-white focus:border-[#0284C7] dark:focus:border-[#0EA5E9] focus:outline-none"
                   />
                 </div>

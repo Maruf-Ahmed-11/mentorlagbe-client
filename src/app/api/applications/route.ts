@@ -47,6 +47,7 @@ export async function GET(request: Request) {
         name: a.studentName || "Student",
         email: a.studentEmail || "",
         phone: a.studentPhone || "",
+        preferredSchedule: a.preferredSchedule || "",
         note: a.note || "",
         status: a.status || "Pending",
         appliedDate: a.createdAt
@@ -74,6 +75,7 @@ export async function GET(request: Request) {
       tuitionTitle: a.tuitionTitle || "Tuition Session",
       tutorName: a.tutorName || "Mentor",
       tutorEmail: a.tutorEmail || "",
+      preferredSchedule: a.preferredSchedule || "",
       note: a.note || "",
       status: a.status || "Pending",
       appliedDate: a.createdAt
@@ -103,6 +105,7 @@ export async function POST(request: Request) {
       tutorEmail,
       tutorName,
       studentPhone,
+      preferredSchedule,
       note,
       studentEmail: bodyEmail,
       studentName: bodyName,
@@ -159,6 +162,7 @@ export async function POST(request: Request) {
       studentName: effectiveName,
       studentEmail: effectiveEmail,
       studentPhone: (studentPhone || "").trim(),
+      preferredSchedule: (preferredSchedule || "").trim(),
       note: (note || "").trim(),
       status: "Pending",
       createdAt: new Date(),
