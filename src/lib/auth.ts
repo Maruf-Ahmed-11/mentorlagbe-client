@@ -11,7 +11,6 @@ export const auth = betterAuth({
         client,
     }),
     trustedOrigins: [
-        "https://mentorlagbe-9oiym1a9a-mugiwara14.vercel.app",
         "https://*.vercel.app",
         ...(process.env.BETTER_AUTH_URL ? [process.env.BETTER_AUTH_URL] : []),
         ...(process.env.NEXT_PUBLIC_BETTER_AUTH_URL ? [process.env.NEXT_PUBLIC_BETTER_AUTH_URL] : []),

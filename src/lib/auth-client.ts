@@ -6,8 +6,7 @@ export const authClient = createAuthClient({
   baseURL:
     (typeof window !== "undefined" ? window.location.origin : undefined) ||
     process.env.NEXT_PUBLIC_BETTER_AUTH_URL ||
-    process.env.BETTER_AUTH_URL ||
-    "https://mentorlagbe-9oiym1a9a-mugiwara14.vercel.app",
+    process.env.BETTER_AUTH_URL,
   plugins: [inferAdditionalFields<typeof auth>(), jwtClient()],
 });
 
