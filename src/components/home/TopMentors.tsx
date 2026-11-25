@@ -7,51 +7,55 @@ import { Star, ShieldCheck, ArrowRight, Award, GraduationCap, Users } from "luci
 const TOP_MENTORS = [
   {
     id: "m1",
-    name: "Ariful Islam Shakib",
-    institution: "BUET, EEE (Batch '20)",
-    experience: "4+ Years Teaching",
-    rating: 4.98,
+    name: "Tahmidur Rahman",
+    institution: "BUET, Mechanical Engineering",
+    experience: "5+ Years Teaching",
+    rating: 5.0,
     reviewsCount: 142,
     studentsTaught: 380,
     specialty: "HSC Physics & Engineering Math",
-    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=600&q=80",
     badge: "Top Rated Mentor",
+    searchQuery: "Tahmidur Rahman",
   },
   {
     id: "m2",
-    name: "Nusrat Jahan Sneha",
-    institution: "Dhaka Medical College (K-78)",
-    experience: "3+ Years Teaching",
-    rating: 4.95,
+    name: "Zarin Subah",
+    institution: "University of Dhaka, Chemistry",
+    experience: "4+ Years Teaching",
+    rating: 5.0,
     reviewsCount: 118,
     studentsTaught: 290,
-    specialty: "Medical Admission Biology & Botany",
+    specialty: "A-Level Chemistry & Medical Biology",
     image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=80",
-    badge: "Medical Specialist",
+    badge: "Science Specialist",
+    searchQuery: "Zarin Subah",
   },
   {
     id: "m3",
-    name: "Rayhan Kabir",
-    institution: "University of Dhaka, Applied Chemistry",
-    experience: "5+ Years Teaching",
-    rating: 4.92,
+    name: "Nafis Chowdhury",
+    institution: "BUET, Computer Science & Eng.",
+    experience: "4+ Years Teaching",
+    rating: 4.9,
     reviewsCount: 165,
     studentsTaught: 450,
-    specialty: "A-Level & HSC Chemistry",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80",
-    badge: "A-Level Mentor",
+    specialty: "Full-Stack Web Dev & HSC ICT",
+    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=600&q=80",
+    badge: "Tech Mentor",
+    searchQuery: "Nafis Chowdhury",
   },
   {
     id: "m4",
-    name: "Tahmina Akter",
+    name: "Farhana Akter",
     institution: "IBA, University of Dhaka",
     experience: "3+ Years Teaching",
     rating: 5.0,
     reviewsCount: 94,
     studentsTaught: 210,
-    specialty: "IELTS 8.5 & Academic English",
+    specialty: "IELTS 8.5 & O-Level English",
     image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=600&q=80",
     badge: "IELTS Expert",
+    searchQuery: "Farhana Akter",
   },
 ];
 
@@ -153,7 +157,7 @@ export default function TopMentors() {
               {/* View Profile Action */}
               <div className="p-4 bg-[#F8FAFC] dark:bg-[#0B1930] border-t border-[#E2E8F0] dark:border-[#0284C7]/25">
                 <Link
-                  href="/tuitions"
+                  href={`/tuitions?q=${encodeURIComponent(mentor.searchQuery)}`}
                   className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-[#F0F7FF] hover:bg-[#0284C7] text-[#0B1320] hover:text-white dark:bg-[#0C4A6E] dark:hover:bg-[#0284C7] dark:text-white text-xs font-bold tracking-wide border border-[#E2E8F0] hover:border-[#0284C7] dark:border-[#0284C7]/40 dark:hover:border-white shadow-sm transition-all"
                 >
                   <ShieldCheck className="h-3.5 w-3.5 text-[#0284C7] group-hover:text-white dark:text-[#0EA5E9]" />
