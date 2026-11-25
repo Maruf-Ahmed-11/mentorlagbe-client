@@ -149,7 +149,7 @@ function SignUpContent() {
           email: email.trim().toLowerCase(),
           password,
           role,
-          plan: "free",
+          plan: role === "admin" ? "pro" : "free",
           ...(imageUrl ? { image: imageUrl } : {}),
         },
         {

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect, useRef } from "react";
 import { authClient } from "@/lib/auth-client";
@@ -251,7 +251,7 @@ export default function ProfilePage() {
                 </div>
               )}
             </div>
-            {plan.toLowerCase() === "pro" && (
+            { (role === "admin" || plan.toLowerCase() === "pro") && (
               <div className="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-[#FFB800] text-black shadow-md border-2 border-white dark:border-[#0B1930]">
                 <Crown className="h-3.5 w-3.5 fill-black" />
               </div>
@@ -326,7 +326,7 @@ export default function ProfilePage() {
             <p className="text-xs font-mono font-bold uppercase tracking-wider text-[#64748B] dark:text-[#94A3B8]">
               Subscription Plan
             </p>
-            {plan.toLowerCase() === "pro" ? (
+            {(role === "admin" || plan.toLowerCase() === "pro") ? (
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#FEF3C7] dark:bg-[#281804] border border-[#FDE68A] dark:border-[#FFB800]/40 text-xs font-mono font-bold uppercase text-[#B45309] dark:text-[#FFB800]">
                 <Crown className="w-3.5 h-3.5 fill-[#B45309] dark:fill-[#FFB800]" />
                 <span>PRO Member</span>

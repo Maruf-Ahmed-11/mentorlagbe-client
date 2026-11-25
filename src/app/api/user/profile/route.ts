@@ -17,13 +17,15 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
+    const effectiveRole = user.role || (email.toLowerCase().includes("admin") ? "admin" : "student");
+
     return NextResponse.json({
       name: user.name || "",
       email: user.email || "",
       phone: user.phone || "",
       bio: user.bio || "",
-      role: user.role || (email.toLowerCase().includes("admin") ? "admin" : "student"),
-      plan: user.plan || "free",
+      role: effectiveRole,
+      plan: effectiveRole === "admin" ? "pro" : (user.plan || "free"),
       image: user.image || null,
     });
   } catch (error) {
