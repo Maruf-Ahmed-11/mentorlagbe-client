@@ -56,7 +56,7 @@ export default function ProfilePage() {
         (initialUser.email.toLowerCase().includes("admin") ? "admin" : (initialUser.email.toLowerCase().includes("tutor") || initialUser.email.toLowerCase().includes("teacher") ? "tutor" : "student"));
       setRole(userRole);
       setPlan((initialUser as any)?.plan || "pro");
-      if (initialUser.image) setImage(initialUser.image);
+      setImage(initialUser.image || null);
 
       // Fetch additional stored details from database
       const fetchDetails = async () => {
@@ -73,7 +73,7 @@ export default function ProfilePage() {
             if (data.bio) setBio(data.bio);
             if (data.role) setRole(data.role);
             if (data.plan) setPlan(data.plan);
-            if (data.image) setImage(data.image);
+            setImage(data.image || null);
           }
         } catch (err) {
           console.error("Failed to fetch profile details", err);
@@ -86,6 +86,7 @@ export default function ProfilePage() {
     } else {
       setName("");
       setEmail("");
+      setImage(null);
       setRole("student");
       setPlan("pro");
     }
@@ -136,6 +137,7 @@ export default function ProfilePage() {
 
         try {
           const cached = JSON.parse(localStorage.getItem("mentorlagbe_cached_user") || "null") || {};
+          cached.email = email;
           cached.image = uploadedUrl;
           localStorage.setItem("mentorlagbe_cached_user", JSON.stringify(cached));
           window.dispatchEvent(new Event("mentorlagbe_user_updated"));

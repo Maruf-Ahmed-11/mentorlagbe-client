@@ -61,6 +61,11 @@ function SignInContent() {
         { email, password },
         {
           onSuccess: async () => {
+            try {
+              localStorage.removeItem("mentorlagbe_cached_user");
+              localStorage.removeItem("mentorlagbe_last_active_email");
+              window.dispatchEvent(new Event("mentorlagbe_user_updated"));
+            } catch {}
             await getTokenFromClient();
             toast.success(`Welcome back! Signed in as ${selectedRole.toUpperCase()}`);
             router.push("/dashboard");

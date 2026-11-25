@@ -33,25 +33,37 @@ export default function Navbar() {
 
   useEffect(() => {
     setMounted(true);
-    // 1. Load initial cache
+    const sessionEmail = session?.user?.email?.toLowerCase();
+
+    // 1. Load initial cache ONLY if there is no active session OR it belongs to the same email
+    let validCachedEmail: string | null = null;
     try {
       const saved = localStorage.getItem("mentorlagbe_cached_user");
       if (saved) {
         const parsed = JSON.parse(saved);
-        setCachedUser(parsed);
-        if (parsed.plan) {
-          setLivePlan(parsed.plan.toLowerCase());
+        const cachedEmail = parsed?.email?.toLowerCase();
+        if (!sessionEmail || (cachedEmail && cachedEmail === sessionEmail)) {
+          setCachedUser(parsed);
+          validCachedEmail = cachedEmail || null;
+          setLivePlan((parsed.plan || "free").toLowerCase());
+          setLiveImage(parsed.image || null);
+        } else {
+          // Different user logged in — discard stale previous user's cache immediately
+          localStorage.removeItem("mentorlagbe_cached_user");
+          setCachedUser(null);
+          setLivePlan(((session?.user as any)?.plan || "free").toLowerCase());
+          setLiveImage(session?.user?.image || null);
         }
-        if (parsed.image) {
-          setLiveImage(parsed.image);
-        }
+      } else if (session?.user) {
+        setLivePlan(((session.user as any)?.plan || "free").toLowerCase());
+        setLiveImage(session.user.image || null);
       }
     } catch {}
 
-    const email = session?.user?.email || cachedUser?.email;
+    const email = sessionEmail || validCachedEmail;
     if (!email) return;
 
-    // 2. Fetch latest plan & image directly from database usage endpoint
+    // 2. Fetch latest plan & image directly from database usage endpoint for this specific email
     const syncPlan = async () => {
       try {
         const res = await fetch(`/api/user/usage?email=${encodeURIComponent(email)}`);
@@ -60,14 +72,17 @@ export default function Navbar() {
           if (data?.plan) {
             setLivePlan(data.plan.toLowerCase());
           }
-          if (data?.image !== undefined) {
-            setLiveImage(data.image);
-          }
+          setLiveImage(data?.image || null);
           try {
             const current = JSON.parse(localStorage.getItem("mentorlagbe_cached_user") || "null") || {};
-            if (data?.plan) current.plan = data.plan;
-            if (data?.image !== undefined) current.image = data.image;
-            localStorage.setItem("mentorlagbe_cached_user", JSON.stringify(current));
+            const isSame = !current.email || current.email.toLowerCase() === email;
+            const nextCache = isSame ? { ...current } : {};
+            nextCache.email = email;
+            if (data?.name) nextCache.name = data.name;
+            if (data?.role) nextCache.role = data.role;
+            if (data?.plan) nextCache.plan = data.plan;
+            nextCache.image = data?.image || null;
+            localStorage.setItem("mentorlagbe_cached_user", JSON.stringify(nextCache));
           } catch {}
         }
       } catch {}
@@ -81,13 +96,14 @@ export default function Navbar() {
         const updated = localStorage.getItem("mentorlagbe_cached_user");
         if (updated) {
           const parsed = JSON.parse(updated);
-          setCachedUser(parsed);
-          if (parsed.plan) {
-            setLivePlan(parsed.plan.toLowerCase());
+          if (!sessionEmail || parsed?.email?.toLowerCase() === sessionEmail) {
+            setCachedUser(parsed);
+            setLivePlan((parsed.plan || "free").toLowerCase());
+            setLiveImage(parsed.image || null);
           }
-          if (parsed.image !== undefined) {
-            setLiveImage(parsed.image);
-          }
+        } else {
+          setCachedUser(null);
+          setLiveImage(session?.user?.image || null);
         }
       } catch {}
       syncPlan();
@@ -206,6 +222,12 @@ export default function Navbar() {
       fetchOptions: {
         onSuccess: () => {
           localStorage.removeItem("access-token");
+          localStorage.removeItem("mentorlagbe_cached_user");
+          localStorage.removeItem("mentorlagbe_last_active_email");
+          setCachedUser(null);
+          setLiveImage(null);
+          setLivePlan("free");
+          window.dispatchEvent(new Event("mentorlagbe_user_updated"));
           toast.success("Logged out successfully");
           router.push("/sign-in");
           router.refresh();
