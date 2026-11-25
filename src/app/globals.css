@@ -506,73 +506,17 @@ html:not(.dark) footer a:not(.brand-logo):hover {
 }
 
 /* ========================================================================= */
-/* HERO SECTION SMOOTH ENTRANCE ANIMATIONS                                   */
+/* HERO SECTION SMOOTH ENTRANCE & SUBTLE FLOAT ANIMATIONS                    */
 /* ========================================================================= */
-@keyframes heroSlideUp {
-  0% {
-    opacity: 0;
-    transform: translateY(28px);
+@keyframes heroFloat {
+  0%, 100% {
+    transform: translateY(0px);
   }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
+  50% {
+    transform: translateY(-8px);
   }
 }
 
-@keyframes heroCardEmerge {
-  0% {
-    opacity: 0;
-    transform: scale(0.88) translateY(22px);
-    filter: blur(4px);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-    filter: blur(0);
-  }
-}
-
-@keyframes heroBadgePop {
-  0% {
-    opacity: 0;
-    transform: translateX(-14px) scale(0.94);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0) scale(1);
-  }
-}
-
-.animate-hero-up-1 {
-  animation: heroSlideUp 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.04s both;
-}
-.animate-hero-up-2 {
-  animation: heroSlideUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.14s both;
-}
-.animate-hero-up-3 {
-  animation: heroSlideUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.24s both;
-}
-.animate-hero-up-4 {
-  animation: heroSlideUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.34s both;
-}
-.animate-hero-up-5 {
-  animation: heroSlideUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.44s both;
-}
-.animate-hero-card {
-  animation: heroCardEmerge 0.85s cubic-bezier(0.22, 1, 0.36, 1) 0.18s both;
-}
-.animate-hero-badge {
-  animation: heroBadgePop 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.55s both;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .animate-hero-up-1,
-  .animate-hero-up-2,
-  .animate-hero-up-3,
-  .animate-hero-up-4,
-  .animate-hero-up-5,
-  .animate-hero-card,
-  .animate-hero-badge {
-    animation: none !important;
-  }
+.animate-hero-float {
+  animation: heroFloat 5s ease-in-out infinite;
 }
