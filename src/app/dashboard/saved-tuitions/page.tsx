@@ -1,9 +1,23 @@
 "use client";
 
+import { useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
 import { Bookmark, Search, Sparkles } from "lucide-react";
 
 export default function SavedTuitionsPage() {
+  const router = useRouter();
+  const { data: session, isPending } = authClient.useSession();
+
+  useEffect(() => {
+    if (isPending) return;
+    const email = session?.user?.email?.toLowerCase() || "";
+    const role = (session?.user as any)?.role || (email.includes("admin") ? "admin" : "student");
+    if (role === "admin" || role === "tutor") {
+      router.replace("/dashboard");
+    }
+  }, [session, isPending, router]);
   return (
     <div className="max-w-5xl mx-auto space-y-8 animate-in fade-in duration-300">
       {/* Top Header & Action */}

@@ -31,7 +31,8 @@ import {
   DollarSign,
   ShieldCheck,
   Check,
-  RotateCcw
+  RotateCcw,
+  Mail
 } from "lucide-react";
 
 export type ApprovalStatus = "pending" | "approved" | "rejected";
@@ -630,21 +631,21 @@ export default function MyTuitionsPage() {
                       </span>
                     </td>
 
-                    {/* 4. Approval Status (Read-Only for Tutor, Authenticated Admin Execution only) */}
+                    {/* 4. Approval Status (Organized Status Badge + Uniform Admin Controls) */}
                     <td className="py-4 px-5 text-center whitespace-nowrap">
-                      <div className="flex flex-col items-center gap-1.5">
+                      <div className="inline-flex flex-col items-center gap-2 min-w-[155px]">
                         {item.approvalStatus === "approved" ? (
-                          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono font-bold bg-[#ECFDF5] dark:bg-[#0A2618] text-[#059669] dark:text-[#10B981] border border-[#A7F3D0] dark:border-[#10B981]/40 shadow-xs">
+                          <span className="inline-flex items-center justify-center gap-1.5 min-w-[100px] px-3 py-1 rounded-full text-[11px] font-mono font-bold bg-[#ECFDF5] dark:bg-[#0A2618] text-[#059669] dark:text-[#10B981] border border-[#A7F3D0] dark:border-[#10B981]/40 shadow-xs">
                             <span className="h-1.5 w-1.5 rounded-full bg-[#10B981] animate-pulse" />
                             <span>Approved</span>
                           </span>
                         ) : item.approvalStatus === "rejected" ? (
-                          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono font-bold bg-[#E0F2FE] dark:bg-[#102547] text-[#0284C7] dark:text-[#38BDF8] border border-[#BAE6FD] dark:border-[#38BDF8]/40 shadow-xs">
+                          <span className="inline-flex items-center justify-center gap-1.5 min-w-[100px] px-3 py-1 rounded-full text-[11px] font-mono font-bold bg-[#E0F2FE] dark:bg-[#102547] text-[#0284C7] dark:text-[#38BDF8] border border-[#BAE6FD] dark:border-[#38BDF8]/40 shadow-xs">
                             <span className="h-1.5 w-1.5 rounded-full bg-[#0284C7] dark:bg-[#38BDF8]" />
                             <span>Rejected</span>
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono font-bold bg-[#FEF3C7] dark:bg-[#281804] text-[#D97706] dark:text-[#FFB800] border border-[#FDE68A] dark:border-[#FFB800]/40 shadow-xs">
+                          <span className="inline-flex items-center justify-center gap-1.5 min-w-[100px] px-3 py-1 rounded-full text-[11px] font-mono font-bold bg-[#FEF3C7] dark:bg-[#281804] text-[#D97706] dark:text-[#FFB800] border border-[#FDE68A] dark:border-[#FFB800]/40 shadow-xs">
                             <span className="h-1.5 w-1.5 rounded-full bg-[#FFB800] animate-ping" />
                             <span>Pending</span>
                           </span>
@@ -652,13 +653,13 @@ export default function MyTuitionsPage() {
 
                         {/* Admin Action Buttons (STRICTLY visible ONLY when user is an authenticated Admin) */}
                         {isAdmin && (
-                          <div className="flex items-center gap-1.5 mt-0.5">
+                          <div className="flex items-center justify-center gap-1.5 w-full">
                             {item.approvalStatus !== "approved" && (
                               <button
                                 type="button"
                                 onClick={() => handleUpdateApproval(item.id, "approved")}
                                 title="Admin: Approve this tuition listing"
-                                className="px-2.5 py-1 rounded-lg text-[10px] font-bold font-mono bg-[#ECFDF5] hover:bg-[#A7F3D0] text-[#059669] border border-[#A7F3D0] transition-all cursor-pointer flex items-center gap-1 shadow-2xs active:scale-95"
+                                className="min-w-[74px] justify-center px-2.5 py-1 rounded-lg text-[10px] font-bold font-mono bg-[#ECFDF5] hover:bg-[#A7F3D0] dark:bg-[#0A2618] dark:hover:bg-[#10B981]/25 text-[#059669] dark:text-[#10B981] border border-[#A7F3D0] dark:border-[#10B981]/40 transition-all cursor-pointer flex items-center gap-1 shadow-2xs active:scale-95"
                               >
                                 <Check className="w-3 h-3" />
                                 <span>Approve</span>
@@ -670,7 +671,7 @@ export default function MyTuitionsPage() {
                                 type="button"
                                 onClick={() => handleUpdateApproval(item.id, "rejected")}
                                 title="Admin: Reject this tuition listing"
-                                className="px-2.5 py-1 rounded-lg text-[10px] font-bold font-mono bg-[#E0F2FE] hover:bg-[#BAE6FD] text-[#0284C7] border border-[#BAE6FD] transition-all cursor-pointer flex items-center gap-1 shadow-2xs active:scale-95"
+                                className="min-w-[74px] justify-center px-2.5 py-1 rounded-lg text-[10px] font-bold font-mono bg-[#E0F2FE] hover:bg-[#BAE6FD] dark:bg-[#102547] dark:hover:bg-[#0284C7]/35 text-[#0284C7] dark:text-[#38BDF8] border border-[#BAE6FD] dark:border-[#38BDF8]/40 transition-all cursor-pointer flex items-center gap-1 shadow-2xs active:scale-95"
                               >
                                 <X className="w-3 h-3" />
                                 <span>Reject</span>
@@ -681,33 +682,56 @@ export default function MyTuitionsPage() {
                       </div>
                     </td>
 
-                    {/* 5. Active Status (Tutor Controlled One-Click Toggle) */}
+                    {/* 5. Active Status (Tutor Controlled Toggle, Read-Only for Admin/Others) */}
                     <td className="py-4 px-5 text-center whitespace-nowrap">
-                      <button
-                        type="button"
-                        onClick={() => handleToggleActive(item.id)}
-                        title={item.isActive ? "Click to Close Tuition (hide from students)" : "Click to Activate Tuition (accept applicants)"}
-                        className={`inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-[11px] font-mono font-bold cursor-pointer transition-all active:scale-95 shadow-xs ${
-                          item.isActive
-                            ? "bg-[#ECFDF5] hover:bg-[#D1FAE5] dark:bg-[#0A2618] dark:hover:bg-[#0F3823] text-[#059669] dark:text-[#10B981] border border-[#A7F3D0] dark:border-[#10B981]/50 dark:shadow-[0_0_12px_rgba(16,185,129,0.25)]"
-                            : "bg-[#F0F7FF] hover:bg-[#E2E8F0] dark:bg-[#0D1D38] dark:hover:bg-[#102547] text-[#64748B] dark:text-[#94A3B8] border border-[#E2E8F0] dark:border-[#0284C7]/25"
-                        }`}
-                      >
-                        {item.isActive ? (
-                          <>
-                            <Power className="w-3 h-3 text-[#059669] dark:text-[#10B981]" />
-                            <span>Active</span>
-                          </>
-                        ) : (
-                          <>
-                            <PowerOff className="w-3 h-3 text-[#64748B] dark:text-[#94A3B8]" />
-                            <span>Closed</span>
-                          </>
-                        )}
-                      </button>
+                      {isAdmin ? (
+                        <span
+                          title="Read-only: only the tutor who posted this tuition can toggle active status"
+                          className={`inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-[11px] font-mono font-bold select-none ${
+                            item.isActive
+                              ? "bg-[#ECFDF5] dark:bg-[#0A2618] text-[#059669] dark:text-[#10B981] border border-[#A7F3D0] dark:border-[#10B981]/40"
+                              : "bg-[#F0F7FF] dark:bg-[#0D1D38] text-[#64748B] dark:text-[#94A3B8] border border-[#E2E8F0] dark:border-[#0284C7]/25"
+                          }`}
+                        >
+                          {item.isActive ? (
+                            <>
+                              <Power className="w-3 h-3 text-[#059669] dark:text-[#10B981]" />
+                              <span>Active</span>
+                            </>
+                          ) : (
+                            <>
+                              <PowerOff className="w-3 h-3 text-[#64748B] dark:text-[#94A3B8]" />
+                              <span>Closed</span>
+                            </>
+                          )}
+                        </span>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => handleToggleActive(item.id)}
+                          title={item.isActive ? "Click to Close Tuition (hide from students)" : "Click to Activate Tuition (accept applicants)"}
+                          className={`inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-[11px] font-mono font-bold cursor-pointer transition-all active:scale-95 shadow-xs ${
+                            item.isActive
+                              ? "bg-[#ECFDF5] hover:bg-[#D1FAE5] dark:bg-[#0A2618] dark:hover:bg-[#0F3823] text-[#059669] dark:text-[#10B981] border border-[#A7F3D0] dark:border-[#10B981]/50 dark:shadow-[0_0_12px_rgba(16,185,129,0.25)]"
+                              : "bg-[#F0F7FF] hover:bg-[#E2E8F0] dark:bg-[#0D1D38] dark:hover:bg-[#102547] text-[#64748B] dark:text-[#94A3B8] border border-[#E2E8F0] dark:border-[#0284C7]/25"
+                          }`}
+                        >
+                          {item.isActive ? (
+                            <>
+                              <Power className="w-3 h-3 text-[#059669] dark:text-[#10B981]" />
+                              <span>Active</span>
+                            </>
+                          ) : (
+                            <>
+                              <PowerOff className="w-3 h-3 text-[#64748B] dark:text-[#94A3B8]" />
+                              <span>Closed</span>
+                            </>
+                          )}
+                        </button>
+                      )}
                     </td>
 
-                    {/* 6. Actions (Eye, Edit, Delete with Hover Animations) */}
+                    {/* 6. Actions (Admin: View Details + Email Tutor | Tutor: View, Edit, Delete) */}
                     <td className="py-4 px-5 text-right whitespace-nowrap">
                       <div className="inline-flex items-center gap-1.5">
                         {/* Eye / View Details */}
@@ -719,25 +743,46 @@ export default function MyTuitionsPage() {
                           <Eye className="w-4 h-4 group-hover/eye:scale-110 transition-transform" />
                         </Link>
 
-                        {/* Edit Button */}
-                        <button
-                          type="button"
-                          onClick={() => handleOpenEditModal(item)}
-                          className="p-2 rounded-xl text-[#475569] dark:text-[#94A3B8] hover:text-[#D97706] dark:hover:text-[#FFB800] hover:bg-[#FEF3C7] dark:hover:bg-[#281804] transition-all duration-200 cursor-pointer group/edit"
-                          title="Edit Tuition Post"
-                        >
-                          <Pencil className="w-4 h-4 group-hover/edit:scale-110 transition-transform" />
-                        </button>
+                        {isAdmin ? (
+                          item.tutorEmail ? (
+                            <a
+                              href={`mailto:${item.tutorEmail}?subject=${encodeURIComponent(`Regarding your tuition: ${item.title}`)}`}
+                              className="p-2 rounded-xl text-[#475569] dark:text-[#94A3B8] hover:text-[#0284C7] dark:hover:text-[#38BDF8] hover:bg-[#E0F2FE] dark:hover:bg-[#102547] transition-all duration-200 cursor-pointer group/mail"
+                              title={`Email Tutor (${item.tutorEmail})`}
+                            >
+                              <Mail className="w-4 h-4 group-hover/mail:scale-110 transition-transform" />
+                            </a>
+                          ) : (
+                            <span
+                              className="p-2 rounded-xl text-[#94A3B8]/40 cursor-not-allowed"
+                              title="Tutor email not available"
+                            >
+                              <Mail className="w-4 h-4" />
+                            </span>
+                          )
+                        ) : (
+                          <>
+                            {/* Edit Button */}
+                            <button
+                              type="button"
+                              onClick={() => handleOpenEditModal(item)}
+                              className="p-2 rounded-xl text-[#475569] dark:text-[#94A3B8] hover:text-[#D97706] dark:hover:text-[#FFB800] hover:bg-[#FEF3C7] dark:hover:bg-[#281804] transition-all duration-200 cursor-pointer group/edit"
+                              title="Edit Tuition Post"
+                            >
+                              <Pencil className="w-4 h-4 group-hover/edit:scale-110 transition-transform" />
+                            </button>
 
-                        {/* Delete Button */}
-                        <button
-                          type="button"
-                          onClick={() => handleOpenDeleteModal(item)}
-                          className="p-2 rounded-xl text-[#475569] dark:text-[#94A3B8] hover:text-[#0284C7] dark:hover:text-[#38BDF8] hover:bg-[#E0F2FE] dark:hover:bg-[#102547] transition-all duration-200 cursor-pointer group/del"
-                          title="Delete Tuition Post"
-                        >
-                          <Trash2 className="w-4 h-4 group-hover/del:scale-110 transition-transform" />
-                        </button>
+                            {/* Delete Button */}
+                            <button
+                              type="button"
+                              onClick={() => handleOpenDeleteModal(item)}
+                              className="p-2 rounded-xl text-[#475569] dark:text-[#94A3B8] hover:text-[#0284C7] dark:hover:text-[#38BDF8] hover:bg-[#E0F2FE] dark:hover:bg-[#102547] transition-all duration-200 cursor-pointer group/del"
+                              title="Delete Tuition Post"
+                            >
+                              <Trash2 className="w-4 h-4 group-hover/del:scale-110 transition-transform" />
+                            </button>
+                          </>
+                        )}
                       </div>
                     </td>
                   </tr>

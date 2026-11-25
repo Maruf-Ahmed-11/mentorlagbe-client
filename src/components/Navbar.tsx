@@ -457,14 +457,6 @@ export default function Navbar() {
                       <User className="w-4 h-4 text-[#0284C7] dark:text-[#0EA5E9]" />
                       <span>Update Profile</span>
                     </Link>
-                    <Link
-                      href="/dashboard/saved-tuitions"
-                      onClick={() => setIsDropdownOpen(false)}
-                      className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-[#475569] dark:text-[#E2E8F0] hover:text-[#0B1320] dark:hover:text-white hover:bg-[#F0F7FF] dark:hover:bg-[#102547] transition-colors"
-                    >
-                      <Bookmark className="w-4 h-4 text-[#0284C7] dark:text-[#0EA5E9]" />
-                      <span>Saved Tuitions</span>
-                    </Link>
                   </div>
 
                   <div className="pt-2 border-t border-[#E2E8F0] dark:border-[#0284C7]/25">
