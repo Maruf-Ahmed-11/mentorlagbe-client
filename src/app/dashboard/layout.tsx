@@ -231,8 +231,12 @@ export default function DashboardLayout({
                       {initials}
                     </div>
                   )}
-                  {/* Crown Badge (Only for Pro users) */}
-                  {isUserPro && (
+                  {/* Shield Badge for Admin / Crown Badge for Pro users */}
+                  {userRole === "admin" ? (
+                    <div className="absolute -bottom-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#4F46E5] dark:bg-[#6366F1] text-white shadow-sm border border-white dark:border-[#07101E]">
+                      <ShieldCheck className="h-2.5 w-2.5" />
+                    </div>
+                  ) : isUserPro && (
                     <div className="absolute -bottom-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#FFB800] text-black shadow-sm">
                       <Crown className="h-2.5 w-2.5 fill-black" />
                     </div>
@@ -247,11 +251,13 @@ export default function DashboardLayout({
                         {userName}
                       </span>
                       <span className={`px-1.5 py-0.5 rounded text-[9px] font-mono font-bold uppercase border ${
-                        isUserPro
+                        userRole === "admin"
+                          ? "bg-[#EEF2FF] dark:bg-[#6366F1]/20 text-[#4F46E5] dark:text-[#818CF8] border-[#C7D2FE] dark:border-[#6366F1]/40"
+                          : isUserPro
                           ? "bg-[#FEF3C7] dark:bg-[#FFB800]/20 text-[#B45309] dark:text-[#FFB800] border-[#FDE68A] dark:border-[#FFB800]/40"
                           : "bg-[#F0F7FF] dark:bg-[#0D1D38] text-[#64748B] dark:text-[#94A3B8] border-[#E2E8F0] dark:border-[#0284C7]/20"
                       }`}>
-                        {userPlan}
+                        {userRole === "admin" ? "SYSTEM" : userPlan}
                       </span>
                     </div>
 

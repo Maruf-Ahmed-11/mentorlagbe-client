@@ -124,10 +124,11 @@ export default function Navbar() {
   const userEmail = activeUser?.email || "";
   const rawRole = (activeUser as any)?.role || (userEmail.toLowerCase().includes("admin") ? "admin" : (userEmail.toLowerCase().includes("tutor") || userEmail.toLowerCase().includes("teacher") ? "tutor" : "student"));
   const roleLabel = rawRole === "admin" ? "Admin" : rawRole === "tutor" ? "Tutor" : "Student";
+  const isAdmin = rawRole === "admin";
   const isUserPro = livePlan === "pro" || 
                     ((activeUser as any)?.plan || "").toLowerCase() === "pro" || 
                     (cachedUser?.plan || "").toLowerCase() === "pro";
-  const userPlan = isUserPro ? "PRO" : "FREE";
+  const userPlan = isAdmin ? "SYSTEM" : isUserPro ? "PRO" : "FREE";
   const initials = getInitials(userName);
 
   // Initialize theme from document or localStorage with MutationObserver
@@ -396,7 +397,9 @@ export default function Navbar() {
                       {userName}
                     </span>
                     <span className={`px-1.5 py-0.5 rounded text-[9px] font-mono font-bold uppercase border ${
-                      isUserPro
+                      isAdmin
+                        ? "bg-[#EEF2FF] dark:bg-[#6366F1]/20 text-[#4F46E5] dark:text-[#818CF8] border-[#C7D2FE] dark:border-[#6366F1]/40"
+                        : isUserPro
                         ? "bg-[#FEF3C7] dark:bg-[#FFB800]/20 text-[#D97706] dark:text-[#FFB800] border-[#FCD34D] dark:border-[#FFB800]/40"
                         : "bg-[#F0F7FF] dark:bg-[#0D1D38] text-[#64748B] dark:text-[#94A3B8] border-[#E2E8F0] dark:border-[#0284C7]/20"
                     }`}>
@@ -426,7 +429,9 @@ export default function Navbar() {
                         {roleLabel}
                       </span>
                       <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase border ${
-                        isUserPro
+                        isAdmin
+                          ? "bg-[#EEF2FF] dark:bg-[#6366F1]/20 text-[#4F46E5] dark:text-[#818CF8] border-[#C7D2FE] dark:border-[#6366F1]/40"
+                          : isUserPro
                           ? "bg-[#FEF3C7] dark:bg-[#241704] text-[#D97706] dark:text-[#FFB800] border border-[#FCD34D] dark:border-[#FFB800]/40"
                           : "bg-[#F0F7FF] dark:bg-[#0D1D38] text-[#64748B] dark:text-[#94A3B8] border border-[#E2E8F0] dark:border-[#0284C7]/20"
                       }`}>

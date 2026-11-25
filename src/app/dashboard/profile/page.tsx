@@ -251,7 +251,11 @@ export default function ProfilePage() {
                 </div>
               )}
             </div>
-            { (role === "admin" || plan.toLowerCase() === "pro") && (
+            {role === "admin" ? (
+              <div className="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-[#4F46E5] dark:bg-[#6366F1] text-white shadow-md border-2 border-white dark:border-[#0B1930]">
+                <ShieldCheck className="h-3.5 w-3.5" />
+              </div>
+            ) : plan.toLowerCase() === "pro" && (
               <div className="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-[#FFB800] text-black shadow-md border-2 border-white dark:border-[#0B1930]">
                 <Crown className="h-3.5 w-3.5 fill-black" />
               </div>
@@ -321,12 +325,17 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          {/* Subscription Plan */}
+          {/* Access Level (Admin) / Subscription Plan (Student & Tutor) */}
           <div className="space-y-1.5">
             <p className="text-xs font-mono font-bold uppercase tracking-wider text-[#64748B] dark:text-[#94A3B8]">
-              Subscription Plan
+              {role === "admin" ? "Access Level" : "Subscription Plan"}
             </p>
-            {(role === "admin" || plan.toLowerCase() === "pro") ? (
+            {role === "admin" ? (
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#EEF2FF] dark:bg-[#6366F1]/20 border border-[#C7D2FE] dark:border-[#6366F1]/40 text-xs font-mono font-bold uppercase text-[#4F46E5] dark:text-[#818CF8]">
+                <ShieldCheck className="w-3.5 h-3.5" />
+                <span>Platform Admin &bull; Full Access</span>
+              </div>
+            ) : plan.toLowerCase() === "pro" ? (
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#FEF3C7] dark:bg-[#281804] border border-[#FDE68A] dark:border-[#FFB800]/40 text-xs font-mono font-bold uppercase text-[#B45309] dark:text-[#FFB800]">
                 <Crown className="w-3.5 h-3.5 fill-[#B45309] dark:fill-[#FFB800]" />
                 <span>PRO Member</span>
