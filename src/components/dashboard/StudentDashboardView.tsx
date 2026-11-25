@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { 
   FileText, 
@@ -15,7 +16,65 @@ import {
 import { DashboardViewProps } from "./types";
 
 export default function StudentDashboardView({ user, userName }: DashboardViewProps) {
-  const isPro = (user?.plan || "free").toLowerCase() === "pro";
+  const [stats, setStats] = useState({
+    totalApplied: 0,
+    accepted: 0,
+    pending: 0,
+    plan: (user?.plan || "free").toLowerCase(),
+  });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const email = user?.email;
+    if (!email) {
+      setLoading(false);
+      return;
+    }
+
+    const loadStudentStats = async () => {
+      try {
+        const [appsRes, usageRes] = await Promise.all([
+          fetch(`/api/applications?role=student&email=${encodeURIComponent(email)}`, {
+            cache: "no-store",
+          }),
+          fetch(`/api/user/usage?email=${encodeURIComponent(email)}`, {
+            cache: "no-store",
+          }),
+        ]);
+
+        let apps: any[] = [];
+        if (appsRes.ok) {
+          const appsData = await appsRes.json();
+          apps = appsData.applications || [];
+        }
+
+        let livePlan = (user?.plan || "free").toLowerCase();
+        if (usageRes.ok) {
+          const usageData = await usageRes.json();
+          if (usageData?.plan) {
+            livePlan = usageData.plan.toLowerCase();
+          }
+        }
+
+        setStats({
+          totalApplied: apps.length,
+          accepted: apps.filter((a) => a.status === "Accepted").length,
+          pending: apps.filter((a) => a.status === "Pending").length,
+          plan: livePlan,
+        });
+      } catch (err) {
+        console.error("Failed to load student stats:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadStudentStats();
+    const interval = setInterval(loadStudentStats, 15000);
+    return () => clearInterval(interval);
+  }, [user?.email, user?.plan]);
+
+  const isPro = stats.plan === "pro" || (user?.plan || "free").toLowerCase() === "pro";
 
   return (
     <div className="space-y-8 animate-in fade-in duration-300">
@@ -54,7 +113,7 @@ export default function StudentDashboardView({ user, userName }: DashboardViewPr
           </div>
           <div className="mt-4">
             <span className="text-3xl font-black text-[#0B1320] dark:text-white tracking-tight drop-shadow-sm">
-              0
+              {loading ? "—" : stats.totalApplied}
             </span>
             <p className="text-[11px] text-[#475569] dark:text-[#94A3B8] mt-1">
               Total tuition posts applied for
@@ -74,7 +133,7 @@ export default function StudentDashboardView({ user, userName }: DashboardViewPr
           </div>
           <div className="mt-4">
             <span className="text-3xl font-black text-[#0B1320] dark:text-white tracking-tight drop-shadow-sm">
-              0
+              {loading ? "—" : stats.accepted}
             </span>
             <p className="text-[11px] text-[#475569] dark:text-[#94A3B8] mt-1">
               Approved applications by mentors
@@ -94,7 +153,7 @@ export default function StudentDashboardView({ user, userName }: DashboardViewPr
           </div>
           <div className="mt-4">
             <span className="text-3xl font-black text-[#0B1320] dark:text-white tracking-tight drop-shadow-sm">
-              0
+              {loading ? "—" : stats.pending}
             </span>
             <p className="text-[11px] text-[#475569] dark:text-[#94A3B8] mt-1">
               Awaiting mentor review & confirmation

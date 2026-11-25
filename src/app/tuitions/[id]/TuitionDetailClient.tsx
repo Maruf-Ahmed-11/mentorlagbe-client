@@ -90,6 +90,23 @@ export default function TuitionDetailClient({ id }: { id: string }) {
     async function loadTuition() {
       setIsLoading(true);
       try {
+        const pubRes = await fetch(`/api/tuitions/public?id=${encodeURIComponent(id)}`, {
+          cache: "no-store",
+        });
+        if (pubRes.ok) {
+          const pubData = await pubRes.json();
+          if (pubData && (pubData._id || pubData.id || pubData.title)) {
+            setTuition(pubData);
+            setIsLoading(false);
+            loadReviews(pubData._id || pubData.id || id);
+            return;
+          }
+        }
+      } catch {
+        // fallback to Express API
+      }
+
+      try {
         const res = await apiFetch<any>(`/tuitions/${id}`);
         if (res && (res._id || res.id || res.title)) {
           setTuition(res);
@@ -131,14 +148,21 @@ export default function TuitionDetailClient({ id }: { id: string }) {
     }
   }, [id, session?.user?.email, loadReviews]);
 
-  // Check bookmark state
+  // Check bookmark state (scoped per user email)
   useEffect(() => {
     if (typeof window === "undefined") return;
+    const email = (session?.user?.email || "").toLowerCase().trim();
+    if (!email) {
+      setIsBookmarked(false);
+      return;
+    }
     try {
-      const saved: string[] = JSON.parse(localStorage.getItem("mentorlagbe_saved_tuitions") || "[]");
+      const saved: string[] = JSON.parse(
+        localStorage.getItem(`mentorlagbe_saved_tuitions_${email}`) || "[]"
+      );
       setIsBookmarked(saved.includes(id));
     } catch {}
-  }, [id]);
+  }, [id, session?.user?.email]);
 
   const cachedUser =
     typeof window !== "undefined"
@@ -172,12 +196,13 @@ export default function TuitionDetailClient({ id }: { id: string }) {
   };
 
   const handleToggleBookmark = () => {
-    if (typeof window === "undefined") return;
+    if (typeof window === "undefined" || !currentEmail) return;
     try {
-      const saved: string[] = JSON.parse(localStorage.getItem("mentorlagbe_saved_tuitions") || "[]");
+      const savedKey = `mentorlagbe_saved_tuitions_${currentEmail}`;
+      const saved: string[] = JSON.parse(localStorage.getItem(savedKey) || "[]");
       const exists = saved.includes(id);
       const next = exists ? saved.filter((x) => x !== id) : [...saved, id];
-      localStorage.setItem("mentorlagbe_saved_tuitions", JSON.stringify(next));
+      localStorage.setItem(savedKey, JSON.stringify(next));
       setIsBookmarked(!exists);
       toast.success(exists ? "Removed from saved tuitions" : "Saved to bookmarks!");
     } catch {}
