@@ -68,6 +68,8 @@ export default function PostTuitionPage() {
   const [schedule, setSchedule] = useState("3 days / week");
   const [monthlyFee, setMonthlyFee] = useState("6000");
   const [bannerImage, setBannerImage] = useState("");
+  const [bannerPreview, setBannerPreview] = useState("");
+  const [uploadingBanner, setUploadingBanner] = useState(false);
   const [description, setDescription] = useState("");
 
   const resetForm = () => {
@@ -79,6 +81,7 @@ export default function PostTuitionPage() {
     setSchedule("3 days / week");
     setMonthlyFee("6000");
     setBannerImage("");
+    setBannerPreview("");
     setDescription("");
   };
 
@@ -102,22 +105,31 @@ export default function PostTuitionPage() {
     if (!file) return;
 
     const previewUrl = URL.createObjectURL(file);
-    setBannerImage(previewUrl);
+    setBannerPreview(previewUrl);
+    setUploadingBanner(true);
     const toastId = toast.loading("Uploading banner image to ImgBB...");
 
     try {
       const uploadedUrl = await uploadImageToImgBB(file);
       setBannerImage(uploadedUrl);
+      setBannerPreview(uploadedUrl);
       toast.success("Banner image uploaded!", { id: toastId, icon: "🖼️" });
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "Failed to upload banner image";
       toast.error(msg, { id: toastId });
-      setBannerImage("");
+      setBannerPreview(bannerImage);
+    } finally {
+      setUploadingBanner(false);
     }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (uploadingBanner) {
+      toast.error("Please wait for the banner image to finish uploading");
+      return;
+    }
 
     const cleanTitle = title.trim();
     const cleanSubject = subject.trim();
@@ -524,28 +536,38 @@ export default function PostTuitionPage() {
               </span>
             </label>
 
-            {bannerImage ? (
+            {(bannerPreview || bannerImage) ? (
               <div className="relative rounded-xl overflow-hidden border border-[#BAE6FD] dark:border-[#0284C7]/40 bg-[#F8FAFC] dark:bg-[#07101E] p-3 flex items-center gap-4">
                 <div className="relative h-16 w-24 rounded-lg overflow-hidden shrink-0 border border-[#E2E8F0] dark:border-[#0284C7]/20">
                   <Image
-                    src={bannerImage}
+                    src={bannerPreview || bannerImage}
                     alt="Tuition Banner Preview"
                     fill
+                    unoptimized
                     className="object-cover"
                   />
+                  {uploadingBanner && (
+                    <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
+                      <Loader2 className="w-5 h-5 text-[#38BDF8] animate-spin" />
+                    </div>
+                  )}
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-xs font-bold text-[#0B1320] dark:text-white truncate">
-                    Banner Attached
+                    {uploadingBanner ? "Uploading to ImgBB..." : "Banner Attached"}
                   </p>
                   <p className="text-[11px] text-[#475569] dark:text-[#94A3B8]">
-                    Preview ready for public tuition listing
+                    {uploadingBanner ? "Please wait before publishing" : "Hosted on ImgBB & ready for listing"}
                   </p>
                 </div>
                 <button
                   type="button"
-                  onClick={() => setBannerImage("")}
-                  className="p-1.5 rounded-lg text-[#0284C7] hover:bg-[#E0F2FE] dark:hover:bg-[#102547] transition-colors cursor-pointer"
+                  disabled={uploadingBanner}
+                  onClick={() => {
+                    setBannerImage("");
+                    setBannerPreview("");
+                  }}
+                  className="p-1.5 rounded-lg text-[#0284C7] hover:bg-[#E0F2FE] dark:hover:bg-[#102547] transition-colors cursor-pointer disabled:opacity-50"
                   title="Remove image"
                 >
                   <X className="w-4 h-4" />

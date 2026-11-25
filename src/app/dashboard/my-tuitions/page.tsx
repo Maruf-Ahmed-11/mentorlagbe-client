@@ -6,6 +6,7 @@ import Image from "next/image";
 import toast from "react-hot-toast";
 import { apiFetch } from "@/lib/api";
 import { authClient } from "@/lib/auth-client";
+import { uploadImageToImgBB } from "@/lib/imgbb";
 import { 
   BookOpen, 
   Plus, 
@@ -583,6 +584,7 @@ export default function MyTuitionsPage() {
                               src={item.bannerImage}
                               alt={item.title}
                               fill
+                              unoptimized
                               className="object-cover group-hover:scale-105 transition-transform duration-300"
                             />
                           ) : (
@@ -956,23 +958,29 @@ export default function MyTuitionsPage() {
                     <input
                       type="file"
                       accept="image/*"
-                      onChange={(e) => {
+                      onChange={async (e) => {
                         const file = e.target.files?.[0];
-                        if (file) {
-                          const reader = new FileReader();
-                          reader.onloadend = () => {
-                            setEditBannerImage(reader.result as string);
-                            toast.success("Image updated!");
-                          };
-                          reader.readAsDataURL(file);
+                        if (!file) return;
+                        const previous = editBannerImage;
+                        const toastId = toast.loading("Uploading banner image to ImgBB...");
+                        try {
+                          const uploadedUrl = await uploadImageToImgBB(file);
+                          setEditBannerImage(uploadedUrl);
+                          toast.success("Banner image uploaded!", { id: toastId });
+                        } catch (err: unknown) {
+                          toast.error(
+                            err instanceof Error ? err.message : "Failed to upload image",
+                            { id: toastId }
+                          );
+                          setEditBannerImage(previous);
                         }
                       }}
                       className="hidden"
                     />
                   </label>
                   {editBannerImage && (
-                    <div className="relative w-12 h-10 rounded-lg overflow-hidden border border-[#E2E8F0] dark:border-[#0284C7]/30">
-                      <Image src={editBannerImage} alt="Preview" fill className="object-cover" />
+                    <div className="relative w-16 h-10 rounded-lg overflow-hidden border border-[#E2E8F0] dark:border-[#0284C7]/30">
+                      <Image src={editBannerImage} alt="Preview" fill unoptimized className="object-cover" />
                     </div>
                   )}
                 </div>
