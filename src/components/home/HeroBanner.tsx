@@ -4,12 +4,40 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { Search, ArrowRight, ShieldCheck, Star, Users, CheckCircle2, Sparkles, MapPin } from "lucide-react";
+import { Search, ArrowRight, ShieldCheck, Star, CheckCircle2, MapPin, GraduationCap } from "lucide-react";
+
+interface TopRatedTuition {
+  _id: string;
+  id: string;
+  title: string;
+  subject: string;
+  classLevel: string;
+  mode: string;
+  location: string;
+  schedule: string;
+  monthlyFee: number;
+  bannerImage?: string;
+  tutorName?: string;
+  averageRating: number;
+  reviewCount: number;
+}
 
 export default function HeroBanner() {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
   const [entered, setEntered] = useState(false);
+  const [topTuition, setTopTuition] = useState<TopRatedTuition | null>(null);
+  const [loadingTop, setLoadingTop] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/tuitions/public?topRated=true", { cache: "no-store" })
+      .then((r) => r.json())
+      .then((d) => {
+        if (d?.tuition) setTopTuition(d.tuition);
+      })
+      .catch(() => {})
+      .finally(() => setLoadingTop(false));
+  }, []);
 
   useEffect(() => {
     const triggerEnter = () => {
@@ -197,72 +225,100 @@ export default function HeroBanner() {
             >
               
               {/* Card Image Banner */}
-              <div className="relative h-56 w-full rounded-2xl overflow-hidden border border-[#E2E8F0] dark:border-[#0284C7]/30">
-                <Image
-                  src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=800&q=80"
-                  alt="Verified Mentor Session"
-                  fill
-                  className="object-cover transition-transform duration-500 hover:scale-105"
-                  priority
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+              <div className="relative h-56 w-full rounded-2xl overflow-hidden border border-[#E2E8F0] dark:border-[#0284C7]/30 bg-[#07101E]">
+                {topTuition?.bannerImage ? (
+                  <Image
+                    src={topTuition.bannerImage}
+                    alt={topTuition.title || "Top Rated Tuition"}
+                    fill
+                    unoptimized
+                    className="object-cover transition-transform duration-500 hover:scale-105"
+                    priority
+                  />
+                ) : (
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#07101E] via-[#0D1D38] to-[#0284C7]/40 flex items-center justify-center">
+                    <GraduationCap className="w-14 h-14 text-[#38BDF8]/50" />
+                  </div>
+                )}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/30 to-transparent" />
                 
-                {/* Mode & Verified Badges */}
+                {/* Mode & Top Rated Badges */}
                 <div className="absolute top-3 left-3 flex items-center gap-2">
-                  <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-black/75 backdrop-blur-md text-[#38BDF8] border border-white/20 shadow-md">
-                    ONLINE &amp; OFFLINE
+                  <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-black/75 backdrop-blur-md text-[#38BDF8] border border-white/20 shadow-md uppercase">
+                    {topTuition?.mode || "ONLINE & OFFLINE"}
                   </span>
                 </div>
                 <div className="absolute top-3 right-3 flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#0284C7] text-white shadow-md">
                   <ShieldCheck className="h-3.5 w-3.5" />
-                  <span>BUET Alum</span>
+                  <span>Top Rated</span>
                 </div>
 
-                {/* Rating Badge */}
+                {/* Live Review Rating Badge */}
                 <div className="absolute bottom-3 left-3 flex items-center gap-1 px-2.5 py-1 rounded-lg bg-black/80 backdrop-blur-md border border-white/20 text-xs font-mono text-white">
                   <Star className="h-3.5 w-3.5 text-amber-400 fill-amber-400" />
-                  <span className="font-bold">5.0</span>
-                  <span className="text-white/80">(140+ reviews)</span>
+                  <span className="font-bold">
+                    {topTuition
+                      ? topTuition.reviewCount > 0
+                        ? topTuition.averageRating.toFixed(1)
+                        : "New"
+                      : "—"}
+                  </span>
+                  <span className="text-white/80">
+                    {topTuition
+                      ? `(${topTuition.reviewCount} ${topTuition.reviewCount === 1 ? "review" : "reviews"})`
+                      : ""}
+                  </span>
                 </div>
               </div>
 
-              {/* Mentor Info Content */}
+              {/* Dynamic Top-Rated Tuition Info Content */}
               <div className="mt-5 space-y-3">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h2 className="text-lg font-black text-[#0B1320] dark:text-white">Tahmidur Rahman</h2>
-                    <p className="text-xs text-[#475569] dark:text-[#94A3B8] font-mono">B.Sc. Mechanical Engineering, BUET</p>
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <h2 className="text-base sm:text-lg font-black text-[#0B1320] dark:text-white line-clamp-1">
+                      {loadingTop
+                        ? "Loading top tuition..."
+                        : topTuition?.title || "Approved Tuition Batches"}
+                    </h2>
+                    <p className="text-xs text-[#475569] dark:text-[#94A3B8] font-mono truncate">
+                      {topTuition
+                        ? `Mentor: ${topTuition.tutorName || "Verified Mentor"}`
+                        : "Verified mentors across Bangladesh"}
+                    </p>
                   </div>
-                  <div className="text-right">
+                  <div className="text-right shrink-0">
                     <p className="text-xs text-[#64748B] dark:text-[#94A3B8] uppercase font-mono">Monthly Fee</p>
-                    <p className="text-lg font-black text-[#0284C7] dark:text-[#0EA5E9] font-mono">৳6,000<span className="text-xs text-[#475569] dark:text-white">/mo</span></p>
+                    <p className="text-lg font-black text-[#0284C7] dark:text-[#0EA5E9] font-mono">
+                      ৳{topTuition ? Number(topTuition.monthlyFee || 0).toLocaleString() : "—"}
+                      <span className="text-xs text-[#475569] dark:text-white">/mo</span>
+                    </p>
                   </div>
                 </div>
 
-                {/* Specializations Tags */}
+                {/* Dynamic Subject, Level & Schedule Tags */}
                 <div className="flex flex-wrap gap-1.5 pt-1">
                   <span className="px-2.5 py-1 rounded-md text-xs font-medium bg-[#F0F7FF] dark:bg-[#102547] border border-[#E2E8F0] dark:border-[#0284C7]/35 text-[#475569] dark:text-[#E2E8F0]">
-                    HSC Higher Math
+                    {topTuition?.subject || "All Subjects"}
                   </span>
                   <span className="px-2.5 py-1 rounded-md text-xs font-medium bg-[#F0F7FF] dark:bg-[#102547] border border-[#E2E8F0] dark:border-[#0284C7]/35 text-[#475569] dark:text-[#E2E8F0]">
-                    Physics 1st &amp; 2nd
+                    {topTuition?.classLevel || "SSC / HSC"}
                   </span>
                   <span className="px-2.5 py-1 rounded-md text-xs font-medium bg-[#F0F7FF] dark:bg-[#102547] border border-[#E2E8F0] dark:border-[#0284C7]/35 text-[#475569] dark:text-[#E2E8F0]">
-                    BUET Admission
+                    {topTuition?.schedule || "3 days / week"}
                   </span>
                 </div>
 
                 {/* Action Row */}
                 <div className="pt-4 border-t border-[#E2E8F0] dark:border-[#0284C7]/25 flex items-center justify-between">
-                  <div className="flex items-center gap-1.5 text-xs text-[#475569] dark:text-[#E2E8F0]">
-                    <MapPin className="h-3.5 w-3.5 text-[#0284C7] dark:text-[#0EA5E9]" />
-                    <span>Dhanmondi, Dhaka</span>
+                  <div className="flex items-center gap-1.5 text-xs text-[#475569] dark:text-[#E2E8F0] truncate max-w-[180px]">
+                    <MapPin className="h-3.5 w-3.5 text-[#0284C7] dark:text-[#0EA5E9] shrink-0" />
+                    <span className="truncate">{topTuition?.location || "Bangladesh"}</span>
                   </div>
                   <Link
-                    href="/tuitions"
-                    className="inline-flex items-center gap-1.5 text-xs font-bold text-white bg-[#0284C7] hover:bg-[#0369A1] px-3.5 py-1.5 rounded-lg transition-all shadow-sm"
+                    href={topTuition ? `/tuitions/${topTuition._id || topTuition.id}` : "/tuitions"}
+                    className="inline-flex items-center gap-1.5 text-xs font-bold text-white bg-[#0284C7] hover:bg-[#0369A1] px-3.5 py-1.5 rounded-lg transition-all shadow-sm shrink-0"
                   >
-                    <span>View Profile</span>
+                    <span>View Tuition</span>
                     <ArrowRight className="h-3 w-3" />
                   </Link>
                 </div>
