@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -268,6 +268,17 @@ export default function PostTuitionPage() {
 
       if (res && (res._id || res.id || res.insertedId)) {
         newTuitionData.id = res._id || res.id || res.insertedId;
+      }
+
+      if (bannerImage && newTuitionData.id) {
+        await fetch("/api/tuitions/banner", {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            id: newTuitionData.id,
+            bannerImage,
+          }),
+        }).catch(() => {});
       }
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "Notice: Saved locally";

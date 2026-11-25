@@ -429,12 +429,22 @@ export default function MyTuitionsPage() {
     );
     localStorage.setItem(userKey, JSON.stringify(updatedLocal));
 
-    // Update backend API
+    // Update backend API + persist bannerImage directly to MongoDB
     try {
-      await apiFetch(`/tuitions/${editingTuition._id || editingTuition.id}`, {
-        method: "PATCH",
-        body: JSON.stringify(updatedData),
-      });
+      await Promise.allSettled([
+        apiFetch(`/tuitions/${editingTuition._id || editingTuition.id}`, {
+          method: "PATCH",
+          body: JSON.stringify(updatedData),
+        }),
+        fetch("/api/tuitions/banner", {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            id: editingTuition._id || editingTuition.id,
+            bannerImage: editBannerImage || "",
+          }),
+        }),
+      ]);
     } catch {
       // Local sync persists
     }
