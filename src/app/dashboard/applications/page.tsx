@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import toast from "react-hot-toast";
 import { authClient } from "@/lib/auth-client";
 import {
   FileText,
@@ -11,14 +12,17 @@ import {
   XCircle,
   Clock,
   Mail,
+  Trash2,
 } from "lucide-react";
 
 interface StudentApplication {
   id: string;
   tuitionId: string;
   tuitionTitle: string;
+  monthlyFee?: number;
   tutorName: string;
   tutorEmail: string;
+  preferredSchedule?: string;
   note: string;
   status: "Pending" | "Accepted" | "Rejected";
   appliedDate: string;
@@ -28,6 +32,26 @@ export default function ApplicationsPage() {
   const { data: session } = authClient.useSession();
   const [applications, setApplications] = useState<StudentApplication[]>([]);
   const [loading, setLoading] = useState(true);
+  const [cancellingId, setCancellingId] = useState<string | null>(null);
+
+  const handleCancelApplication = async (appId: string) => {
+    setCancellingId(appId);
+    try {
+      const res = await fetch(`/api/applications?id=${encodeURIComponent(appId)}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to cancel application");
+      }
+      setApplications((prev) => prev.filter((a) => a.id !== appId));
+      toast.success("Application cancelled");
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : "Could not cancel application");
+    } finally {
+      setCancellingId(null);
+    }
+  };
 
   useEffect(() => {
     const email = session?.user?.email;
@@ -153,6 +177,11 @@ export default function ApplicationsPage() {
 
                 <div className="flex flex-wrap items-center gap-4 text-[11px] text-[#64748B] dark:text-[#94A3B8] font-mono pt-1">
                   <span>Tutor: {app.tutorName}</span>
+                  {typeof app.monthlyFee === "number" && app.monthlyFee > 0 && (
+                    <span className="font-bold text-[#0284C7] dark:text-[#38BDF8]">
+                      ৳{app.monthlyFee.toLocaleString()}/mo
+                    </span>
+                  )}
                   {app.tutorEmail && (
                     <a
                       href={`mailto:${app.tutorEmail}`}
@@ -165,6 +194,18 @@ export default function ApplicationsPage() {
                   <span className="ml-auto">Applied {app.appliedDate}</span>
                 </div>
               </div>
+
+              {app.status === "Pending" && (
+                <button
+                  type="button"
+                  disabled={cancellingId === app.id}
+                  onClick={() => handleCancelApplication(app.id)}
+                  className="inline-flex items-center gap-1.5 self-start sm:self-center px-3.5 py-2 rounded-xl border border-red-200 dark:border-red-500/40 bg-red-50 dark:bg-red-950/40 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-950/70 text-xs font-bold transition-all cursor-pointer disabled:opacity-60 shrink-0"
+                >
+                  <Trash2 className="w-3.5 h-3.5" />
+                  <span>{cancellingId === app.id ? "Cancelling..." : "Cancel"}</span>
+                </button>
+              )}
             </div>
           ))}
         </div>

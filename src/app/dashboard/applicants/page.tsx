@@ -27,6 +27,7 @@ interface Applicant {
   name: string;
   email: string;
   phone: string;
+  preferredSchedule?: string;
   tuitionTitle: string;
   appliedDate: string;
   note: string;
@@ -502,6 +503,12 @@ export default function ApplicantsAndDirectoryPage() {
                   <Phone className="w-3 h-3 text-[#0284C7] dark:text-[#0EA5E9]" />
                   {app.phone}
                 </span>
+                {app.preferredSchedule && (
+                  <span className="flex items-center gap-1 text-[#0284C7] dark:text-[#38BDF8]">
+                    <Clock className="w-3 h-3" />
+                    Preferred: {app.preferredSchedule}
+                  </span>
+                )}
                 <span className="ml-auto text-[10px]">
                   Applied on {app.appliedDate}
                 </span>

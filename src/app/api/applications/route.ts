@@ -69,10 +69,27 @@ export async function GET(request: Request) {
       .sort({ createdAt: -1 })
       .toArray();
 
+    // Enrich with monthlyFee from tuitions collection
+    const appTuitionObjectIds = apps
+      .map((a) => a.tuitionId)
+      .filter((tid) => ObjectId.isValid(tid))
+      .map((tid) => new ObjectId(tid));
+    const tuitionFeeMap = new Map<string, number>();
+    if (appTuitionObjectIds.length > 0) {
+      const tuitionDocs = await tuitionsCollection
+        .find({ _id: { $in: appTuitionObjectIds } })
+        .project({ _id: 1, monthlyFee: 1 })
+        .toArray();
+      for (const t of tuitionDocs) {
+        tuitionFeeMap.set(t._id.toString(), Number(t.monthlyFee || 0));
+      }
+    }
+
     const formatted = apps.map((a) => ({
       id: a._id?.toString() || "",
       tuitionId: a.tuitionId || "",
       tuitionTitle: a.tuitionTitle || "Tuition Session",
+      monthlyFee: Number(a.monthlyFee ?? tuitionFeeMap.get(String(a.tuitionId)) ?? 0),
       tutorName: a.tutorName || "Mentor",
       tutorEmail: a.tutorEmail || "",
       preferredSchedule: a.preferredSchedule || "",
@@ -224,6 +241,52 @@ export async function PATCH(request: Request) {
     });
   } catch (error) {
     console.error("Error updating application status:", error);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+  }
+}
+
+export async function DELETE(request: Request) {
+  try {
+    const session = await getServerAuth();
+    const email = session?.user?.email?.toLowerCase();
+    if (!email) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get("id");
+    if (!id) {
+      return NextResponse.json({ error: "Application id is required" }, { status: 400 });
+    }
+
+    const db = await getDb();
+    const applicationsCollection = db.collection("applications");
+    const filter = ObjectId.isValid(id) ? { _id: new ObjectId(id) } : { id };
+    const existing = await applicationsCollection.findOne(filter);
+
+    if (!existing) {
+      return NextResponse.json({ error: "Application not found" }, { status: 404 });
+    }
+
+    if ((existing.studentEmail || "").toLowerCase() !== email) {
+      return NextResponse.json(
+        { error: "Forbidden: You can only cancel your own applications" },
+        { status: 403 }
+      );
+    }
+
+    if (String(existing.status || "Pending").toLowerCase() !== "pending") {
+      return NextResponse.json(
+        { error: "Only pending applications can be cancelled" },
+        { status: 400 }
+      );
+    }
+
+    await applicationsCollection.deleteOne(filter);
+
+    return NextResponse.json({ success: true, id });
+  } catch (error) {
+    console.error("Error deleting application:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
