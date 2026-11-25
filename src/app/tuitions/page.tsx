@@ -138,11 +138,10 @@ function AllTuitionsContent() {
                 key={sub}
                 type="button"
                 onClick={() => setSelectedSubject(sub)}
-                className={`px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
-                  selectedSubject === sub
+                className={`px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${selectedSubject === sub
                     ? "bg-[#0284C7] text-white shadow-sm"
                     : "bg-white dark:bg-[#0D1D38] text-[#475569] dark:text-[#94A3B8] border border-[#E2E8F0] dark:border-[#0284C7]/30 hover:border-[#0284C7]"
-                }`}
+                  }`}
               >
                 {sub}
               </button>
@@ -180,19 +179,19 @@ function AllTuitionsContent() {
               selectedClassLevel !== "All" ||
               selectedMode !== "All" ||
               searchQuery.trim() !== "") && (
-              <button
-                type="button"
-                onClick={() => {
-                  setSelectedSubject("All");
-                  setSelectedClassLevel("All");
-                  setSelectedMode("All");
-                  setSearchQuery("");
-                }}
-                className="px-3 py-2 rounded-xl text-xs font-semibold text-[#0284C7] dark:text-[#38BDF8] hover:bg-[#E0F2FE]/60 dark:hover:bg-[#0284C7]/20 transition-colors cursor-pointer"
-              >
-                Reset
-              </button>
-            )}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSelectedSubject("All");
+                    setSelectedClassLevel("All");
+                    setSelectedMode("All");
+                    setSearchQuery("");
+                  }}
+                  className="px-3 py-2 rounded-xl text-xs font-semibold text-[#0284C7] dark:text-[#38BDF8] hover:bg-[#E0F2FE]/60 dark:hover:bg-[#0284C7]/20 transition-colors cursor-pointer"
+                >
+                  Reset
+                </button>
+              )}
           </div>
         </div>
 
