@@ -216,19 +216,36 @@ export default function StudentDashboardView({ user, userName }: DashboardViewPr
         </div>
       </div>
 
-      {/* Success Rate Tip Banner */}
-      <div className="rounded-2xl bg-[#E0F2FE] dark:bg-gradient-to-r dark:from-[#0D1D38] dark:to-[#07101E] border border-[#BAE6FD] dark:border-[#0284C7]/30 p-4 sm:p-5 flex items-center gap-4 shadow-sm dark:shadow-lg">
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white dark:bg-[#132E59] text-[#0284C7] dark:text-[#0EA5E9] border border-[#BAE6FD] dark:border-[#0EA5E9]/40 shadow-sm">
-          <Sparkles className="h-5 w-5" />
+      {/* Dynamic Plan Status Banner */}
+      <div className="rounded-2xl bg-[#E0F2FE] dark:bg-gradient-to-r dark:from-[#0D1D38] dark:to-[#07101E] border border-[#BAE6FD] dark:border-[#0284C7]/30 p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm dark:shadow-lg">
+        <div className="flex items-center gap-4">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white dark:bg-[#132E59] text-[#0284C7] dark:text-[#FFB800] border border-[#BAE6FD] dark:border-[#0EA5E9]/40 shadow-sm">
+            {isPro ? (
+              <Crown className="h-5 w-5 fill-[#0284C7] dark:fill-[#FFB800]" />
+            ) : (
+              <Sparkles className="h-5 w-5 text-[#0284C7] dark:text-[#38BDF8]" />
+            )}
+          </div>
+          <div>
+            <p className="text-xs font-mono font-bold uppercase tracking-wider text-[#0284C7] dark:text-[#0EA5E9]">
+              {isPro ? "Pro Member Active" : "Free Plan Active"}
+            </p>
+            <p className="text-xs text-[#475569] dark:text-[#E2E8F0]/80 mt-0.5">
+              {isPro
+                ? "You have unlimited tuition applications and priority student visibility across the platform."
+                : "You can submit up to 10 free applications. Upgrade to Pro for unlimited applications and priority booking."}
+            </p>
+          </div>
         </div>
-        <div>
-          <p className="text-xs font-mono font-bold uppercase tracking-wider text-[#0284C7] dark:text-[#0EA5E9]">
-            Boost your success rate
-          </p>
-          <p className="text-xs text-[#475569] dark:text-[#E2E8F0]/80 mt-0.5">
-            Keep your student profile and contact details up-to-date so mentors can contact you quickly.
-          </p>
-        </div>
+
+        {!isPro && (
+          <Link
+            href="/checkout?plan=student"
+            className="shrink-0 self-start sm:self-auto px-4 py-2 rounded-xl bg-[#0284C7] hover:bg-[#0369A1] text-white text-xs font-bold shadow-sm transition-all active:scale-95"
+          >
+            Upgrade to Pro
+          </Link>
+        )}
       </div>
     </div>
   );
