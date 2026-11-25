@@ -38,65 +38,78 @@ function AllTuitionsContent() {
   const [tuitions, setTuitions] = useState<PublicTuition[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState(initialQ);
+  const [debouncedQuery, setDebouncedQuery] = useState(initialQ);
   const [selectedSubject, setSelectedSubject] = useState("All");
   const [selectedClassLevel, setSelectedClassLevel] = useState("All");
   const [selectedMode, setSelectedMode] = useState("All");
+  const [facetSubjects, setFacetSubjects] = useState<string[]>([]);
+  const [facetClassLevels, setFacetClassLevels] = useState<string[]>([]);
+  const [facetModes, setFacetModes] = useState<string[]>([]);
 
   useEffect(() => {
     setSearchQuery(initialQ);
+    setDebouncedQuery(initialQ);
   }, [initialQ]);
 
   useEffect(() => {
-    async function loadAll() {
+    const timer = setTimeout(() => {
+      setDebouncedQuery(searchQuery);
+    }, 250);
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
+  useEffect(() => {
+    let ignore = false;
+    async function loadFiltered() {
       setLoading(true);
       try {
-        const res = await fetch("/api/tuitions/public", { cache: "no-store" });
-        if (res.ok) {
+        const params = new URLSearchParams();
+        if (debouncedQuery.trim()) params.set("q", debouncedQuery.trim());
+        if (selectedSubject !== "All") params.set("subject", selectedSubject);
+        if (selectedClassLevel !== "All") params.set("classLevel", selectedClassLevel);
+        if (selectedMode !== "All") params.set("mode", selectedMode);
+
+        const qs = params.toString();
+        const url = qs ? `/api/tuitions/public?${qs}` : "/api/tuitions/public";
+        const res = await fetch(url, { cache: "no-store" });
+        if (res.ok && !ignore) {
           const data = await res.json();
           setTuitions(data.tuitions || []);
+          if (data.facets) {
+            if (Array.isArray(data.facets.subjects)) setFacetSubjects(data.facets.subjects);
+            if (Array.isArray(data.facets.classLevels)) setFacetClassLevels(data.facets.classLevels);
+            if (Array.isArray(data.facets.modes)) setFacetModes(data.facets.modes);
+          }
         }
       } catch (err) {
         console.error("Failed to fetch tuitions:", err);
       } finally {
-        setLoading(false);
+        if (!ignore) setLoading(false);
       }
     }
-    loadAll();
-  }, []);
+    loadFiltered();
+    return () => {
+      ignore = true;
+    };
+  }, [debouncedQuery, selectedSubject, selectedClassLevel, selectedMode]);
 
   const subjects = useMemo(() => {
-    const unique = Array.from(new Set(tuitions.map((t) => t.subject).filter(Boolean)));
-    return ["All", ...unique];
-  }, [tuitions]);
+    const source = facetSubjects.length > 0 ? facetSubjects : tuitions.map((t) => t.subject).filter(Boolean);
+    return ["All", ...Array.from(new Set(source))];
+  }, [facetSubjects, tuitions]);
 
   const classLevels = useMemo(() => {
-    const unique = Array.from(new Set(tuitions.map((t) => t.classLevel).filter(Boolean)));
-    return ["All", ...unique];
-  }, [tuitions]);
+    const source = facetClassLevels.length > 0 ? facetClassLevels : tuitions.map((t) => t.classLevel).filter(Boolean);
+    return ["All", ...Array.from(new Set(source))];
+  }, [facetClassLevels, tuitions]);
 
   const modes = useMemo(() => {
-    const unique = Array.from(new Set(tuitions.map((t) => t.mode).filter(Boolean)));
+    const source = facetModes.length > 0 ? facetModes : tuitions.map((t) => t.mode).filter(Boolean);
+    const unique = Array.from(new Set(source));
     return unique.length > 0 ? ["All", ...unique] : ["All", "Online", "Offline", "Hybrid"];
-  }, [tuitions]);
+  }, [facetModes, tuitions]);
 
-  const filtered = useMemo(() => {
-    const q = searchQuery.trim().toLowerCase();
-    return tuitions.filter((t) => {
-      const matchesSubject = selectedSubject === "All" || t.subject === selectedSubject;
-      const matchesClassLevel = selectedClassLevel === "All" || t.classLevel === selectedClassLevel;
-      const matchesMode =
-        selectedMode === "All" ||
-        (t.mode || "").toLowerCase() === selectedMode.toLowerCase();
-      const matchesQuery =
-        !q ||
-        t.title.toLowerCase().includes(q) ||
-        t.subject.toLowerCase().includes(q) ||
-        t.classLevel.toLowerCase().includes(q) ||
-        t.location.toLowerCase().includes(q) ||
-        (t.tutorName || "").toLowerCase().includes(q);
-      return matchesSubject && matchesClassLevel && matchesMode && matchesQuery;
-    });
-  }, [tuitions, searchQuery, selectedSubject, selectedClassLevel, selectedMode]);
+  const filtered = tuitions;
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] dark:bg-[#050B14] py-12 px-4 sm:px-6 lg:px-8">
