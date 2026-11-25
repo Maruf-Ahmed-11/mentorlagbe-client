@@ -42,11 +42,11 @@ export default function Navbar() {
       if (saved) {
         const parsed = JSON.parse(saved);
         const cachedEmail = parsed?.email?.toLowerCase();
-        if (!sessionEmail || (cachedEmail && cachedEmail === sessionEmail)) {
+        if (sessionEmail && cachedEmail && cachedEmail === sessionEmail) {
           setCachedUser(parsed);
           validCachedEmail = cachedEmail || null;
           setLivePlan((parsed.plan || "free").toLowerCase());
-          setLiveImage(parsed.image || null);
+          setLiveImage(parsed.image || session?.user?.image || null);
         } else {
           // Different user logged in — discard stale previous user's cache immediately
           localStorage.removeItem("mentorlagbe_cached_user");
@@ -120,7 +120,7 @@ export default function Navbar() {
 
   const activeUser = session?.user || cachedUser;
   const userName = activeUser?.name || "";
-  const userImage = liveImage || activeUser?.image || null;
+  const userImage = session?.user?.email ? (liveImage ?? session.user.image ?? null) : null;
   const userEmail = activeUser?.email || "";
   const rawRole = (activeUser as any)?.role || (userEmail.toLowerCase().includes("admin") ? "admin" : (userEmail.toLowerCase().includes("tutor") || userEmail.toLowerCase().includes("teacher") ? "tutor" : "student"));
   const roleLabel = rawRole === "admin" ? "Admin" : rawRole === "tutor" ? "Tutor" : "Student";

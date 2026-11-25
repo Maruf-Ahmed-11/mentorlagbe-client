@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -54,11 +54,11 @@ export default function DashboardLayout({
       if (saved) {
         const parsed = JSON.parse(saved);
         const cachedEmail = parsed?.email?.toLowerCase();
-        if (!sessionEmail || (cachedEmail && cachedEmail === sessionEmail)) {
+        if (sessionEmail && cachedEmail && cachedEmail === sessionEmail) {
           setCachedUser(parsed);
           validCachedEmail = cachedEmail || null;
           setLivePlan((parsed.plan || "free").toLowerCase());
-          setLiveImage(parsed.image || null);
+          setLiveImage(parsed.image || session?.user?.image || null);
         } else {
           localStorage.removeItem("mentorlagbe_cached_user");
           setCachedUser(null);
@@ -127,37 +127,17 @@ export default function DashboardLayout({
     };
   }, [session?.user?.email]);
 
-  // Keep cache synced with fresh session data
-  useEffect(() => {
-    if (session?.user) {
-      const email = session.user.email || "";
-      const role =
-        (session.user as any)?.role ||
-        (email.toLowerCase().includes("admin")
-          ? "admin"
-          : email.toLowerCase().includes("tutor") || email.toLowerCase().includes("teacher")
-          ? "tutor"
-          : "student");
-      const userData = {
-        name: session.user.name || "Member",
-        email,
-        role,
-        image: session.user.image,
-      };
-      setCachedUser(userData);
-      try {
-        localStorage.setItem("mentorlagbe_cached_user", JSON.stringify(userData));
-        localStorage.setItem("mentorlagbe_last_active_email", email);
-      } catch {}
-    }
-  }, [session]);
-
   const handleSignOut = async () => {
     await authClient.signOut({
       fetchOptions: {
         onSuccess: () => {
           localStorage.removeItem("access-token");
           localStorage.removeItem("mentorlagbe_cached_user");
+          localStorage.removeItem("mentorlagbe_last_active_email");
+          setCachedUser(null);
+          setLiveImage(null);
+          setLivePlan("free");
+          window.dispatchEvent(new Event("mentorlagbe_user_updated"));
           toast.success("Signed out successfully");
           router.push("/sign-in");
           router.refresh();
@@ -166,9 +146,9 @@ export default function DashboardLayout({
     });
   };
 
-  // Derive user info strictly from active session or cached user (ZERO hardcoded demo fallback)
-  const user = mounted ? (session?.user || cachedUser) : null;
-  const userImage = liveImage || user?.image || null;
+  // Derive user info strictly from active session (ZERO cross-account leakage)
+  const user = mounted ? (session?.user || (cachedUser?.email?.toLowerCase() === session?.user?.email?.toLowerCase() ? cachedUser : null)) : null;
+  const userImage = mounted && session?.user?.email ? (liveImage ?? session.user.image ?? null) : null;
   const userEmail = user?.email || "";
   const userRole = (user as any)?.role || (userEmail.toLowerCase().includes("admin") ? "admin" : (userEmail.toLowerCase().includes("tutor") || userEmail.toLowerCase().includes("teacher") ? "tutor" : "student"));
   const userName = user?.name || (isPending ? "Loading..." : "Member");
