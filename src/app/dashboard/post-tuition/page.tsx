@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -369,7 +369,7 @@ export default function PostTuitionPage() {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="e.g. Master HSC Higher Mathematics & Calculus"
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#F8FAFC] dark:bg-[#0D0204] border border-[#E2E8F0] dark:border-[#0284C7]/30 text-sm text-[#0B1320] dark:text-white placeholder-[#64748B] dark:placeholder-[#94A3B8]/50 focus:border-[#0284C7] dark:focus:border-[#0EA5E9] focus:outline-none focus:ring-1 focus:ring-[#0284C7] dark:focus:ring-[#0EA5E9] transition-colors"
+                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#F8FAFC] dark:bg-[#07101E] border border-[#E2E8F0] dark:border-[#0284C7]/30 text-sm text-[#0B1320] dark:text-white placeholder-[#64748B] dark:placeholder-[#94A3B8]/50 focus:border-[#0284C7] dark:focus:border-[#0EA5E9] focus:outline-none focus:ring-1 focus:ring-[#0284C7] dark:focus:ring-[#0EA5E9] transition-colors"
               />
             </div>
           </div>
@@ -387,7 +387,7 @@ export default function PostTuitionPage() {
                   required
                   value={subject}
                   onChange={(e) => setSubject(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#F8FAFC] dark:bg-[#0D0204] border border-[#E2E8F0] dark:border-[#0284C7]/30 text-sm text-[#0B1320] dark:text-white focus:border-[#0284C7] dark:focus:border-[#0EA5E9] focus:outline-none transition-colors cursor-pointer"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#F8FAFC] dark:bg-[#07101E] border border-[#E2E8F0] dark:border-[#0284C7]/30 text-sm text-[#0B1320] dark:text-white focus:border-[#0284C7] dark:focus:border-[#0EA5E9] focus:outline-none transition-colors cursor-pointer"
                 >
                   {SUBJECT_OPTIONS.map((sub) => (
                     <option key={sub} value={sub} className="bg-white dark:bg-[#0B1930] text-[#0B1320] dark:text-white">
@@ -409,7 +409,7 @@ export default function PostTuitionPage() {
                   required
                   value={classLevel}
                   onChange={(e) => setClassLevel(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#F8FAFC] dark:bg-[#0D0204] border border-[#E2E8F0] dark:border-[#0284C7]/30 text-sm text-[#0B1320] dark:text-white focus:border-[#0284C7] dark:focus:border-[#0EA5E9] focus:outline-none transition-colors cursor-pointer"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#F8FAFC] dark:bg-[#07101E] border border-[#E2E8F0] dark:border-[#0284C7]/30 text-sm text-[#0B1320] dark:text-white focus:border-[#0284C7] dark:focus:border-[#0EA5E9] focus:outline-none transition-colors cursor-pointer"
                 >
                   {CLASS_LEVEL_OPTIONS.map((lvl) => (
                     <option key={lvl} value={lvl} className="bg-white dark:bg-[#0B1930] text-[#0B1320] dark:text-white">
@@ -436,7 +436,7 @@ export default function PostTuitionPage() {
                   className={`py-2.5 px-3 rounded-xl text-xs font-bold transition-all border cursor-pointer ${
                     mode === item
                       ? "bg-[#0284C7] text-white border-[#0284C7] shadow-sm dark:bg-gradient-to-r dark:from-[#0284C7] dark:to-[#0EA5E9]"
-                      : "bg-[#F8FAFC] dark:bg-[#0D0204] text-[#475569] dark:text-[#94A3B8] border-[#E2E8F0] dark:border-[#0284C7]/25 hover:border-[#0284C7]"
+                      : "bg-[#F8FAFC] dark:bg-[#07101E] text-[#475569] dark:text-[#94A3B8] border-[#E2E8F0] dark:border-[#0284C7]/25 hover:border-[#0284C7]"
                   }`}
                 >
                   {item}
@@ -462,7 +462,7 @@ export default function PostTuitionPage() {
                     value={location}
                     onChange={(e) => setLocation(e.target.value)}
                     placeholder="e.g. Dhanmondi, Dhaka"
-                    className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#F8FAFC] dark:bg-[#0D0204] border border-[#E2E8F0] dark:border-[#0284C7]/30 text-sm text-[#0B1320] dark:text-white placeholder-[#64748B] dark:placeholder-[#94A3B8]/50 focus:border-[#0284C7] dark:focus:border-[#0EA5E9] focus:outline-none transition-colors"
+                    className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#F8FAFC] dark:bg-[#07101E] border border-[#E2E8F0] dark:border-[#0284C7]/30 text-sm text-[#0B1320] dark:text-white placeholder-[#64748B] dark:placeholder-[#94A3B8]/50 focus:border-[#0284C7] dark:focus:border-[#0EA5E9] focus:outline-none transition-colors"
                   />
                 </div>
               </div>
@@ -480,7 +480,7 @@ export default function PostTuitionPage() {
                   required
                   value={schedule}
                   onChange={(e) => setSchedule(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#F8FAFC] dark:bg-[#0D0204] border border-[#E2E8F0] dark:border-[#0284C7]/30 text-sm text-[#0B1320] dark:text-white focus:border-[#0284C7] dark:focus:border-[#0EA5E9] focus:outline-none transition-colors cursor-pointer"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#F8FAFC] dark:bg-[#07101E] border border-[#E2E8F0] dark:border-[#0284C7]/30 text-sm text-[#0B1320] dark:text-white focus:border-[#0284C7] dark:focus:border-[#0EA5E9] focus:outline-none transition-colors cursor-pointer"
                 >
                   {WEEKLY_FREQUENCY_OPTIONS.map((freq) => (
                     <option key={freq} value={freq} className="bg-white dark:bg-[#0B1930] text-[#0B1320] dark:text-white">
@@ -506,7 +506,7 @@ export default function PostTuitionPage() {
                   value={monthlyFee}
                   onChange={(e) => setMonthlyFee(e.target.value)}
                   placeholder="6000"
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#F8FAFC] dark:bg-[#0D0204] border border-[#E2E8F0] dark:border-[#0284C7]/30 text-sm text-[#0B1320] dark:text-white placeholder-[#64748B] dark:placeholder-[#94A3B8]/50 focus:border-[#0284C7] dark:focus:border-[#0EA5E9] focus:outline-none transition-colors"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#F8FAFC] dark:bg-[#07101E] border border-[#E2E8F0] dark:border-[#0284C7]/30 text-sm text-[#0B1320] dark:text-white placeholder-[#64748B] dark:placeholder-[#94A3B8]/50 focus:border-[#0284C7] dark:focus:border-[#0EA5E9] focus:outline-none transition-colors"
                 />
               </div>
             </div>
@@ -525,7 +525,7 @@ export default function PostTuitionPage() {
             </label>
 
             {bannerImage ? (
-              <div className="relative rounded-xl overflow-hidden border border-[#BAE6FD] dark:border-[#0284C7]/40 bg-[#F8FAFC] dark:bg-[#0D0204] p-3 flex items-center gap-4">
+              <div className="relative rounded-xl overflow-hidden border border-[#BAE6FD] dark:border-[#0284C7]/40 bg-[#F8FAFC] dark:bg-[#07101E] p-3 flex items-center gap-4">
                 <div className="relative h-16 w-24 rounded-lg overflow-hidden shrink-0 border border-[#E2E8F0] dark:border-[#0284C7]/20">
                   <Image
                     src={bannerImage}
@@ -545,7 +545,7 @@ export default function PostTuitionPage() {
                 <button
                   type="button"
                   onClick={() => setBannerImage("")}
-                  className="p-1.5 rounded-lg text-[#0284C7] hover:bg-[#E0F2FE] dark:hover:bg-[#2A0612] transition-colors cursor-pointer"
+                  className="p-1.5 rounded-lg text-[#0284C7] hover:bg-[#E0F2FE] dark:hover:bg-[#102547] transition-colors cursor-pointer"
                   title="Remove image"
                 >
                   <X className="w-4 h-4" />
@@ -553,7 +553,7 @@ export default function PostTuitionPage() {
               </div>
             ) : (
               <div className="relative">
-                <label className="flex items-center gap-3 px-4 py-3 rounded-xl border border-dashed border-[#E2E8F0] dark:border-[#0284C7]/35 bg-[#F8FAFC] dark:bg-[#0D0204] hover:border-[#0284C7] dark:hover:border-[#0EA5E9] transition-colors cursor-pointer group">
+                <label className="flex items-center gap-3 px-4 py-3 rounded-xl border border-dashed border-[#E2E8F0] dark:border-[#0284C7]/35 bg-[#F8FAFC] dark:bg-[#07101E] hover:border-[#0284C7] dark:hover:border-[#0EA5E9] transition-colors cursor-pointer group">
                   <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#E0F2FE] dark:bg-[#102547] text-[#0284C7] dark:text-[#0EA5E9] border border-[#BAE6FD] dark:border-[#0284C7]/30 group-hover:scale-105 transition-transform">
                     <Upload className="w-4 h-4" />
                   </div>
@@ -599,7 +599,7 @@ export default function PostTuitionPage() {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Describe what students will learn, your teaching methodology, prerequisites, and expected outcomes..."
-              className={`w-full px-4 py-3 rounded-xl bg-[#F8FAFC] dark:bg-[#0D0204] border text-sm text-[#0B1320] dark:text-white placeholder-[#64748B] dark:placeholder-[#94A3B8]/50 focus:outline-none transition-colors resize-none leading-relaxed ${
+              className={`w-full px-4 py-3 rounded-xl bg-[#F8FAFC] dark:bg-[#07101E] border text-sm text-[#0B1320] dark:text-white placeholder-[#64748B] dark:placeholder-[#94A3B8]/50 focus:outline-none transition-colors resize-none leading-relaxed ${
                 !isDescValid && descLength > 0
                   ? "border-[#0284C7] dark:border-[#0EA5E9]/70"
                   : "border-[#E2E8F0] dark:border-[#0284C7]/30 focus:border-[#0284C7] dark:focus:border-[#0EA5E9]"

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect, useRef } from "react";
 import { authClient } from "@/lib/auth-client";
@@ -353,7 +353,7 @@ export default function ProfilePage() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="e.g. Tanvir Hasan"
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#F8FAFC] dark:bg-[#0D0204] border border-[#E2E8F0] dark:border-[#0284C7]/30 text-sm text-[#0B1320] dark:text-white placeholder-[#64748B] dark:placeholder-[#94A3B8]/50 focus:border-[#0284C7] dark:focus:border-[#0EA5E9] focus:outline-none focus:ring-1 focus:ring-[#0284C7] dark:focus:ring-[#0EA5E9] transition-colors"
+                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#F8FAFC] dark:bg-[#07101E] border border-[#E2E8F0] dark:border-[#0284C7]/30 text-sm text-[#0B1320] dark:text-white placeholder-[#64748B] dark:placeholder-[#94A3B8]/50 focus:border-[#0284C7] dark:focus:border-[#0EA5E9] focus:outline-none focus:ring-1 focus:ring-[#0284C7] dark:focus:ring-[#0EA5E9] transition-colors"
               />
             </div>
           </div>
@@ -387,7 +387,7 @@ export default function ProfilePage() {
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="+880-1700-000001"
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#F8FAFC] dark:bg-[#0D0204] border border-[#E2E8F0] dark:border-[#0284C7]/30 text-sm text-[#0B1320] dark:text-white placeholder-[#64748B] dark:placeholder-[#94A3B8]/50 focus:border-[#0284C7] dark:focus:border-[#0EA5E9] focus:outline-none focus:ring-1 focus:ring-[#0284C7] dark:focus:ring-[#0EA5E9] transition-colors"
+                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#F8FAFC] dark:bg-[#07101E] border border-[#E2E8F0] dark:border-[#0284C7]/30 text-sm text-[#0B1320] dark:text-white placeholder-[#64748B] dark:placeholder-[#94A3B8]/50 focus:border-[#0284C7] dark:focus:border-[#0EA5E9] focus:outline-none focus:ring-1 focus:ring-[#0284C7] dark:focus:ring-[#0EA5E9] transition-colors"
               />
             </div>
           </div>
@@ -402,7 +402,7 @@ export default function ProfilePage() {
               value={bio}
               onChange={(e) => setBio(e.target.value)}
               placeholder="Platform administrator overseeing mentors and course quality."
-              className="w-full px-4 py-3 rounded-xl bg-[#F8FAFC] dark:bg-[#0D0204] border border-[#E2E8F0] dark:border-[#0284C7]/30 text-sm text-[#0B1320] dark:text-white placeholder-[#64748B] dark:placeholder-[#94A3B8]/50 focus:border-[#0284C7] dark:focus:border-[#0EA5E9] focus:outline-none focus:ring-1 focus:ring-[#0284C7] dark:focus:ring-[#0EA5E9] transition-colors resize-none leading-relaxed"
+              className="w-full px-4 py-3 rounded-xl bg-[#F8FAFC] dark:bg-[#07101E] border border-[#E2E8F0] dark:border-[#0284C7]/30 text-sm text-[#0B1320] dark:text-white placeholder-[#64748B] dark:placeholder-[#94A3B8]/50 focus:border-[#0284C7] dark:focus:border-[#0EA5E9] focus:outline-none focus:ring-1 focus:ring-[#0284C7] dark:focus:ring-[#0EA5E9] transition-colors resize-none leading-relaxed"
             />
           </div>
 

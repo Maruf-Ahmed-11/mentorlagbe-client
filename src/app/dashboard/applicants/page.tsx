@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import Link from "next/link";
@@ -130,7 +130,7 @@ export default function ApplicantsPage() {
                     app.status === "Accepted"
                       ? "bg-[#ECFDF5] dark:bg-[#0A2618] text-[#059669] dark:text-[#10B981] border border-[#A7F3D0]"
                       : app.status === "Rejected"
-                      ? "bg-[#E0F2FE] dark:bg-[#2A0612] text-[#0284C7] dark:text-[#38BDF8] border border-[#BAE6FD]"
+                      ? "bg-[#E0F2FE] dark:bg-[#102547] text-[#0284C7] dark:text-[#38BDF8] border border-[#BAE6FD]"
                       : "bg-[#FEF3C7] dark:bg-[#281804] text-[#D97706] dark:text-[#FFB800] border border-[#FDE68A]"
                   }`}
                 >
@@ -146,7 +146,7 @@ export default function ApplicantsPage() {
               </div>
 
               {/* Note */}
-              <p className="text-xs text-[#475569] dark:text-[#94A3B8] leading-relaxed italic bg-[#F8FAFC] dark:bg-[#0D0204] p-3 rounded-xl border border-[#E2E8F0] dark:border-[#0284C7]/20">
+              <p className="text-xs text-[#475569] dark:text-[#94A3B8] leading-relaxed italic bg-[#F8FAFC] dark:bg-[#07101E] p-3 rounded-xl border border-[#E2E8F0] dark:border-[#0284C7]/20">
                 "{app.note}"
               </p>
 
@@ -188,7 +188,7 @@ export default function ApplicantsPage() {
               )}
               <a
                 href={`tel:${app.phone}`}
-                className="w-full flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-[#F0F7FF] hover:bg-[#E2E8F0] dark:bg-[#102547] dark:hover:bg-[#3D0A13] text-[#0B1320] dark:text-white font-bold text-xs transition-all border border-[#E2E8F0]"
+                className="w-full flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-[#F0F7FF] hover:bg-[#E2E8F0] dark:bg-[#102547] dark:hover:bg-[#132E59] text-[#0B1320] dark:text-white font-bold text-xs transition-all border border-[#E2E8F0]"
               >
                 <Phone className="w-3.5 h-3.5 text-[#0284C7]" />
                 <span>Call Student</span>

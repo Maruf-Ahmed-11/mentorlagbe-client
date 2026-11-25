@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -555,7 +555,7 @@ export default function MyTuitionsPage() {
             <table className="w-full text-left border-collapse">
               {/* Table Header */}
               <thead>
-                <tr className="border-b border-[#E2E8F0] dark:border-[#0284C7]/20 bg-[#F8FAFC] dark:bg-[#0D0204]/80 text-[10px] sm:text-[11px] font-mono font-bold uppercase tracking-wider text-[#64748B] dark:text-[#94A3B8]">
+                <tr className="border-b border-[#E2E8F0] dark:border-[#0284C7]/20 bg-[#F8FAFC] dark:bg-[#07101E]/80 text-[10px] sm:text-[11px] font-mono font-bold uppercase tracking-wider text-[#64748B] dark:text-[#94A3B8]">
                   <th className="py-4 px-5">TUITION</th>
                   <th className="py-4 px-5">SUBJECT &amp; LEVEL</th>
                   <th className="py-4 px-5">MONTHLY FEE</th>
@@ -639,7 +639,7 @@ export default function MyTuitionsPage() {
                             <span>Approved</span>
                           </span>
                         ) : item.approvalStatus === "rejected" ? (
-                          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono font-bold bg-[#E0F2FE] dark:bg-[#2A0612] text-[#0284C7] dark:text-[#38BDF8] border border-[#BAE6FD] dark:border-[#38BDF8]/40 shadow-xs">
+                          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono font-bold bg-[#E0F2FE] dark:bg-[#102547] text-[#0284C7] dark:text-[#38BDF8] border border-[#BAE6FD] dark:border-[#38BDF8]/40 shadow-xs">
                             <span className="h-1.5 w-1.5 rounded-full bg-[#0284C7] dark:bg-[#38BDF8]" />
                             <span>Rejected</span>
                           </span>
@@ -733,7 +733,7 @@ export default function MyTuitionsPage() {
                         <button
                           type="button"
                           onClick={() => handleOpenDeleteModal(item)}
-                          className="p-2 rounded-xl text-[#475569] dark:text-[#94A3B8] hover:text-[#0284C7] dark:hover:text-[#38BDF8] hover:bg-[#E0F2FE] dark:hover:bg-[#2A0612] transition-all duration-200 cursor-pointer group/del"
+                          className="p-2 rounded-xl text-[#475569] dark:text-[#94A3B8] hover:text-[#0284C7] dark:hover:text-[#38BDF8] hover:bg-[#E0F2FE] dark:hover:bg-[#102547] transition-all duration-200 cursor-pointer group/del"
                           title="Delete Tuition Post"
                         >
                           <Trash2 className="w-4 h-4 group-hover/del:scale-110 transition-transform" />
@@ -787,7 +787,7 @@ export default function MyTuitionsPage() {
                   required
                   value={editTitle}
                   onChange={(e) => setEditTitle(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#F8FAFC] dark:bg-[#0D0204] border border-[#E2E8F0] dark:border-[#0284C7]/30 text-xs text-[#0B1320] dark:text-white focus:border-[#0284C7] dark:focus:border-[#0EA5E9] focus:outline-none transition-colors"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#F8FAFC] dark:bg-[#07101E] border border-[#E2E8F0] dark:border-[#0284C7]/30 text-xs text-[#0B1320] dark:text-white focus:border-[#0284C7] dark:focus:border-[#0EA5E9] focus:outline-none transition-colors"
                 />
               </div>
 
@@ -800,7 +800,7 @@ export default function MyTuitionsPage() {
                   <select
                     value={editSubject}
                     onChange={(e) => setEditSubject(e.target.value)}
-                    className="w-full px-3 py-2.5 rounded-xl bg-[#F8FAFC] dark:bg-[#0D0204] border border-[#E2E8F0] dark:border-[#0284C7]/30 text-xs text-[#0B1320] dark:text-white focus:border-[#0284C7] dark:focus:border-[#0EA5E9] focus:outline-none transition-colors cursor-pointer"
+                    className="w-full px-3 py-2.5 rounded-xl bg-[#F8FAFC] dark:bg-[#07101E] border border-[#E2E8F0] dark:border-[#0284C7]/30 text-xs text-[#0B1320] dark:text-white focus:border-[#0284C7] dark:focus:border-[#0EA5E9] focus:outline-none transition-colors cursor-pointer"
                   >
                     {SUBJECT_OPTIONS.map((sub) => (
                       <option key={sub} value={sub} className="bg-white dark:bg-[#0B1930] text-[#0B1320] dark:text-white">
@@ -817,7 +817,7 @@ export default function MyTuitionsPage() {
                   <select
                     value={editClassLevel}
                     onChange={(e) => setEditClassLevel(e.target.value)}
-                    className="w-full px-3 py-2.5 rounded-xl bg-[#F8FAFC] dark:bg-[#0D0204] border border-[#E2E8F0] dark:border-[#0284C7]/30 text-xs text-[#0B1320] dark:text-white focus:border-[#0284C7] dark:focus:border-[#0EA5E9] focus:outline-none transition-colors cursor-pointer"
+                    className="w-full px-3 py-2.5 rounded-xl bg-[#F8FAFC] dark:bg-[#07101E] border border-[#E2E8F0] dark:border-[#0284C7]/30 text-xs text-[#0B1320] dark:text-white focus:border-[#0284C7] dark:focus:border-[#0EA5E9] focus:outline-none transition-colors cursor-pointer"
                   >
                     {CLASS_LEVEL_OPTIONS.map((lvl) => (
                       <option key={lvl} value={lvl} className="bg-white dark:bg-[#0B1930] text-[#0B1320] dark:text-white">
@@ -861,7 +861,7 @@ export default function MyTuitionsPage() {
                     value={editLocation}
                     onChange={(e) => setEditLocation(e.target.value)}
                     placeholder="e.g. Dhanmondi, Dhaka"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#F8FAFC] dark:bg-[#0D0204] border border-[#E2E8F0] dark:border-[#0284C7]/30 text-xs text-[#0B1320] dark:text-white focus:border-[#0284C7] dark:focus:border-[#0EA5E9] focus:outline-none transition-colors"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#F8FAFC] dark:bg-[#07101E] border border-[#E2E8F0] dark:border-[#0284C7]/30 text-xs text-[#0B1320] dark:text-white focus:border-[#0284C7] dark:focus:border-[#0EA5E9] focus:outline-none transition-colors"
                   />
                 </div>
               )}
@@ -877,7 +877,7 @@ export default function MyTuitionsPage() {
                     required
                     value={editMonthlyFee}
                     onChange={(e) => setEditMonthlyFee(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#F8FAFC] dark:bg-[#0D0204] border border-[#E2E8F0] dark:border-[#0284C7]/30 text-xs text-[#0B1320] dark:text-white focus:border-[#0284C7] dark:focus:border-[#0EA5E9] focus:outline-none transition-colors"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#F8FAFC] dark:bg-[#07101E] border border-[#E2E8F0] dark:border-[#0284C7]/30 text-xs text-[#0B1320] dark:text-white focus:border-[#0284C7] dark:focus:border-[#0EA5E9] focus:outline-none transition-colors"
                   />
                 </div>
 
@@ -888,7 +888,7 @@ export default function MyTuitionsPage() {
                   <select
                     value={editSchedule}
                     onChange={(e) => setEditSchedule(e.target.value)}
-                    className="w-full px-3 py-2.5 rounded-xl bg-[#F8FAFC] dark:bg-[#0D0204] border border-[#E2E8F0] dark:border-[#0284C7]/30 text-xs text-[#0B1320] dark:text-white focus:border-[#0284C7] dark:focus:border-[#0EA5E9] focus:outline-none transition-colors cursor-pointer"
+                    className="w-full px-3 py-2.5 rounded-xl bg-[#F8FAFC] dark:bg-[#07101E] border border-[#E2E8F0] dark:border-[#0284C7]/30 text-xs text-[#0B1320] dark:text-white focus:border-[#0284C7] dark:focus:border-[#0EA5E9] focus:outline-none transition-colors cursor-pointer"
                   >
                     {WEEKLY_FREQUENCY_OPTIONS.map((freq) => (
                       <option key={freq} value={freq} className="bg-white dark:bg-[#0B1930] text-[#0B1320] dark:text-white">
@@ -905,7 +905,7 @@ export default function MyTuitionsPage() {
                   BANNER IMAGE
                 </label>
                 <div className="flex items-center gap-3">
-                  <label className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl border border-[#E2E8F0] dark:border-[#0284C7]/30 bg-[#F8FAFC] dark:bg-[#0D0204] text-xs font-semibold text-[#0B1320] dark:text-white hover:border-[#0284C7] cursor-pointer transition-colors">
+                  <label className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl border border-[#E2E8F0] dark:border-[#0284C7]/30 bg-[#F8FAFC] dark:bg-[#07101E] text-xs font-semibold text-[#0B1320] dark:text-white hover:border-[#0284C7] cursor-pointer transition-colors">
                     <Upload className="w-3.5 h-3.5 text-[#0284C7] dark:text-[#0EA5E9]" />
                     <span>Replace Image (ImgBB)</span>
                     <input
@@ -954,7 +954,7 @@ export default function MyTuitionsPage() {
                   required
                   value={editDescription}
                   onChange={(e) => setEditDescription(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#F8FAFC] dark:bg-[#0D0204] border border-[#E2E8F0] dark:border-[#0284C7]/30 text-xs text-[#0B1320] dark:text-white placeholder-[#64748B] focus:border-[#0284C7] dark:focus:border-[#0EA5E9] focus:outline-none transition-colors resize-none leading-relaxed"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#F8FAFC] dark:bg-[#07101E] border border-[#E2E8F0] dark:border-[#0284C7]/30 text-xs text-[#0B1320] dark:text-white placeholder-[#64748B] focus:border-[#0284C7] dark:focus:border-[#0EA5E9] focus:outline-none transition-colors resize-none leading-relaxed"
                 />
               </div>
 
@@ -996,7 +996,7 @@ export default function MyTuitionsPage() {
           <div className="relative w-full max-w-md rounded-2xl border border-[#E2E8F0] dark:border-[#0284C7]/35 bg-white dark:bg-[#0B1930] p-6 shadow-2xl dark:shadow-[0_0_50px_rgba(2, 132, 199,0.3)] space-y-5">
             
             <div className="flex items-center gap-3">
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#E0F2FE] dark:bg-[#2A0612] text-[#0284C7] dark:text-[#38BDF8] border border-[#BAE6FD] dark:border-[#38BDF8]/40 shadow-xs">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#E0F2FE] dark:bg-[#102547] text-[#0284C7] dark:text-[#38BDF8] border border-[#BAE6FD] dark:border-[#38BDF8]/40 shadow-xs">
                 <AlertTriangle className="h-5 w-5" />
               </div>
               <div>

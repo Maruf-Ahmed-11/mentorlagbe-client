@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -273,7 +273,7 @@ export default function DashboardLayout({
                           <span>Tutor</span>
                         </span>
                       ) : (
-                        <span className="inline-flex items-center gap-1 text-[#0284C7] dark:text-[#38BDF8] bg-[#E0F2FE] dark:bg-[#2A0612] border border-[#BAE6FD] dark:border-[#38BDF8]/40 px-2 py-0.5 rounded-full">
+                        <span className="inline-flex items-center gap-1 text-[#0284C7] dark:text-[#38BDF8] bg-[#E0F2FE] dark:bg-[#102547] border border-[#BAE6FD] dark:border-[#38BDF8]/40 px-2 py-0.5 rounded-full">
                           <UserCheck className="h-3 w-3" />
                           <span>Student</span>
                         </span>

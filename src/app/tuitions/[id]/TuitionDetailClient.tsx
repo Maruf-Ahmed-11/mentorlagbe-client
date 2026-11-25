@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -146,7 +146,7 @@ export default function TuitionDetailClient({ id }: { id: string }) {
   if (!tuition) {
     return (
       <div className="max-w-xl mx-auto min-h-[60vh] flex flex-col items-center justify-center p-6 text-center animate-in fade-in duration-300">
-        <div className="w-16 h-16 rounded-full bg-[#E0F2FE] dark:bg-[#2A0612] border border-[#BAE6FD] dark:border-[#38BDF8]/40 flex items-center justify-center text-[#0284C7] dark:text-[#38BDF8] mb-4">
+        <div className="w-16 h-16 rounded-full bg-[#E0F2FE] dark:bg-[#102547] border border-[#BAE6FD] dark:border-[#38BDF8]/40 flex items-center justify-center text-[#0284C7] dark:text-[#38BDF8] mb-4">
           <AlertOctagon className="w-8 h-8" />
         </div>
         <h2 className="text-xl font-bold text-[#0B1320] dark:text-white">
@@ -182,7 +182,7 @@ export default function TuitionDetailClient({ id }: { id: string }) {
 
         {/* Banner Image */}
         {tuition?.bannerImage ? (
-          <div className="relative w-full h-56 sm:h-72 bg-[#F8FAFC] dark:bg-[#0D0204] overflow-hidden">
+          <div className="relative w-full h-56 sm:h-72 bg-[#F8FAFC] dark:bg-[#07101E] overflow-hidden">
             <Image
               src={tuition.bannerImage}
               alt={tuition.title || "Tuition Banner"}
@@ -198,7 +198,7 @@ export default function TuitionDetailClient({ id }: { id: string }) {
               <div className="flex items-center gap-2">
                 {/* 1. Approval Status Badge */}
                 {isRejected ? (
-                  <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-[#E0F2FE] dark:bg-[#2A0612] text-[#0284C7] dark:text-[#38BDF8] border border-[#BAE6FD] dark:border-[#38BDF8]/40 shadow-md">
+                  <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-[#E0F2FE] dark:bg-[#102547] text-[#0284C7] dark:text-[#38BDF8] border border-[#BAE6FD] dark:border-[#38BDF8]/40 shadow-md">
                     🚫 Moderation Rejected
                   </span>
                 ) : isPending ? (
@@ -233,7 +233,7 @@ export default function TuitionDetailClient({ id }: { id: string }) {
             <div className="flex items-center gap-2">
               {/* 1. Approval Status Badge */}
               {isRejected ? (
-                <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-[#E0F2FE] dark:bg-[#2A0612] text-[#0284C7] dark:text-[#38BDF8] border border-[#BAE6FD] dark:border-[#38BDF8]/40">
+                <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-[#E0F2FE] dark:bg-[#102547] text-[#0284C7] dark:text-[#38BDF8] border border-[#BAE6FD] dark:border-[#38BDF8]/40">
                   🚫 Moderation Rejected
                 </span>
               ) : isPending ? (
@@ -273,7 +273,7 @@ export default function TuitionDetailClient({ id }: { id: string }) {
           </div>
 
           {/* Quick Metrics Bar */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 p-4 rounded-2xl bg-[#F8FAFC] dark:bg-[#0D0204] border border-[#E2E8F0] dark:border-[#0284C7]/20 text-xs">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 p-4 rounded-2xl bg-[#F8FAFC] dark:bg-[#07101E] border border-[#E2E8F0] dark:border-[#0284C7]/20 text-xs">
             <div>
               <span className="text-[10px] font-mono uppercase text-[#64748B] dark:text-[#94A3B8] block">
                 Mode
@@ -316,7 +316,7 @@ export default function TuitionDetailClient({ id }: { id: string }) {
 
           {/* Status Warning Alerts if rejected or pending */}
           {isRejected && (
-            <div className="p-4 rounded-2xl bg-[#E0F2FE] dark:bg-[#2A0612] border border-[#BAE6FD] dark:border-[#38BDF8]/40 text-xs text-[#0284C7] dark:text-[#38BDF8] flex items-center gap-3">
+            <div className="p-4 rounded-2xl bg-[#E0F2FE] dark:bg-[#102547] border border-[#BAE6FD] dark:border-[#38BDF8]/40 text-xs text-[#0284C7] dark:text-[#38BDF8] flex items-center gap-3">
               <AlertOctagon className="w-5 h-5 shrink-0" />
               <div>
                 <span className="font-bold block">Listing Moderation Notice</span>
@@ -346,7 +346,7 @@ export default function TuitionDetailClient({ id }: { id: string }) {
           </div>
 
           {/* Tutor Info */}
-          <div className="p-4 rounded-2xl bg-[#F8FAFC] dark:bg-[#0D0204] border border-[#E2E8F0] dark:border-[#0284C7]/20 flex items-center justify-between">
+          <div className="p-4 rounded-2xl bg-[#F8FAFC] dark:bg-[#07101E] border border-[#E2E8F0] dark:border-[#0284C7]/20 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#E0F2FE] dark:bg-[#102547] text-[#0284C7] dark:text-[#0EA5E9] font-bold border border-[#BAE6FD] dark:border-[#0284C7]/30">
                 <GraduationCap className="w-5 h-5" />
@@ -365,7 +365,7 @@ export default function TuitionDetailClient({ id }: { id: string }) {
             {/* Approval Badge */}
             <span
               className={`px-2.5 py-1 rounded-full text-[10px] font-mono font-bold uppercase border ${isRejected
-                ? "bg-[#E0F2FE] dark:bg-[#2A0612] text-[#0284C7] dark:text-[#38BDF8] border-[#BAE6FD]"
+                ? "bg-[#E0F2FE] dark:bg-[#102547] text-[#0284C7] dark:text-[#38BDF8] border-[#BAE6FD]"
                 : isPending
                   ? "bg-[#FEF3C7] dark:bg-[#281804] text-[#B45309] dark:text-[#FFB800] border-[#FDE68A]"
                   : "bg-[#ECFDF5] dark:bg-[#0A2618] text-[#059669] dark:text-[#10B981] border-[#A7F3D0]"
@@ -418,7 +418,7 @@ export default function TuitionDetailClient({ id }: { id: string }) {
                 disabled={isApplyLocked}
                 onClick={handleApply}
                 className={`px-6 py-2.5 rounded-xl font-bold text-xs shadow-md transition-all active:scale-95 cursor-pointer ${isRejected
-                  ? "bg-[#E0F2FE] dark:bg-[#2A0612] text-[#0284C7] dark:text-[#38BDF8] border border-[#BAE6FD] cursor-not-allowed opacity-75"
+                  ? "bg-[#E0F2FE] dark:bg-[#102547] text-[#0284C7] dark:text-[#38BDF8] border border-[#BAE6FD] cursor-not-allowed opacity-75"
                   : isPending
                     ? "bg-[#FEF3C7] dark:bg-[#281804] text-[#B45309] dark:text-[#FFB800] border border-[#FDE68A] cursor-not-allowed opacity-75"
                     : isPostClosed
