@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -9,6 +9,13 @@ import { Search, ArrowRight, ShieldCheck, Star, Users, CheckCircle2, Sparkles, M
 export default function HeroBanner() {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
+  const [animKey, setAnimKey] = useState(0);
+
+  useEffect(() => {
+    const replay = () => setAnimKey((k) => k + 1);
+    window.addEventListener("mentorlagbe_replay_home", replay);
+    return () => window.removeEventListener("mentorlagbe_replay_home", replay);
+  }, []);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,13 +42,13 @@ export default function HeroBanner() {
       />
 
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+        <div key={animKey} className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           
           {/* Left Column: Hero Content */}
           <div className="lg:col-span-7 flex flex-col items-start text-left">
             
             {/* Live Indicator Pill */}
-            <div className="inline-flex items-center gap-2.5 rounded-full border border-[#BAE6FD] dark:border-[#0284C7]/50 bg-[#FFFFFF] dark:bg-[#0D1D38]/85 backdrop-blur-xl px-4 py-2 mb-6 shadow-[0_4px_16px_rgba(2, 132, 199,0.12)] dark:shadow-[0_0_20px_rgba(2, 132, 199,0.3)]">
+            <div className="animate-hero-up-1 inline-flex items-center gap-2.5 rounded-full border border-[#BAE6FD] dark:border-[#0284C7]/50 bg-[#FFFFFF] dark:bg-[#0D1D38]/85 backdrop-blur-xl px-4 py-2 mb-6 shadow-[0_4px_16px_rgba(2, 132, 199,0.12)] dark:shadow-[0_0_20px_rgba(2, 132, 199,0.3)]">
               <span className="flex h-2.5 w-2.5 relative">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#0284C7] dark:bg-[#0EA5E9] opacity-80" />
                 <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#0284C7] dark:bg-[#0EA5E9] shadow-[0_0_8px_#0284C7] dark:shadow-[0_0_8px_#0EA5E9]" />
@@ -52,7 +59,7 @@ export default function HeroBanner() {
             </div>
 
             {/* Main Headline */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight uppercase leading-[1.08] text-[#0B1320] dark:text-white">
+            <h1 className="animate-hero-up-2 text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight uppercase leading-[1.08] text-[#0B1320] dark:text-white">
               Find Your Ideal{" "}
               <span className="block glow-hero-gradient font-black tracking-tight uppercase mt-1">
                 Tutor or Mentorship
@@ -61,14 +68,14 @@ export default function HeroBanner() {
             </h1>
 
             {/* Sub-description */}
-            <p className="mt-5 text-base sm:text-lg text-[#475569] dark:text-[#E2E8F0]/85 leading-relaxed max-w-2xl font-sans">
+            <p className="animate-hero-up-3 mt-5 text-base sm:text-lg text-[#475569] dark:text-[#E2E8F0]/85 leading-relaxed max-w-2xl font-sans">
               Connect with verified tutors for personalized learning in Mathematics, Physics, Programming, IELTS &amp; Academic Curricula across Bangladesh. Verified mentors from BUET, DU, Medical &amp; top institutions.
             </p>
 
             {/* Interactive Search Bar Form & CTA */}
             <form
               onSubmit={handleSearch}
-              className="mt-8 w-full max-w-xl flex flex-col sm:flex-row items-center gap-2.5 p-2 rounded-2xl bg-white dark:bg-[#0D1D38]/90 border-2 border-[#E2E8F0] dark:border-[#0284C7]/50 shadow-[0_12px_32px_-8px_rgba(11, 19, 32,0.08)] dark:shadow-[0_15px_40px_rgba(0,0,0,0.8)] focus-within:border-[#0284C7] transition-all"
+              className="animate-hero-up-4 mt-8 w-full max-w-xl flex flex-col sm:flex-row items-center gap-2.5 p-2 rounded-2xl bg-white dark:bg-[#0D1D38]/90 border-2 border-[#E2E8F0] dark:border-[#0284C7]/50 shadow-[0_12px_32px_-8px_rgba(11, 19, 32,0.08)] dark:shadow-[0_15px_40px_rgba(0,0,0,0.8)] focus-within:border-[#0284C7] transition-all"
             >
               <div className="flex items-center gap-3 px-3 w-full">
                 <Search className="h-5 w-5 text-[#0284C7] dark:text-[#0EA5E9] shrink-0" />
@@ -90,7 +97,7 @@ export default function HeroBanner() {
             </form>
 
             {/* Direct Browse Link */}
-            <div className="mt-4 flex items-center gap-4 text-xs font-mono text-[#475569] dark:text-[#E2E8F0]/80">
+            <div className="animate-hero-up-4 mt-4 flex items-center gap-4 text-xs font-mono text-[#475569] dark:text-[#E2E8F0]/80">
               <span>Popular:</span>
               <Link href="/tuitions?q=Math" className="text-[#0284C7] dark:text-[#0EA5E9] hover:underline font-bold">#Math</Link>
               <Link href="/tuitions?q=Physics" className="text-[#0284C7] dark:text-[#0EA5E9] hover:underline font-bold">#Physics</Link>
@@ -99,7 +106,7 @@ export default function HeroBanner() {
             </div>
 
             {/* Trust Metrics Row */}
-            <div className="mt-10 grid grid-cols-3 gap-6 pt-6 border-t border-[#E2E8F0] dark:border-[#0284C7]/25 w-full max-w-xl">
+            <div className="animate-hero-up-5 mt-10 grid grid-cols-3 gap-6 pt-6 border-t border-[#E2E8F0] dark:border-[#0284C7]/25 w-full max-w-xl">
               <div>
                 <p className="text-2xl sm:text-3xl font-black text-[#0284C7] dark:text-[#38BDF8] dark:glow-azure font-mono">
                   2,800+
@@ -132,10 +139,10 @@ export default function HeroBanner() {
           <div className="lg:col-span-5 relative flex justify-center">
             
             {/* Ambient Background Glow behind Card */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-[#BAE6FD]/40 to-transparent dark:from-[#0284C7]/35 dark:to-transparent rounded-3xl blur-2xl pointer-events-none" />
+            <div className="animate-hero-card absolute inset-0 bg-gradient-to-tr from-[#BAE6FD]/40 to-transparent dark:from-[#0284C7]/35 dark:to-transparent rounded-3xl blur-2xl pointer-events-none" />
 
             {/* Main Interactive Tutor Preview Card */}
-            <div className="relative w-full max-w-md rounded-3xl border-2 border-[#BAE6FD] dark:border-[#0284C7]/50 bg-white dark:bg-[#0D1D38]/90 backdrop-blur-2xl p-6 shadow-[0_16px_40px_-8px_rgba(2, 132, 199,0.14),_0_0_20px_rgba(2, 132, 199,0.1)] dark:shadow-[0_25px_60px_rgba(0,0,0,0.95)] transition-transform hover:-translate-y-1.5 duration-300">
+            <div className="animate-hero-card relative w-full max-w-md rounded-3xl border-2 border-[#BAE6FD] dark:border-[#0284C7]/50 bg-white dark:bg-[#0D1D38]/90 backdrop-blur-2xl p-6 shadow-[0_16px_40px_-8px_rgba(2, 132, 199,0.14),_0_0_20px_rgba(2, 132, 199,0.1)] dark:shadow-[0_25px_60px_rgba(0,0,0,0.95)] transition-transform hover:-translate-y-1.5 duration-300">
               
               {/* Card Image Banner */}
               <div className="relative h-56 w-full rounded-2xl overflow-hidden border border-[#E2E8F0] dark:border-[#0284C7]/30">
@@ -210,7 +217,7 @@ export default function HeroBanner() {
               </div>
 
               {/* Floating Overlapping Mini Pill */}
-              <div className="absolute -bottom-4 -left-4 hidden sm:flex items-center gap-2.5 px-4 py-2 rounded-2xl bg-white dark:bg-[#050B14] border border-[#BAE6FD] dark:border-[#0EA5E9]/60 shadow-[0_12px_32px_-8px_rgba(11, 19, 32,0.12)] dark:shadow-[0_10px_25px_rgba(0,0,0,0.9)]">
+              <div className="animate-hero-badge absolute -bottom-4 -left-4 hidden sm:flex items-center gap-2.5 px-4 py-2 rounded-2xl bg-white dark:bg-[#050B14] border border-[#BAE6FD] dark:border-[#0EA5E9]/60 shadow-[0_12px_32px_-8px_rgba(11, 19, 32,0.12)] dark:shadow-[0_10px_25px_rgba(0,0,0,0.9)]">
                 <CheckCircle2 className="h-4 w-4 text-[#0284C7] dark:text-[#0EA5E9]" />
                 <span className="text-xs font-mono font-bold text-[#0B1320] dark:text-white">Instant 24H Application Response</span>
               </div>

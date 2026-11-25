@@ -301,7 +301,12 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 prefetch={false}
-                onClick={() => setActiveHash(link.href)}
+                onClick={() => {
+                  setActiveHash(link.href);
+                  if (link.href === "/#home") {
+                    window.dispatchEvent(new Event("mentorlagbe_replay_home"));
+                  }
+                }}
                 className={`group relative py-1 transition-colors duration-200 ${
                   active
                     ? "nav-link-active text-[#0284C7] dark:text-[#0EA5E9] font-semibold dark:drop-shadow-[0_0_10px_rgba(14,165,233,0.7)]"
