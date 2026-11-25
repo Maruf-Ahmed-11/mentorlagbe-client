@@ -10,6 +10,13 @@ export const auth = betterAuth({
     database: mongodbAdapter(db, {
         client,
     }),
+    trustedOrigins: [
+        "http://localhost:3000",
+        "https://*.vercel.app",
+        ...(process.env.BETTER_AUTH_URL ? [process.env.BETTER_AUTH_URL] : []),
+        ...(process.env.NEXT_PUBLIC_BETTER_AUTH_URL ? [process.env.NEXT_PUBLIC_BETTER_AUTH_URL] : []),
+        ...(process.env.VERCEL_URL ? [`https://${process.env.VERCEL_URL}`] : []),
+    ],
     emailAndPassword: {
         enabled: true,
         minPasswordLength: 6,
