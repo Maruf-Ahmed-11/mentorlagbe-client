@@ -58,7 +58,7 @@ export default function Navbar() {
         setLivePlan(((session.user as any)?.plan || "free").toLowerCase());
         setLiveImage(session.user.image || null);
       }
-    } catch {}
+    } catch { }
 
     const email = sessionEmail || validCachedEmail;
     if (!email) return;
@@ -83,9 +83,9 @@ export default function Navbar() {
             if (data?.plan) nextCache.plan = data.plan;
             nextCache.image = data?.image || null;
             localStorage.setItem("mentorlagbe_cached_user", JSON.stringify(nextCache));
-          } catch {}
+          } catch { }
         }
-      } catch {}
+      } catch { }
     };
 
     syncPlan();
@@ -105,7 +105,7 @@ export default function Navbar() {
           setCachedUser(null);
           setLiveImage(session?.user?.image || null);
         }
-      } catch {}
+      } catch { }
       syncPlan();
     };
 
@@ -125,9 +125,9 @@ export default function Navbar() {
   const rawRole = (activeUser as any)?.role || (userEmail.toLowerCase().includes("admin") ? "admin" : (userEmail.toLowerCase().includes("tutor") || userEmail.toLowerCase().includes("teacher") ? "tutor" : "student"));
   const roleLabel = rawRole === "admin" ? "Admin" : rawRole === "tutor" ? "Tutor" : "Student";
   const isAdmin = rawRole === "admin";
-  const isUserPro = livePlan === "pro" || 
-                    ((activeUser as any)?.plan || "").toLowerCase() === "pro" || 
-                    (cachedUser?.plan || "").toLowerCase() === "pro";
+  const isUserPro = livePlan === "pro" ||
+    ((activeUser as any)?.plan || "").toLowerCase() === "pro" ||
+    (cachedUser?.plan || "").toLowerCase() === "pro";
   const userPlan = isAdmin ? "SYSTEM" : isUserPro ? "PRO" : "FREE";
   const initials = getInitials(userName);
 
@@ -232,7 +232,7 @@ export default function Navbar() {
       setLiveImage(null);
       setLivePlan("free");
       window.dispatchEvent(new Event("mentorlagbe_user_updated"));
-    } catch {}
+    } catch { }
     toast.success("Logged out successfully");
     window.location.href = "/sign-in";
   };
@@ -311,198 +311,194 @@ export default function Navbar() {
         /* PUBLIC SITE NAVBAR: Full Nav Links, Theme Toggle & Dropdown Menu         */
         /* ========================================================================= */
         <div className="container mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        
-        {/* Brand Logo */}
-        <Logo />
 
-        {/* Center Navigation Links */}
-        <nav className="hidden md:flex items-center gap-7 text-sm font-medium">
-          {navLinks.map((link) => {
-            const active = isActive(link.href);
-            return (
-              <Link
-                key={link.href}
-                href={link.href}
-                prefetch={false}
-                onClick={() => {
-                  setActiveHash(link.href);
-                  if (link.href === "/#home") {
-                    window.dispatchEvent(new Event("mentorlagbe_replay_home"));
-                  }
-                }}
-                className={`group relative py-1 transition-colors duration-200 ${
-                  active
-                    ? "nav-link-active text-[#0284C7] dark:text-[#0EA5E9] font-semibold dark:drop-shadow-[0_0_10px_rgba(14,165,233,0.7)]"
-                    : "text-[#475569] dark:text-[#E2E8F0] hover:text-[#0284C7] dark:hover:text-white"
-                }`}
-              >
-                {link.name}
-                <span
-                  className={`absolute -bottom-1 left-0 h-0.5 rounded-full bg-gradient-to-r from-[#0284C7] via-[#0EA5E9] to-[#38BDF8] transition-all duration-300 ${
-                    active
-                      ? "w-full opacity-100 shadow-[0_0_12px_rgba(14,165,233,0.9)]"
-                      : "w-0 opacity-0 group-hover:w-full group-hover:opacity-75"
-                  }`}
-                />
-              </Link>
-            );
-          })}
-        </nav>
+          {/* Brand Logo */}
+          <Logo />
 
-        {/* Right Section: Theme Toggle & Auth Buttons */}
-        <div className="flex items-center gap-3 sm:gap-4">
-          
-          {/* Theme Toggle Button */}
-          <button
-            onClick={toggleTheme}
-            aria-label="Toggle theme"
-            className="flex h-9 w-9 items-center justify-center rounded-xl bg-white dark:bg-[#0D1D38] border border-[#BAE6FD] dark:border-[#0284C7]/35 text-[#0284C7] dark:text-[#0EA5E9] hover:text-[#0B1320] dark:hover:text-white hover:border-[#0284C7] dark:hover:border-[#0EA5E9] hover:bg-[#F0F7FF] dark:hover:bg-[#102547] shadow-sm transition-all cursor-pointer"
-          >
-            {isDark ? (
-              <Sun className="h-4 w-4 text-[#0EA5E9] transition-transform hover:rotate-45" />
-            ) : (
-              <Moon className="h-4 w-4 text-[#0284C7] transition-transform hover:-rotate-12" />
-            )}
-          </button>
-
-          {/* User State */}
-          {!mounted || isPending ? (
-            <div className="h-9 w-9 animate-pulse rounded-full bg-[#F0F7FF] dark:bg-[#102547] border border-[#BAE6FD] dark:border-[#0284C7]/30" />
-          ) : activeUser ? (
-            /* User Pill & Dropdown (MentorLagbe Signature Crimson Aesthetic) */
-            <div className="relative" ref={dropdownRef}>
-              <button
-                onClick={() => setIsDropdownOpen((prev) => !prev)}
-                aria-label="Toggle user menu"
-                className="flex items-center gap-2 rounded-full pl-1.5 pr-3 py-1 bg-white dark:bg-[#0D1D38] border border-[#BAE6FD] dark:border-[#0284C7]/35 hover:border-[#0284C7] dark:hover:border-[#0EA5E9] hover:shadow-[0_4px_14px_rgba(2, 132, 199,0.15)] dark:hover:shadow-[0_0_15px_rgba(14, 165, 233,0.3)] transition-all cursor-pointer shadow-sm group"
-              >
-                {userImage ? (
-                  <Image
-                    src={userImage}
-                    alt={userName}
-                    width={28}
-                    height={28}
-                    unoptimized
-                    className="h-7 w-7 rounded-full object-cover border border-[#0284C7]/50"
+          {/* Center Navigation Links */}
+          <nav className="hidden md:flex items-center gap-7 text-sm font-medium">
+            {navLinks.map((link) => {
+              const active = isActive(link.href);
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  prefetch={false}
+                  onClick={() => {
+                    setActiveHash(link.href);
+                    if (link.href === "/#home") {
+                      window.dispatchEvent(new Event("mentorlagbe_replay_home"));
+                    }
+                  }}
+                  className={`group relative py-1 transition-colors duration-200 ${active
+                      ? "nav-link-active text-[#0284C7] dark:text-[#0EA5E9] font-semibold dark:drop-shadow-[0_0_10px_rgba(14,165,233,0.7)]"
+                      : "text-[#475569] dark:text-[#E2E8F0] hover:text-[#0284C7] dark:hover:text-white"
+                    }`}
+                >
+                  {link.name}
+                  <span
+                    className={`absolute -bottom-1 left-0 h-0.5 rounded-full bg-gradient-to-r from-[#0284C7] via-[#0EA5E9] to-[#38BDF8] transition-all duration-300 ${active
+                        ? "w-full opacity-100 shadow-[0_0_12px_rgba(14,165,233,0.9)]"
+                        : "w-0 opacity-0 group-hover:w-full group-hover:opacity-75"
+                      }`}
                   />
-                ) : (
-                  <div className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br from-[#0284C7] to-[#0EA5E9] text-white font-bold text-xs shadow-sm">
-                    {initials}
-                  </div>
-                )}
+                </Link>
+              );
+            })}
+          </nav>
 
-                <div className="flex flex-col text-left leading-none">
-                  <div className="flex items-center gap-1.5">
-                    <span className="text-xs font-bold text-[#0B1320] dark:text-white max-w-[85px] truncate">
-                      {userName}
-                    </span>
-                    <span className={`px-1.5 py-0.5 rounded text-[9px] font-mono font-bold uppercase border ${
-                      isAdmin
-                        ? "bg-[#EEF2FF] dark:bg-[#6366F1]/20 text-[#4F46E5] dark:text-[#818CF8] border-[#C7D2FE] dark:border-[#6366F1]/40"
-                        : isUserPro
-                        ? "bg-[#FEF3C7] dark:bg-[#FFB800]/20 text-[#D97706] dark:text-[#FFB800] border-[#FCD34D] dark:border-[#FFB800]/40"
-                        : "bg-[#F0F7FF] dark:bg-[#0D1D38] text-[#64748B] dark:text-[#94A3B8] border-[#E2E8F0] dark:border-[#0284C7]/20"
-                    }`}>
-                      {userPlan}
-                    </span>
-                  </div>
-                  <span className="text-[10px] text-[#0284C7] dark:text-[#38BDF8] font-mono font-medium mt-0.5">
-                    {roleLabel}
-                  </span>
-                </div>
+          {/* Right Section: Theme Toggle & Auth Buttons */}
+          <div className="flex items-center gap-3 sm:gap-4">
 
-                <ChevronDown className="w-3.5 h-3.5 text-[#64748B] dark:text-[#94A3B8] group-hover:text-[#0B1320] dark:group-hover:text-white transition-transform" />
-              </button>
+            {/* Theme Toggle Button */}
+            <button
+              onClick={toggleTheme}
+              aria-label="Toggle theme"
+              className="flex h-9 w-9 items-center justify-center rounded-xl bg-white dark:bg-[#0D1D38] border border-[#BAE6FD] dark:border-[#0284C7]/35 text-[#0284C7] dark:text-[#0EA5E9] hover:text-[#0B1320] dark:hover:text-white hover:border-[#0284C7] dark:hover:border-[#0EA5E9] hover:bg-[#F0F7FF] dark:hover:bg-[#102547] shadow-sm transition-all cursor-pointer"
+            >
+              {isDark ? (
+                <Sun className="h-4 w-4 text-[#0EA5E9] transition-transform hover:rotate-45" />
+              ) : (
+                <Moon className="h-4 w-4 text-[#0284C7] transition-transform hover:-rotate-12" />
+              )}
+            </button>
 
-              {/* Profile Dropdown Menu */}
-              {isDropdownOpen && (
-                <div className="absolute right-0 mt-3 w-64 rounded-2xl bg-white dark:bg-[#0D1D38]/95 backdrop-blur-xl border border-[#E2E8F0] dark:border-[#0284C7]/35 p-3 shadow-[0_16px_40px_-8px_rgba(11, 19, 32,0.15)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.95)] z-50 animate-in fade-in zoom-in-95 duration-150">
-                  <div className="px-2 py-2 border-b border-[#E2E8F0] dark:border-[#0284C7]/25 space-y-1">
-                    <p className="text-sm font-bold text-[#0B1320] dark:text-white truncate">
-                      {userName}
-                    </p>
-                    <p className="text-xs text-[#64748B] dark:text-[#94A3B8] font-mono truncate">
-                      {userEmail}
-                    </p>
-                    <div className="flex items-center gap-2 pt-1.5">
-                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase bg-[#F0F7FF] dark:bg-[#132E59] text-[#0284C7] dark:text-[#0EA5E9] border border-[#BAE6FD] dark:border-[#0EA5E9]/40">
-                        {roleLabel}
+            {/* User State */}
+            {!mounted || isPending ? (
+              <div className="h-9 w-9 animate-pulse rounded-full bg-[#F0F7FF] dark:bg-[#102547] border border-[#BAE6FD] dark:border-[#0284C7]/30" />
+            ) : activeUser ? (
+              /* User Pill & Dropdown (MentorLagbe Signature Crimson Aesthetic) */
+              <div className="relative" ref={dropdownRef}>
+                <button
+                  onClick={() => setIsDropdownOpen((prev) => !prev)}
+                  aria-label="Toggle user menu"
+                  className="flex items-center gap-2 rounded-full pl-1.5 pr-3 py-1 bg-white dark:bg-[#0D1D38] border border-[#BAE6FD] dark:border-[#0284C7]/35 hover:border-[#0284C7] dark:hover:border-[#0EA5E9] hover:shadow-[0_4px_14px_rgba(2, 132, 199,0.15)] dark:hover:shadow-[0_0_15px_rgba(14, 165, 233,0.3)] transition-all cursor-pointer shadow-sm group"
+                >
+                  {userImage ? (
+                    <Image
+                      src={userImage}
+                      alt={userName}
+                      width={28}
+                      height={28}
+                      unoptimized
+                      className="h-7 w-7 rounded-full object-cover border border-[#0284C7]/50"
+                    />
+                  ) : (
+                    <div className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br from-[#0284C7] to-[#0EA5E9] text-white font-bold text-xs shadow-sm">
+                      {initials}
+                    </div>
+                  )}
+
+                  <div className="flex flex-col text-left leading-none">
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-xs font-bold text-[#0B1320] dark:text-white max-w-[85px] truncate">
+                        {userName}
                       </span>
-                      <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase border ${
-                        isAdmin
+                      <span className={`px-1.5 py-0.5 rounded text-[9px] font-mono font-bold uppercase border ${isAdmin
                           ? "bg-[#EEF2FF] dark:bg-[#6366F1]/20 text-[#4F46E5] dark:text-[#818CF8] border-[#C7D2FE] dark:border-[#6366F1]/40"
                           : isUserPro
-                          ? "bg-[#FEF3C7] dark:bg-[#241704] text-[#D97706] dark:text-[#FFB800] border border-[#FCD34D] dark:border-[#FFB800]/40"
-                          : "bg-[#F0F7FF] dark:bg-[#0D1D38] text-[#64748B] dark:text-[#94A3B8] border border-[#E2E8F0] dark:border-[#0284C7]/20"
-                      }`}>
+                            ? "bg-[#FEF3C7] dark:bg-[#FFB800]/20 text-[#D97706] dark:text-[#FFB800] border-[#FCD34D] dark:border-[#FFB800]/40"
+                            : "bg-[#F0F7FF] dark:bg-[#0D1D38] text-[#64748B] dark:text-[#94A3B8] border-[#E2E8F0] dark:border-[#0284C7]/20"
+                        }`}>
                         {userPlan}
                       </span>
                     </div>
+                    <span className="text-[10px] text-[#0284C7] dark:text-[#38BDF8] font-mono font-medium mt-0.5">
+                      {roleLabel}
+                    </span>
                   </div>
 
-                  <div className="py-2 space-y-1">
-                    <Link
-                      href="/dashboard"
-                      onClick={() => setIsDropdownOpen(false)}
-                      className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-[#475569] dark:text-[#E2E8F0] hover:text-[#0B1320] dark:hover:text-white hover:bg-[#F0F7FF] dark:hover:bg-[#102547] transition-colors"
-                    >
-                      <LayoutDashboard className="w-4 h-4 text-[#0284C7] dark:text-[#0EA5E9]" />
-                      <span>Dashboard</span>
-                    </Link>
-                    <Link
-                      href="/dashboard/profile"
-                      onClick={() => setIsDropdownOpen(false)}
-                      className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-[#475569] dark:text-[#E2E8F0] hover:text-[#0B1320] dark:hover:text-white hover:bg-[#F0F7FF] dark:hover:bg-[#102547] transition-colors"
-                    >
-                      <User className="w-4 h-4 text-[#0284C7] dark:text-[#0EA5E9]" />
-                      <span>Update Profile</span>
-                    </Link>
-                  </div>
+                  <ChevronDown className="w-3.5 h-3.5 text-[#64748B] dark:text-[#94A3B8] group-hover:text-[#0B1320] dark:group-hover:text-white transition-transform" />
+                </button>
 
-                  <div className="pt-2 border-t border-[#E2E8F0] dark:border-[#0284C7]/25">
-                    <button
-                      onClick={handleLogout}
-                      className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-red-600 dark:text-red-400 hover:text-white hover:bg-[#0284C7] dark:hover:bg-[#0284C7] transition-all cursor-pointer"
-                    >
-                      <LogOut className="w-4 h-4" />
-                      <span>Sign Out</span>
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
-          ) : (
-            /* Guest Buttons */
-            <div className="flex items-center gap-2 sm:gap-3">
-              <Link
-                href="/sign-in"
-                className="px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium text-[#E2E8F0] hover:text-[#0EA5E9] transition-colors"
-              >
-                Sign In
-              </Link>
-              <Link
-                href="/sign-up"
-                className="rounded-xl bg-[#0284C7] hover:bg-[#0EA5E9] px-4 sm:px-5 py-2 text-xs sm:text-sm font-bold text-white shadow-[0_0_20px_rgba(2, 132, 199,0.5)] hover:shadow-[0_0_30px_rgba(14, 165, 233,0.8)] transition-all cursor-pointer active:scale-95"
-              >
-                Sign Up
-              </Link>
-            </div>
-          )}
+                {/* Profile Dropdown Menu */}
+                {isDropdownOpen && (
+                  <div className="absolute right-0 mt-3 w-64 rounded-2xl bg-white dark:bg-[#0D1D38]/95 backdrop-blur-xl border border-[#E2E8F0] dark:border-[#0284C7]/35 p-3 shadow-[0_16px_40px_-8px_rgba(11, 19, 32,0.15)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.95)] z-50 animate-in fade-in zoom-in-95 duration-150">
+                    <div className="px-2 py-2 border-b border-[#E2E8F0] dark:border-[#0284C7]/25 space-y-1">
+                      <p className="text-sm font-bold text-[#0B1320] dark:text-white truncate">
+                        {userName}
+                      </p>
+                      <p className="text-xs text-[#64748B] dark:text-[#94A3B8] font-mono truncate">
+                        {userEmail}
+                      </p>
+                      <div className="flex items-center gap-2 pt-1.5">
+                        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase bg-[#F0F7FF] dark:bg-[#132E59] text-[#0284C7] dark:text-[#0EA5E9] border border-[#BAE6FD] dark:border-[#0EA5E9]/40">
+                          {roleLabel}
+                        </span>
+                        <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase border ${isAdmin
+                            ? "bg-[#EEF2FF] dark:bg-[#6366F1]/20 text-[#4F46E5] dark:text-[#818CF8] border-[#C7D2FE] dark:border-[#6366F1]/40"
+                            : isUserPro
+                              ? "bg-[#FEF3C7] dark:bg-[#241704] text-[#D97706] dark:text-[#FFB800] border border-[#FCD34D] dark:border-[#FFB800]/40"
+                              : "bg-[#F0F7FF] dark:bg-[#0D1D38] text-[#64748B] dark:text-[#94A3B8] border border-[#E2E8F0] dark:border-[#0284C7]/20"
+                          }`}>
+                          {userPlan}
+                        </span>
+                      </div>
+                    </div>
 
-          {/* Mobile Hamburger Toggle */}
-          <button
-            onClick={() => setIsMobileMenuOpen((prev) => !prev)}
-            aria-label="Toggle navigation menu"
-            className="md:hidden flex h-9 w-9 items-center justify-center rounded-xl border border-[#0284C7]/35 bg-[#0D1D38] text-[#E2E8F0] hover:text-white hover:border-[#0EA5E9] transition-all cursor-pointer"
-          >
-            {isMobileMenuOpen ? (
-              <X className="h-5 w-5" />
+                    <div className="py-2 space-y-1">
+                      <Link
+                        href="/dashboard"
+                        onClick={() => setIsDropdownOpen(false)}
+                        className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-[#475569] dark:text-[#E2E8F0] hover:text-[#0B1320] dark:hover:text-white hover:bg-[#F0F7FF] dark:hover:bg-[#102547] transition-colors"
+                      >
+                        <LayoutDashboard className="w-4 h-4 text-[#0284C7] dark:text-[#0EA5E9]" />
+                        <span>Dashboard</span>
+                      </Link>
+                      <Link
+                        href="/dashboard/profile"
+                        onClick={() => setIsDropdownOpen(false)}
+                        className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-[#475569] dark:text-[#E2E8F0] hover:text-[#0B1320] dark:hover:text-white hover:bg-[#F0F7FF] dark:hover:bg-[#102547] transition-colors"
+                      >
+                        <User className="w-4 h-4 text-[#0284C7] dark:text-[#0EA5E9]" />
+                        <span>Update Profile</span>
+                      </Link>
+                    </div>
+
+                    <div className="pt-2 border-t border-[#E2E8F0] dark:border-[#0284C7]/25">
+                      <button
+                        onClick={handleLogout}
+                        className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-red-600 dark:text-red-400 hover:text-white hover:bg-[#0284C7] dark:hover:bg-[#0284C7] transition-all cursor-pointer"
+                      >
+                        <LogOut className="w-4 h-4" />
+                        <span>Sign Out</span>
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
             ) : (
-              <Menu className="h-5 w-5" />
+              /* Guest Buttons */
+              <div className="flex items-center gap-2 sm:gap-3">
+                <Link
+                  href="/sign-in"
+                  className="px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium text-[#E2E8F0] hover:text-[#0EA5E9] transition-colors"
+                >
+                  Sign In
+                </Link>
+                <Link
+                  href="/sign-up"
+                  className="rounded-xl bg-[#0284C7] hover:bg-[#0EA5E9] px-4 sm:px-5 py-2 text-xs sm:text-sm font-bold text-white shadow-[0_0_20px_rgba(2, 132, 199,0.5)] hover:shadow-[0_0_30px_rgba(14, 165, 233,0.8)] transition-all cursor-pointer active:scale-95"
+                >
+                  Sign Up
+                </Link>
+              </div>
             )}
-          </button>
+
+            {/* Mobile Hamburger Toggle */}
+            <button
+              onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+              aria-label="Toggle navigation menu"
+              className="md:hidden flex h-9 w-9 items-center justify-center rounded-xl border border-[#0284C7]/35 bg-[#0D1D38] text-[#E2E8F0] hover:text-white hover:border-[#0EA5E9] transition-all cursor-pointer"
+            >
+              {isMobileMenuOpen ? (
+                <X className="h-5 w-5" />
+              ) : (
+                <Menu className="h-5 w-5" />
+              )}
+            </button>
+          </div>
         </div>
-      </div>
       )}
 
       {/* Mobile Drawer Menu (Public Site Only) */}
@@ -519,11 +515,10 @@ export default function Navbar() {
                   setActiveHash(link.href);
                   setIsMobileMenuOpen(false);
                 }}
-                className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm transition-colors ${
-                  active
+                className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm transition-colors ${active
                     ? "bg-[#102547] text-[#0EA5E9] border border-[#0EA5E9]/40 font-semibold"
                     : "text-[#E2E8F0] hover:text-white hover:bg-[#102547]"
-                }`}
+                  }`}
               >
                 <span>{link.name}</span>
                 {active && (
