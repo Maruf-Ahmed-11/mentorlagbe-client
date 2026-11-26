@@ -21,7 +21,7 @@
   --color-csm-noir: #0B1320;
   --color-csm-abyss: #050B14;
   --color-csm-surface: #FFFFFF;
-  
+
   --color-csm-surface-light: #F0F7FF;
   --color-csm-border: #E2E8F0;
   --color-csm-border-active: #BAE6FD;
@@ -173,9 +173,11 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground transition-colors duration-200;
   }
+
   html {
     @apply font-sans;
     scroll-behavior: smooth;
@@ -187,6 +189,7 @@
 .glow-white {
   text-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 255, 0.4);
 }
+
 html:not(.dark) .glow-white {
   text-shadow: 0 0 10px rgba(2, 132, 199, 0.2);
 }
@@ -195,6 +198,7 @@ html:not(.dark) .glow-white {
 .glow-scarlet {
   text-shadow: 0 0 12px rgba(56, 189, 248, 0.95), 0 0 28px rgba(14, 165, 233, 0.8), 0 0 50px rgba(2, 132, 199, 0.6);
 }
+
 html:not(.dark) .glow-azure,
 html:not(.dark) .glow-scarlet {
   text-shadow: 0 0 8px rgba(2, 132, 199, 0.3);
@@ -212,6 +216,7 @@ html:not(.dark) .glow-scarlet {
   -webkit-text-fill-color: transparent !important;
   filter: drop-shadow(0 2px 10px rgba(2, 132, 199, 0.3)) !important;
 }
+
 .dark .glow-hero-gradient {
   background-image: linear-gradient(to right, #FFFFFF 0%, #38BDF8 35%, #0EA5E9 70%, #38BDF8 100%) !important;
   -webkit-background-clip: text !important;
@@ -226,6 +231,7 @@ html:not(.dark) .glow-scarlet {
   border-color: #0284C7 !important;
   box-shadow: 0 4px 16px rgba(2, 132, 199, 0.45) !important;
 }
+
 .dark .brand-logo-badge {
   background: linear-gradient(135deg, #07101E 0%, #0B1930 100%) !important;
   border-color: #0EA5E9 !important;
@@ -235,6 +241,7 @@ html:not(.dark) .glow-scarlet {
 .glow-box-crimson {
   box-shadow: 0 0 30px rgba(2, 132, 199, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
+
 html:not(.dark) .glow-box-crimson {
   box-shadow: 0 10px 30px -4px rgba(2, 132, 199, 0.18), 0 0 18px rgba(186, 230, 253, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
@@ -243,6 +250,7 @@ html:not(.dark) .glow-box-crimson {
 .glow-card {
   box-shadow: 0 0 35px rgba(2, 132, 199, 0.45);
 }
+
 html:not(.dark) .glow-card {
   box-shadow: 0 16px 36px -6px rgba(2, 132, 199, 0.2), 0 0 20px rgba(2, 132, 199, 0.12);
 }
@@ -533,9 +541,12 @@ html:not(.dark) footer a:not(.brand-logo):hover {
 /* HERO SECTION SMOOTH ENTRANCE & SUBTLE FLOAT ANIMATIONS                    */
 /* ========================================================================= */
 @keyframes heroFloat {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0px);
   }
+
   50% {
     transform: translateY(-8px);
   }
