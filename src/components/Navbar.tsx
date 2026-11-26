@@ -118,7 +118,7 @@ export default function Navbar() {
     };
   }, [session?.user?.email]);
 
-  const activeUser = session?.user || cachedUser;
+  const activeUser = mounted && session?.user ? session.user : null;
   const userName = activeUser?.name || "";
   const userImage = session?.user?.email ? (liveImage ?? session.user.image ?? null) : null;
   const userEmail = activeUser?.email || "";
@@ -219,22 +219,22 @@ export default function Navbar() {
 
   const handleLogout = async () => {
     setIsDropdownOpen(false);
-    await authClient.signOut({
-      fetchOptions: {
-        onSuccess: () => {
-          localStorage.removeItem("access-token");
-          localStorage.removeItem("mentorlagbe_cached_user");
-          localStorage.removeItem("mentorlagbe_last_active_email");
-          setCachedUser(null);
-          setLiveImage(null);
-          setLivePlan("free");
-          window.dispatchEvent(new Event("mentorlagbe_user_updated"));
-          toast.success("Logged out successfully");
-          router.push("/sign-in");
-          router.refresh();
-        },
-      },
-    });
+    try {
+      await authClient.signOut();
+    } catch {
+      // continue cleanup
+    }
+    try {
+      localStorage.removeItem("access-token");
+      localStorage.removeItem("mentorlagbe_cached_user");
+      localStorage.removeItem("mentorlagbe_last_active_email");
+      setCachedUser(null);
+      setLiveImage(null);
+      setLivePlan("free");
+      window.dispatchEvent(new Event("mentorlagbe_user_updated"));
+    } catch {}
+    toast.success("Logged out successfully");
+    window.location.href = "/sign-in";
   };
 
   const isDashboard = pathname?.startsWith("/dashboard");

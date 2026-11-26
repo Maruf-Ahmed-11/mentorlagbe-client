@@ -4,16 +4,16 @@ import type { NextRequest } from "next/server";
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // 1. Check for BetterAuth session cookies directly to prevent deadlocks
+  // Check only the actual BetterAuth session token cookie (never auxiliary state/pkce cookies)
   const hasSession = request.cookies.getAll().some(
     (cookie) =>
-      (cookie.name.includes("session_token") ||
-       cookie.name.includes("session_data") ||
-       cookie.name.includes("better-auth")) &&
+      (cookie.name === "better-auth.session_token" ||
+        cookie.name === "__Secure-better-auth.session_token" ||
+        cookie.name.endsWith(".session_token")) &&
       Boolean(cookie.value && cookie.value.trim() !== "")
   );
 
-  // 2. Protect /dashboard and all nested routes
+  // Protect /dashboard and all nested routes
   const isProtectedRoute = pathname.startsWith("/dashboard");
   if (isProtectedRoute && !hasSession) {
     const signInUrl = new URL("/sign-in", request.url);
@@ -21,25 +21,11 @@ export function proxy(request: NextRequest) {
     return NextResponse.redirect(signInUrl);
   }
 
-  // 3. Prevent logged-in users from visiting auth pages
-  const authRoutes = ["/sign-in", "/sign-up", "/login", "/register"];
-  const isAuthRoute = authRoutes.some((route) => pathname.startsWith(route));
-  if (isAuthRoute && hasSession) {
-    return NextResponse.redirect(new URL("/dashboard", request.url));
-  }
-
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: [
-    "/dashboard",
-    "/dashboard/:path*",
-    "/sign-in",
-    "/sign-up",
-    "/login",
-    "/register",
-  ],
+  matcher: ["/dashboard", "/dashboard/:path*"],
 };
 
 export default proxy;

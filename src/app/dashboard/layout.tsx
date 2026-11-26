@@ -127,23 +127,29 @@ export default function DashboardLayout({
     };
   }, [session?.user?.email]);
 
+  useEffect(() => {
+    if (mounted && !isPending && !session?.user) {
+      router.replace("/sign-in");
+    }
+  }, [mounted, isPending, session?.user, router]);
+
   const handleSignOut = async () => {
-    await authClient.signOut({
-      fetchOptions: {
-        onSuccess: () => {
-          localStorage.removeItem("access-token");
-          localStorage.removeItem("mentorlagbe_cached_user");
-          localStorage.removeItem("mentorlagbe_last_active_email");
-          setCachedUser(null);
-          setLiveImage(null);
-          setLivePlan("free");
-          window.dispatchEvent(new Event("mentorlagbe_user_updated"));
-          toast.success("Signed out successfully");
-          router.push("/sign-in");
-          router.refresh();
-        },
-      },
-    });
+    try {
+      await authClient.signOut();
+    } catch {
+      // continue cleanup even if server session already expired
+    }
+    try {
+      localStorage.removeItem("access-token");
+      localStorage.removeItem("mentorlagbe_cached_user");
+      localStorage.removeItem("mentorlagbe_last_active_email");
+      setCachedUser(null);
+      setLiveImage(null);
+      setLivePlan("free");
+      window.dispatchEvent(new Event("mentorlagbe_user_updated"));
+    } catch {}
+    toast.success("Signed out successfully");
+    window.location.href = "/sign-in";
   };
 
   // Derive user info strictly from active session (ZERO cross-account leakage)
